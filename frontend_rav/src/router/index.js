@@ -1,12 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import App from '../App.vue'; // Importa App.vue en lugar de Home.vue
+import DefaultLayout from '../layouts/DefaultLayout.vue';
+import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 
 const routes = [
   {
     path: '/',
-    component: App, // Establece App.vue como el componente para la raíz
+    component: DefaultLayout, // Usa el layout como contenedor
+    children: [
+      {
+        path: '',
+        component: HomePage // pagina que se renderiza dentro del layout
+      }
+    ]
   },
-  // Aquí puedes agregar más rutas según sea necesario
 ];
 
 const router = createRouter({
