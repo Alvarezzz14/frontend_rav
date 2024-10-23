@@ -13,6 +13,9 @@ import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
 import 'primeicons/primeicons.css'
 import 'primeicons/primeicons.css';
+import * as d3 from 'd3'; // Importar D3.js
+import 'datamaps'; // Esta línea es opcional, según cómo estés usando Datamaps
+
 
 
 createApp(App)
@@ -29,3 +32,4 @@ createApp(App)
     .directive('ripple', Ripple)
     .component('Drawer', Drawer)
     .mount('#app');
+

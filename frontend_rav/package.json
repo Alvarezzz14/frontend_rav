@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.1.0",
-    "primeicons": "^7.0.0",
     "primevue": "^4.1.1",
     "tailwindcss-primeui": "^0.3.4",
+    "d3": "^7.9.0",
+    "datamaps": "^0.5.9",
+    "primeicons": "^7.0.0",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
