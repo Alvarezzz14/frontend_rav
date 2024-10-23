@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
 import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: HomePage, // Asigna el componente de la ruta principal
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () => import('../pages/AboutPage.vue'), // Carga diferida para mejorar el rendimiento
+        component: DefaultLayout, // Usa el layout como contenedor
+        children: [
+            {
+                path: '',
+                component: HomePage // pagina que se renderiza dentro del layout
+            }
+        ]
     },
 ];
 
