@@ -3,8 +3,8 @@
 
 		
 
-		<ComponenteMapa></ComponenteMapa>
-	
+		<prueba></prueba>
+		<SelectDepartamento></SelectDepartamento>
 		<!-- Aquí se renderizan las rutas -->
 		<router-view />
 	</div>
@@ -12,7 +12,8 @@
 
 <script setup>
 
-import ComponenteMapa from './components/ComponenteMapa.vue';
+import Prueba from './components/Prueba.vue'
+import SelectDepartamento from './components/SelectDepartamento.vue';
 
 
 
