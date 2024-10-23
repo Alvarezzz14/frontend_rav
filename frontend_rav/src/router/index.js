@@ -1,22 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../pages/HomePage.vue'; // Importa las páginas
+import App from '../App.vue'; // Importa App.vue en lugar de Home.vue
 
 const routes = [
-    {
-        path: '/',
-        name: 'Home',
-        component: HomePage, // Asigna el componente de la ruta principal
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () => import('../pages/AboutPage.vue'), // Carga diferida para mejorar el rendimiento
-    },
+  {
+    path: '/',
+    component: App, // Establece App.vue como el componente para la raíz
+  },
+  // Aquí puedes agregar más rutas según sea necesario
 ];
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;

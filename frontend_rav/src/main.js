@@ -1,7 +1,10 @@
-import { createApp } from 'vue'
-import router from './router'
-import App from './App.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router"; // Asegúrate de importar el router
+import "./styles/style.css";
+import * as d3 from 'd3'; // Importar D3.js
+import 'datamaps'; // Esta línea es opcional, según cómo estés usando Datamaps
 
-createApp(App)
-    .use(router)
-    .mount('#app')
+const app = createApp(App);
+app.use(router); // Usa el router
+app.mount("#app");
