@@ -16,5 +16,5 @@
 
 <script setup>
 // Importamos el componente del ícono
-import IconoGov from "../components/icons/IconoGov.vue";
+import IconoGov from "../components/Icons/IconoGov.vue";
 </script>
