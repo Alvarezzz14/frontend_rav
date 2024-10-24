@@ -2,7 +2,7 @@
 	<!-- Barra lateral izquierda -->
 	<aside
 		:class="[
-			'bg-white text-gray-800 shadow-lg flex flex-col justify-between fixed top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform backdrop-blur-lg',
+			'bg-white text-gray-800 shadow-lg flex flex-col justify-between  top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform backdrop-blur-lg',
 			isCollapsed ? 'w-16' : 'w-64',
 			sidebarOpen ? 'translate-x-0' : '-translate-x-full',
 			'md:translate-x-0',
@@ -17,7 +17,7 @@
 
 			<!-- Opciones de navegación -->
 			<nav class="px-6">
-				<ul class="space-y-4">
+				<ul class="list-none space-y-4">
 					<li v-for="item in menuItems" :key="item.title" class="relative">
 						<div
 							@click="toggleSubmenu(item)"
