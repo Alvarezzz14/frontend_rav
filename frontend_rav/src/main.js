@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import './styles/style.css';
 import router from './router';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
@@ -13,6 +12,7 @@ import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
 import 'primeicons/primeicons.css'
 import 'primeicons/primeicons.css';
+import './styles/style.css';
 
 
 createApp(App)
