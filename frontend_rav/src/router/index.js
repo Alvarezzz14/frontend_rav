@@ -4,6 +4,7 @@ import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
 
 const routes = [
+  
     {
         path: '/',
         component: DefaultLayout, // Usa el layout como contenedor
@@ -21,8 +22,8 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
-    routes,
+  history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
+  routes,
 });
 
 export default router;

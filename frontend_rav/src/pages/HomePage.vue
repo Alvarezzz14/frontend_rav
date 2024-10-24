@@ -1,4 +1,5 @@
 <template>
+	<h2>DEpartametnos de COlombia</h2>
 	<div>
 		<Button />
 	</div>
