@@ -1,8 +1,5 @@
 <template>
-	<h2>DEpartametnos de COlombia</h2>
-	<div>
-		<Button />
-	</div>
+	<h2>DEPARTAMETNOS COLOMBIA</h2>
 </template>
 
 <script setup>

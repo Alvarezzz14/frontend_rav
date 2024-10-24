@@ -4,7 +4,7 @@
 		:class="[
 			'bg-white text-gray-800 shadow-lg flex flex-col justify-between fixed top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform backdrop-blur-lg',
 			isCollapsed ? 'w-16' : 'w-64',
-			sidebarOpen || windowWidth >= 768 ? 'translate-x-0' : '-translate-x-full',
+			sidebarOpen ? 'translate-x-0' : '-translate-x-full',
 			'md:translate-x-0',
 		]"
 		@click.self="toggleSidebar">
@@ -21,7 +21,7 @@
 					<li v-for="item in menuItems" :key="item.title" class="relative">
 						<div
 							@click="toggleSubmenu(item)"
-							class="flex items-center justify-between cursor-pointer hover:bg-purple-100 p-3 rounded-lg transition-colors">
+							class="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-3 rounded-lg transition-colors">
 							<span class="flex items-center">
 								<i :class="item.icon" class="mr-2"></i>
 								<span v-if="!isCollapsed">{{ item.title }}</span>
@@ -47,7 +47,7 @@
 							<li
 								v-for="subItem in item.submenu"
 								:key="subItem"
-								class="hover:bg-purple-200 text-gray-500 p-2 cursor-pointer rounded-lg transition-colors">
+								class="hover:bg-gray-100 p-2 rounded-lg transition-colors">
 								{{ subItem }}
 							</li>
 						</ul>
@@ -57,7 +57,7 @@
 		</div>
 
 		<!-- Sección inferior con el avatar, nombre y email -->
-		<div class="p-6 border-t-4 border-gray-300">
+		<div class="p-6 border-t border-gray-300">
 			<div class="flex items-center">
 				<Avatar
 					:src="user.avatar"
@@ -70,7 +70,7 @@
 			</div>
 
 			<!-- Botón de Cerrar Sesión -->
-			<div v-if="!isCollapsed" class="mt-4">
+			<div v-if="!isCollapsed" class="mt-6">
 				<LogoutButton @click="logout" />
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref } from "vue";
 import RavIcon from "../Icons/RavIcon.vue";
 import Avatar from "../Buttons/Avatar.vue";
 import LogoutButton from "../Buttons/LogoutButton.vue";
@@ -96,8 +96,6 @@ const props = defineProps({
 });
 
 const sidebarOpen = ref(false);
-const windowWidth = ref(window.innerWidth);
-
 const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
@@ -112,16 +110,16 @@ const menuItems = ref([
 		submenu: ["Gráficos", "Reportes"],
 	},
 	{
-		title: "Mapa de Atención",
+		title: "Settings",
 		icon: "pi pi-cog",
 		submenuOpen: false,
-		submenu: ["Ruta de Atención", "Linea de Tiempo"],
+		submenu: ["Perfil", "Preferencias"],
 	},
 	{
-		title: "Atención Nacional",
+		title: "Messages",
 		icon: "pi pi-comments",
 		submenuOpen: false,
-		submenu: ["Regional", "Enviados"],
+		submenu: ["Recibidos", "Enviados"],
 	},
 	{
 		title: "Bookmarks",
@@ -148,19 +146,6 @@ const toggleSubmenu = (item) => {
 const logout = () => {
 	alert("Sesión cerrada");
 };
-
-// Maneja el ajuste de ventana para alternar la barra lateral en pantallas pequeñas
-const handleResize = () => {
-	windowWidth.value = window.innerWidth;
-};
-
-onMounted(() => {
-	window.addEventListener("resize", handleResize);
-});
-
-onBeforeUnmount(() => {
-	window.removeEventListener("resize", handleResize);
-});
 </script>
 
 <style scoped>
