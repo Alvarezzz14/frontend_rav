@@ -1,33 +1,20 @@
 <template>
-	<div class="flex flex-col min-h-screen">
-		<!-- Otros contenidos de la página -->
+	<footer
+		class="bg-azulHeaderFooter w-full h-16 flex items-center justify-between px-4">
+		<!-- Ícono institucional a la izquierda -->
+		<div class="flex items-center">
+			<IconoGov />
+		</div>
 
-		<router-view />
-
-		<!-- Pie de página -->
-		<footer class="bg-blue-500 p-4 mt-auto">
-			<div
-				class="container mx-auto flex flex-col sm:flex-row items-center justify-between">
-				<!-- Sección del logo -->
-				<div class="mb-4 sm:mb-0">
-					<svg
-						width="125"
-						height="31"
-						viewBox="0 0 125 31"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg">
-						<!-- Inserta aquí tu código SVG -->
-					</svg>
-				</div>
-
-				<!-- Texto del pie de página o enlaces -->
-				<div class="text-white text-center sm:text-left">
-					<p class="text-sm">
-						&copy; 2024 Fabrica Software SENA CDTI DOSQUEBRADAS. Todos los
-						derechos reservados.
-					</p>
-				</div>
-			</div>
-		</footer>
-	</div>
+		<!-- Texto centrado -->
+		<div
+			class="absolute left-1/2 transform -translate-x-1/2 text-white text-center text-sm">
+			&copy; 2024 Tu Empresa. Todos los derechos reservados.
+		</div>
+	</footer>
 </template>
+
+<script setup>
+// Importamos el componente del ícono
+import IconoGov from "../components/icons/IconoGov.vue";
+</script>
