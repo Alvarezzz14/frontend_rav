@@ -8,7 +8,8 @@
 		]"
 		@click.self="toggleSidebar">
 		<!-- Header de la barra de notificaciones -->
-		<div class="p-4 bg-gray-900 text-white flex justify-between items-center">
+		<div
+			class="p-4 bg-customPurple text-white flex justify-between items-center">
 			<h3 v-if="!isCollapsed" class="font-semibold text-lg">Notificaciones</h3>
 			<button @click="toggleSidebar">
 				<i :class="isOpen ? 'pi pi-times' : 'pi pi-bars'" class="text-xl"></i>

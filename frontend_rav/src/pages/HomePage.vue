@@ -1,6 +1,4 @@
-<template>
-	<h2>DEPARTAMETNOS COLOMBIA</h2>
-</template>
+<template></template>
 
 <script setup>
 import Button from "../components/Buttons/Button.vue";
