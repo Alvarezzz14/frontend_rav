@@ -1,53 +1,66 @@
 <template>
-    <div class="flex flex-col items-center space-y-4">
+    <div class="w-full h-auto p-4 flex flex-col">
+      <!-- Contenedor del Select alineado con el título -->
+      <div class="flex flex-col items-start space-y-4 mt-20 md:mt-32 ml-4 md:ml-[10%]">
         <!-- Selector del Departamento -->
-        <div class="w-full max-w-xs">
-            <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
-                class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
-                @change="updateSelectedInfo">
-                <template #value="slotProps">
-                    <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
-                        <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
-                        <div>{{ slotProps.value.name }}</div>
-                    </div>
-                    <span v-else class="text-customPurple">{{
-                        slotProps.placeholder
-                        }}</span>
-                </template>
-                <template #option="slotProps">
-                    <div class="flex items-center font-medium text-customPurple">
-                        <img :alt="slotProps.name" :src="slotProps.option.flagUrl" class="w-6 h-6 mr-2" />
-                        <p>{{ slotProps.option.name }}</p>
-                    </div>
-                </template>
-                <template #dropdownicon>
-                    <i class="pi pi-map"></i>
-                </template>
-            </Select>
+        <div class="w-full max-w-xs md:max-w-md">
+          <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
+            class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
+            @change="updateSelectedInfo">
+            <template #value="slotProps">
+              <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
+                <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
+                <div>{{ slotProps.value.name }}</div>
+              </div>
+              <span v-else class="text-customPurple">{{ slotProps.placeholder }}</span>
+            </template>
+            <template #option="slotProps">
+              <div class="flex items-center font-medium text-customPurple">
+                <img :alt="slotProps.name" :src="slotProps.option.flagUrl" class="w-6 h-6 mr-2" />
+                <p>{{ slotProps.option.name }}</p>
+              </div>
+            </template>
+            <template #dropdownicon>
+              <i class="pi pi-map"></i>
+            </template>
+          </Select>
         </div>
-
+  
         <!-- Tarjeta de Información del Departamento -->
         <div v-if="selectedInfo" class="w-full max-w-md p-4 rounded-lg shadow-lg bg-white">
-            <!-- Imagen principal -->
-            <img :src="selectedInfo.imageUrl" :alt="selectedInfo.name" class="rounded-t-lg w-full h-40 object-cover" />
-
-            <!-- Encabezado con nombre y fondo color -->
-            <div class="bg-customPurple text-white py-2 px-4 flex items-center">
-                <h2 class="text-lg font-bold">{{ selectedInfo.name }}</h2>
-                <!-- Imagen del mapa del departamento seleccionado -->
-                <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
-            </div>
-
-            <!-- Descripción del departamento -->
-            <div class="p-4 text-gray-600">
-                <p>
-                    {{ getDepartmentDescription(selectedInfo.name) }}
-                  
-                </p>
-            </div>
+          <!-- Imagen principal -->
+          <img :src="selectedInfo.imageUrl" :alt="selectedInfo.name" class="rounded-t-lg w-full h-40 object-cover" />
+  
+          <!-- Encabezado con nombre y fondo color -->
+          <div class="bg-customPurple text-white py-2 px-4 flex items-center">
+            <h2 class="text-lg font-bold">{{ selectedInfo.name }}</h2>
+            <!-- Imagen del mapa del departamento seleccionado -->
+            <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
+          </div>
+  
+          <!-- Descripción del departamento -->
+          <div class="p-4 text-gray-600">
+            <p>{{ getDepartmentDescription(selectedInfo.name) }}</p>
+          </div>
         </div>
+      </div>
     </div>
-</template>
+  </template>
+  
+  <style scoped>
+  /* Añadir estilos adicionales si es necesario */
+  </style>
+  
+
+<style scoped>
+/* Añadir estilos adicionales si es necesario */
+</style>
+
+  
+  <style scoped>
+  /* Añadir estilos adicionales si es necesario */
+  </style>
+  
 
 <script setup>
 import { ref } from "vue";
