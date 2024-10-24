@@ -12,6 +12,7 @@ export default {
         customPurple: '#7A1F7E',
         cardBackground: '#D9D9D9', // Fondo para la tarjeta
         textBackground: '#003150', // Color del texto en la tarjeta
+        azulHeaderFooter: '#3366CC', //Azul del header y el fotter
       },
       fontFamily: {
         sans: ['Work Sans', 'sans-serif'], // Fuente global "Work Sans"
