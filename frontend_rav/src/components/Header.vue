@@ -15,7 +15,7 @@
 
 <script setup>
 // Si tienes el SVG como un componente, lo importas aquí
-import IconoGov from "../components/icons/IconoGov.vue";
+import IconoGov from "../components/Icons/IconoGov.vue";
 </script>
 
 <style scoped>
