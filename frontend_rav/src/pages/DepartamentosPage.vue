@@ -1,18 +1,22 @@
 <template>
-	<div class="flex">
-		<div class="w-1/2 p-4">
-			<div class="mb-4">
-				<Titulo></Titulo>
-			</div>
-			<div>
-				<SearchApartament></SearchApartament>
-			</div>
+	<div class="flex flex-col md:flex-row overflow-hidden w-full">
+	  <!-- Columna de Titulo y SearchApartament -->
+	  <div class="flex-1 p-4">
+		<div class="mb-4">
+		  <Titulo />
 		</div>
-		<div class="w-1/2 p-4">
-			<MapaColombia></MapaColombia>
+		<div>
+		  <SearchApartament />
 		</div>
+	  </div>
+	  
+	  <!-- Columna de MapaColombia -->
+	  <div class="flex-1 p-4">
+		<MapaColombia />
+	  </div>
 	</div>
-</template>
+  </template>
+  
 
 <script setup>
 import MapaColombia from "../components/MapaColombia.vue";
