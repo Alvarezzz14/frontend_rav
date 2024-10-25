@@ -12,6 +12,7 @@ import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
 import 'primeicons/primeicons.css'
 import 'primeicons/primeicons.css';
+import 'flowbite';
 import './styles/style.css';
 
 

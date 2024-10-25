@@ -4,6 +4,8 @@ import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
 import TimeLine from '../pages/TimeLine.vue';
 import LoginPage from '../pages/LoginPage.vue';
+import LineaTiempoComponente from '../components/LineaTiempoComponente.vue';
+import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
 
 const routes = [
   {
@@ -26,7 +28,12 @@ const routes = [
       {
         path: '/TimeLine',
         component: TimeLine // pagina que se renderiza dentro del layout
+      },
+      {
+        path: '/lineatiempo',
+        component: LineaTiempoOriginal
       }
+
     ]
   },
 
