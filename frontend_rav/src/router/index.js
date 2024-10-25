@@ -2,33 +2,40 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
-import Rutaaccionpage from '../pages/Rutaaccionpage.vue';
-import BusquedaCiudadanoPage from '../pages/BusquedaCiudadanoPage.vue';
+import TimeLine from '../pages/TimeLine.vue';
+import LoginPage from '../pages/LoginPage.vue';
+import LineaTiempoComponente from '../components/LineaTiempoComponente.vue';
+import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
 
 const routes = [
-  
-    {
-        path: '/',
-        component: DefaultLayout, // Usa el layout como contenedor
-        children: [
-            {
-                path: '',
-                component: HomePage // pagina que se renderiza dentro del layout
-            },
-            {
-                path: '/DepartamentosPage',
-                component: DepartamentosPage // pagina que se renderiza dentro del layout
-            },
-            {
-                path: '/rutaaccion',
-                component: Rutaaccionpage     // pagina que se renderiza dentro del layout
-            },
-            {
-                path: '/busquedaciudadano',
-                component: BusquedaCiudadanoPage    // pagina que se renderiza dentro del layout
-            }
-        ]
-    },
+  {
+    path: '/login',
+    component: LoginPage,
+  },
+
+  {
+    path: '/',
+    component: DefaultLayout, // Usa el layout como contenedor
+    children: [
+      {
+        path: '',
+        component: HomePage // pagina que se renderiza dentro del layout
+      },
+      {
+        path: '/departamentos',
+        component: DepartamentosPage // pagina que se renderiza dentro del layout
+      },
+      {
+        path: '/rutaaccion',
+        component: Rutaaccionpage     // // pagina que se renderiza dentro del layout
+      },
+      {
+        path: '/lineatiempo',
+        component: LineaTiempoOriginal
+      }
+
+    ]
+  },
 
 ];
 

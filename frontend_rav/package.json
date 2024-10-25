@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@primevue/themes": "^4.1.0",
+    "flowbite": "^2.5.2",
+    "flowbite-vue": "^0.1.6",
     "primeicons": "^7.0.0",
     "primevue": "^4.1.1",
     "tailwindcss-primeui": "^0.3.4",
