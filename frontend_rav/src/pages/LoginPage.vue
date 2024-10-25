@@ -2,7 +2,8 @@
 	<!-- Contenedor principal con el fondo CustomPurple -->
 	<div class="min-h-screen bg-customPurple text-white m flex flex-col">
 		<!-- Contenedor del grid -->
-		<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 p-8 lg:p-16">
+		<div
+			class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-6 p-8 lg:p-16">
 			<!-- Columna izquierda: Logo, formulario y iconos -->
 			<div class="flex flex-col justify-center space-y-6">
 				<!-- Logo grande -->
@@ -14,7 +15,7 @@
 				</div>
 
 				<!-- Formulario de login -->
-				<form @submit.prevent="submit" class="space-y-4 w-96 mx-auto">
+				<form @submit.prevent="submit" class="space-y-4 w-96 mx-auto z-10">
 					<div>
 						<label for="email" class="block text-lg font-semibold"
 							>Correo electrónico</label
@@ -55,20 +56,20 @@
 			</div>
 
 			<!-- Columna derecha: Mapa en .webp -->
-			<div class="lg:flex justify-stretch">
+			<div class="lg:flex justify-center">
 				<img
 					src="/images/colombiaCollage1.webp"
 					alt="Mapa"
-					class="h-full w-full object-scale-down" />
+					class="h-full w-full z-10" />
 			</div>
 		</div>
 
 		<!-- Vector planta en el footer, cubriendo todo el ancho -->
-		<div class="mt-auto">
+		<div class="">
 			<img
 				src="/images/vectorplantas.svg"
 				alt="Vector Plantas"
-				class="w-full h-auto" />
+				class="absolute bottom-0 left-0 w-full h-auto z-0" />
 		</div>
 	</div>
 </template>
