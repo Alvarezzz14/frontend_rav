@@ -2,10 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
-import TimeLine from '../pages/TimeLine.vue';
 import LoginPage from '../pages/LoginPage.vue';
-import LineaTiempoComponente from '../components/LineaTiempoComponente.vue';
 import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
+import Rutaaccionpage from '../pages/Rutaaccionpage.vue'
 
 const routes = [
   {
