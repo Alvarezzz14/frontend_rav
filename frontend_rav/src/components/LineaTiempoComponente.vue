@@ -61,10 +61,15 @@
 
       <span>Ver Línea de Tiempo</span>
     </button>
+    <div class="flex items-center">
+      <Ticket></Ticket>
+      
+    </div>
   </div>
 </template>
 
 <script>
+import Ticket from './Ticket.vue'
 export default {
   name: 'RutaAtencionCiudadano'
 }

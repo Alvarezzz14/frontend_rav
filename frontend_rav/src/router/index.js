@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
-import TimeLine from '../pages/TimeLine.vue';
+import TimeLine from '../pages/TimeLinePage.vue';
+import TimeLinePage from '../pages/TimeLinePage.vue';
+import BusquedaCiudadanoPage from '../pages/BusquedaCiudadanoPage.vue';
 
 const routes = [
   
@@ -20,7 +22,11 @@ const routes = [
             },
             {
                 path: '/TimeLine',
-                component: TimeLine // pagina que se renderiza dentro del layout
+                component: TimeLinePage     // pagina que se renderiza dentro del layout
+            },
+            {
+                path: '/BusquedaCiudadanoPage',
+                component: BusquedaCiudadanoPage    // pagina que se renderiza dentro del layout
             }
         ]
     },
