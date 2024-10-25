@@ -22,12 +22,12 @@ const routes = [
         component: HomePage // pagina que se renderiza dentro del layout
       },
       {
-        path: '/DepartamentosPage',
+        path: '/departamentos',
         component: DepartamentosPage // pagina que se renderiza dentro del layout
       },
       {
-        path: '/TimeLine',
-        component: TimeLine // pagina que se renderiza dentro del layout
+        path: '/rutaaccion',
+        component: Rutaaccionpage     // // pagina que se renderiza dentro del layout
       },
       {
         path: '/lineatiempo',
