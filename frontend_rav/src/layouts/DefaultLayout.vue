@@ -1,8 +1,7 @@
 <template>
 	<div class="grid grid-rows-layout grid-cols-layout min-h-screen">
 		<!-- Header -->
-		<header
-			class="row-span-1 col-span-full fixed top-0 w-full z-50 bg-blue-500 text-white">
+		<header class="row-span-1 col-span-full fixed top-0 w-full z-50 text-white">
 			<Header />
 		</header>
 
@@ -18,7 +17,7 @@
 
 		<!-- Barra de notificaciones derecha -->
 		<aside
-			class="row-start-2 col-end-4 top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform"
+			class="row-start-2 col-end-4 h-[calc(100vh-8rem)] z-40 transition-transform transform"
 			:class="{
 				'w-64': !isNotificationsCollapsed,
 				'w-16': isNotificationsCollapsed,

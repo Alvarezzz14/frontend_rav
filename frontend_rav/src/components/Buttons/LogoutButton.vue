@@ -1,7 +1,7 @@
 <template>
 	<button
 		@click="$emit('click')"
-		class="w-full py-3 cursor-pointer bg-customPurple text-white rounded-lg hover:bg-purple-700 transition-colors">
+		class="w-full py-3 cursor-pointer border-moradoSecundario border-2 bg-customPurple text-white rounded-lg hover:bg-moradoSecundario transition-colors">
 		Cerrar Sesión
 	</button>
 </template>
