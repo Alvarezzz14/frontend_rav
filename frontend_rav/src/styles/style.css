@@ -6,5 +6,9 @@
 
 html, body {
     font-family: 'Work Sans', sans-serif !important;
+    width: 100%;
+    overflow-x: hidden; /* Evita el scroll horizontal */
   }
   
+  
+

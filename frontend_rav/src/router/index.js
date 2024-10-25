@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '../layouts/DefaultLayout.vue';
 import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
+import TimeLine from '../pages/TimeLine.vue';
 
 const routes = [
   
@@ -16,6 +17,10 @@ const routes = [
             {
                 path: '/DepartamentosPage',
                 component: DepartamentosPage // pagina que se renderiza dentro del layout
+            },
+            {
+                path: '/TimeLine',
+                component: TimeLine // pagina que se renderiza dentro del layout
             }
         ]
     },

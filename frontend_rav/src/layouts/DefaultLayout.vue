@@ -18,7 +18,7 @@
 
 		<!-- Barra de notificaciones derecha -->
 		<aside
-			class="row-start-2 col-end-4 fixed top-[4rem] right-0 h-[calc(100vh-8rem)] z-40 transition-transform transform"
+			class="row-start-2 col-end-4 top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform"
 			:class="{
 				'w-64': !isNotificationsCollapsed,
 				'w-16': isNotificationsCollapsed,

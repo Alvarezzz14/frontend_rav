@@ -1,12 +1,25 @@
 <template>
-    <Titulo></Titulo>
-    <SearchApartament></SearchApartament>
-    
+	<div class="flex flex-col md:flex-row overflow-hidden w-full">
+	  <!-- Columna de Titulo y SearchApartament -->
+	  <div class="flex-1 p-4">
+		<div class="mb-4">
+		  <Titulo />
+		</div>
+		<div>
+		  <SearchApartament />
+		</div>
+	  </div>
+	  
+	  <!-- Columna de MapaColombia -->
+	  <div class="flex-1 p-4">
+		<MapaColombia />
+	  </div>
+	</div>
+  </template>
+  
 
-</template>
 <script setup>
-
-import SearchApartament from '../components/SearchApartament.vue';
-import Titulo from '../components/Titulo.vue';
-
+import MapaColombia from "../components/MapaColombia.vue";
+import SearchApartament from "../components/SearchApartament.vue";
+import Titulo from "../components/Titulo.vue";
 </script>
