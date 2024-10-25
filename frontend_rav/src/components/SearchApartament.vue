@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-auto p-4 flex flex-col">
+    <div class="w-full h-auto p-px flex flex-col">
       <!-- Contenedor del Select alineado con el título -->
       <div class="flex flex-col items-start space-y-4 mt-20 md:mt-32 ml-4 md:ml-[10%]">
         <!-- Selector del Departamento -->
