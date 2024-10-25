@@ -2,7 +2,7 @@
 	<!-- Barra lateral izquierda -->
 	<aside
 		:class="[
-			'bg-white text-gray-800 shadow-lg flex flex-col justify-between  top-[4rem] h-[calc(100vh-8rem)] z-40 transition-transform transform backdrop-blur-lg',
+			'bg-white text-gray-800 shadow-lg flex flex-col justify-between  top-[4rem] h-[calc(100vh-4rem)] z-40 transition-transform transform backdrop-blur-lg',
 			isCollapsed ? 'w-16' : 'w-64',
 			sidebarOpen ? 'translate-x-0' : '-translate-x-full',
 			'md:translate-x-0',
@@ -65,7 +65,7 @@
 					class="w-12 h-12 rounded-full mr-4" />
 				<div v-if="!isCollapsed">
 					<p class="font-semibold">{{ user.name }}</p>
-					<p class="text-sm text-gray-500">{{ user.email }}</p>
+					<p class="text-xs text-gray-500">{{ user.email }}</p>
 				</div>
 			</div>
 
@@ -90,6 +90,7 @@ import RavIcon from "../Icons/RavIcon.vue";
 import Avatar from "../Buttons/Avatar.vue";
 import LogoutButton from "../Buttons/LogoutButton.vue";
 
+import Button from "primevue/button";
 // Definir las props para aceptar el estado del sidebar
 const props = defineProps({
 	isCollapsed: Boolean, // Prop para manejar el colapso del sidebar
