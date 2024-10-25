@@ -5,6 +5,7 @@ import DepartamentosPage from '../pages/DepartamentosPage.vue';
 import LoginPage from '../pages/LoginPage.vue';
 import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
 import Rutaaccionpage from '../pages/Rutaaccionpage.vue'
+import BusquedaCiudadanoPage from '../pages/BusquedaCiudadanoPage.vue'
 
 const routes = [
   {
@@ -31,7 +32,12 @@ const routes = [
       {
         path: '/lineatiempo',
         component: LineaTiempoOriginal
+      },
+      {
+        path: '/busquedaciudadano',
+        component: BusquedaCiudadanoPage
       }
+
 
     ]
   },
