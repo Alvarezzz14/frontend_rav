@@ -2,11 +2,7 @@
   <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
     <!-- Imagen del ciudadano a la izquierda -->
     <div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
-      <img
-        :src="Ciudadano"
-        alt="Ciudadano"
-        class="w-20 h-20 lg:w-32 lg:h-32 object-contain"
-      />
+      <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
     </div>
 
     <!-- Texto y campo de búsqueda a la derecha -->
@@ -14,9 +10,11 @@
       <!-- Texto de información -->
       <div class="mb-6">
         <p class="text-xl lg:text-3xl font-medium text-inherit">
-          Aquí podrás visualizar información acerca de la 
+          Aquí podrás visualizar información acerca de la
         </p>
-        <h2 class="text-9xl lg:text-3xl font-bold  text-customPurple "> Ruta de  Atención al Ciudadano.</h2>
+        <h2 class="lg:text-5xl font-bold text-customPurple">
+          Ruta de Atención al Ciudadano.
+        </h2>
       </div>
 
       <!-- Sección de búsqueda -->
@@ -27,7 +25,9 @@
             placeholder="Digite el documento de identificación del ciudadano"
             class="w-full mb-4 p-3 border border-gray-300 rounded-lg"
           />
-          <button class="w-full bg-customPurple font-bold text-white py-2 rounded-lg hover:bg-purple-700 transition">
+          <button
+            class="w-full bg-customPurple font-bold text-white py-2 rounded-lg hover:bg-purple-700 transition"
+          >
             Buscar
           </button>
         </div>
@@ -38,19 +38,17 @@
 
 
 
-<style scoped>
-/* Estilos adicionales si son necesarios */
-</style>
 
-  
-  <script>
-  import Ciudadano from '../assets/images/Ciudadano.svg'
-  export default {
-    name: "RutaCiudadano",
-  };
-  </script>
-  
-  <style scoped>
-  /* Puedes agregar estilos personalizados aquí si es necesario */
-  </style>
-  
+
+<script>
+import Ciudadano from '../assets/images/Ciudadano.svg'
+
+export default {
+  name: "RutaCiudadana",
+  data(){
+    return{
+      Ciudadano: Ciudadano
+    }
+  }
+};
+</script>
