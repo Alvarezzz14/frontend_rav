@@ -40,7 +40,7 @@
 
 
 
-<script>
+<script >
 import Ciudadano from '../assets/images/Ciudadano.svg'
 
 export default {
