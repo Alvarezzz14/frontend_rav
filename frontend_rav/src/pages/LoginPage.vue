@@ -8,10 +8,7 @@
 			<div class="flex flex-col justify-center space-y-6">
 				<!-- Logo grande -->
 				<div class="flex justify-center">
-					<img
-						src="/images/webp/LOGO.svg"
-						alt="Logo"
-						class="w-3/4 lg:w-2/3 h-auto" />
+					<img :src="Logo" alt="Logo" class="w-3/4 lg:w-2/3 h-auto" />
 				</div>
 
 				<!-- Formulario de login -->
@@ -51,23 +48,23 @@
 
 				<!-- Iconos institucionales -->
 				<div class="flex justify-center space-x-4 mt-8">
-					<img src="/images/logos.svg" alt="Icono 1" class="" />
+					<img
+						:src="LogosInstitucionales"
+						alt="Logos Institucionales"
+						class="" />
 				</div>
 			</div>
 
 			<!-- Columna derecha: Mapa en .webp -->
 			<div class="lg:flex justify-center">
-				<img
-					src="/images/colombiaCollage1.webp"
-					alt="Mapa"
-					class="h-full w-full z-10" />
+				<img :src="MapaCollage" alt="Mapa" class="h-full w-full z-10" />
 			</div>
 		</div>
 
 		<!-- Vector planta en el footer, cubriendo todo el ancho -->
 		<div class="">
 			<img
-				src="/images/vectorplantas.svg"
+				:src="VectorPlantas"
 				alt="Vector Plantas"
 				class="absolute bottom-0 left-0 w-full h-auto z-0" />
 		</div>
@@ -76,6 +73,10 @@
 
 <script setup>
 import { ref } from "vue";
+import Logo from "../assets/images/webp/LOGO.svg";
+import LogosInstitucionales from "../assets/images/webp/logos.svg";
+import MapaCollage from "../assets/images/colombiaCollage1.webp";
+import VectorPlantas from "../assets/images/vectorplantas.svg";
 
 // Formulario de inicio de sesión
 const form = ref({
