@@ -55,7 +55,7 @@
                     fill="white" />
             </svg>
 
-            <span class="mt-2">Cargar Archivo</span>
+            <span class="mt-2">Crear Ticket</span>
         </button>
 
 
@@ -89,10 +89,17 @@
         <textarea name="Descripcion"
             class="w-full bg-gray-100 h-24 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
             id="descripcion" placeholder="Descripción:"></textarea>
+         <button
+            class="bg-amarillo border-none w-full text-customPurple mb-2 font-bold p-2 rounded-sm shadow flex justify-center items-center">
+            Cargar Archivo
+        </button>
+
         <button
             class="bg-customPurple border-none w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
             Enviar
         </button>
+        <a href="#" class="text-blue-500 text-xs no-underline mt-2 hover:underline flex justify-center items-center focus:outline-none">¿Necesitas Ayuda?</a>
+
 
     </div>
 
