@@ -11,7 +11,7 @@
 			:class="{
 				'w-64': !isSidebarCollapsed,
 				'w-16': isSidebarCollapsed,
-			}">
+			}">	
 			<SidebarLeft :isCollapsed="isSidebarCollapsed" />
 		</aside>
 
