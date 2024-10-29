@@ -1,9 +1,8 @@
 <template>
-    <Rutaaccion />
-    <Ticket />
+	<TituloRutaAccion />
+	<Ticket />
 </template>
 <script setup>
-import Rutaaccion from '../components/Rutaaccion.vue';
-import Ticket from '../components/Ticket.vue';
-
+import TituloRutaAccion from "@/components/TituloRutaAccion.vue";
+import Ticket from "@/components/.vue";
 </script>

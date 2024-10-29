@@ -4,7 +4,7 @@ import HomePage from '../pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '../pages/DepartamentosPage.vue';
 import LoginPage from '../pages/LoginPage.vue';
 import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
-import Rutaaccionpage from '../pages/Rutaaccionpage.vue'
+import Rutaaccionpage from '../pages/RutaAccionPage.vue'
 import BusquedaCiudadanoPage from '../pages/BusquedaCiudadanoPage.vue'
 import RegistroActividadPage from '../pages/RegistroActividadPage.vue';
 import FormatodeReportesPage from '../pages/FormatodeReportesPage.vue';
@@ -28,7 +28,7 @@ const routes = [
         component: DepartamentosPage // pagina que muestra el mapa con los departamentos
       },
       {
-        path: '/rutaaccion',
+        path: '/rutadeaccion',
         component: Rutaaccionpage     // // pagina que se renderiza dentro del layout
       },
       {
