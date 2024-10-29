@@ -3,7 +3,7 @@
       <main role="main" class="inner cover">
         <div id="colombia" class="map tall text-left"></div>
         <div class="card fixed-bottom" style="margin: 10px; text-shadow: none;">
-          <div class="card-body" style="padding: 0;"></div>
+          <div class="card-body" style="padding: 10;"></div>
         </div>
       </main>
     </div>

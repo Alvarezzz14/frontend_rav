@@ -11,7 +11,7 @@
 	  </div>
 	  
 	  <!-- Columna de MapaColombia -->
-	  <div class="flex-1 p-4">
+	  <div class="flex-1 p-90">
 		<MapaColombia />
 	  </div>
 	</div>

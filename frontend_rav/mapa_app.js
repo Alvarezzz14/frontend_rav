@@ -12,7 +12,7 @@ var map = new Datamap({
   geographyConfig: {
     dataUrl: 'colombia.topo.json',
     hideAntarctica: true,
-    borderWidth: 2, // Corregido: 'borderinlinesize' a 'borderWidth'
+    borderWidth: 1, // Corregido: 'borderinlinesize' a 'borderWidth'
     borderColor: '#FDC300', // Bordes de los departamentos en amarillo
     borderOpacity: 3,
 
@@ -32,9 +32,9 @@ var map = new Datamap({
 
   setProjection: function(element) {
     var projection = d3.geo.mercator()
-      .center([-74, 3])
-      .scale(element.offsetWidth * 4)
-      .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
+      .center([-77, 10])
+      .scale(element.offsetWidth * 3)
+      .translate([element.offsetWidth / 3, element.offsetHeight / 3]);
     var path = d3.geo.path().projection(projection);
     return { path: path, projection: projection };
   }
