@@ -73,10 +73,10 @@
 
 <script setup>
 import { ref } from "vue";
-import Logo from "../assets/images/webp/LOGO.svg";
+import Logo from "@/assets/images/webp/LOGO.svg";
 import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
-import MapaCollage from "../assets/images/colombiaCollage1.webp";
-import VectorPlantas from "../assets/images/vectorplantas.svg";
+import MapaCollage from "@/assets/images/colombiaCollage1.webp";
+import VectorPlantas from "@/assets/images/vectorplantas.svg";
 
 // Formulario de inicio de sesión
 const form = ref({
