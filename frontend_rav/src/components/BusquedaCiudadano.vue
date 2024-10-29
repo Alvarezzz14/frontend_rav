@@ -40,15 +40,7 @@
 
 
 
-<script >
+<script setup >
 import Ciudadano from '../assets/images/Ciudadano.svg'
 
-export default {
-  name: "RutaCiudadana",
-  data(){
-    return{
-      Ciudadano: Ciudadano
-    }
-  }
-};
 </script>
