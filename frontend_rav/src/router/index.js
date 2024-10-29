@@ -7,6 +7,7 @@ import LineaTiempoOriginal from '../components/LineaTiempoOriginal.vue';
 import Rutaaccionpage from '../pages/Rutaaccionpage.vue'
 import BusquedaCiudadanoPage from '../pages/BusquedaCiudadanoPage.vue'
 import RegistroActividadPage from '../pages/RegistroActividadPage.vue';
+import FormatodeReportesPage from '../pages/FormatodeReportesPage.vue';
 
 const routes = [
   {
@@ -41,6 +42,10 @@ const routes = [
       {
         path: '/registroactividad',
         component: RegistroActividadPage
+      },
+      {
+        path: '/formatodereportes',
+        component: FormatodeReportesPage
       },
 
 
