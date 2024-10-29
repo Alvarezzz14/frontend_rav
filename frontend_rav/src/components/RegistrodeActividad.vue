@@ -66,7 +66,7 @@
         <ul class="list-decimal pl-5 ">
             <li class="flex items-center pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
+                    class="bg-customPurple  text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
                 Ingrese un nombre en la casilla de <span class="font-bold pl-1">Título.</span>
             </li>
             <li class="flex items-center pb-2">
@@ -83,19 +83,19 @@
             <!-- Agregar más actividades aquí -->
         </ul>
     </div>
-    <div class="mt-4 bg-white rounded-lg shadow p-4">
-        <input type="text" class="w-full bg-gray-100 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-2"
+    <div class="mt-4 bg-white rounded-lg h-3/6 shadow p-4">
+        <input type="text" class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-2"
             placeholder="Título:" />
         <textarea name="Descripcion"
-            class="w-full bg-gray-100 h-24 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
+            class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
             id="descripcion" placeholder="Descripción:"></textarea>
          <button
-            class="bg-amarillo border-none w-full text-customPurple mb-2 font-bold p-2 rounded-sm shadow flex justify-center items-center">
+            class="bg-amarillo border-none w-full text-customPurple mb-2 h-9 font-bold p-2 rounded-sm shadow flex justify-center items-center">
             Cargar Archivo
         </button>
 
         <button
-            class="bg-customPurple border-none w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
+            class="bg-customPurple border-none h-19 w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
             Enviar
         </button>
         <a href="#" class="text-blue-500 text-xs no-underline mt-2 hover:underline flex justify-center items-center focus:outline-none">¿Necesitas Ayuda?</a>
