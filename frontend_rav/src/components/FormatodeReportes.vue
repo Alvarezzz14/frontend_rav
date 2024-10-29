@@ -16,8 +16,8 @@
                 </svg>
             </div>
             <div class="ml-4">
-                <p class="text-black mb-0 text-2xl">Registro de</p>
-                <h2 class="text-customPurple text-5xl mt-0 font-bold">Actividad</h2>
+                <p class="text-black mb-0 text-2xl">Formato de</p>
+                <h2 class="text-customPurple text-5xl mt-0 font-bold">Reportes</h2>
             </div>
         </div>
 
@@ -48,63 +48,28 @@
 
 
         <!-- Sección Derecha (Botón Cargar Archivo) -->
-        <button class="bg-customPurple text-white p-4 rounded-lg shadow flex flex-col items-center">
-            <svg width="49" height="48" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button class="bg-customPurple text-white p-4 rounded-lg shadow flex items-center">
+            <svg width="85" height="32" viewBox="0 0 85 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
-                    d="M27.5 0C20.24 0 13.88 5.16 12.5 12C5.9 12 0.5 17.4 0.5 24C0.5 26.22 1.16 28.26 2.18 30H15.5L27.5 18L39.5 30H47.96C48.32 29.04 48.5 28.08 48.5 27C48.5 23.1 45.98 19.26 42.5 18V15C42.5 6.72 35.78 0 27.5 0ZM27.5 27L12.5 42H24.5V45C24.5 45.7957 24.8161 46.5587 25.3787 47.1213C25.9413 47.6839 26.7044 48 27.5 48C28.2956 48 29.0587 47.6839 29.6213 47.1213C30.1839 46.5587 30.5 45.7957 30.5 45V42H42.5L27.5 27Z"
+                    d="M13.9741 0.612592C18.7492 0.210157 23.3804 1.90675 26.6636 5.3868C27.7897 5.62711 30.7159 5.0857 31.6087 5.52288C31.9543 5.6908 33.2791 7.14709 33.6564 7.53216C35.8741 9.8078 37.965 12.2166 40.223 14.4546C40.943 15.4245 41.0121 16.3249 40.2777 17.3151C38.8693 19.2086 36.4126 21.4089 34.7336 23.1837C34.2641 23.6817 33.7975 24.3012 33.3252 24.7934C32.9998 25.1351 31.986 26.2613 31.6692 26.4379C30.8311 26.9127 27.7609 26.3771 26.6636 26.6058C15.9671 37.7206 -2.45954 28.2387 0.486762 12.8709C1.71655 6.44935 7.45363 1.15979 13.9712 0.609696L13.9741 0.612592ZM23.5273 8.40072C22.044 6.85178 20.4139 5.84135 18.3201 5.2681C18.0551 5.04517 18.5707 3.62651 17.4158 3.05615C16.834 2.76953 15.0138 2.7869 14.3255 2.85638C13.591 2.93166 12.9776 3.36884 12.8739 4.13896C12.8307 4.46902 12.9747 5.00753 12.7299 5.22467C12.6032 5.33758 11.3388 5.71975 11.0134 5.86451C1.76263 10.0018 2.60073 23.6817 12.2576 26.5856C23.2104 29.8803 31.2717 16.4986 23.5273 8.40072Z"
+                    fill="white" />
+                <path
+                    d="M49.7184 5.43595C50.5939 5.33172 51.4579 5.46779 52.3306 5.50833C52.8202 5.53149 53.4654 5.31145 53.9262 5.69073L62.1545 14.3474C63.4246 15.9427 62.6815 16.901 61.5468 18.1778C59.5855 20.3782 57.4485 22.4569 55.4296 24.6052C55.1243 24.9294 53.9751 26.3655 53.6958 26.4552C53.0708 26.6318 52.4833 26.4726 51.8525 26.4928C50.9741 26.5247 50.185 26.4928 49.3209 26.4928C46.3142 26.4842 43.3045 26.5189 40.2977 26.4842L40.1911 26.3076L48.6124 17.37C49.4477 16.2061 49.2461 15.2536 48.3792 14.1998L40.1479 5.64151C40.2372 5.50543 40.3294 5.51122 40.4705 5.49385C43.365 5.17538 46.7836 5.79785 49.7213 5.43305L49.7184 5.43595Z"
+                    fill="white" />
+                <path
+                    d="M71.1551 5.44457C71.9989 5.43878 72.8399 5.42141 73.6751 5.40404C74.2051 5.39535 75.3139 5.33745 75.7517 5.59223L84.1643 14.3474C85.5266 16.07 84.5589 17.0486 83.3694 18.3659C81.3966 20.546 79.3344 22.7203 77.304 24.8454C77.0419 25.1176 75.9072 26.3422 75.6969 26.4465C75.2448 26.6665 74.1215 26.6028 73.5858 26.5912C72.7823 26.5768 71.9673 26.5623 71.1551 26.5565C68.2088 26.5391 65.2567 26.458 62.3104 26.4841L62.2038 26.3075L70.6223 17.37C71.6159 16.0758 71.1464 15.1146 70.2018 14.0144L62.1606 5.64724L62.4832 5.49958C65.3748 5.56038 68.2693 5.46194 71.158 5.44457H71.1551Z"
+                    fill="white" />
+                <path
+                    d="M20.3622 10.3489C21.9779 10.0362 22.7238 12.1295 21.3212 13.0154L16.9522 15.8122L16.883 23.2124C16.6325 24.8337 14.3255 24.7584 14.0923 23.0387C14.242 20.4735 13.8647 17.6304 14.0807 15.1C14.1383 14.4225 14.3169 14.1069 14.844 13.69C15.7627 12.9604 18.6514 11.1277 19.6997 10.6269C19.8668 10.5458 20.2037 10.3808 20.3622 10.3489Z"
                     fill="white" />
             </svg>
 
-            <span class="mt-2">Crear Ticket</span>
+            <span>Ver Línea de Tiempo</span>
         </button>
 
 
     </div>
-
-    <!-- Contenedor de Lista -->
-    <div class="mt-4 bg-white rounded-lg shadow p-4">
-        <ul class="list-decimal pl-5 ">
-            <li class="flex items-center pb-2">
-                <span
-                    class="bg-customPurple  text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
-                Ingrese un nombre en la casilla de <span class="font-bold pl-1">Título.</span>
-            </li>
-            <li class="flex items-center pb-2">
-                <span
-                    class="bg-customPurple text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
-                Registre la actividad o información otorgada al ciudadano en la Sección de <span
-                    class="font-bold pl-1">Descripción.</span>
-            </li>
-            <li class="flex items-center pb-2">
-                <span
-                    class="bg-customPurple text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">3</span>
-                Una vez completa la información , presiona <span class="font-bold pl-1">Enviar.</span>
-            </li>
-            <!-- Agregar más actividades aquí -->
-        </ul>
-    </div>
-    <div class="mt-4 bg-white rounded-lg h-3/6 shadow p-4">
-        <input type="text" class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-2"
-            placeholder="Título:" />
-        <textarea name="Descripcion"
-            class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
-            id="descripcion" placeholder="Descripción:"></textarea>
-         <button
-            class="bg-amarillo border-none w-full text-customPurple mb-2 h-9 font-bold p-2 rounded-sm shadow flex justify-center items-center">
-            Cargar Archivo
-        </button>
-
-        <button
-            class="bg-customPurple border-none h-19 w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
-            Enviar
-        </button>
-        <a href="#" class="text-blue-500 text-xs no-underline mt-2 hover:underline flex justify-center items-center focus:outline-none">¿Necesitas Ayuda?</a>
-
-
-    </div>
-
 </template>
+<script setup>
 
-<style scoped>
-/* Estilos adicionales si es necesario */
-</style>
+</script>

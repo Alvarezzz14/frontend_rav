@@ -1,5 +1,5 @@
 <template>
-	<div class="w-full max-w-[680px] mx-auto rounded-full border-inherit">
+	<div class="w-full max-w-[680px] mx-auto mt-4 rounded-full border-inherit">
 	  <svg
 		class="w-full h-auto"
 		viewBox="0 0 780 780"
