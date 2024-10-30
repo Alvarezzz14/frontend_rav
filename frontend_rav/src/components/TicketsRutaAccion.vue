@@ -1,95 +1,81 @@
 <template>
-  <img :src='LogoSena' alt="">
-  <div class="overflow-x-auto">
-    <table class="min-w-full table-auto border-separate" style="border-spacing: 0 8px;">
-      <thead class="bg-gray-200">
-        <tr>
-          <th class="px-4 py-2 text-left border-r border-gray-300">Fecha</th>
-          <th class="px-4 py-2 text-left border-r border-gray-300">Ticket</th>
-          <th class="px-4 py-2 text-center">Visualizar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(ticket, index) in tickets" :key="index" class="bg-white shadow border border-gray-200">
-          <!-- Fecha -->
-          <td class="px-4 py-2 text-left text-gray-500 border-r border-gray-300">
-            {{ ticket.fecha }}
-          </td>
+	<!-- Contenedor Glaseado para la Línea de Tiempo -->
+	<div
+		class="glass-container p-5 rounded-lg shadow-lg backdrop-blur-lg backdrop-opacity-50 border border-white/30">
+		<div v-for="(events, date) in groupedEvents" :key="date" class="mb-6">
+			<div class="flex items-center justify-between mb-4">
+				<time class="text-lg font-bold text-gray-700">{{ date }}</time>
+				<button
+					@click="toggleGroup(date)"
+					class="text-customPurple font-semibold hover:underline">
+					{{ openedGroups[date] ? "Cerrar" : "Ver" }}
+				</button>
+			</div>
 
-          <!-- Ticket Información -->
-          <td class="px-4 py-2 border-r border-gray-300">
-            <div class="flex items-center space-x-4">
-              <img
-                :src="imagenLogo"
-                alt="Logo"
-                class="w-10 h-10 object-contain"
-              />
-              <div>
-                <h3 class="font-bold">{{ ticket.titulo }}</h3>
-                <p class="text-gray-600">{{ ticket.descripcion }}</p>
-                <button class="mt-2 px-4 py-1 bg-amarillo text-white rounded-lg border-solid  cursor-pointer hover:bg-customPurple">
-                  Ver más
-                </button>
-              </div>
-            </div>
-          </td>
+			<!-- Transición de los eventos de cada grupo -->
+			<transition
+				name="slide-fade"
+				mode="out-in"
+				enter-active-class="transition-all ease-out duration-300"
+				leave-active-class="transition-all ease-in duration-800"
+				leave-from-class="transform translate-x-0 opacity-100"
+				leave-to-class="transform translate-x-5 opacity-0">
+				<!-- Contenedor de Eventos por Fecha -->
+				<div v-if="openedGroups[date]" class="w-full">
+					<div
+						v-for="(event, index) in events"
+						:key="index"
+						class="flex flex-col md:flex-row gap-6 items-start w-full relative mb-4">
+						<!-- Imagen de Perfil -->
+						<div
+							class="flex flex-col items-center md:w-1/4 w-full text-center md:text-right">
+							<img
+								:src="event.profileImage"
+								alt="Profile"
+								class="w-14 h-14 rounded-full mt-2" />
+							<!-- Línea de conexión entre eventos -->
+							<div
+								v-if="index < events.length - 1"
+								class="w-0.5 h-3/5 bg-gray-300 absolute top-16 mb-2"></div>
+						</div>
 
-          <!-- Visualizar botón -->
-          <td class="px-4 py-2 text-center">
-            <button
-              @click="ticket.visualizado = !ticket.visualizado"
-              :class="ticket.visualizado ? 'bg-customPurple' :  'bg-amarillo rounded-lg border-solid  cursor-pointer '"
-              class="px-4 py-1 text-white rounded"
-            >
-              {{ ticket.visualizado ? 'Cerrar' : 'Ver' }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+						<!-- Detalles del Evento con Fondo Glaseado -->
+						<div class="md:w-3/4 w-full">
+							<div class="event-card bg-white/70 rounded-lg p-4 shadow-md">
+								<p class="font-semibold text-customPurple">{{ event.title }}</p>
+								<p class="text-gray-600">{{ event.description }}</p>
+								<a
+									href="#"
+									@click.prevent="$emit('showEventDetails', event)"
+									class="text-customPurple mt-2 inline-block hover:underline">
+									Ver más
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</transition>
+		</div>
+	</div>
 </template>
 
-<script>
-import LogoSena from '../assets/logosenaverde.svg';
+<script setup>
+import { defineProps, ref } from "vue";
 
-export default {
-  data() {
-    return {
-      imagenLogo:  LogoSena,
-      tickets: [
-        {
-          fecha: "13/07/2023",
-          logo: "https://via.placeholder.com/40x40.png?text=SENA", // Imagen placeholder
-          titulo: "Citación a Audiencia",
-          descripcion: "Descripción del evento: citación a audiencia para Robert Johnson.",
-          visualizado: false
-        },
-        {
-          fecha: "14/07/2024",
-          logo: "https://via.placeholder.com/40x40.png?text=SENA",
-          titulo: "Notificación de Medidas",
-          descripcion: "Descripción del evento: Notificación de Medidas para Robert Johnson.",
-          visualizado: false
-        },
-        // Agregar más tickets aquí
-      ],
-    };
-  },
+const props = defineProps({
+	groupedEvents: {
+		type: Object,
+		required: true,
+	},
+});
+
+// Controlar la expansión y colapso de los grupos
+const openedGroups = ref({});
+const toggleGroup = (date) => {
+	openedGroups.value[date] = !openedGroups.value[date];
 };
 </script>
 
 <style scoped>
-/* Estilos adicionales */
-thead th {
-  border-bottom: 2px solid #e5e7eb; /* Agrega un borde inferior en el encabezado */
-}
-
-tbody tr {
-  transition: background-color 0.2s ease-in-out;
-}
-
-tbody tr:hover {
-  background-color: #f9fafb; /* Cambia el fondo al pasar el ratón por encima */
-}
+/* Agregar cualquier estilo adicional aquí si es necesario */
 </style>
