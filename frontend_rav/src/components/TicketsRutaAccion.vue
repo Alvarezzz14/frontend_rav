@@ -7,7 +7,7 @@
 				<time class="text-lg font-bold text-gray-700">{{ date }}</time>
 				<button
 					@click="toggleGroup(date)"
-					class="text-customPurple font-semibold hover:underline">
+					class="text-customPurple font-semibold hover:underline cursor-pointer">
 					{{ openedGroups[date] ? "Cerrar" : "Ver" }}
 				</button>
 			</div>
