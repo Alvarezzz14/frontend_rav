@@ -9,7 +9,7 @@
         <!-- Sección superior con el RavIcon y navegación -->
         <div class="flex flex-col items-center">
             <!-- Ícono centrado -->
-            <div class="  py-3  flex justify-center">
+            <div class="  py-8  flex justify-center">
                 <RavIcon :class="px-2 [isCollapsed ? 'w-8 h-8' : 'w-12 h-12']" />
             </div>
 
