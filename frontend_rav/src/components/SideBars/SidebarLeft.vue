@@ -1,4 +1,11 @@
 <template>
+    <!-- Botón hamburguesa en modo responsive -->
+    <div class="absolute top-4 left-4 md:hidden z-50">
+        <button @click="toggleSidebar" class="text-black focus:outline-none">
+            <i class="pi pi-bars text-3xl"></i>
+        </button>
+    </div>
+
     <!-- Barra lateral izquierda -->
     <aside :class="[
         'bg-white text-gray-800 shadow-lg flex flex-col justify-between top-[4rem] h-[calc(100vh-4rem)] z-40 transition-transform transform backdrop-blur-lg',
@@ -9,14 +16,14 @@
         <!-- Sección superior con el RavIcon y navegación -->
         <div class="flex flex-col items-center">
             <!-- Ícono centrado -->
-            <div class="  py-8  flex justify-center">
+            <div class="py-8 flex justify-center">
                 <RavIcon :class="px-2 [isCollapsed ? 'w-8 h-8' : 'w-12 h-12']" />
             </div>
 
             <!-- Opciones de navegación -->
-            <nav class="px-2  w-full">
-                <ul class="list-none  w-full flex flex-col items-start">
-                    <li v-for="item in menuItems" :key="item.title" class=" pt-1 relative w-full">
+            <nav class="px-2 w-full">
+                <ul class="list-none w-full flex flex-col items-start">
+                    <li v-for="item in menuItems" :key="item.title" class="pt-1 relative w-full">
                         <router-link :to="item.to"
                             class="flex items-center justify-start cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors no-underline w-full">
                             <span class="flex items-center">
@@ -45,14 +52,14 @@
 
         <!-- Sección inferior con el avatar, nombre y email -->
         <div class="p-4 border-t border-gray-300 flex-shrink-0 w-full">
-    <div class="flex items-center justify-center">
-        <!-- Aumentar el tamaño del avatar -->
-        <Avatar :src="user.avatar" alt="User Avatar" class="w-12 h-12 rounded-full" />
-        <div v-if="!isCollapsed" class="text-xs text-center ml-3">
-            <p class="font-bold text-lg">{{ user.name }}</p>
-            <p class="text-gray-700 text-sm">{{ user.email }}</p>
-        </div>
-    </div>
+            <div class="flex items-center justify-center">
+                <!-- Aumentar el tamaño del avatar -->
+                <Avatar :src="user.avatar" alt="User Avatar" class="w-12 h-12 rounded-full" />
+                <div v-if="!isCollapsed" class="text-xs text-center ml-3">
+                    <p class="font-bold text-lg">{{ user.name }}</p>
+                    <p class="text-gray-700 text-sm">{{ user.email }}</p>
+                </div>
+            </div>
 
             <!-- Botón de Cerrar Sesión -->
             <div v-if="!isCollapsed" class="mt-4 text-center">
@@ -60,13 +67,6 @@
             </div>
         </div>
     </aside>
-
-    <!-- Botón hamburguesa en modo responsive -->
-    <div class="absolute top-4 left-4 md:hidden z-50">
-        <button @click="toggleSidebar" class="text-black focus:outline-none">
-            <i class="pi pi-bars text-3xl"></i>
-        </button>
-    </div>
 </template>
 
 <script setup>
@@ -143,12 +143,10 @@ const logout = () => {
 /* Eliminar desplazamiento y ajustes de ancho completo */
 .aside {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    overflow: hidden;
-    /* Elimina el scroll */
+    overflow: hidden; /* Elimina el scroll */
 }
 
 a {
-    text-decoration: none;
-    /* Elimina subrayado en enlaces */
+    text-decoration: none; /* Elimina subrayado en enlaces */
 }
 </style>
