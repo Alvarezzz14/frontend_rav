@@ -45,17 +45,18 @@
 
         <!-- Sección inferior con el avatar, nombre y email -->
         <div class="p-4 border-t border-gray-300 flex-shrink-0 w-full">
-            <div class="flex items-center justify-center">
-                <Avatar :src="user.avatar" alt="User Avatar" class="w-8 h-8 rounded-full" />
-                <div v-if="!isCollapsed" class="text-xs text-center ml-2">
-                    <p class="font-semibold">{{ user.name }}</p>
-                    <p class="text-gray-500">{{ user.email }}</p>
-                </div>
-            </div>
+    <div class="flex items-center justify-center">
+        <!-- Aumentar el tamaño del avatar -->
+        <Avatar :src="user.avatar" alt="User Avatar" class="w-12 h-12 rounded-full" />
+        <div v-if="!isCollapsed" class="text-xs text-center ml-3">
+            <p class="font-bold text-lg">{{ user.name }}</p>
+            <p class="text-gray-700 text-sm">{{ user.email }}</p>
+        </div>
+    </div>
 
             <!-- Botón de Cerrar Sesión -->
             <div v-if="!isCollapsed" class="mt-4 text-center">
-                <LogoutButton @click="logout" class="text-xs py-1 px-2" />
+                <LogoutButton @click="logout" class="text-base !text-amarillo !font-bold py-1 px-2" />
             </div>
         </div>
     </aside>
