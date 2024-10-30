@@ -42,9 +42,7 @@ const eventStore = useEventStore();
 
 // Obtén los eventos relacionados con la cédula
 const searchResults = ref(eventStore.searchByCedula(cedula));
-const citizenName = computed(
-	() => searchResults.value[0]?.profile || "Ciudadano"
-);
+const nombre = computed(() => searchResults.value[0]?.profile || "Ciudadano");
 
 // Agrupación de eventos por fecha
 const groupedEvents = computed(() => {
