@@ -8,18 +8,12 @@
 		<div>
 		  <SearchApartament />
 		</div>
-	  </div>
-	  
-	  <!-- Columna de MapaColombia -->
-	  <div class="flex-1 p-90">
-		<MapaColombia />
-	  </div>
+	  </div>	
 	</div>
   </template>
   
 
 <script setup>
-import MapaColombia from "../components/MapaColombia.vue";
 import SearchApartament from "../components/SearchApartament.vue";
 import Titulo from "../components/Titulo.vue";
 </script>
