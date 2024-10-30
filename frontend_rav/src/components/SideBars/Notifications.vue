@@ -1,91 +1,104 @@
 <template>
-	<aside
-		:class="[
-			' right-0 top-[8rem] z-40 h-[calc(100vh-8rem)] transition-transform transform backdrop-blur-sm bg-white/70',
-			'border-l border-gray-300',
-			isCollapsed ? 'w-16' : 'w-64',
-			isOpen ? 'translate-x-0' : 'translate-x-full',
-			'md:translate-x-0',
-		]"
-		@click.self="toggleSidebar">
-		<!-- Header de la barra de notificaciones -->
-		<div
-			class="p-4 mt-12 h-10 bg-customPurple text-white flex justify-between items-center">
-			<h3 v-if="!isCollapsed" class="font-semibold text-lg">Notificaciones</h3>
-			<button @click="toggleSidebar">
-				<i :class="isOpen ? 'pi pi-times' : 'pi pi-bars'" class="text-xl"></i>
-			</button>
-		</div>
-
-		<!-- Sección de medidores -->
-		<div class="p-4 space-y-4">
-			<!-- Medidor 1 -->
-			<div v-if="!isCollapsed" class="bg-white/70 shadow-lg rounded-lg p-4">
-				<h4 class="text-gray-700 font-semibold mb-2">Meta 1</h4>
-				<p>Interacción con el medidor</p>
+	<aside class="bg-gray-100 pt-2 w-full md:w-64 space-y-4">
+	  <!-- Sección de Actividad -->
+	  <div>
+		<h2 class="text-lg font-bold pt-8  text-customPurple">Actividad</h2>
+		<div class="flex flex-col items-center">
+		  <div v-for="(goal, index) in goals" :key="index" class="my-2">
+			<div class="relative w-16 h-16 md:w-20 md:h-20">
+			  <!-- Fondo del medidor vacío -->
+			  <svg class="w-full h-full" viewBox="0 0 100 100">
+				<circle cx="50" cy="50" r="40" stroke="lightgray" stroke-width="6" fill="none" />
+				<!-- Círculo animado que muestra el progreso -->
+				<circle
+				  cx="50"
+				  cy="50"
+				  r="40"
+				  stroke="currentColor"
+				  :stroke-dasharray="circumference"
+				  :stroke-dashoffset="circumference - (circumference * goal.value / 100)"
+				  stroke-width="6"
+				  fill="none"
+				  class="text-customPurple transition-all duration-1000 ease-out"
+				/>
+			  </svg>
+			  <span class="absolute inset-0 flex items-center justify-center text-lg font-bold">
+				{{ goal.value }}
+			  </span>
 			</div>
-
-			<!-- Medidor 2 -->
-			<div v-if="!isCollapsed" class="bg-white/70 shadow-lg rounded-lg p-4">
-				<h4 class="text-gray-700 font-semibold mb-2">Meta 2</h4>
-				<p>Interacción con el medidor</p>
-			</div>
+			<p class="text-center text-xs font-semibold">{{ goal.label }}</p>
+		  </div>
 		</div>
-
-		<!-- Contenido de las notificaciones -->
-		<div class="p-4 overflow-y-auto flex-1">
-			<!-- Agrupar y desplegar las notificaciones -->
-			<div
-				@click="toggleNotificationsGroup"
-				class="cursor-pointer h-2 bg-gray-200 p-4 rounded-lg flex justify-between items-center">
-				<h4 class="text-gray-700 font-semibold">Notificaciones</h4>
-				<i
-					:class="
-						isNotificationsGrouped
-							? 'pi pi-chevron-down'
-							: 'pi pi-chevron-right'
-					"></i>
-			</div>
-
-			<ul
-				v-if="isNotificationsGrouped"
-				class="space-y-4 list-none mt-4 max-h-[200px] overflow-y-auto">
-				<li
-					v-for="(notification, index) in notifications"
-					:key="index"
-					class="p-4 bg-white/70 shadow rounded-lg">
-					<p class="text-gray-700">{{ notification }}</p>
-				</li>
-			</ul>
+	  </div>
+  
+	  <!-- Sección de Notificaciones -->
+	  <div>
+		<h2 class="text-lg font-bold text-customPurple mb-2 flex items-center">
+		  Notificaciones
+		  <button
+			v-if="extraNotifications > 0"
+			@click="toggleNotifications"
+			class="ml-2 bg-customPurple text-white w-6 h-6 rounded-full flex items-center justify-center text-xs"
+		  >
+			+{{ extraNotifications }}
+		  </button>
+		</h2>
+		
+		<!-- Mostrar solo la primera notificación -->
+		<div v-if="notifications.length > 0" class="bg-white p-3 rounded-lg mb-2 shadow">
+		  <h3 class="font-semibold">{{ notifications[0].title }}</h3>
+		  <span class="text-xs text-gray-500">{{ notifications[0].date }}</span>
+		  <p class="text-sm mt-1">{{ notifications[0].message }}</p>
 		</div>
+  
+		<!-- Mostrar notificaciones adicionales si están desplegadas -->
+		<div v-if="showAllNotifications">
+		  <div v-for="(notification, index) in additionalNotifications" :key="index" class="bg-white p-3 rounded-lg mb-2 shadow">
+			<h3 class="font-semibold">{{ notification.title }}</h3>
+			<span class="text-xs text-gray-500">{{ notification.date }}</span>
+			<p class="text-sm mt-1">{{ notification.message }}</p>
+		  </div>
+		</div>
+	  </div>
 	</aside>
-</template>
-
+  </template>
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from 'vue';
 
-const isOpen = ref(false); // Controla si la barra está abierta o no
-const isCollapsed = ref(false); // Controla si está colapsada o no
-const isNotificationsGrouped = ref(true); // Controla si las notificaciones están agrupadas o desplegadas
-
-const notifications = ref([
-	"Notificación 1: Recordatorio de la reunión",
-	"Notificación 2: Progreso de tu proyecto",
-	"Notificación 3: Nueva solicitud",
+const goals = ref([
+  { label: 'META TRIMESTRAL', value: 0 },
+  { label: 'META DIARIA', value: 0 },
 ]);
 
-const toggleSidebar = () => {
-	isOpen.value = !isOpen.value;
-};
+const circumference = 2 * Math.PI * 40; // Circunferencia para el círculo SVG
 
-const toggleNotificationsGroup = () => {
-	isNotificationsGrouped.value = !isNotificationsGrouped.value;
+// Simulación de carga de los valores del medidor
+onMounted(() => {
+  setTimeout(() => {
+    goals.value[0].value = 80; // Valor final de la meta trimestral (puedes ajustarlo)
+    goals.value[1].value = 50; // Valor final de la meta diaria (puedes ajustarlo)
+  }, 500);
+});
+
+// Lista de notificaciones
+const notifications = ref([
+  { title: 'Título de notificación', date: '17/07/2024', message: 'Lorem ipsum dolor sit amet...' },
+  { title: 'Título de notificación', date: '17/07/2024', message: 'Lorem ipsum dolor sit amet...' },
+  // Agrega más notificaciones si lo deseas
+]);
+
+// Computed para mostrar las notificaciones adicionales
+const additionalNotifications = computed(() => notifications.value.slice(1));
+
+// Contador de notificaciones adicionales
+const extraNotifications = computed(() => Math.max(0, notifications.value.length - 1));
+
+// Estado para controlar si las notificaciones adicionales están desplegadas
+const showAllNotifications = ref(false);
+
+// Función para alternar la visibilidad de las notificaciones adicionales
+const toggleNotifications = () => {
+  showAllNotifications.value = !showAllNotifications.value;
 };
 </script>
-
-<style scoped>
-/* Sombra adicional para darle profundidad a la barra */
-aside {
-	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-}
-</style>
+  
