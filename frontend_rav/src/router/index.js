@@ -4,7 +4,11 @@ import HomePage from '@/pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '@/pages/DepartamentosPage.vue';
 import LoginPage from '@/pages/LoginPage.vue';
 import LineaTiempoOriginal from '@/components/LineaTiempoOriginal.vue';
+<<<<<<< HEAD
 import Rutaaccionpage from '@/pages/Rutaaccionpage.vue';
+=======
+import Rutaaccionpage from '@/pages/Rutaaccionpage.vue'; 
+>>>>>>> main
 import BusquedaCiudadanoPage from '@/pages/BusquedaCiudadanoPage.vue';
 import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
 import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
