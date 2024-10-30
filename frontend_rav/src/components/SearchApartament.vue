@@ -4,19 +4,12 @@
     <div class="flex flex-col items-start space-y-4 mt-20 md:mt-32 ml-4 md:ml-[10%]">
       <!-- Selector del Departamento -->
       <div class="w-full max-w-xs md:max-w-md">
-<<<<<<< HEAD
-        <Select
-          v-model="selectedCountry"
-          :options="departamentos"
-          placeholder="Seleccione departamento"
-          class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
-          @change="updateSelectedInfo"
-        >
-=======
+
+       
         <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
           class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
           @change="updateSelectedInfo">
->>>>>>> main
+
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
               <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
@@ -44,10 +37,10 @@
         <!-- Encabezado con nombre y fondo color -->
         <div class="bg-customPurple text-white py-2 px-4 flex items-center">
           <h2 class="text-lg font-bold">{{ selectedInfo.name }}</h2>
-<<<<<<< HEAD
-=======
+
+
           <!-- Imagen del mapa del departamento seleccionado -->
->>>>>>> main
+
           <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
         </div>
 
@@ -57,7 +50,7 @@
         </div>
       </div>
     </div>
-<<<<<<< HEAD
+
 
     <!-- Mapa de Colombia -->
     <div class="relative w-full h-auto mt-8">
@@ -77,12 +70,6 @@
     </div>
   </div>
 </template>
-=======
-  </div>
-</template>
-
-
->>>>>>> main
 
 <script setup>
 import AmazonasBandera from "@/assets/images/webp/amazonas.webp";
@@ -222,40 +209,7 @@ const selectedCountry = ref();
 const selectedInfo = ref(null);
 
 const departamentos = ref([
-<<<<<<< HEAD
-  { name: "Amazonas", code: "91", flagUrl: "/images/webp/amazonas.webp", imageUrl: "/images/imagenDepartamento/Amazonas.svg", imageMap: "/images/FragmentoDepartamentos/Amazonas.svg" },
-  { name: "Antioquia", code: "05", flagUrl: "/images/webp/antioquia.webp", imageUrl: "/images/imagenDepartamento/antioquia.svg", imageMap: "/images/FragmentoDepartamentos/Antioquia.svg" },
-  { name: "Arauca", code: "81", flagUrl: "/images/webp/arauca-departamento.webp", imageUrl: "/images/imagenDepartamento/arauca-departamento.svg", imageMap: "/images/FragmentoDepartamentos/Arauca.svg" },
-  { name: "Atlantico", code: "08", flagUrl: "/images/webp/atlantico.webp", imageUrl: "/images/imagenDepartamento/atlantico.svg", imageMap: "/images/FragmentoDepartamentos/Atlantico.svg" },
-  { name: "Bolivar", code: "13", flagUrl: "/images/webp/bolivar.webp", imageUrl: "/images/imagenDepartamento/bolivar.svg", imageMap: "/images/FragmentoDepartamentos/Bolivar.svg" },
-  { name: "Boyaca", code: "15", flagUrl: "/images/webp/boyaca.webp", imageUrl: "/images/imagenDepartamento/boyaca.svg", imageMap: "/images/FragmentoDepartamentos/Boyaca.svg" },
-  { name: "Caldas", code: "17", flagUrl: "/images/webp/caldas.webp", imageUrl: "/images/imagenDepartamento/caldas.svg", imageMap: "/images/FragmentoDepartamentos/Caldas.svg" },
-  { name: "Caqueta", code: "18", flagUrl: "/images/webp/caqueta.webp", imageUrl: "/images/imagenDepartamento/caqueta.svg", imageMap: "/images/FragmentoDepartamentos/Caqueta.svg" },
-  { name: "Casanare", code: "85", flagUrl: "/images/webp/casanare.webp", imageUrl: "/images/imagenDepartamento/casanare.svg", imageMap: "/images/FragmentoDepartamentos/Casanare.svg" },
-  { name: "Cauca", code: "19", flagUrl: "/images/webp/cauca.webp", imageUrl: "/images/imagenDepartamento/cauca.svg", imageMap: "/images/FragmentoDepartamentos/Cauca.svg" },
-  { name: "Cesar", code: "20", flagUrl: "/images/webp/cesar.webp", imageUrl: "/images/imagenDepartamento/cesar.svg", imageMap: "/images/FragmentoDepartamentos/Cesar.svg" },
-  { name: "Choco", code: "27", flagUrl: "/images/webp/choco.webp", imageUrl: "/images/imagenDepartamento/choco.svg", imageMap: "/images/FragmentoDepartamentos/Choco.svg" },
-  { name: "Cundinamarca", code: "25", flagUrl: "/images/webp/cundinamarca.webp", imageUrl: "/images/imagenDepartamento/cundinamarca.svg", imageMap: "/images/FragmentoDepartamentos/Cundinamarca.svg" },
-  { name: "Cordoba", code: "23", flagUrl: "/images/webp/cordoba.webp", imageUrl: "/images/imagenDepartamento/cordoba.svg", imageMap: "/images/FragmentoDepartamentos/Cordoba.svg" },
-  { name: "Guainia", code: "94", flagUrl: "/images/webp/guainia.webp", imageUrl: "/images/imagenDepartamento/guainia.svg", imageMap: "/images/FragmentoDepartamentos/Guainia.svg" },
-  { name: "Guaviare", code: "95", flagUrl: "/images/webp/guaviare.webp", imageUrl: "/images/imagenDepartamento/guaviare.svg", imageMap: "/images/FragmentoDepartamentos/Guaviare.svg" },
-  { name: "Huila", code: "41", flagUrl: "/images/webp/huila.webp", imageUrl: "/images/imagenDepartamento/huila.svg", imageMap: "/images/FragmentoDepartamentos/Huila.svg" },
-  { name: "La Guajira", code: "44", flagUrl: "/images/webp/guajira.webp", imageUrl: "/images/imagenDepartamento/guajira.svg", imageMap: "/images/FragmentoDepartamentos/La_Guajira.svg" },
-  { name: "Magdalena", code: "47", flagUrl: "/images/webp/magdalena.webp", imageUrl: "/images/imagenDepartamento/magdalena.svg", imageMap: "/images/FragmentoDepartamentos/Magdalena.svg" },
-  { name: "Meta", code: "50", flagUrl: "/images/webp/meta.webp", imageUrl: "/images/imagenDepartamento/meta.svg", imageMap: "/images/FragmentoDepartamentos/Meta.svg" },
-  { name: "Nariño", code: "52", flagUrl: "/images/webp/nariño.webp", imageUrl: "/images/imagenDepartamento/nariño.svg", imageMap: "/images/FragmentoDepartamentos/Nariño.svg" },
-  { name: "Norte de Santander", code: "54", flagUrl: "/images/webp/norte-de-santander.webp", imageUrl: "/images/imagenDepartamento/norte-de-santander.svg" , imageMap: "/images/FragmentoDepartamentos/Norte_de_Santander.svg"},
-  { name: "Putumayo", code: "86", flagUrl: "/images/webp/putumayo.webp", imageUrl: "/images/imagenDepartamento/putumayo.svg", imageMap: "/images/FragmentoDepartamentos/Putumayo.svg" },
-  { name: "Quindio", code: "63", flagUrl: "/images/webp/quindio.webp", imageUrl: "/images/imagenDepartamento/quindio.svg", imageMap: "/images/FragmentoDepartamentos/Quindio.svg" },
-  { name: "Risaralda", code: "66", flagUrl: "/images/webp/risaralda.webp", imageUrl: "/images/imagenDepartamento/risaralda.svg", imageMap: "/images/FragmentoDepartamentos/Risaralda.svg" },
-  { name: "San Andres, Providencia y Santa Catalina", code: "88", flagUrl: "/images/webp/san-andres-y-providencia.webp", imageUrl: "/images/imagenDepartamento/san-andres-y-providencia.svg", imageMap: "/images/FragmentoDepartamentos/San_Andres.svg" },
-  { name: "Santander", code: "68", flagUrl: "/images/webp/santander.webp", imageUrl: "/images/imagenDepartamento/santander.svg", imageMap: "/images/FragmentoDepartamentos/Santander.svg"},
-  { name: "Sucre", code: "70", flagUrl: "/images/webp/sucre.webp", imageUrl: "/images/imagenDepartamento/sucre.svg", imageMap: "/images/FragmentoDepartamentos/Sucre.svg" },
-  { name: "Tolima", code: "73", flagUrl: "/images/webp/tolima.webp", imageUrl: "/images/imagenDepartamento/tolima.svg", imageMap: "/images/FragmentoDepartamentos/Tolima.svg" },
-  { name: "Valle del Cauca", code: "76", flagUrl: "/images/webp/valle-del-cauca.webp", imageUrl: "/images/imagenDepartamento/valle-del-cauca.svg", imageMap: "/images/FragmentoDepartamentos/Valle_del_Cauca.svg" },
-  { name: "Vaupes", code: "97", flagUrl: "/images/webp/vaupes.webp", imageUrl: "/images/imagenDepartamento/vaupes.svg", imageMap: "/images/FragmentoDepartamentos/Vaupes.svg" },
-  { name: "Vichada", code: "99", flagUrl: "/images/webp/vichada.webp", imageUrl: "/images/imagenDepartamento/vichada.svg" , imageMap: "/images/FragmentoDepartamentos/Vichada.svg"},
-=======
+
   { name: "Amazonas", code: "91", flagUrl: AmazonasBandera, imageUrl: AmazonasCiudad, imageMap: AmazonasMapa },
   { name: "Antioquia", code: "05", flagUrl: AntioquiaBandera, imageUrl: AntioquiaCiudad, imageMap: AntioquiaMapa },
   { name: "Arauca", code: "81", flagUrl: AraucaBandera, imageUrl: AraucaCiudad, imageMap: AraucaMapa },
@@ -288,7 +242,7 @@ const departamentos = ref([
   { name: "Valle del Cauca", code: "76", flagUrl: ValleCaucaBandera, imageUrl: ValleCaucaCiudad, imageMap:ValleCaucaMapa },
   { name: "Vaupes", code: "97", flagUrl: VaupesBandera, imageUrl: VaupesCiudad, imageMap: VaupesMapa },
   { name: "Vichada", code: "99", flagUrl: VichadaBandera, imageUrl: VichadaCiudad, imageMap: VichadaMapa},
->>>>>>> main
+
 ]);
 
 const getDepartmentDescription = (name) => {
@@ -330,7 +284,7 @@ const getDepartmentDescription = (name) => {
 };
 
 const updateSelectedInfo = () => {
-<<<<<<< HEAD
+
   const selected = departamentos.value.find((dep) => dep.code === selectedCountry.value?.code);
   selectedInfo.value = selected ? selected : null;
   console.log(selectedInfo.value);
@@ -374,13 +328,13 @@ const getDepartmentPath = (code) => {
     "63": "M250.318 404.655C248.834 400.073 247.074 395.543 246.001 390.877C245.575 389.038 246.554 386.873 247.154 384.925C247.308 384.446 248.487 384.013 249.227 383.98C252.42 383.822 255.628 383.828 259.072 383.763C258.69 391.589 253.557 397.682 250.318 404.655Z"
   };
   return paths[code] || "";
-=======
+
   const selected = departamentos.value.find(
     (dep) => dep.code === selectedCountry.value?.code
   );
   selectedInfo.value = selected ? selected : null;
   console.log(selectedInfo.value);
->>>>>>> main
+
 };
 </script>
 
