@@ -47,7 +47,7 @@
     </div>
 
     <!-- Mapa de Colombia -->
-    <div class="relative w-full h-auto mt-6 md:mt-10 bg-gray-100 md:max-w-[55%]">
+    <div class="relative w-full h-auto mt-6 md:mt-10 md:max-w-[55%]">
       <svg class="w-full h-auto" viewBox="0 0 780 780" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="390" cy="390" r="390" fill="white" />
         <g>
