@@ -77,6 +77,7 @@ import Logo from "@/assets/images/webp/LOGO.svg";
 import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
 import MapaCollage from "@/assets/images/colombiaCollage1.webp";
 import VectorPlantas from "@/assets/images/vectorplantas.svg";
+import axios from 'axios'
 
 // Formulario de inicio de sesión
 const form = ref({
@@ -85,9 +86,11 @@ const form = ref({
 });
 
 // Función de submit
-const submit = () => {
+const submit = async() => {
 	// Lógica para enviar el formulario (ejemplo de uso)
 	console.log("Iniciar sesión con", form.value);
+	const response = await axios.post('http://localhost:8080/api/auth/signin', form.value)
+	alert(JSON.stringify(response))
 };
 </script>
 
