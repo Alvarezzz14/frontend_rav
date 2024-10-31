@@ -1,9 +1,9 @@
 <template>
 	<div
-		class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
+		class="flex flex-col lg:flex-row items-center justify-center p-6  bg-gray-100 h-full">
 		<!-- Imagen del ciudadano a la izquierda -->
 		<div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
-			<img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+			<img :src="Ciudadano" alt="Ciudadano" class="w-80 h-fit object-contain" />
 		</div>
 
 		<!-- Texto y campo de búsqueda a la derecha -->
