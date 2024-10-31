@@ -1,6 +1,6 @@
 <template>
 	<!-- Contenedor principal con el fondo CustomPurple -->
-	<div class="min-h-screen bg-customPurple fixed text-white flex flex-col">
+	<div class="min-h-screen bg-customPurple lg:fixed text-white flex flex-col">
 		<!-- Contenedor del grid -->
 		<div
 			class="flex-1 grid grid-cols-1 lg:grid-cols-2 lg:gap-4 lg:mx-36 p-8 lg:p-16">
@@ -8,7 +8,7 @@
 			<div class="flex flex-col space-y-6 mt-10">
 				<!-- Logo grande -->
 				<div class="flex justify-center">
-					<img :src="Logo" alt="Logo" class="sm:w-2/4 w-3/4 lg:w-72 h-auto" />
+					<img :src="Logo" alt="Logo" class="w-2/4 md:w-3/4 lg:w-72 h-auto" />
 				</div>
 				<div>
 					<p class="text-center text-4xl font-bold">Iniciar Sesión</p>
@@ -62,7 +62,7 @@
 				<img
 					:src="MapaCollage"
 					alt="Mapa"
-					class="object-cover lg:h-[55rem] lg:w-[58rem] z-10 min-[1650px]:w-[50rem]" />
+					class="object-cover w-2/3 lg:h-[55rem] lg:w-[58rem] z-10 min-[1650px]:w-[50rem]" />
 			</div>
 		</div>
 
@@ -71,7 +71,7 @@
 			<img
 				:src="VectorPlantas"
 				alt="Vector Plantas"
-				class="absolute bottom-0 w-full h-auto z-0" />
+				class="fixed bottom-0 w-full h-auto z-0" />
 		</div>
 	</div>
 </template>
