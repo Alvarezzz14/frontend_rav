@@ -96,7 +96,7 @@ const searchUser = () => {
 		if (results.length > 0) {
 			// Si se encuentran eventos, redirigir a la página de detalles
 			router.push({
-				name: "Rutaaccionpage",
+				name: "RutaAccionPage",
 				params: { cedula: searchCedula.value },
 			});
 		} else {
