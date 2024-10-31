@@ -78,6 +78,9 @@ import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
 import MapaCollage from "@/assets/images/colombiaCollage1.webp";
 import VectorPlantas from "@/assets/images/vectorplantas.svg";
 import axios from 'axios'
+import { useRouter } from "vue-router";
+
+const router=useRouter();
 
 // Formulario de inicio de sesión
 const form = ref({
@@ -90,8 +93,11 @@ const submit = async() => {
 	// Lógica para enviar el formulario (ejemplo de uso)
 	console.log("Iniciar sesión con", form.value);
 	const response = await axios.post('http://localhost:8080/api/auth/signin', form.value)
-	alert(JSON.stringify(response))
+	router.push({
+		name: "HomePage"
+	})
 };
+
 </script>
 
 <style scoped></style>
