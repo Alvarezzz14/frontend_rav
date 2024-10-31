@@ -2,12 +2,13 @@
 	<!-- Contenedor principal con el fondo CustomPurple -->
 	<div class="min-h-screen bg-customPurple fixed text-white flex flex-col">
 		<!-- Contenedor del grid -->
-		<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 mx-36 p-8 lg:p-16">
+		<div
+			class="flex-1 grid grid-cols-1 lg:grid-cols-2 lg:gap-4 lg:mx-36 p-8 lg:p-16">
 			<!-- Columna izquierda: Logo, formulario y iconos -->
 			<div class="flex flex-col space-y-6 mt-10">
 				<!-- Logo grande -->
 				<div class="flex justify-center">
-					<img :src="Logo" alt="Logo" class="sm:w-28 w-3/4 lg:w-72 h-auto" />
+					<img :src="Logo" alt="Logo" class="sm:w-2/4 w-3/4 lg:w-72 h-auto" />
 				</div>
 				<div>
 					<p class="text-center text-4xl font-bold">Iniciar Sesión</p>
@@ -16,7 +17,7 @@
 				<!-- Formulario de login -->
 				<form
 					@submit.prevent="submit"
-					class="space-y-4 lg:w-[35rem] mx-auto z-10">
+					class="space-y-4 lg:w-[35rem] w-full mx-auto sm:m-5 z-10">
 					<div>
 						<input
 							type="email"
@@ -47,7 +48,8 @@
 				</form>
 
 				<!-- Iconos institucionales -->
-				<div class="absolute lg:bottom-32 w-full flex lg:left-1/4">
+				<div
+					class="lg:absolute lg:bottom-32 w-full flex sm:justify-center lg:left-1/4">
 					<img
 						:src="LogosInstitucionales"
 						alt="Logos Institucionales"
@@ -56,11 +58,11 @@
 			</div>
 
 			<!-- Columna derecha: Mapa en .webp -->
-			<div class="lg:flex justify-center">
+			<div class="flex justify-center">
 				<img
 					:src="MapaCollage"
 					alt="Mapa"
-					class="object-contain h-[55rem] w-[58rem] z-10" />
+					class="object-cover lg:h-[55rem] lg:w-[58rem] z-10 min-[1650px]:w-[50rem]" />
 			</div>
 		</div>
 
