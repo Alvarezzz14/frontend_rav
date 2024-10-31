@@ -1,15 +1,12 @@
 <template>
-  <div class="w-full h-auto p-px flex flex-col">
-    <!-- Contenedor del Select alineado con el título -->
-    <div class="flex flex-col items-start space-y-4 mt-20 md:mt-32 ml-4 md:ml-[10%]">
+  <div class="w-full h-auto p-px flex flex-col md:flex-row items-start md:space-x-8">
+    <!-- Contenedor del Select y Tarjeta de Información del Departamento -->
+    <div class="flex flex-col items-start space-y-4 mt-10 md:mt-16 ml-4 md:ml-[5%] md:max-w-[40%]">
       <!-- Selector del Departamento -->
       <div class="w-full max-w-xs md:max-w-md">
-
-       
         <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
           class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
           @change="updateSelectedInfo">
-
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
               <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
@@ -38,9 +35,7 @@
         <div class="bg-customPurple text-white py-2 px-4 flex items-center">
           <h2 class="text-lg font-bold">{{ selectedInfo.name }}</h2>
 
-
           <!-- Imagen del mapa del departamento seleccionado -->
-
           <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
         </div>
 
@@ -51,9 +46,8 @@
       </div>
     </div>
 
-
     <!-- Mapa de Colombia -->
-    <div class="relative w-full h-auto mt-8">
+    <div class="relative w-full h-auto mt-6 md:mt-10 bg-gray-100 md:max-w-[55%]">
       <svg class="w-full h-auto" viewBox="0 0 780 780" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="390" cy="390" r="390" fill="white" />
         <g>
@@ -70,6 +64,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import AmazonasBandera from "@/assets/images/webp/amazonas.webp";
