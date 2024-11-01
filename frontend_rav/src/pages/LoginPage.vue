@@ -80,10 +80,12 @@ import Logo from "@/assets/images/webp/LOGO.svg";
 import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
 import MapaCollage from "@/assets/images/colombiaCollage1.webp";
 import VectorPlantas from "@/assets/images/vectorplantas.svg";
-import axios from 'axios'
+import axios from 'axios';
 import { useRouter } from "vue-router";
+import { useToast } from 'vue-toastification';
 
-const router=useRouter();
+const router = useRouter();
+const toast = useToast();
 
 // Formulario de inicio de sesión
 const form = ref({
@@ -96,26 +98,23 @@ const errorMessage = ref("");
 const isLoading = ref(false); // Estado de carga
 
 const submit = async () => {
-    isLoading.value = true; // Activar estado de carga
-    errorMessage.value = ""; // Limpiar mensaje de error
-
+    isLoading.value = true;
     try {
         // Llamada a la API
         const response = await axios.post('http://localhost:8080/api/auth/signin', form.value);
 
-        // Redirigir si el login es exitoso
-        router.push({
-            name: "HomePage"
-        });
+        // Redirigir si el login es exitoso y mostrar un mensaje de éxito
+        router.push({ name: "HomePage" });
+        toast.success("Inicio de sesión exitoso.");
     } catch (error) {
-        // Captura el error y asigna el mensaje al errorMessage
+        // Mostrar un mensaje de error usando toast
         if (error.response && error.response.data) {
-            errorMessage.value = error.response.data.error || "Credenciales incorrectas";
+            toast.error(error.response.data.error || "Credenciales incorrectas");
         } else {
-            errorMessage.value = "Error en la conexión con el servidor";
+            toast.error("Error en la conexión con el servidor");
         }
     } finally {
-        isLoading.value = false; // Desactivar estado de carga
+        isLoading.value = false;
     }
 };
 
