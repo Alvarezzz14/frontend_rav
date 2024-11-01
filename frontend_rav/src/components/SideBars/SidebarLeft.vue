@@ -119,7 +119,7 @@ const menuItems = ref([
     },
     {
         title: "Cargar Archivo",
-        to: "/archivo",
+        to: "/subirfichero",
         icon: "pi pi-file-arrow-up",
         submenuOpen: false,
         submenu: [],
