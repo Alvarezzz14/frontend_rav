@@ -17,7 +17,7 @@
 				<!-- Formulario de login -->
 				<form
 					@submit.prevent="submit"
-					class="space-y-4 lg:w-[35rem] w-full mx-auto sm:m-5 z-10">
+					class="space-y-4 lg:w-[35rem] w-full mx-auto m-5 z-10">
 					<div>
 						<input
 							type="email"
@@ -36,7 +36,8 @@
 							placeholder="Contraseña "
 							v-model="form.password"
 							class="mt-1 block w-full h-16 text-xl pl-8 bg-white text-gray-800 p-3 rounded-xl"
-							required />
+							required
+							autofocus />
 					</div>
 
 					<!-- Botón de iniciar sesión -->
@@ -48,8 +49,7 @@
 				</form>
 
 				<!-- Iconos institucionales -->
-				<div
-					class="lg:absolute lg:bottom-32 w-full flex sm:justify-center lg:left-1/4">
+				<div class="w-full flex lg:pt-32 justify-center lg:left-1/4">
 					<img
 						:src="LogosInstitucionales"
 						alt="Logos Institucionales"
