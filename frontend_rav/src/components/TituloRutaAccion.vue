@@ -1,5 +1,6 @@
 <template>
-	<div class="p-5 flex flex-col md:flex-row items-center justify-between">
+	<div
+		class="p-5 rounded-lg shadow-lg backdrop-blur-lg backdrop-opacity-50 border border-white/30 flex flex-col md:flex-row items-center justify-between bg-white/20">
 		<!-- Sección Izquierda (Icono y Título) -->
 		<div class="flex items-center">
 			<div class="p-4">
@@ -22,9 +23,7 @@
 			</div>
 			<div class="ml-4">
 				<p class="text-gray-500">Ruta de Atención al</p>
-				<h2 class="text-customPurple text-xl md:text-5xl font-bold">
-					Ciudadano
-				</h2>
+				<h2 class="text-customPurple text-xl font-bold">Ciudadano</h2>
 			</div>
 		</div>
 

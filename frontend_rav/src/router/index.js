@@ -7,6 +7,7 @@ import LineaTiempoOriginal from '@/components/LineaTiempoOriginal.vue';
 import Rutaaccionpage from '@/pages/Rutaaccionpage.vue';
 import BusquedaCiudadanoPage from '@/pages/BusquedaCiudadanoPage.vue';
 import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
+import RegistroUsuarioPage from '@/pages/RegistroUsuarioPage.vue';
 import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
 
 const routes = [
@@ -15,7 +16,11 @@ const routes = [
     name: 'LoginPage',
     component: LoginPage,
   },
-
+  {
+    path: '/registrousuario',
+    name: 'RegistroUsuarioPage',
+    component: RegistroUsuarioPage
+  },
   {
     path: "/",
     component: DefaultLayout, // Usa el layout como contenedor
@@ -23,12 +28,12 @@ const routes = [
       {
         path: '',
         name: 'HomePage',
-        component: HomePage // pagina que se renderiza dentro del layout
+        component: HomePage // Página que se renderiza dentro del layout
       },
       {
         path: '/departamentos',
         name: 'DepartamentosPage',
-        component: DepartamentosPage // pagina que muestra el mapa con los departamentos
+        component: DepartamentosPage // Página que muestra el mapa con los departamentos
       },
       {
         path: '/rutadeaccion/:cedula',
@@ -55,12 +60,9 @@ const routes = [
         path: '/formatodereportes',
         name: 'FormatodeReportesPage',
         component: FormatodeReportesPage
-      },
-
-
+      }
     ]
   },
-
 ];
 
 const router = createRouter({
