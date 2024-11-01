@@ -22,35 +22,45 @@
         <div class="column">
           <label>TIPO DE DOCUMENTO:</label>
           <p>{{ userData["TIPO DE DOCUMENTO"] }}</p>
+          <p>C:C</p>
   
           <label>NOMBRES:</label>
           <p>{{ userData.NOMBRES }}</p>
+          <p>Andrw</p>
   
           <label>APELLIDOS:</label>
           <p>{{ userData.APELLIDOS }}</p>
+          <p>Godan</p>
   
           <label>UBICACIÓN:</label>
           <p>{{ userData.UBICACIÓN }}</p>
+          <p>Risaralda</p>
   
           <label>PROVIENE DE SOFIA:</label>
           <p>{{ userData["PROVIENE DE SOFIA"] }}</p>
+          <p>NO</p>
         </div>
   
         <div class="column">
           <label>NÚMERO DE DOCUMENTO:</label>
           <p>{{ userData["NÚMERO DE DOCUMENTO"] }}</p>
+          <p>NO</p>
   
           <label>PROCEDENCIA ÉTNICA:</label>
           <p>{{ userData["PROCEDENCIA ÉTNICA"] }}</p>
+          <p>NO</p>
   
           <label>ID HOGAR:</label>
           <p>{{ userData["ID HOGAR"] }}</p>
+          <p>NO</p>
   
           <label>NÚMERO DE CONTACTO:</label>
           <p>{{ userData["NÚMERO DE CONTACTO"] }}</p>
+          <p>NO</p>
   
           <label>PROVIENE DE RUV:</label>
           <p>{{ userData["ROVIENE DE RUV"] }}</p>
+          <p>NO</p>
         </div>
       </div>
     </div>
