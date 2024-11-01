@@ -1,42 +1,30 @@
 <template>
-	<div class="grid grid-rows-layout grid-cols-layout min-h-screen">
+	<div class="grid grid-rows-layout grid-cols-layout bg-gray-50 min-h-screen">
 		<!-- Header -->
-		<header class="row-span-1 col-span-full fixed top-0 w-full z-50 text-white">
+		<header class="row-span-1 col-span-full top-0 w-full z-50 text-white">
 			<Header />
 		</header>
 
 		<!-- Sidebar izquierda -->
-		<aside
-			class="row-start-2 col-start-1 h-[calc(100vh-8rem)] z-40 transition-transform transform"
-			:class="{
-				'w-64': !isSidebarCollapsed,
-				'w-16': isSidebarCollapsed,
-			}">	
-			<SidebarLeft :isCollapsed="isSidebarCollapsed" />
-		</aside>
+		<SidebarLeft class="row-start-2 bg-white col-start-1">
+			<router-view></router-view>
+		</SidebarLeft>
 
 		<!-- Barra de notificaciones derecha -->
-		<aside
-			class="row-start-2 col-end-4 h-[calc(100vh-8rem)] z-40 transition-transform transform"
-			:class="{
-				'w-64': !isNotificationsCollapsed,
-				'w-16': isNotificationsCollapsed,
-				'translate-x-0': isNotificationsOpen,
-				'translate-x-full': !isNotificationsOpen,
-			}">
-			<Notifications
-				:isCollapsed="isNotificationsCollapsed"
-				@toggle="toggleNotifications" />
-		</aside>
+
+		<Notifications
+			class="col-start-3 row-start-2 bg-gray-50"
+			:isCollapsed="isNotificationsCollapsed"
+			@toggle="toggleNotifications" />
 
 		<!-- Contenido principal -->
 		<main
-			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 mt-[4rem] mb-[4rem]">
+			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-auto mt-[4rem] mb-[4rem]">
 			<router-view />
 		</main>
 
 		<!-- Footer -->
-		<footer class="row-span-1 col-span-full fixed bottom-0 w-full h-16 z-50">
+		<footer class="fixed row-span-1 bottom-0 col-span-full w-full h-16 z-50">
 			<Footer />
 		</footer>
 	</div>
@@ -50,13 +38,9 @@ import Notifications from "../components/SideBars/Notifications.vue";
 import Footer from "../components/Footer.vue";
 
 // Controla el colapso del sidebar y de la barra de notificaciones
-const isSidebarCollapsed = ref(false);
+
 const isNotificationsCollapsed = ref(false);
 const isNotificationsOpen = ref(false); // Controla si la barra de notificaciones está abierta
-
-const toggleSidebar = () => {
-	isSidebarCollapsed.value = !isSidebarCollapsed.value;
-};
 
 const toggleNotifications = () => {
 	isNotificationsOpen.value = !isNotificationsOpen.value;
@@ -76,20 +60,5 @@ const toggleNotifications = () => {
 /* Sombra adicional para darle un efecto visual más elegante */
 .bg-gray-100 {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsividad */
-@media (max-width: 768px) {
-	.grid-cols-layout {
-		grid-template-columns: 1fr; /* Elimina las barras laterales en pantallas pequeñas */
-	}
-
-	aside {
-		display: none; /* Ocultar las barras laterales */
-	}
-
-	main {
-		grid-column: 1 / -1; /* El contenido ocupa todo el ancho */
-	}
 }
 </style>
