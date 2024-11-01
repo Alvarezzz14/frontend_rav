@@ -52,6 +52,7 @@
 				<Button label="Cerrar" @click="noResultsModal = false" class="p-button-text" />
 			</template>
 		</Dialog>
+	  </div>
 	</div>
 </template>
 
@@ -93,3 +94,4 @@ const searchUser = async () => {
 	loading.value = false;
 };
 </script>
+

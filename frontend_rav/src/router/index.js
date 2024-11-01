@@ -1,3 +1,4 @@
+
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import HomePage from '@/pages/HomePage.vue'; // Importa las páginas
@@ -9,7 +10,12 @@ import BusquedaCiudadanoPage from '@/pages/BusquedaCiudadanoPage.vue';
 import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
 import RegistroUsuarioPage from '@/pages/RegistroUsuarioPage.vue';
 import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
+import SubirFicheroPage from '@pages/SubirFicheroPage.vue';
+import PerfilUsuarioPage from '@pages/PerfilUsuarioPage.vue'
+import DashBoardPage from '@pages/DashBoardPage.vue'
 
+
+ 
 const routes = [
   {
     path: '/login',
@@ -60,7 +66,24 @@ const routes = [
         path: '/formatodereportes',
         name: 'FormatodeReportesPage',
         component: FormatodeReportesPage
+      },
+      {
+        path: '/subirfichero',
+        name: 'SubirFicheroPage',
+        component: SubirFicheroPage
+      },
+
+      { path: '/perfilusuario',
+        name: 'PerfilUsuarioPage',
+        component: PerfilUsuarioPage
+      },
+
+      
+      { path: '/dashboard',
+        name: 'DashBoardPage',
+        component: DashBoardPage
       }
+
     ]
   },
 ];
@@ -71,3 +94,7 @@ const router = createRouter({
 });
 
 export default router;
+
+
+
+
