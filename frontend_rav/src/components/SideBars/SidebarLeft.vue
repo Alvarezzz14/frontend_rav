@@ -43,43 +43,29 @@
 							</span>
 							<span class="text-left">{{ item.title }}</span>
 						</router-link>
-
-						<!-- Submenú desplegable -->
-						<ul
-							v-if="item.submenuOpen"
-							class="pl-6 space-y-1 transition-all duration-300 ease-in-out w-full">
-							<li v-for="(subItem, subIndex) in item.submenu" :key="subIndex">
-								<router-link
-									:to="subItem.to"
-									class="block text-center text-sm text-customPurple hover:bg-gray-100 p-1 rounded-lg no-underline">
-									{{ subItem.title }}
-								</router-link>
-							</li>
-						</ul>
 					</li>
 				</ul>
-			</nav>
+				<!-- Sección inferior con el avatar, nombre y email -->
+				<div class="p-4 border text:sm flex-shrink-0 shadow-top">
+					<div class="flex items-center justify-center">
+						<Avatar
+							:src="user.avatar"
+							alt="User Avatar"
+							class="w-12 h-12 rounded-full" />
+						<div class="text-xs text-center ml-3">
+							<p class="font-bold text-lg">{{ user.name }}</p>
+						</div>
+					</div>
+					<p class="text-gray-700 text-sm">{{ user.email }}</p>
 
-			<!-- Sección inferior con el avatar, nombre y email -->
-			<div class="p-4 border text:sm flex-shrink-0 shadow-top">
-				<div class="flex items-center justify-center">
-					<Avatar
-						:src="user.avatar"
-						alt="User Avatar"
-						class="w-12 h-12 rounded-full" />
-					<div class="text-xs text-center ml-3">
-						<p class="font-bold text-lg">{{ user.name }}</p>
+					<!-- Botón de Cerrar Sesión -->
+					<div class="mt-4 text-center">
+						<LogoutButton
+							@click="logout"
+							class="text-base !text-amarillo !font-bold py-1 px-2" />
 					</div>
 				</div>
-				<p class="text-gray-700 text-sm">{{ user.email }}</p>
-
-				<!-- Botón de Cerrar Sesión -->
-				<div class="mt-4 text-center">
-					<LogoutButton
-						@click="logout"
-						class="text-base !text-amarillo !font-bold py-1 px-2" />
-				</div>
-			</div>
+			</nav>
 		</div>
 	</div>
 </template>

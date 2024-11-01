@@ -1,13 +1,12 @@
 <template>
-	<div
-		class="grid grid-rows-layout grid-cols-layout bg-gray-50 overflow-hiden min-h-screen">
+	<div class="grid grid-rows-layout grid-cols-layout bg-gray-50 min-h-screen">
 		<!-- Header -->
 		<header class="row-span-1 col-span-full top-0 w-full z-50 text-white">
 			<Header />
 		</header>
 
 		<!-- Sidebar izquierda -->
-		<SidebarLeft class="row-start-2 bg-gray-50 col-start-1">
+		<SidebarLeft class="row-start-2 bg-white col-start-1">
 			<router-view></router-view>
 		</SidebarLeft>
 
@@ -20,12 +19,12 @@
 
 		<!-- Contenido principal -->
 		<main
-			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-y-clip mt-[4rem] mb-[4rem]">
+			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-auto mt-[4rem] mb-[4rem]">
 			<router-view />
 		</main>
 
 		<!-- Footer -->
-		<footer class="row-span-1 fixed bottom-0 col-span-full w-full h-16 z-50">
+		<footer class="fixed row-span-1 bottom-0 col-span-full w-full h-16 z-50">
 			<Footer />
 		</footer>
 	</div>

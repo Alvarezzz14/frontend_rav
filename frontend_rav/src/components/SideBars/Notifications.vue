@@ -19,10 +19,7 @@
 			}"
 			class="fixed md:relative flex flex-grow w-56 bg-white rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
 			<!-- Contenido del Sidebar -->
-			<div
-				@click="!isSidebarOpen"
-				:class="hidden"
-				class="flex flex-col bg-white items-center">
+			<div @click="!isSidebarOpen" class="flex flex-col bg-white items-center">
 				<!-- Sección de Actividad -->
 				<h2
 					class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
