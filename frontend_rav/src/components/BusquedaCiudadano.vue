@@ -37,7 +37,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Modal de no encontrado usando PrimeVue Dialog -->
 		<Dialog
 			v-model:visible="noResultsModal"
@@ -49,10 +49,7 @@
 				<strong>{{ searchCedula }}</strong>
 			</p>
 			<template #footer>
-				<Button
-					label="Cerrar"
-					@click="noResultsModal = false"
-					class="p-button-text" />
+				<Button label="Cerrar" @click="noResultsModal = false" class="p-button-text" />
 			</template>
 		</Dialog>
 	</div>
@@ -62,53 +59,37 @@
 
 <script setup>
 import Ciudadano from "@/assets/images/Ciudadano.svg";
-import { ref, computed } from "vue";
-import Dialog from "primevue/dialog";
-import Button from "primevue/button";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useEventStore } from "@/stores/storedataOff.js";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
 
 const searchCedula = ref("");
-const searchResults = ref(null); // Data para la línea de tiempo
-const searching = ref(false); // Flag para mostrar mensaje de no encontrado
-const noResultsModal = ref(false); // Estado del diálogo para no encontrado
-const modalMessage = ref(""); // Guardar mensaje dinámico del modal
-
-//INstancia Router y Store
+const noResultsModal = ref(false);
+const modalMessage = ref("");
+const loading = ref(false);
 const router = useRouter();
 const eventStore = useEventStore();
 
-const loading = ref(false);
-
-// Simulación de búsqueda por número de cédula
-const searchUser = () => {
+// Modifica para usar la API
+const searchUser = async () => {
 	if (!searchCedula.value.trim()) {
-		noResultsModal.value = true; // Mostrar modal si el campo está vacío
+		noResultsModal.value = true;
 		modalMessage.value = "Por favor, ingrese un número de cédula.";
-		return; // Detener el flujo si no se ha ingresado una cédula
+		return;
 	}
 
-	loading.value = true; // Iniciar carga
-	searching.value = true;
+	loading.value = true;
+	const results = await eventStore.searchByCedula(searchCedula.value);
 
-	setTimeout(() => {
-		// Buscar eventos en el store usando la cédula ingresada
-		const results = eventStore.searchByCedula(searchCedula.value);
+	if (results.length > 0) {
+		router.push({ name: "RutaAccionPage", params: { cedula: searchCedula.value } });
+	} else {
+		noResultsModal.value = true;
+		modalMessage.value = `No se encontraron resultados con la cédula: ${searchCedula.value}`;
+	}
 
-		if (results.length > 0) {
-			// Si se encuentran eventos, redirigir a la página de detalles
-			router.push({
-				name: "RutaAccionPage",
-				params: { cedula: searchCedula.value },
-			});
-		} else {
-			searchResults.value = null; // No encontrado
-			noResultsModal.value = true; // Mostrar modal de no encontrado
-			modalMessage.value = `No se encontraron resultados con la cédula:`;
-		}
-
-		loading.value = false; // Finalizar carga
-		searching.value = false;
-	}, 700); // Simula el tiempo de búsqueda
+	loading.value = false;
 };
 </script>

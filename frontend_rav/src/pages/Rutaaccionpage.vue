@@ -1,13 +1,8 @@
 <template>
 	<div class="space-y-4">
-		<!-- Agrega espaciado vertical entre los componentes -->
 		<TituloRutaAccion :nombre="nombre" :cedula="cedula" />
-		<TicketsRutaAccion
-			:groupedEvents="groupedEvents"
-			@showEventDetails="showEventDetails" />
+		<TicketsRutaAccion :groupedEvents="groupedEvents" @showEventDetails="showEventDetails" />
 	</div>
-
-	<!-- Dialogo para los detalles del evento -->
 	<Dialog
 		v-model:visible="dialogVisible"
 		maximizable
@@ -24,40 +19,30 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import Dialog from "primevue/dialog";
-import Button from "primevue/button";
 import { useEventStore } from "@/stores/storedataOff.js";
-
 import TituloRutaAccion from "@/components/TituloRutaAccion.vue";
 import TicketsRutaAccion from "@/components/TicketsRutaAccion.vue";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
 
-// Obtén cédula desde los parámetros de la URL
 const route = useRoute();
 const cedula = route.params.cedula;
-
-// Configura el store
 const eventStore = useEventStore();
+const searchResults = ref([]);
+const selectedEvent = ref(null);
+const dialogVisible = ref(false);
 
-// Obtén los eventos relacionados con la cédula
-const searchResults = ref(eventStore.searchByCedula(cedula));
 const nombre = computed(() => searchResults.value[0]?.profile || "Ciudadano");
 
-// Agrupación de eventos por fecha
 const groupedEvents = computed(() => {
 	return searchResults.value.reduce((groups, event) => {
-		if (!groups[event.date]) {
-			groups[event.date] = [];
-		}
+		if (!groups[event.date]) groups[event.date] = [];
 		groups[event.date].push(event);
 		return groups;
 	}, {});
 });
-
-// Configuración de modal para detalles
-const selectedEvent = ref(null);
-const dialogVisible = ref(false);
 
 const showEventDetails = (event) => {
 	selectedEvent.value = event;
@@ -67,6 +52,11 @@ const showEventDetails = (event) => {
 const closeDialog = () => {
 	dialogVisible.value = false;
 };
+
+// Cargar eventos al montar el componente
+onMounted(async () => {
+	searchResults.value = await eventStore.searchByCedula(cedula);
+});
 </script>
 
 <style scoped>
