@@ -1,152 +1,31 @@
 // store.js
 import { defineStore } from 'pinia';
-import { ref, computed } from 'vue';
-import logoApe from '@/assets/images/logoape.svg';
-import logoSenaVerde from '@/assets/images/logosenaverde.svg';
+import { ref } from 'vue';
+import axios from 'axios'; // Importa axios
 
 export const useEventStore = defineStore('eventStore', () => {
-    // Datos quemados de personas y eventos
-    const events = ref([
-        {
-            date: "13-jul-2024",
-            profile: "John Doe",
-            profileImage: logoApe,
-            cedula: "12345678",
-            title: "Evento 1: Revisión médica",
-            description: "Descripción del evento: Revisión médica para John Doe",
-        },
-        {
-            date: "13-jul-2024",
-            profile: "John Doe",
-            profileImage: logoSenaVerde,
-            cedula: "12345678",
-            title: "Evento 2: Consulta jurídica",
-            description: "Descripción del evento: Consulta jurídica para John Doe",
-        },
-        {
-            date: "13-jul-2024",
-            profile: "John Doe",
-            profileImage: logoSenaVerde,
-            cedula: "12345678",
-            title: "Evento 3: Seguimiento social",
-            description: "Descripción del evento: Seguimiento social para John Doe",
-        },
-        {
-            date: "13-jul-2024",
-            profile: "Jane Smith",
-            profileImage: logoSenaVerde,
-            cedula: "87654321",
-            title: "Evento 4: Entrevista psicológica",
-            description:
-                "Descripción del evento: Entrevista psicológica para Jane Smith",
-        },
-        {
-            date: "13-jul-2024",
-            profile: "Jane Smith",
-            profileImage: logoSenaVerde,
-            cedula: "87654321",
-            title: "Evento 5: Entrega de documentos",
-            description:
-                "Descripción del evento: Entrega de documentos para Jane Smith",
-        },
-        {
-            date: "14-jul-2024",
-            profile: "Robert Johnson",
-            profileImage: logoSenaVerde,
-            cedula: "11223344",
-            title: "Evento 6: Citación a audiencia",
-            description:
-                "Descripción del evento: Citación a audiencia para Robert Johnson",
-        },
-        {
-            date: "14-jul-2024",
-            profile: "Robert Johnson",
-            profileImage: logoSenaVerde,
-            cedula: "11223344",
-            title: "Evento 7: Notificación de medidas",
-            description:
-                "Descripción del evento: Notificación de medidas para Robert Johnson",
-        },
-        {
-            date: "15-jul-2024",
-            profile: "Laura Romero",
-            profileImage: logoSenaVerde,
-            cedula: "55667788",
-            title: "Evento 8: Informe final de caso",
-            description:
-                "Descripción del evento: Informe final de caso para Laura Romero",
-        },
-        {
-            date: "15-jul-2024",
-            profile: "Laura Romero",
-            profileImage: logoSenaVerde,
-            cedula: "55667788",
-            title: "Evento 9: Seguimiento social",
-            description: "Descripción del evento: Seguimiento social para Laura Romero",
-        },
-        {
-            date: "16-jul-2024",
-            profile: "John Doe",
-            profileImage: logoApe,
-            cedula: "12345678",
-            title: "Evento 10: Entrega de documentos",
-            description: "Descripción del evento: Entrega de documentos para John Doe",
-        },
-        {
-            date: "17-jul-2024",
-            profile: "Jane Smith",
-            profileImage: logoSenaVerde,
-            cedula: "87654321",
-            title: "Evento 11: Revisión médica",
-            description: "Descripción del evento: Revisión médica para Jane Smith",
-        },
-        {
-            date: "18-jul-2024",
-            profile: "Robert Johnson",
-            profileImage: logoSenaVerde,
-            cedula: "11223344",
-            title: "Evento 12: Consulta jurídica",
-            description:
-                "Descripción del evento: Consulta jurídica para Robert Johnson",
-        },
-        {
-            date: "19-jul-2024",
-            profile: "Laura Romero",
-            profileImage: logoSenaVerde,
-            cedula: "55667788",
-            title: "Evento 13: Entrevista psicológica",
-            description:
-                "Descripción del evento: Entrevista psicológica para Laura Romero",
-        },
-        {
-            date: "20-jul-2024",
-            profile: "John Doe",
-            profileImage: logoSenaVerde,
-            cedula: "12345678",
-            title: "Evento 14: Informe final de caso",
-            description: "Descripción del evento: Informe final de caso para John Doe",
-        },
-        {
-            date: "21-jul-2024",
-            profile: "Jane Smith",
-            profileImage: logoSenaVerde,
-            cedula: "87654321",
-            title: "Evento 15: Citación a audiencia",
-            description: "Descripción del evento: Citación a audiencia para Jane Smith",
-        },
-    ]);
+  const events = ref([]);
 
-    // Acción para buscar eventos por cédula
-    function searchByCedula(cedula) {
-        return events.value.filter(event => event.cedula === cedula);
+  // Función para obtener todos los eventos desde la API
+  async function fetchEvents() {
+    try {
+      const response = await axios.get('http://localhost:8081/api/v1/events/');
+      events.value = response.data;
+    } catch (error) {
+      console.error('Error al obtener eventos:', error);
     }
+  }
 
-    // Getter para obtener eventos ordenados por fecha para una persona específica
-    const sortedEventsByCedula = (cedula) => computed(() =>
-        events.value
-            .filter(event => event.cedula === cedula)
-            .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
-    );
+  // Función para buscar eventos por cédula desde la API
+  async function searchByCedula(cedula) {
+    try {
+      const response = await axios.get(`http://localhost:8081/api/v1/events/${cedula}`);
+      return response.data ? [response.data] : []; // Devuelve el evento en un array o vacío
+    } catch (error) {
+      console.error('Error al buscar eventos por cédula:', error);
+      return []; // Devuelve un array vacío si no hay resultados
+    }
+  }
 
-    return { events, searchByCedula, sortedEventsByCedula };
+  return { events, fetchEvents, searchByCedula };
 });

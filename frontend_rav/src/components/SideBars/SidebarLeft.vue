@@ -90,7 +90,9 @@ import { ref } from "vue";
 import RavIcon from "../Icons/RavIcon.vue";
 import Avatar from "../Buttons/Avatar.vue";
 import LogoutButton from "../Buttons/LogoutButton.vue";
-
+import axios from 'axios'
+import { useRouter } from "vue-router";
+const router=useRouter();
 const props = defineProps({
 	isCollapsed: Boolean, // Prop para manejar el colapso del sidebar
 });
@@ -150,8 +152,38 @@ const toggleSubmenu = (item) => {
 	item.submenuOpen = !item.submenuOpen;
 };
 
-const logout = () => {
-	alert("Sesión cerrada");
+const logout = async () => {
+    try {
+        // Obtener el token del localStorage
+        const token = localStorage.getItem('token')
+        
+        if (!token) {
+            // Si no hay token, simplemente redirigir al login
+            router.push({ name: "LoginPage" })
+            return
+        }
+
+        // Configurar la petición con el token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        
+        // Hacer la petición de logout
+        await axios.post('http://localhost:8080/api/auth/logout', {}, config)
+        
+        // Limpiar el token
+        localStorage.removeItem('token')
+        
+        // Redirigir al login
+        router.push({ name: "LoginPage" })
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error)
+        // En caso de error, limpiar el token y redirigir de todos modos
+        localStorage.removeItem('token')
+        router.push({ name: "LoginPage" })
+    }
 };
 </script>
 
