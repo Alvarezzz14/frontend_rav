@@ -20,7 +20,7 @@
 
 		<!-- Contenido principal -->
 		<main
-			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-y-auto mt-[4rem] mb-[4rem]">
+			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-y-clip mt-[4rem] mb-[4rem]">
 			<router-view />
 		</main>
 
