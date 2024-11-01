@@ -1,68 +1,63 @@
 <template>
 	<!-- Contenedor principal con el fondo CustomPurple -->
-	<div class="min-h-screen bg-customPurple lg:fixed text-white flex flex-col">
+	<div class="min-h-screen bg-customPurple text-white m flex flex-col">
 		<!-- Contenedor del grid -->
 		<div
-			class="flex-1 grid grid-cols-1 lg:grid-cols-2 lg:gap-4 lg:mx-36 p-8 lg:p-16">
+			class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-6 p-8 lg:p-16">
 			<!-- Columna izquierda: Logo, formulario y iconos -->
-			<div class="flex flex-col space-y-6 mt-10">
+			<div class="flex flex-col justify-center space-y-6">
 				<!-- Logo grande -->
 				<div class="flex justify-center">
-					<img :src="Logo" alt="Logo" class="w-2/4 md:w-3/4 lg:w-72 h-auto" />
-				</div>
-				<div>
-					<p class="text-center text-4xl font-bold">Iniciar Sesión</p>
+					<img :src="Logo" alt="Logo" class="w-3/4 lg:w-2/3 h-auto" />
 				</div>
 
 				<!-- Formulario de login -->
-				<form
-					@submit.prevent="submit"
-					class="space-y-4 lg:w-[35rem] w-full mx-auto m-5 z-10">
+				<form @submit.prevent="submit" class="space-y-4 w-96 mx-auto z-10">
 					<div>
+						<label for="email" class="block text-lg font-semibold"
+							>Correo electrónico</label
+						>
 						<input
 							type="email"
 							id="email"
-							placeholder="Correo Sena "
 							v-model="form.email"
-							class="mt-1 block w-full h-16 text-xl pl-8 bg-white text-gray-800 p-3 rounded-xl"
+							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required
 							autofocus />
 					</div>
 
 					<div>
+						<label for="password" class="block text-lg font-semibold"
+							>Contraseña</label
+						>
 						<input
 							type="password"
 							id="password"
-							placeholder="Contraseña "
 							v-model="form.password"
-							class="mt-1 block w-full h-16 text-xl pl-8 bg-white text-gray-800 p-3 rounded-xl"
-							required
-							autofocus />
+							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							required />
 					</div>
 
 					<!-- Botón de iniciar sesión -->
 					<button
 						type="submit"
-						class="cursor-pointer border-2 h-16 border-moradoSecundario mt-4 w-full py-3 text-2xl bg-amarillo text-customPurple font-semibold rounded-xl hover:bg-yellow-400 transition-colors focus:cursor-wait">
-						Iniciar
+						class="cursor-pointer border-2 border-moradoSecundario mt-4 w-full py-3 text-lg bg-amarillo text-black font-bold rounded-lg hover:bg-yellow-600 transition transition-colors focus:cursor-wait">
+						Iniciar sesión
 					</button>
 				</form>
 
 				<!-- Iconos institucionales -->
-				<div class="w-full flex lg:pt-32 justify-center lg:left-1/4">
+				<div class="flex justify-center space-x-4 mt-8">
 					<img
 						:src="LogosInstitucionales"
 						alt="Logos Institucionales"
-						class="lg:w-72 lg:h-16 sm:w-48 h-auto w-40" />
+						class="" />
 				</div>
 			</div>
 
 			<!-- Columna derecha: Mapa en .webp -->
-			<div class="flex justify-center">
-				<img
-					:src="MapaCollage"
-					alt="Mapa"
-					class="object-cover w-2/3 lg:h-[55rem] lg:w-[58rem] z-10 min-[1650px]:w-[50rem]" />
+			<div class="lg:flex justify-center">
+				<img :src="MapaCollage" alt="Mapa" class="h-full w-full z-10" />
 			</div>
 		</div>
 
@@ -71,7 +66,7 @@
 			<img
 				:src="VectorPlantas"
 				alt="Vector Plantas"
-				class="fixed bottom-0 w-full h-auto z-0" />
+				class="absolute bottom-0 left-0 w-full h-auto z-0" />
 		</div>
 	</div>
 </template>
@@ -82,8 +77,6 @@ import Logo from "@/assets/images/webp/LOGO.svg";
 import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
 import MapaCollage from "@/assets/images/colombiaCollage1.webp";
 import VectorPlantas from "@/assets/images/vectorplantas.svg";
-
-=======
 import axios from 'axios'
 import { useRouter } from "vue-router";
 
@@ -96,15 +89,13 @@ const form = ref({
 });
 
 // Función de submit
-const submit = async () => {
+const submit = async() => {
 	// Lógica para enviar el formulario (ejemplo de uso)
 	console.log("Iniciar sesión con", form.value);
-
 	const response = await axios.post('http://localhost:8080/api/auth/signin', form.value)
 	router.push({
 		name: "HomePage"
 	})
-
 };
 
 </script>
