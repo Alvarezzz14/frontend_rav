@@ -12,6 +12,9 @@ import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
 import SubirFicheroPage from '@pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@pages/DashBoardPage.vue'
+
+
+ 
 const routes = [
   {
     path: '/login',
@@ -69,11 +72,14 @@ const routes = [
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
+
       
       { path: '/dashboard',
         name: 'DashBoardPage',
         component: DashBoardPage
       }
+
+
     ]
   },
 
