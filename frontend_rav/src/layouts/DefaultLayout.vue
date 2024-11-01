@@ -1,29 +1,22 @@
 <template>
 	<div
-		class="grid grid-rows-layout grid-cols-layout overflow-hiden min-h-screen">
+		class="grid grid-rows-layout grid-cols-layout bg-gray-50 overflow-hiden min-h-screen">
 		<!-- Header -->
 		<header class="row-span-1 col-span-full top-0 w-full z-50 text-white">
 			<Header />
 		</header>
 
 		<!-- Sidebar izquierda -->
-		<SidebarLeft class="row-start-2 col-start-1">
+		<SidebarLeft class="row-start-2 bg-gray-50 col-start-1">
 			<router-view></router-view>
 		</SidebarLeft>
 
 		<!-- Barra de notificaciones derecha -->
-		<aside
-			class="row-start-2 col-end-4 h-[calc(100vh-8rem)] z-40 transition-transform transform"
-			:class="{
-				'w-64': !isNotificationsCollapsed,
-				'w-16': isNotificationsCollapsed,
-				'translate-x-0': isNotificationsOpen,
-				'translate-x-full': !isNotificationsOpen,
-			}">
-			<Notifications
-				:isCollapsed="isNotificationsCollapsed"
-				@toggle="toggleNotifications" />
-		</aside>
+
+		<Notifications
+			class="col-start-3 row-start-2 bg-gray-50"
+			:isCollapsed="isNotificationsCollapsed"
+			@toggle="toggleNotifications" />
 
 		<!-- Contenido principal -->
 		<main

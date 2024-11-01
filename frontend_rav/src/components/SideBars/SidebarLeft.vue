@@ -3,12 +3,12 @@
 		<!-- Logo en el área principal con una línea morada -->
 
 		<!-- Botón hamburguesa en modo responsive -->
-		<div class="bg-customPurple">
+		<div class="">
 			<button
 				@click="isSidebarOpen = !isSidebarOpen"
 				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 md:hidden rounded-full"
 				aria-label="Toggle sidebar">
-				<i class="mb-14 pi pi-bars"></i>
+				<i class="pi pi-bars"></i>
 			</button>
 		</div>
 
