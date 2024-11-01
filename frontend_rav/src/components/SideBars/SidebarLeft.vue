@@ -1,13 +1,16 @@
 <template>
-	<div
-		class="relative flex flex-col bg-gray-100 h-[calc(100vh-8rem)] overflow-y-auto">
+	<div class="relative flex flex-col h-[calc(100vh-8rem)] overflow-y-auto">
+		<!-- Logo en el área principal con una línea morada -->
+
 		<!-- Botón hamburguesa en modo responsive -->
-		<button
-			@click="isSidebarOpen = !isSidebarOpen"
-			class="text-black focus:outline-none text-3xl relative top-0 left-0 z-50 p-4 md:hidden"
-			aria-label="Toggle sidebar">
-			<i class="pi pi-bars text-3xl"></i>
-		</button>
+		<div class="bg-customPurple">
+			<button
+				@click="isSidebarOpen = !isSidebarOpen"
+				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 md:hidden rounded-full"
+				aria-label="Toggle sidebar">
+				<i class="mb-14 pi pi-bars"></i>
+			</button>
+		</div>
 
 		<!-- Barra lateral izquierda -->
 		<div
@@ -58,7 +61,7 @@
 			</nav>
 
 			<!-- Sección inferior con el avatar, nombre y email -->
-			<div class="p-4 border-ttext:sm flex-shrink-0 w-full shadow-md">
+			<div class="p-4 border text:sm flex-shrink-0 shadow-top">
 				<div class="flex items-center justify-center">
 					<Avatar
 						:src="user.avatar"
@@ -151,6 +154,10 @@ const logout = () => {
 </script>
 
 <style scoped>
+.shadow-top {
+	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 @media (max-width: 768px) {
 	/* Ocultar sidebar en pantallas pequeñas */
 	.-translate-x-full {
