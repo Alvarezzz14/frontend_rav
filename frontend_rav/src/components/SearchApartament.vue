@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-auto p-px flex flex-col md:flex-row items-start md:space-x-8">
     <!-- Contenedor del Select y Tarjeta de Información del Departamento -->
-    <div class="flex flex-col items-start space-y-4 mt-10 md:mt-16 ml-4 md:ml-[5%] md:max-w-[40%]">
+    <div class="order-1 md:order-none flex flex-col items-start space-y-4 mt-10 md:mt-16 ml-4 md:ml-[5%] md:max-w-[40%]">
       <!-- Selector del Departamento -->
       <div class="w-full max-w-xs md:max-w-md">
         <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
@@ -27,27 +27,27 @@
       </div>
 
       <!-- Tarjeta de Información del Departamento -->
-      <div v-if="selectedInfo" class="w-full max-w-md p-4 rounded-lg shadow-lg bg-white">
+      <div v-if="selectedInfo" class="w-full max-w-md rounded-lg shadow-lg bg-white">
         <!-- Imagen principal -->
         <img :src="selectedInfo.imageUrl" :alt="selectedInfo.name" class="rounded-t-lg w-full h-40 object-cover" />
 
         <!-- Encabezado con nombre y fondo color -->
         <div class="bg-customPurple text-white py-2 px-4 flex items-center">
-          <h2 class="text-lg font-bold">{{ selectedInfo.name }}</h2>
+          <h2 class="text-3xl font-bold">{{ selectedInfo.name }}</h2>
 
           <!-- Imagen del mapa del departamento seleccionado -->
           <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
         </div>
 
         <!-- Descripción del departamento -->
-        <div class="p-4 text-gray-600">
+        <div class="p-4 text-gray-700">
           <p>{{ getDepartmentDescription(selectedInfo.name) }}</p>
         </div>
       </div>
     </div>
 
     <!-- Mapa de Colombia -->
-    <div class="relative w-full h-auto mt-6 md:mt-10 md:max-w-[55%]">
+    <div class="order-2 md:order-none relative w-full h-auto mt-6 md:mt-10 md:max-w-[55%]">
       <svg class="w-full h-auto" viewBox="0 0 780 780" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="390" cy="390" r="390" fill="white" />
         <g>
@@ -56,7 +56,7 @@
             v-for="dep in departamentos"
             :key="dep.code"
             :d="getDepartmentPath(dep.code)" 
-            :fill="selectedCountry && selectedCountry.code === dep.code ? 'purple' : 'gray'" 
+            :fill="selectedCountry && selectedCountry.code === dep.code ? 'purple' : '#F2F3F3'" 
             :stroke="selectedCountry && selectedCountry.code === dep.code ? 'black' : 'none'"
           />
         </g>
@@ -64,6 +64,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script setup>
@@ -210,13 +211,13 @@ const departamentos = ref([
   { name: "Arauca", code: "81", flagUrl: AraucaBandera, imageUrl: AraucaCiudad, imageMap: AraucaMapa },
   { name: "Atlantico", code: "08", flagUrl: AtlanticoBandera, imageUrl: AtlanticoCiudad, imageMap:AtlanticoMapa },
   { name: "Bolivar", code: "13", flagUrl: BolivarBandera, imageUrl: BolivarCiudad, imageMap: BolivarMapa},
-  { name: "Boyaca", code: "15", flagUrl: BoyacaBandera, imageUrl: BoyacaCiudad, imageMap: BoyacaMapa },
+  { name: "Boyacá", code: "15", flagUrl: BoyacaBandera, imageUrl: BoyacaCiudad, imageMap: BoyacaMapa },
   { name: "Caldas", code: "17", flagUrl: CaldasBandera, imageUrl: CaldasCiudad, imageMap: CaldasMapa },
-  { name: "Caqueta", code: "18", flagUrl: CaquetaBandera, imageUrl: CaquetaCiudad, imageMap: CaquetaMapa},
+  { name: "Caquetá", code: "18", flagUrl: CaquetaBandera, imageUrl: CaquetaCiudad, imageMap: CaquetaMapa},
   { name: "Casanare", code: "85", flagUrl: CasanareBandera, imageUrl: CasanareCiudad, imageMap: CasanareMapa },
   { name: "Cauca", code: "19", flagUrl: CaucaBandera, imageUrl: CaucaCiudad, imageMap: CaucaMapa},
   { name: "Cesar", code: "20", flagUrl: CesarBandera, imageUrl: CesarCiudad, imageMap: CesarMapa },
-  { name: "Choco", code: "27", flagUrl: ChocoBandera, imageUrl: ChocoCiudad, imageMap: ChocoMapa },
+  { name: "Chocó", code: "27", flagUrl: ChocoBandera, imageUrl: ChocoCiudad, imageMap: ChocoMapa },
   { name: "Cundinamarca", code: "25", flagUrl: CundinamarcaBandera, imageUrl: CundinamarcaCiudad, imageMap: CundinamarcaMapa},
   { name: "Cordoba", code: "23", flagUrl: CordobaBandera, imageUrl: CordobaCiudad, imageMap:CordobaMapa },
   { name: "Guainia", code: "94", flagUrl: GuainiaBandera, imageUrl: GuainiaCiudad, imageMap: GuainiaMapa },
@@ -235,7 +236,7 @@ const departamentos = ref([
   { name: "Sucre", code: "70", flagUrl: SucreBandera, imageUrl: SucreCiudad, imageMap: SucreMapa},
   { name: "Tolima", code: "73", flagUrl: TolimaBandera, imageUrl: TolimaCiudad, imageMap: TolimaMapa },
   { name: "Valle del Cauca", code: "76", flagUrl: ValleCaucaBandera, imageUrl: ValleCaucaCiudad, imageMap:ValleCaucaMapa },
-  { name: "Vaupes", code: "97", flagUrl: VaupesBandera, imageUrl: VaupesCiudad, imageMap: VaupesMapa },
+  { name: "Vaupés", code: "97", flagUrl: VaupesBandera, imageUrl: VaupesCiudad, imageMap: VaupesMapa },
   { name: "Vichada", code: "99", flagUrl: VichadaBandera, imageUrl: VichadaCiudad, imageMap: VichadaMapa},
 
 ]);
@@ -247,13 +248,13 @@ const getDepartmentDescription = (name) => {
     Arauca: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque magna et facilisis...",
     Atlantico: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at velit sit amet erat sagittis...",
     Bolivar: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris consequat elit a facilisis...",
-    Boyaca: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere enim id urna egestas...",
+    Boyacá: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere enim id urna egestas...",
     Caldas: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac sapien non dolor tincidunt...",
-    Caqueta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pharetra quam a odio...",
+    Caquetá: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum pharetra quam a odio...",
     Casanare: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, nisi eget elementum...",
     Cauca: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae lorem a justo gravida...",
     Cesar: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ut dui vel elit cursus sodales...",
-    Choco: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus dolor id velit vehicula...",
+    Chocó: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus dolor id velit vehicula...",
     Cundinamarca: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vel dui id neque varius...",
     Cordoba: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet risus a nibh facilisis...",
     Guainia: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ac turpis at lectus vestibulum...",
@@ -272,7 +273,7 @@ const getDepartmentDescription = (name) => {
     Sucre: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ullamcorper justo id lacus...",
     Tolima: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultricies ligula ut est vehicula...",
     Valle_del_Cauca: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nec dui...",
-    Vaupes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tincidunt arcu id turpis...",
+    Vaupés: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tincidunt arcu id turpis...",
     Vichada: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce bibendum dui sed ligula..."
   };
   return descriptions[name] || "No description available.";

@@ -10,12 +10,12 @@
 
       <!-- Contenedor para el formulario y logos, centrado y con altura reducida en pantallas pequeñas -->
       <div class="flex-1 flex items-center justify-center h-screen relative z-10 p-4 lg:p-0">
-        <div class="bg-white  rounded-lg shadow-md p-6 w-full max-w-md lg:max-w-sm h-auto flex flex-col items-center max-h-[90vh] space-y-4"> <!-- Se eliminó mt-6 aquí -->
+        <div class="bg-white  rounded-lg p-6 w-full max-w-md lg:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4"> <!-- Se eliminó mt-6 aquí -->
           <!-- Logo -->
-          <img :src="logoRav" alt="Logo RAV" class="w-56 h-auto mb-2" />
+          <img :src="logoRav" alt="Logo RAV" class="w-72 h-auto mb-2" />
 
           <!-- Título -->
-          <h2 class="text-xl font-semibold text-black mb-2.5 text-center">Registrar Usuario</h2>
+          <h2 class="text-3xl  font-semibold text-black m-2 text-center">Registrar Usuario</h2>
 
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
