@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 import router from './router';
 import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/aura';
@@ -11,21 +11,27 @@ import Sidebar from 'primevue/sidebar';
 import Ripple from 'primevue/ripple';
 import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
-import 'primeicons/primeicons.css'
+import Toast from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 import 'primeicons/primeicons.css';
 import 'flowbite';
 import './styles/style.css';
-
 const pinia = createPinia();
 
+const app = createApp(App);
 
-createApp(App)
-    .use(router)
+app.use(router)
     .use(pinia)
     .use(PrimeVue, {
         theme: {
             preset: Aura,
         },
+    })
+    .use(Toast, {
+        position: "top-right",
+        timeout: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
     })
     .component('Dialog', Dialog)
     .component('Button', Button)
@@ -33,4 +39,5 @@ createApp(App)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
     .component('Drawer', Drawer)
+    
     .mount('#app');

@@ -1,72 +1,73 @@
 <template>
-    <!-- Botón hamburguesa en modo responsive -->
-    <div class="absolute top-4 left-4 md:hidden z-50">
-        <button @click="toggleSidebar" class="text-black focus:outline-none">
-            <i class="pi pi-bars text-3xl"></i>
-        </button>
-    </div>
+	<div class="relative flex flex-col h-[calc(100vh-8rem)] overflow-y-auto">
+		<!-- Logo en el área principal con una línea morada -->
 
-    <!-- Barra lateral izquierda -->
-    <aside :class="[
-        'bg-white text-gray-800 shadow-lg flex flex-col justify-between top-[4rem] h-[calc(100vh-4rem)] z-40 transition-transform transform backdrop-blur-lg',
-        isCollapsed ? 'w-16' : 'w-64',
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full',
-        'md:translate-x-0',
-    ]" @click.self="toggleSidebar">
-        <!-- Sección superior con el RavIcon y navegación -->
-        <div class="flex flex-col items-center">
-            <!-- Ícono centrado -->
-            <div class="py-8 flex justify-center">
-                <RavIcon :class="px-2 [isCollapsed ? 'w-8 h-8' : 'w-12 h-12']" />
-            </div>
+		<!-- Botón hamburguesa en modo responsive -->
+		<div class="">
+			<button
+				@click="isSidebarOpen = !isSidebarOpen"
+				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 md:hidden rounded-full"
+				aria-label="Toggle sidebar">
+				<i class="pi pi-bars"></i>
+			</button>
+		</div>
 
-            <!-- Opciones de navegación -->
-            <nav class="px-2 w-full">
-                <ul class="list-none w-full flex flex-col items-start">
-                    <li v-for="item in menuItems" :key="item.title" class="pt-1 relative w-full">
-                        <router-link :to="item.to"
-                            class="flex items-center justify-start cursor-pointer p-2 rounded-lg hover:bg-gray-100 transition-colors no-underline w-full">
-                            <span class="flex items-center">
-                                <!-- Contenedor redondo para el icono -->
-                                <span class="flex items-center justify-center w-10 h-10 rounded-full bg-customPurple text-white mr-2">
-                                    <i :class="[item.icon, 'text-xl']"></i>
-                                </span>
-                                <span v-if="!isCollapsed" class="text-left">{{ item.title }}</span>
-                            </span>
-                        </router-link>
+		<!-- Barra lateral izquierda -->
+		<div
+			:class="{
+				'translate-x-0': isSidebarOpen,
+				'-translate-x-full': !isSidebarOpen,
+			}"
+			class="fixed md:relative flex-grow w-56 bg-white rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
+			<!-- Sección superior con el RavIcon y navegación -->
+			<!-- Ícono centrado -->
+			<div class="py-8 flex items-center h-auto justify-center shadow-md">
+				<RavIcon />
+			</div>
 
-                        <!-- Submenú desplegable -->
-                        <ul v-if="item.submenuOpen && !isCollapsed"
-                            class="pl-6 space-y-1 transition-all duration-300 ease-in-out w-full">
-                            <li v-for="(subItem, subIndex) in item.submenu" :key="subIndex">
-                                <router-link :to="subItem.to"
-                                    class="block text-center text-sm text-customPurple hover:bg-gray-100 p-1 rounded-lg no-underline">
-                                    {{ subItem.title }}
-                                </router-link>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+			<!-- Menu de navegación -->
+			<nav>
+				<ul class="list-none flex flex-col py-4">
+					<li
+						v-for="item in menuItems"
+						:key="item.title"
+						class="pt-1 py-8 relative w-full">
+						<router-link
+							v-if="item.to"
+							:to="item.to"
+							class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+							<!-- Contenedor redondo para el icono -->
+							<span
+								class="inline-flex items-center justify-center h-12 rounded-full w-12 text-lg bg-customPurple text-white mr-2">
+								<i :class="[item.icon, 'text-xl ']"></i>
+							</span>
+							<span class="text-left">{{ item.title }}</span>
+						</router-link>
+					</li>
+				</ul>
+				<!-- Sección inferior con el avatar, nombre y email -->
+				<div class="p-4 border text:sm flex-shrink-0 shadow-top">
+					<div class="flex items-center justify-center">
+						<Avatar
+							:src="user.avatar"
+							alt="User Avatar"
+							class="w-12 h-12 rounded-full" />
+						<div class="text-xs text-center ml-3">
+							<p class="font-bold text-lg">{{ user.name }}</p>
+						</div>
+					</div>
+					<p class="text-gray-700 text-sm">{{ user.email }}</p>
 
-        <!-- Sección inferior con el avatar, nombre y email -->
-        <div class="p-4 border-t border-gray-300 flex-shrink-0 w-full">
-            <div class="flex items-center justify-center">
-                <!-- Aumentar el tamaño del avatar -->
-                <Avatar :src="user.avatar" alt="User Avatar" class="w-12 h-12 rounded-full" />
-                <div v-if="!isCollapsed" class="text-xs text-center ml-3">
-                    <p class="font-bold text-lg">{{ user.name }}</p>
-                    <p class="text-gray-700 text-sm">{{ user.email }}</p>
-                </div>
-            </div>
-
-            <!-- Botón de Cerrar Sesión -->
-            <div v-if="!isCollapsed" class="mt-4 text-center">
-                <LogoutButton @click="logout" class="text-base !text-amarillo !font-bold py-1 px-2" />
-            </div>
-        </div>
-    </aside>
+					<!-- Botón de Cerrar Sesión -->
+					<div class="mt-4 text-center">
+						<LogoutButton
+							@click="logout"
+							class="text-base !text-amarillo !font-bold py-1 px-2" />
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
 </template>
 
 <script setup>
@@ -74,19 +75,22 @@ import { ref } from "vue";
 import RavIcon from "../Icons/RavIcon.vue";
 import Avatar from "../Buttons/Avatar.vue";
 import LogoutButton from "../Buttons/LogoutButton.vue";
+import axios from 'axios';
+import { useRouter } from "vue-router";
+import { useToast } from 'vue-toastification';
 
-const props = defineProps({
-    isCollapsed: Boolean, // Prop para manejar el colapso del sidebar
-});
+const isSidebarOpen = ref(false);
+const router = useRouter();
+const toast = useToast();
 
-const sidebarOpen = ref(false);
 const user = ref({
-    name: "Amy Elsner",
-    email: "amy.elsner@example.com",
-    avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
+	name: "Amy Elsner",
+	email: "amy.elsner@example.com",
+	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
 });
 
 const menuItems = ref([
+<<<<<<< HEAD
     {
         title: "Dashboard",
         to: "/dashboard",
@@ -124,29 +128,117 @@ const menuItems = ref([
         submenuOpen: false,
         submenu: [],
     },
+=======
+	{
+		title: "Dashboard",
+		to: { name: "HomePage" },
+		icon: "pi pi-home",
+		submenuOpen: false,
+		submenu: [
+			{ title: "Gráficos", to: { name: "Graficos" } },
+			{ title: "Reportes", to: { name: "Reportes" } },
+		],
+	},
+	{
+		title: "Registro de Actividad",
+		to: { name: "RegistroActividadPage" },
+		icon: "pi pi-tag",
+		submenuOpen: false,
+		submenu: [],
+	},
+	{
+		title: "Ruta de Atención",
+		to: { name: "BusquedaCiudadanoPage" },
+		icon: "pi pi-sitemap",
+		submenuOpen: false,
+	},
+	{
+		title: "Mapa",
+		to: { name: "DepartamentosPage" },
+		icon: "pi pi-map",
+		submenuOpen: false,
+		submenu: [],
+	},
+	{
+		title: "Cargar Archivo",
+
+		icon: "pi pi-file-arrow-up",
+		submenuOpen: false,
+		submenu: [],
+	},
+>>>>>>> d006e448b9d6399642f8f4c213d0ce9d096fc4dd
 ]);
 
-const toggleSidebar = () => {
-    sidebarOpen.value = !sidebarOpen.value;
-};
+/* const toggleSidebar = () => {
+	sidebarOpen.value = !sidebarOpen.value;
+};*/
 
 const toggleSubmenu = (item) => {
-    item.submenuOpen = !item.submenuOpen;
+	item.submenuOpen = !item.submenuOpen;
 };
 
-const logout = () => {
-    alert("Sesión cerrada");
+const hasShownNoSessionToast = ref(false);
+
+const logout = async () => {
+    // Verificar si hay un token en el localStorage
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        // Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
+        if (!hasShownNoSessionToast.value) {
+            toast.info("No hay sesión activa.");
+            hasShownNoSessionToast.value = true;
+        }
+        router.push({ name: "LoginPage" });
+        return;
+    }
+
+    try {
+        // Configurar la petición con el token
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        };
+        
+        // Hacer la petición de logout
+        await axios.post('http://localhost:8080/api/auth/logout', {}, config);
+        
+        // Limpiar el token
+        localStorage.removeItem('token');
+        hasShownNoSessionToast.value = false; // Resetear el flag después de cerrar sesión
+        
+        // Mostrar mensaje de éxito
+        toast.success("Sesión cerrada con éxito.");
+        
+        // Redirigir al login
+        router.push({ name: "LoginPage" });
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+        // Si ocurre un error en el logout, solo limpiar el token y redirigir al login sin mostrar otro mensaje
+        localStorage.removeItem('token');
+        router.push({ name: "LoginPage" });
+    }
 };
 </script>
 
 <style scoped>
-/* Eliminar desplazamiento y ajustes de ancho completo */
-.aside {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    overflow: hidden; /* Elimina el scroll */
+.shadow-top {
+	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+@media (max-width: 768px) {
+	/* Ocultar sidebar en pantallas pequeñas */
+	.-translate-x-full {
+		transform: translateX(-100%);
+	}
+	/* Mostrar sidebar en pantallas pequeñas cuando está abierto */
+	.translate-x-0 {
+		transform: translateX(0);
+	}
 }
 
 a {
-    text-decoration: none; /* Elimina subrayado en enlaces */
+	text-decoration: none; /* Elimina subrayado en enlaces */
 }
 </style>
