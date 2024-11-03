@@ -90,7 +90,6 @@ const user = ref({
 });
 
 const menuItems = ref([
-<<<<<<< HEAD
     {
         title: "Dashboard",
         to: "/dashboard",
@@ -128,45 +127,6 @@ const menuItems = ref([
         submenuOpen: false,
         submenu: [],
     },
-=======
-	{
-		title: "Dashboard",
-		to: { name: "HomePage" },
-		icon: "pi pi-home",
-		submenuOpen: false,
-		submenu: [
-			{ title: "Gráficos", to: { name: "Graficos" } },
-			{ title: "Reportes", to: { name: "Reportes" } },
-		],
-	},
-	{
-		title: "Registro de Actividad",
-		to: { name: "RegistroActividadPage" },
-		icon: "pi pi-tag",
-		submenuOpen: false,
-		submenu: [],
-	},
-	{
-		title: "Ruta de Atención",
-		to: { name: "BusquedaCiudadanoPage" },
-		icon: "pi pi-sitemap",
-		submenuOpen: false,
-	},
-	{
-		title: "Mapa",
-		to: { name: "DepartamentosPage" },
-		icon: "pi pi-map",
-		submenuOpen: false,
-		submenu: [],
-	},
-	{
-		title: "Cargar Archivo",
-
-		icon: "pi pi-file-arrow-up",
-		submenuOpen: false,
-		submenu: [],
-	},
->>>>>>> d006e448b9d6399642f8f4c213d0ce9d096fc4dd
 ]);
 
 /* const toggleSidebar = () => {
