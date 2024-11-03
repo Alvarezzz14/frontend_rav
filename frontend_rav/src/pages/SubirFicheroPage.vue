@@ -1,11 +1,7 @@
 <template>
   <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
     <!-- Sección de búsqueda -->
-    <div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
-      <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
-    </div>
 
-    <!-- Sección de carga de archivos -->
     <div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
       <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">Cargar Archivo</h2>
       <p class="text-center mb-2 text-customPurple">Adjunta el archivo que deseas compartir</p>
@@ -36,6 +32,12 @@
       <!-- Botón de color morado -->
       <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
     </div>
+    <div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
+      <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+    </div>
+
+    <!-- Sección de carga de archivos -->
+    
   </div>
 </template>
 
