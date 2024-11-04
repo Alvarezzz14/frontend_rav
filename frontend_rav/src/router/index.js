@@ -78,8 +78,7 @@ const routes = [
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
-
-
+      
       {
         path: '/dashboard',
         name: 'DashBoardPage',
