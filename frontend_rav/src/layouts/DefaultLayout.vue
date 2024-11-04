@@ -6,14 +6,14 @@
 		</header>
 
 		<!-- Sidebar izquierda -->
-		<SidebarLeft class="row-start-2 bg-white col-start-1">
+		<SidebarLeft class="row-start-2 col-start-1">
 			<router-view></router-view>
 		</SidebarLeft>
 
 		<!-- Barra de notificaciones derecha -->
 
 		<Notifications
-			class="col-start-3 row-start-2 bg-gray-50"
+			class="col-start-3 row-start-2"
 			:isCollapsed="isNotificationsCollapsed"
 			@toggle="toggleNotifications" />
 

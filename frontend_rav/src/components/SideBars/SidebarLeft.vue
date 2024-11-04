@@ -1,12 +1,10 @@
 <template>
 	<div class="relative flex flex-col h-[calc(100vh-8rem)] overflow-y-auto">
-		<!-- Logo en el área principal con una línea morada -->
-
 		<!-- Botón hamburguesa en modo responsive -->
 		<div class="">
 			<button
 				@click="isSidebarOpen = !isSidebarOpen"
-				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 md:hidden rounded-full"
+				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 lg:hidden rounded-full"
 				aria-label="Toggle sidebar">
 				<i class="pi pi-bars"></i>
 			</button>
@@ -18,7 +16,7 @@
 				'translate-x-0': isSidebarOpen,
 				'-translate-x-full': !isSidebarOpen,
 			}"
-			class="fixed md:relative flex-grow w-56 bg-white rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
+			class="fixed md:relative flex-grow bg-white w-56rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
 			<!-- Sección superior con el RavIcon y navegación -->
 			<!-- Ícono centrado -->
 			<div class="py-8 flex items-center h-auto justify-center shadow-md">
@@ -75,9 +73,9 @@ import { ref } from "vue";
 import RavIcon from "../Icons/RavIcon.vue";
 import Avatar from "../Buttons/Avatar.vue";
 import LogoutButton from "../Buttons/LogoutButton.vue";
-import axios from 'axios';
+import axios from "axios";
 import { useRouter } from "vue-router";
-import { useToast } from 'vue-toastification';
+import { useToast } from "vue-toastification";
 
 const isSidebarOpen = ref(false);
 const router = useRouter();
@@ -140,53 +138,49 @@ const toggleSubmenu = (item) => {
 const hasShownNoSessionToast = ref(false);
 
 const logout = async () => {
-    // Verificar si hay un token en el localStorage
-    const token = localStorage.getItem('token');
+	// Verificar si hay un token en el localStorage
+	const token = localStorage.getItem("token");
 
-    if (!token) {
-        // Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
-        if (!hasShownNoSessionToast.value) {
-            toast.info("No hay sesión activa.");
-            hasShownNoSessionToast.value = true;
-        }
-        router.push({ name: "LoginPage" });
-        return;
-    }
+	if (!token) {
+		// Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
+		if (!hasShownNoSessionToast.value) {
+			toast.info("No hay sesión activa.");
+			hasShownNoSessionToast.value = true;
+		}
+		router.push({ name: "LoginPage" });
+		return;
+	}
 
-    try {
-        // Configurar la petición con el token
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        };
-        
-        // Hacer la petición de logout
-        await axios.post('http://localhost:8080/api/auth/logout', {}, config);
-        
-        // Limpiar el token
-        localStorage.removeItem('token');
-        hasShownNoSessionToast.value = false; // Resetear el flag después de cerrar sesión
-        
-        // Mostrar mensaje de éxito
-        toast.success("Sesión cerrada con éxito.");
-        
-        // Redirigir al login
-        router.push({ name: "LoginPage" });
-    } catch (error) {
-        console.error('Error al cerrar sesión:', error);
-        // Si ocurre un error en el logout, solo limpiar el token y redirigir al login sin mostrar otro mensaje
-        localStorage.removeItem('token');
-        router.push({ name: "LoginPage" });
-    }
+	try {
+		// Configurar la petición con el token
+		const config = {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		// Hacer la petición de logout
+		await axios.post("http://localhost:8080/api/auth/logout", {}, config);
+
+		// Limpiar el token
+		localStorage.removeItem("token");
+		hasShownNoSessionToast.value = false; // Resetear el flag después de cerrar sesión
+
+		// Mostrar mensaje de éxito
+		toast.success("Sesión cerrada con éxito.");
+
+		// Redirigir al login
+		router.push({ name: "LoginPage" });
+	} catch (error) {
+		console.error("Error al cerrar sesión:", error);
+		// Si ocurre un error en el logout, solo limpiar el token y redirigir al login sin mostrar otro mensaje
+		localStorage.removeItem("token");
+		router.push({ name: "LoginPage" });
+	}
 };
 </script>
 
 <style scoped>
-.shadow-top {
-	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
-		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-}
 @media (max-width: 768px) {
 	/* Ocultar sidebar en pantallas pequeñas */
 	.-translate-x-full {
@@ -196,6 +190,10 @@ const logout = async () => {
 	.translate-x-0 {
 		transform: translateX(0);
 	}
+}
+.shadow-top {
+	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 a {

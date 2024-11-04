@@ -1,11 +1,10 @@
 <template>
-	<div
-		class="relative bg-gray-200 flex flex-col h-[calc(100vh-8rem) overflow-y-auto">
+	<div class="relative flex flex-col h-[calc(100vh-8rem) overflow-y-auto">
 		<!-- Botón hamburguesa para mostrar/ocultar el Sidebar -->
-		<div class="">
+		<div class="flex justify-end">
 			<button
 				@click="isSidebarOpen = !isSidebarOpen"
-				class="cursor-pointer focus:outline-none bg-amarillo md:hidden relative rounded-full p-2 top-0 right-0 z-50"
+				class="cursor-pointer focus:outline-none bg-amarillo lg:hidden relative rounded-full p-2 top-0 right-0 z-50"
 				aria-label="Toggle sidebar">
 				<i class="pi pi-bars"></i>
 			</button>
@@ -15,9 +14,9 @@
 		<div
 			:class="{
 				'translate-x-0': isSidebarOpen,
-				'-translate-x-full': !isSidebarOpen,
+				'translate-x-full': !isSidebarOpen,
 			}"
-			class="fixed md:relative flex flex-grow w-56 bg-white rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
+			class="fixed md:relative flex-grow w-56 bg-white rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0 hidden md:block">
 			<!-- Contenido del Sidebar -->
 			<div @click="!isSidebarOpen" class="flex flex-col bg-white items-center">
 				<!-- Sección de Actividad -->
@@ -142,19 +141,19 @@ const toggleNotifications = () => {
 </script>
 
 <style scoped>
-.shadow-top {
-	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
-		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-}
 @media (max-width: 768px) {
 	/* Ocultar sidebar en pantallas pequeñas */
-	.-translate-x-full {
+	.translate-x-full {
 		transform: translateX(-100%);
 	}
 	/* Mostrar sidebar en pantallas pequeñas cuando está abierto */
 	.translate-x-0 {
 		transform: translateX(0);
 	}
+}
+.shadow-top {
+	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 a {
