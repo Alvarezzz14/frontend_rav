@@ -72,43 +72,43 @@ const user = ref({
 });
 
 const menuItems = ref([
-    {
-        title: "Dashboard",
-        to: "/dashboard",
-        icon: "pi pi-home",
-        submenuOpen: false,
-        submenu: [
-            { title: "Gráficos", to: "/dashboard/graficos" },
-            { title: "Reportes", to: "/dashboard/reportes" },
-        ],
-    },
-    {
-        title: "Registro de Actividad",
-        to: "/registroactividad",
-        icon: "pi pi-tag",
-        submenuOpen: false,
-        submenu: [],
-    },
-    {
-        title: "Ruta de Atención",
-        to: "/busquedaciudadano",
-        icon: "pi pi-sitemap",
-        submenuOpen: false,
-    },
-    {
-        title: "Mapa",
-        to: "/departamentos",
-        icon: "pi pi-map",
-        submenuOpen: false,
-        submenu: [],
-    },
-    {
-        title: "Cargar Archivo",
-        to: "/subirfichero",
-        icon: "pi pi-file-arrow-up",
-        submenuOpen: false,
-        submenu: [],
-    },
+	{
+		title: "Dashboard",
+		to: "/dashboard",
+		icon: "pi pi-home",
+		submenuOpen: false,
+		submenu: [
+			{ title: "Gráficos", to: "/dashboard/graficos" },
+			{ title: "Reportes", to: "/dashboard/reportes" },
+		],
+	},
+	{
+		title: "Registro de Actividad",
+		to: "/registroactividad",
+		icon: "pi pi-tag",
+		submenuOpen: false,
+		submenu: [],
+	},
+	{
+		title: "Ruta de Atención",
+		to: "/busquedaciudadano",
+		icon: "pi pi-sitemap",
+		submenuOpen: false,
+	},
+	{
+		title: "Mapa",
+		to: "/departamentos",
+		icon: "pi pi-map",
+		submenuOpen: false,
+		submenu: [],
+	},
+	{
+		title: "Cargar Archivo",
+		to: "/subirfichero",
+		icon: "pi pi-file-arrow-up",
+		submenuOpen: false,
+		submenu: [],
+	},
 ]);
 
 const hasShownNoSessionToast = ref(false);

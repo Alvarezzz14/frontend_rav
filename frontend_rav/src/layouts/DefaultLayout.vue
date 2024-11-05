@@ -25,7 +25,7 @@
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
 		<div class="flex flex-grow overflow-hidden">
 			<!-- Sidebar izquierda -->
-			<aside class="w-1/4 h-full bg-gray-100 hidden lg:flex">
+			<aside class="h-full bg-gray-100 hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
@@ -36,7 +36,7 @@
 
 			<!-- Sidebar derecha de notificaciones -->
 			<aside
-				class="w-1/4 h-full bg-gray-100 hidden lg:flex"
+				class="h-full bg-gray-100 hidden lg:flex"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
