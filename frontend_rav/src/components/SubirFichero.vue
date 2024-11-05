@@ -43,6 +43,7 @@
 import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
 import { ref } from 'vue';
 import Button from 'primevue/button';
+import * as XLSX from "xlsx";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
@@ -53,6 +54,35 @@ const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const acceptedFileTypes = ["text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Tipos permitidos
+
+const createFormData = (archivoBlob, fileName) => {
+  const formData = new FormData();
+  formData.append("file", archivoBlob, fileName);
+  return formData;
+};
+
+const createBlob = (newWorkBook, typeFile) =>{
+      let blob;
+
+      switch (typeFile) {
+        case "xlsx":
+          // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
+          blob = XLSX.write(newWorkBook, {
+            bookType: typeFile,
+            type: "array",
+          });
+          break;
+
+        case "txt":
+          blob = newWorkBook;
+          break;
+      }
+
+
+      const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
+      return archivoBlob;
+    }
+
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
@@ -91,9 +121,118 @@ const selectFile = () => {
   document.querySelector('input[type="file"]').click();
 };
 
-const uploadFile = () => {
+
+// Función para dividir archivos de texto en partes
+const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
+  let offset = 0;
+  let partNumber = 1;
+  let blob;
+  const reader = new FileReader();
+
+  reader.onload = async (e) => {
+    const chunkData = e.target.result;
+    const fileBlob = new Blob([blob], { type: "text/plain" });
+    const fileName = `${file.name}_parte${partNumber}.txt`;
+    const formData = new FormData();
+    formData.append("file", fileBlob, fileName);
+
+    let fetchOptions = {
+      url: "http://localhost:8080/upload",
+      options: {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData,
+      },
+    };
+
+    await sendFile(fetchOptions);
+
+    offset += chunkSize;
+    partNumber += 1;
+
+    if (offset < file.size) {
+      readNextChunk();
+    }
+  };
+
+  function readNextChunk() {
+    blob = file.slice(offset, offset + chunkSize);
+    reader.readAsText(blob, "ISO-8859-1");
+  }
+
+  readNextChunk();
+};
+
+// Función para dividir archivos Excel en partes
+const createPartsExcel = async (file, rowLimit = 53) => {
+  console.log("Se esta ejecutando");
+  
+  const data = await file.arrayBuffer();
+  const workBook = XLSX.read(data);
+  let partCount = 0;
+
+  for (const sheetName of workBook.SheetNames) {
+    const workSheet = workBook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
+
+    for (let i = 0; i < jsonData.length; i += rowLimit) {
+      const newWorkBook = XLSX.utils.book_new();
+      const newData = jsonData.slice(i, i + rowLimit);
+      const newWorksheet = XLSX.utils.aoa_to_sheet(newData);
+      XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
+      partCount++;
+
+      const archivoBlob = createBlob(newWorkBook, "xlsx");
+      console.log(archivoBlob);
+      
+      const fileName = `${sheetName}_parte${partCount}.xlsx`;
+      const formData = createFormData(archivoBlob, fileName);
+
+      let fetchOptions = {
+        url: "http://localhost:8080/upload",
+        options: {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: formData,
+        },
+      };
+
+      await sendFile(fetchOptions);
+    }
+  }
+  alert("División y envío completados.");
+};
+
+
+// Función que llama a las funciones de división dependiendo del tipo de archivo
+const createParts = async (file) => {
+  switch (file.type) {
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": 
+    case "application/vnd.ms-excel":
+      await createPartsExcel(file);
+      console.log("Esta ingresando aca");
+      
+      break;
+    case "text/plain":
+      await createPartsTxt(file);
+      break;
+    default:
+      alert("Tipo de archivo no soportado.");
+      break;
+  }
+};
+
+
+// Función final de carga de archivo
+const uploadFileFinal = async () => {
   if (!fileToUpload.value) return;
 
+  await createParts(fileToUpload.value);
+};
+
+const uploadFile = async() => {
+  if (!fileToUpload.value) return;
+  await uploadFileFinal()
   // Simulación de progreso de carga
   uploadProgress.value = 0;
   const interval = setInterval(() => {
@@ -130,111 +269,10 @@ const sendFile = async (fetchOptions) => {
   }
 };
 
-const createFormData = (archivoBlob, fileName) => {
-  const formData = new FormData();
-  formData.append("file", archivoBlob, fileName);
-  return formData;
-};
 
-// Función para dividir archivos de texto en partes
-const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
-  let offset = 0;
-  let partNumber = 1;
-  let blob;
-  const reader = new FileReader();
 
-  reader.onload = async (e) => {
-    const chunkData = e.target.result;
-    const fileBlob = new Blob([blob], { type: "text/plain" });
-    const fileName = `${file.name}_parte${partNumber}.txt`;
-    const formData = new FormData();
-    formData.append("file", fileBlob, fileName);
 
-    let fetchOptions = {
-      url: "http://localhost:8081/upload",
-      options: {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData,
-      },
-    };
 
-    await sendFile(fetchOptions);
-
-    offset += chunkSize;
-    partNumber += 1;
-
-    if (offset < file.size) {
-      readNextChunk();
-    }
-  };
-
-  function readNextChunk() {
-    blob = file.slice(offset, offset + chunkSize);
-    reader.readAsText(blob, "ISO-8859-1");
-  }
-
-  readNextChunk();
-};
-
-// Función para dividir archivos Excel en partes
-const createPartsExcel = async (file, rowLimit = 100) => {
-  const data = await file.arrayBuffer();
-  const workBook = XLSX.read(data);
-  let partCount = 0;
-
-  for (const sheetName of workBook.SheetNames) {
-    const workSheet = workBook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
-
-    for (let i = 0; i < jsonData.length; i += rowLimit) {
-      const newWorkBook = XLSX.utils.book_new();
-      const newData = jsonData.slice(i, i + rowLimit);
-      const newWorksheet = XLSX.utils.aoa_to_sheet(newData);
-      XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
-      partCount++;
-
-      const archivoBlob = createBlob(newWorkBook, "xlsx");
-      const fileName = `${sheetName}_parte${partCount}.xlsx`;
-      const formData = createFormData(archivoBlob, fileName);
-
-      let fetchOptions = {
-        url: "http://localhost:8080/upload",
-        options: {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: formData,
-        },
-      };
-
-      await sendFile(fetchOptions);
-    }
-  }
-  alert("División y envío completados.");
-};
-
-// Función que llama a las funciones de división dependiendo del tipo de archivo
-const createParts = async (file) => {
-  switch (file.type) {
-    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-    case "application/vnd.ms-excel":
-      await createPartsExcel(file);
-      break;
-    case "text/plain":
-      await createPartsTxt(file);
-      break;
-    default:
-      alert("Tipo de archivo no soportado.");
-      break;
-  }
-};
-
-// Función final de carga de archivo
-const uploadFileFinal = async () => {
-  if (!fileToUpload.value) return;
-
-  await createParts(fileToUpload.value);
-};
 </script>
 
 <style scoped>
