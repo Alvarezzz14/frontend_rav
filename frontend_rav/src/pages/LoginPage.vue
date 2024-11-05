@@ -1,6 +1,6 @@
 <template>
 	<!-- Contenedor principal con el fondo CustomPurple -->
-	<div class="min-h-screen bg-customPurple text-white m flex flex-col">
+	<div class="min-h-screen bg-customPurple text-white flex flex-col">
 		<!-- Contenedor del grid -->
 		<div
 			class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-6 p-8 lg:p-16">
@@ -12,13 +12,19 @@
 				</div>
 
 				<!-- Formulario de login -->
-				<form @submit.prevent="submit" class="space-y-4 w-96 mx-auto z-10">
-					<div v-if="errorMessage" class="bg-red-100 text-red-700 p-3 rounded-md">
+				<form
+					@submit.prevent="submit"
+					class="space-y-4 w-80 md:w-96 mx-auto z-10">
+					<div
+						v-if="errorMessage"
+						class="bg-red-100 text-red-700 p-3 rounded-md">
 						{{ errorMessage }}
 					</div>
 
 					<div>
-						<label for="email" class="block text-lg font-semibold">Correo electrónico</label>
+						<label for="email" class="block text-lg font-semibold"
+							>Correo electrónico</label
+						>
 						<input
 							type="email"
 							id="email"
@@ -29,7 +35,9 @@
 					</div>
 
 					<div>
-						<label for="password" class="block text-lg font-semibold">Contraseña</label>
+						<label for="password" class="block text-lg font-semibold"
+							>Contraseña</label
+						>
 						<input
 							type="password"
 							id="password"
@@ -41,7 +49,12 @@
 					<!-- Botón de iniciar sesión -->
 					<button
 						type="submit"
-						:class="['cursor-pointer', isLoading ? 'cursor-wait bg-yellow-600' : 'bg-amarillo hover:bg-yellow-600']"
+						:class="[
+							'cursor-pointer',
+							isLoading
+								? 'cursor-wait bg-yellow-600'
+								: 'bg-amarillo hover:bg-yellow-600',
+						]"
 						:disabled="isLoading"
 						class="border-2 border-moradoSecundario mt-4 w-full py-3 text-lg text-black font-bold rounded-lg transition transition-colors">
 						<span v-if="!isLoading">Iniciar sesión</span>
@@ -80,9 +93,9 @@ import Logo from "@/assets/images/webp/LOGO.svg";
 import LogosInstitucionales from "@/assets/images/logosInstitucionales.svg";
 import MapaCollage from "@/assets/images/colombiaCollage1.webp";
 import VectorPlantas from "@/assets/images/vectorplantas.svg";
-import axios from 'axios';
+import axios from "axios";
 import { useRouter } from "vue-router";
-import { useToast } from 'vue-toastification';
+import { useToast } from "vue-toastification";
 
 const router = useRouter();
 const toast = useToast();
@@ -98,28 +111,28 @@ const errorMessage = ref("");
 const isLoading = ref(false); // Estado de carga
 
 const submit = async () => {
-    isLoading.value = true;
-    try {
-        // Llamada a la API
-        const response = await axios.post('http://localhost:8080/api/auth/signin', form.value);
+	isLoading.value = true;
+	try {
+		// Llamada a la API
+		const response = await axios.post(
+			"http://localhost:8080/api/auth/signin",
+			form.value
+		);
 
-        // Redirigir si el login es exitoso y mostrar un mensaje de éxito
-        router.push({ name: "HomePage" });
-        toast.success("Inicio de sesión exitoso.");
-    } catch (error) {
-        // Mostrar un mensaje de error usando toast
-        if (error.response && error.response.data) {
-            toast.error(error.response.data.error || "Credenciales incorrectas");
-        } else {
-            toast.error("Error en la conexión con el servidor");
-        }
-    } finally {
-        isLoading.value = false;
-    }
+		// Redirigir si el login es exitoso y mostrar un mensaje de éxito
+		router.push({ name: "HomePage" });
+		toast.success("Inicio de sesión exitoso.");
+	} catch (error) {
+		// Mostrar un mensaje de error usando toast
+		if (error.response && error.response.data) {
+			toast.error(error.response.data.error || "Credenciales incorrectas");
+		} else {
+			toast.error("Error en la conexión con el servidor");
+		}
+	} finally {
+		isLoading.value = false;
+	}
 };
-
-
-
 </script>
 
 <style scoped></style>
