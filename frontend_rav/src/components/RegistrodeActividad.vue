@@ -96,7 +96,7 @@
 
 </template>
 <script setup>
-import Chart from "@/assets/images/Chart.svg"
+import Chart from "@/assets/images/chart.svg"
 
 </script>
 
