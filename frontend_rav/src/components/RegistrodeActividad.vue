@@ -2,7 +2,7 @@
     <div class="bg-gray-100 flex items-center justify-between p-4 rounded-lg shadow-md">
         <!-- Sección Izquierda (Icono y Título) -->
         <div class="flex items-center">
-            <div class="p-4 ">
+            <div class="p-4 bg-customPurple rounded-full">
                 <img :src="Chart" alt="Chart"width="50" height="50"   />
                 
             </div>
