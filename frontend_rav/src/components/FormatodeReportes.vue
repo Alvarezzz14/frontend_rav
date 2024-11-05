@@ -6,9 +6,7 @@
       <div class="flex items-center mb-4 md:mb-0">
         <div class="p-6 bg-customPurple rounded-full">
           <!-- Icono SVG -->
-          <svg width="65" height="57" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- SVG del ícono -->
-          </svg>
+          <img :src="Reportes" alt="Reportes"width="50" height="50"   />
         </div>
         <div class="ml-4 text-center md:text-left">
           <p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
@@ -32,9 +30,7 @@
 
       <!-- Botón Línea de Tiempo -->
       <button class="bg-customPurple text-white p-4 rounded-lg shadow flex items-center max-w-xs md:max-w-none">
-        <svg width="85" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- SVG del icono del botón -->
-        </svg>
+        <img :src="VerLine" alt="Reportes"width="50" height="50"   />
         <span class="ml-2">Ver Línea de Tiempo</span>
       </button>
     </div>
@@ -92,13 +88,16 @@
         </div>
 
         <!-- Botón de Búsqueda -->          
-      <button class="w-full bg-customPurple text-white py-2 rounded-lg shadow-md mt-4" @click="downloadExcel">Buscar</button>
+      <button class="w-full bg-customPurple text-amarillo font-bold py-2 rounded-lg shadow-md mt-4" @click="downloadExcel">Buscar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import Reportes from "@/assets/images/Reportes.svg"
+import VerLine from "@/assets/images/VerLine.svg"
+
 function downloadExcel() {
   const link = document.createElement('a');
   link.href = '/files/reporte.xlsx'; // Asegúrate de que esta ruta es accesible

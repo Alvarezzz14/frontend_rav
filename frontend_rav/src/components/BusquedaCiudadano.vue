@@ -49,7 +49,7 @@
   </template>
   
   <script setup>
-  import Ciudadano from '@/assets/images/Ciudadano.svg';
+  import Ciudadano from '@/assets/images/CiudadanoRutaAtencion.svg';
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useEventStore } from '@/stores/storedataOff.js';
