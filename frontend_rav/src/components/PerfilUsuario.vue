@@ -18,35 +18,35 @@
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="flex-1">
         <label class="block text-customPurple mb-2">TIPO DE DOCUMENTO:</label>
-        <p class="text-black mb-4">{{ userInfo.tipo_documento || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.tipo_documento || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">NOMBRE COMPLETO:</label>
-        <p class="text-black mb-4">{{ userInfo.nombrecompleto || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.nombrecompleto || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">CIUDAD:</label>
-        <p class="text-black mb-4">{{ userInfo.ciudad || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">GENERO:</label>
-        <p class="text-black mb-4">{{ userInfo.genero || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.genero || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">ID HOGAR:</label>
-        <p class="text-black">{{ userInfo.id_hogar || "NO" }}</p>
+        <p class="text-black">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
       </div>
       <div class="flex-1">
         <label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
-        <p class="text-black mb-4">{{ userInfo.documento || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
-        <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
-        <p class="text-black mb-4">{{ userInfo.estadovictima || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">HECHO:</label>
-        <p class="text-black mb-4">{{ userInfo.hecho || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.hecho || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
-        <p class="text-black">{{ userInfo.numtelefonocelular || "NO" }}</p>
+        <p class="text-black">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
       </div>
     </div>
   </div>
