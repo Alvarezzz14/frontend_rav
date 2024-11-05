@@ -6,7 +6,7 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex flex-col">
-			<button @click="toggleSidebar" class="bg-yellow-500 text-white p-2">
+			<button @click="toggleSidebar" class="bg-customPurple text-amarillo p-2">
 				Menu Principal
 			</button>
 			<div v-if="isSidebarOpen">

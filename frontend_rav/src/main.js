@@ -25,6 +25,9 @@ app.use(router)
     .use(PrimeVue, {
         theme: {
             preset: Aura,
+            options: {
+                darkModeSelector: '.no-dark-mode' // Clase inexistente para evitar el modo oscuro
+            }
         },
     })
     .use(Toast, {
