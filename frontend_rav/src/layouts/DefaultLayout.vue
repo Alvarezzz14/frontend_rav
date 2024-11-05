@@ -6,16 +6,27 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex flex-col">
-			<button @click="toggleSidebar" class="bg-customPurple text-amarillo p-2">
-				Menu Principal
+			<div class="flex justify-center">
+				<RavIcon />
+			</div>
+			<button
+				@click="toggleSidebar"
+				class="flex items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
+				<span class="flex-1 text-left"> Menú Principal </span>
+				<div class="rounded-full bg-amarillo px-2 py-1">
+					<i class="pi pi-bars ml-auto text-customPurple"></i>
+				</div>
 			</button>
 			<div v-if="isSidebarOpen">
 				<SidebarLeft />
 			</div>
 			<button
 				@click="MinitoggleNotifications"
-				class="bg-purple-500 text-white p-2">
-				Notificaciones
+				class="flex items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
+				<span class="flex-1 text-left"> Notificaciones </span>
+				<div class="rounded-full bg-amarillo px-2 py-1">
+					<i class="pi pi-bell ml-auto text-customPurple"></i>
+				</div>
 			</button>
 			<div v-if="showNotifications">
 				<Notifications />
@@ -55,6 +66,7 @@ import Header from "../components/Header.vue";
 import SidebarLeft from "../components/SideBars/SidebarLeft.vue";
 import Notifications from "../components/SideBars/Notifications.vue";
 import Footer from "../components/Footer.vue";
+import RavIcon from "../components/Icons/RavIcon.vue";
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
