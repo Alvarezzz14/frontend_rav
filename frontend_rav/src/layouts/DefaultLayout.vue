@@ -6,7 +6,7 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex flex-col">
-			<button @click="toggleSidebar" class="bg-yellow-500 text-white p-2">
+			<button @click="toggleSidebar" class="bg-customPurple text-amarillo p-2">
 				Menu Principal
 			</button>
 			<div v-if="isSidebarOpen">
@@ -25,7 +25,7 @@
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
 		<div class="flex flex-grow overflow-hidden">
 			<!-- Sidebar izquierda -->
-			<aside class="w-1/4 h-full bg-gray-100 hidden lg:flex">
+			<aside class="h-full bg-gray-100 hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
@@ -36,7 +36,7 @@
 
 			<!-- Sidebar derecha de notificaciones -->
 			<aside
-				class="w-1/4 h-full bg-gray-100 hidden lg:flex"
+				class="h-full bg-gray-100 hidden lg:flex"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
