@@ -130,7 +130,7 @@ async function submitForm() {
     // Espera 3 segundos antes de redirigir a la página de login
     setTimeout(() => {
       router.push('/login');
-    }, 1500); // 2000 milisegundos = 2 segundos
+    }, 1550); // 2000 milisegundos = 2 segundos
 
   } catch (error) {
     console.error("Error en el registro:", error.response?.data || error.message);
