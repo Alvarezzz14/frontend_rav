@@ -1,61 +1,61 @@
 <template>
-	<!-- Contenedor Glaseado para la Línea de Tiempo -->
 	<div
-		class="glass-container p-5 rounded-lg shadow-lg backdrop-blur-lg backdrop-opacity-50 border border-white/30">
-		<div v-for="(events, date) in groupedEvents" :key="date" class="mb-6">
-			<div class="flex items-center justify-between mb-4">
-				<time class="text-lg font-bold text-gray-700">{{ date }}</time>
-				<button
-					@click="toggleGroup(date)"
-					class="text-customPurple font-semibold hover:underline cursor-pointer">
-					{{ openedGroups[date] ? "Cerrar" : "Ver" }}
-				</button>
-			</div>
-
-			<!-- Transición de los eventos de cada grupo -->
-			<transition
-				name="slide-fade"
-				mode="out-in"
-				enter-active-class="transition-all ease-out duration-300"
-				leave-active-class="transition-all ease-in duration-800"
-				leave-from-class="transform translate-x-0 opacity-100"
-				leave-to-class="transform translate-x-5 opacity-0">
-				<!-- Contenedor de Eventos por Fecha -->
-				<div v-if="openedGroups[date]" class="w-full">
-					<div
-						v-for="(event, index) in events"
-						:key="index"
-						class="flex flex-col md:flex-row gap-6 items-start w-full relative mb-4">
-						<!-- Imagen de Perfil -->
-						<div
-							class="flex flex-col items-center md:w-1/4 w-full text-center md:text-right">
-							<img
-								:src="event.profileImage"
-								alt="Profile"
-								class="w-14 h-14 rounded-full mt-2" />
-							<!-- Línea de conexión entre eventos -->
-							<div
-								v-if="index < events.length - 1"
-								class="w-0.5 h-3/5 bg-gray-300 absolute top-16 mb-2"></div>
+		class="p-5 rounded-lg shadow-lg backdrop-blur-lg backdrop-opacity-50 border border-white/30">
+		<table class="w-full border-collapse">
+			<thead>
+				<tr class="text-left text-gray-700">
+					<th class="pb-4">Fecha</th>
+					<th class="pb-4">Ticket</th>
+					<th class="pb-4">Visualizar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="(events, date) in groupedEvents" :key="date">
+					<td
+						class="border-t py-4"
+						:rowspan="openedGroups[date] ? events.length : 1">
+						<div class="flex flex-col items-start">
+							<time class="text-lg font-bold text-gray-700">{{ date }}</time>
+							<button
+								@click="toggleGroup(date)"
+								class="text-customPurple font-semibold hover:underline cursor-pointer mt-2">
+								{{ openedGroups[date] ? "Cerrar" : "Ver más" }}
+							</button>
 						</div>
+					</td>
 
-						<!-- Detalles del Evento con Fondo Glaseado -->
-						<div class="md:w-3/4 w-full">
-							<div class="event-card bg-white/70 rounded-lg p-4 shadow-md">
-								<p class="font-semibold text-customPurple">{{ event.title }}</p>
-								<p class="text-gray-600">{{ event.description }}</p>
-								<a
-									href="#"
-									@click.prevent="$emit('showEventDetails', event)"
-									class="text-customPurple mt-2 inline-block hover:underline">
-									Ver más
-								</a>
+					<td v-if="openedGroups[date]" class="border-t py-4">
+						<div v-for="(event, index) in events" :key="index">
+							<div class="flex items-center space-x-4 mb-4">
+								<img
+									:src="event.profileImage"
+									alt="Profile"
+									class="w-14 h-14 rounded-full" />
+								<div>
+									<p class="font-semibold text-customPurple">
+										{{ event.title }}
+									</p>
+									<p class="text-gray-600">{{ event.description }}</p>
+								</div>
 							</div>
+							<button
+								@click.prevent="$emit('showEventDetails', event)"
+								class="text-customPurple hover:underline">
+								Ver más
+							</button>
 						</div>
-					</div>
-				</div>
-			</transition>
-		</div>
+					</td>
+
+					<!-- Placeholder if not expanded -->
+					<td
+						v-else
+						colspan="2"
+						class="text-customPurple border-t py-4 text-center">
+						Haz click para ver más información.
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </template>
 
@@ -77,5 +77,21 @@ const toggleGroup = (date) => {
 </script>
 
 <style scoped>
-/* Agregar cualquier estilo adicional aquí si es necesario */
+/* Estilos de tabla y personalización con Tailwind */
+.table-container {
+	@apply p-5 rounded-lg shadow-lg backdrop-blur-lg backdrop-opacity-50 border border-white/30;
+}
+
+table {
+	@apply w-full border-collapse;
+}
+
+th,
+td {
+	@apply py-4 text-left border-t;
+}
+
+td button {
+	@apply text-customPurple font-semibold hover:underline cursor-pointer;
+}
 </style>

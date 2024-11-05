@@ -1,30 +1,49 @@
 <template>
-	<div class="grid grid-rows-layout grid-cols-layout bg-gray-50 min-h-screen">
+	<div class="flex flex-col h-screen">
 		<!-- Header -->
-		<header class="row-span-1 col-span-full top-0 w-full z-50 text-white">
+		<header class="w-full">
 			<Header />
 		</header>
+		<!-- Sección para pantallas pequeñas -->
+		<div class="lg:hidden flex flex-col">
+			<button @click="toggleSidebar" class="bg-yellow-500 text-white p-2">
+				Menu Principal
+			</button>
+			<div v-if="isSidebarOpen">
+				<SidebarLeft />
+			</div>
+			<button
+				@click="MinitoggleNotifications"
+				class="bg-purple-500 text-white p-2">
+				Notificaciones
+			</button>
+			<div v-if="showNotifications">
+				<Notifications />
+			</div>
+		</div>
 
-		<!-- Sidebar izquierda -->
-		<SidebarLeft class="row-start-2 bg-white col-start-1">
-			<router-view></router-view>
-		</SidebarLeft>
+		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
+		<div class="flex flex-grow overflow-hidden">
+			<!-- Sidebar izquierda -->
+			<aside class="w-1/4 h-full bg-gray-100 hidden lg:flex">
+				<SidebarLeft />
+			</aside>
 
-		<!-- Barra de notificaciones derecha -->
+			<!-- Contenido principal -->
+			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
+				<router-view />
+			</main>
 
-		<Notifications
-			class="col-start-3 row-start-2 bg-gray-50"
-			:isCollapsed="isNotificationsCollapsed"
-			@toggle="toggleNotifications" />
-
-		<!-- Contenido principal -->
-		<main
-			class="row-start-2 bg-gray-50 col-start-2 col-end-3 p-6 overflow-auto mt-[4rem] mb-[4rem]">
-			<router-view />
-		</main>
+			<!-- Sidebar derecha de notificaciones -->
+			<aside
+				class="w-1/4 h-full bg-gray-100 hidden lg:flex"
+				:class="{ 'translate-x-full': isNotificationsCollapsed }">
+				<Notifications @toggle="toggleNotifications" />
+			</aside>
+		</div>
 
 		<!-- Footer -->
-		<footer class="fixed row-span-1 bottom-0 col-span-full w-full h-16 z-50">
+		<footer class="w-full h-16">
 			<Footer />
 		</footer>
 	</div>
@@ -41,22 +60,24 @@ import Footer from "../components/Footer.vue";
 
 const isNotificationsCollapsed = ref(false);
 const isNotificationsOpen = ref(false); // Controla si la barra de notificaciones está abierta
+const isSidebarOpen = ref(false);
+const showNotifications = ref(false);
 
+const toggleSidebar = () => {
+	isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const MinitoggleNotifications = () => {
+	showNotifications.value = !showNotifications.value;
+};
 const toggleNotifications = () => {
 	isNotificationsOpen.value = !isNotificationsOpen.value;
 };
+
+// Computar si es móvil
 </script>
 
 <style scoped>
-/* Configuración de las filas y columnas para CSS Grid */
-.grid-rows-layout {
-	grid-template-rows: auto 1fr auto; /* Header, contenido y footer */
-}
-
-.grid-cols-layout {
-	grid-template-columns: auto 1fr auto; /* Barra lateral izquierda, contenido, barra de notificaciones */
-}
-
 /* Sombra adicional para darle un efecto visual más elegante */
 .bg-gray-100 {
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
