@@ -20,7 +20,7 @@
         <label class="block text-customPurple mb-2">TIPO DE DOCUMENTO:</label>
         <p class="text-black mb-4">{{ userInfo.tipo_documento || "NO" }}</p>
 
-        <label class="block text-customPurple mb-2">NOMBRECOMPLETO:</label>
+        <label class="block text-customPurple mb-2">NOMBRE COMPLETO:</label>
         <p class="text-black mb-4">{{ userInfo.nombrecompleto || "NO" }}</p>
 
         <label class="block text-customPurple mb-2">CIUDAD:</label>
@@ -29,7 +29,7 @@
         <label class="block text-customPurple mb-2">GENERO:</label>
         <p class="text-black mb-4">{{ userInfo.genero || "NO" }}</p>
 
-        <label class="block text-customPurple mb-2">IDHOGAR:</label>
+        <label class="block text-customPurple mb-2">ID HOGAR:</label>
         <p class="text-black">{{ userInfo.id_hogar || "NO" }}</p>
       </div>
       <div class="flex-1">
@@ -39,7 +39,7 @@
         <label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
         <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO" }}</p>
 
-        <label class="block text-customPurple mb-2">ESTADOVICTIMA:</label>
+        <label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
         <p class="text-black mb-4">{{ userInfo.estadovictima || "NO" }}</p>
 
         <label class="block text-customPurple mb-2">HECHO:</label>
