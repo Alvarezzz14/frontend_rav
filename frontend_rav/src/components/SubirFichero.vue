@@ -1,10 +1,12 @@
 <template>
   <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
-    <!-- Sección de búsqueda -->
+    <!-- Sección de carga de archivo -->
     <div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
       <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">Cargar Archivo</h2>
       <p class="text-center mb-2 text-customPurple">Adjunta el archivo que deseas compartir</p>
       <br>
+
+      <!-- Área de arrastrar y soltar -->
       <div
         class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
         @drop.prevent="handleDrop"
@@ -14,7 +16,8 @@
         <p class="text-customPurple">Arrastra y suelta el archivo <br /> o</p>
         <!-- Botón de color amarillo -->
         <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
-        <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
+        <!-- Input oculto para selección de archivo -->
+        <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept=".txt,.csv,.xlsx" />
       </div>
 
       <!-- Archivos cargados -->
@@ -27,9 +30,10 @@
         <span class="ml-4 font-semibold text-customPurple">{{ uploadProgress }}%</span>
       </div>
 
-      <!-- Botón de color morado -->
+      <!-- Botón de carga -->
       <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
     </div>
+
     <div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
       <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
     </div>
@@ -38,64 +42,74 @@
 
 <script setup>
 import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
-import Button from 'primevue/button';
 import { ref } from 'vue';
-
+import Button from 'primevue/button';
 
 // Variables y lógica para la carga de archivos
-const loading = ref(false);
-const fileName = ref('');
+const uploadedFile = ref(null);
+const fileName = ref("");
+const fileToUpload = ref(null);
 const uploadProgress = ref(0);
+const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
-const fileToUpload = ref(null);
+const acceptedFileTypes = ["text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Tipos permitidos
 
-const typeFiles = {
-  xlsx: "application/octet-stream",
-  txt: "text/plain",
-};
-
+// Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
-  fileToUpload.value = event.target.files[0];
-  fileName.value = fileToUpload.value.name;
-  uploadProgress.value = 0;
-};
-
-const handleDragOver = (event) => {
-  event.dataTransfer.dropEffect = "copy";
+  const file = event.target.files[0];
+  
+  // Validar el tipo de archivo
+  if (acceptedFileTypes.includes(file.type)) {
+    fileToUpload.value = file;
+    fileName.value = file.name;
+    uploadProgress.value = 0;
+  } else {
+    alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+  }
 };
 
 const handleDrop = (event) => {
   const files = event.dataTransfer.files;
   if (files.length > 0) {
-    fileName.value = files[0].name;
-    fileToUpload.value = files[0];
+    const file = files[0];
+    // Validar el tipo de archivo
+    if (acceptedFileTypes.includes(file.type)) {
+      fileToUpload.value = file;
+      fileName.value = file.name;
+      uploadProgress.value = 0;
+    } else {
+      alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+    }
   }
+};
+
+const handleDragOver = (event) => {
+  event.preventDefault(); // Evitar que el navegador realice una acción predeterminada
 };
 
 const selectFile = () => {
   document.querySelector('input[type="file"]').click();
 };
 
-const uploadFile = async () => {
+const uploadFile = () => {
   if (!fileToUpload.value) return;
-  await createParts(fileToUpload.value);
+
+  // Simulación de progreso de carga
+  uploadProgress.value = 0;
+  const interval = setInterval(() => {
+    if (uploadProgress.value < 100) {
+      uploadProgress.value += 10;
+    } else {
+      clearInterval(interval);
+    }
+  }, 200);
 };
 
-const createParts = async (file) => {
-  switch (file.type) {
-    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-    case "application/vnd.ms-excel":
-      await createPartsExcel(file);
-      break;
-    case "text/plain":
-      await createPartsTxt(file);
-      break;
-  }
-};
-
+// Función para enviar el archivo al servidor
 const sendFile = async (fetchOptions) => {
-  const { url, options } = fetchOptions;
+  let { url, options } = fetchOptions;
+
   loading.value = true;
   uploadSuccess.value = false;
   uploadError.value = false;
@@ -104,7 +118,8 @@ const sendFile = async (fetchOptions) => {
     const response = await fetch(url, options);
     const json = await response.json();
 
-    if (!response.ok) throw new Error(response.statusText ?? "Ocurrio un error");
+    if (!response.ok)
+      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
 
     console.log(json);
     uploadSuccess.value = true;
@@ -117,26 +132,12 @@ const sendFile = async (fetchOptions) => {
 };
 
 const createFormData = (archivoBlob, fileName) => {
-  const formularioDatos = new FormData();
-  formularioDatos.append("file", archivoBlob, fileName);
-  return formularioDatos;
+  const formData = new FormData();
+  formData.append("file", archivoBlob, fileName);
+  return formData;
 };
 
-const createBlob = (newWorkBook, typeFile) => {
-  let blob;
-  switch (typeFile) {
-    case "xlsx":
-      blob = XLSX.write(newWorkBook, { bookType: typeFile, type: "array" });
-      break;
-    case "txt":
-      blob = newWorkBook;
-      break;
-  }
-
-  const archivoBlob = new Blob([blob], { type: typeFiles[typeFile] });
-  return archivoBlob;
-};
-
+// Función para dividir archivos de texto en partes
 const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
   let partNumber = 1;
@@ -145,10 +146,10 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
 
   reader.onload = async (e) => {
     const chunkData = e.target.result;
-    const fileBlob = new Blob([chunkData], { type: "text/plain" });
+    const fileBlob = new Blob([blob], { type: "text/plain" });
     const fileName = `${file.name}_parte${partNumber}.txt`;
-
-    const formData = createFormData(fileBlob, fileName);
+    const formData = new FormData();
+    formData.append("file", fileBlob, fileName);
 
     let fetchOptions = {
       url: "http://localhost:8081/upload",
@@ -177,6 +178,7 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
   readNextChunk();
 };
 
+// Función para dividir archivos Excel en partes
 const createPartsExcel = async (file, rowLimit = 100) => {
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
@@ -184,11 +186,7 @@ const createPartsExcel = async (file, rowLimit = 100) => {
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(workSheet, {
-      header: 1,
-      defval: "Vacio",
-      dateNF: "MM/DD/YYYY",
-    });
+    const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
 
     for (let i = 0; i < jsonData.length; i += rowLimit) {
       const newWorkBook = XLSX.utils.book_new();
@@ -199,7 +197,6 @@ const createPartsExcel = async (file, rowLimit = 100) => {
 
       const archivoBlob = createBlob(newWorkBook, "xlsx");
       const fileName = `${sheetName}_parte${partCount}.xlsx`;
-
       const formData = createFormData(archivoBlob, fileName);
 
       let fetchOptions = {
@@ -213,8 +210,31 @@ const createPartsExcel = async (file, rowLimit = 100) => {
 
       await sendFile(fetchOptions);
     }
-    alert("División y envío completados.");
   }
+  alert("División y envío completados.");
+};
+
+// Función que llama a las funciones de división dependiendo del tipo de archivo
+const createParts = async (file) => {
+  switch (file.type) {
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+    case "application/vnd.ms-excel":
+      await createPartsExcel(file);
+      break;
+    case "text/plain":
+      await createPartsTxt(file);
+      break;
+    default:
+      alert("Tipo de archivo no soportado.");
+      break;
+  }
+};
+
+// Función final de carga de archivo
+const uploadFileFinal = async () => {
+  if (!fileToUpload.value) return;
+
+  await createParts(fileToUpload.value);
 };
 </script>
 
