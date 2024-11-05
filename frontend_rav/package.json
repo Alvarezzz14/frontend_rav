@@ -11,12 +11,11 @@
   "dependencies": {
     "@primevue/themes": "^4.1.0",
     "axios": "^1.7.7",
-    "chart.js": "^4.4.6",
     "flowbite": "^2.5.2",
     "flowbite-vue": "^0.1.6",
     "pinia": "^2.2.5",
     "primeicons": "^7.0.0",
-    "primevue": "^4.2.0",
+    "primevue": "^4.2.1",
     "tailwindcss-primeui": "^0.3.4",
     "vite-plugin-vue-devtools": "^7.6.1",
     "vue": "^3.5.12",

@@ -91,19 +91,20 @@
           </div>
         </div>
 
-        <!-- Botón de Búsqueda -->
-        <button class="w-full bg-customPurple text-white py-2 rounded-lg shadow-md mt-4" @click="buscar">Buscar</button>
+        <!-- Botón de Búsqueda -->          
+      <button class="w-full bg-customPurple text-white py-2 rounded-lg shadow-md mt-4" @click="downloadExcel">Buscar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-function buscar() {
-  // Acción de búsqueda
+function downloadExcel() {
+  const link = document.createElement('a');
+  link.href = '/files/reporte.xlsx'; // Asegúrate de que esta ruta es accesible
+  link.download = 'reporte.xlsx'; // Nombre del archivo descargado
+  link.click();
 }
 </script>
 
-<style scoped>
-/* Estilos adicionales si es necesario */
-</style>
+
