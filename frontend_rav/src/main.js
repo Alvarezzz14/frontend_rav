@@ -15,7 +15,7 @@ import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import 'primeicons/primeicons.css';
 import 'flowbite';
-import './styles/style.css';
+import '@/styles/style.css';
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -39,5 +39,5 @@ app.use(router)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
     .component('Drawer', Drawer)
-    
+
     .mount('#app');

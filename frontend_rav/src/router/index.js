@@ -34,7 +34,7 @@ const routes = [
       {
         path: '',
         name: 'HomePage',
-        component: HomePage // Página que se renderiza dentro del layout
+        component: DashBoardPage // Página que se renderiza dentro del layout
       },
       {
         path: '/departamentos',
@@ -78,12 +78,7 @@ const routes = [
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
-      
-      {
-        path: '/dashboard',
-        name: 'DashBoardPage',
-        component: DashBoardPage
-      }
+
 
     ]
   },
