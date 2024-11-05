@@ -1,23 +1,7 @@
 <template>
-	<div class="relative flex flex-col h-[calc(100vh-8rem)] overflow-y-auto">
-		<!-- Botón hamburguesa en modo responsive -->
-		<div class="">
-			<button
-				@click="isSidebarOpen = !isSidebarOpen"
-				class="cursor-pointer focus:outline-none h-1 bg-amarillo relative top-0 left-0 z-50 p-4 lg:hidden rounded-full"
-				aria-label="Toggle sidebar">
-				<i class="pi pi-bars"></i>
-			</button>
-		</div>
-
+	<div class="overflow-auto bg-white">
 		<!-- Barra lateral izquierda -->
-		<div
-			:class="{
-				'translate-x-0': isSidebarOpen,
-				'-translate-x-full': !isSidebarOpen,
-			}"
-			class="fixed md:relative flex-grow bg-white w-56rounded-r-3xl overflow-hidden transform transition-transform duration-200 z-40 md:translate-x-0">
-			<!-- Sección superior con el RavIcon y navegación -->
+		<div>
 			<!-- Ícono centrado -->
 			<div class="py-8 flex items-center h-auto justify-center shadow-md">
 				<RavIcon />
@@ -127,14 +111,6 @@ const menuItems = ref([
 	},
 ]);
 
-/* const toggleSidebar = () => {
-	sidebarOpen.value = !sidebarOpen.value;
-};*/
-
-const toggleSubmenu = (item) => {
-	item.submenuOpen = !item.submenuOpen;
-};
-
 const hasShownNoSessionToast = ref(false);
 
 const logout = async () => {
@@ -181,16 +157,6 @@ const logout = async () => {
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
-	/* Ocultar sidebar en pantallas pequeñas */
-	.-translate-x-full {
-		transform: translateX(-100%);
-	}
-	/* Mostrar sidebar en pantallas pequeñas cuando está abierto */
-	.translate-x-0 {
-		transform: translateX(0);
-	}
-}
 .shadow-top {
 	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
 		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
