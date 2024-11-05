@@ -33,8 +33,8 @@
 
         <!-- Encabezado con nombre y fondo color -->
         <div class="bg-customPurple text-white py-2 px-4 flex items-center">
-          <h2 class="text-3xl font-bold">{{ selectedInfo.name }}</h2>
-
+          <!-- Cambia el tamaño del texto según el ancho de pantalla -->
+          <h2 class="font-bold text-2xl md:text-3xl">{{ selectedInfo.name }}</h2>
           <!-- Imagen del mapa del departamento seleccionado -->
           <img :src="selectedInfo.imageMap" class="bg-white rounded-3xl ml-auto w-11 h-11" />
         </div>
