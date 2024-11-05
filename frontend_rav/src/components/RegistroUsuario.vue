@@ -126,6 +126,12 @@ async function submitForm() {
       confirmPassword: formData.confirmPassword
     });
     toast.success("Registro exitoso. Ahora puedes iniciar sesión.");
+
+    // Espera 3 segundos antes de redirigir a la página de login
+    setTimeout(() => {
+      router.push('/login');
+    }, 1600); // 2000 milisegundos = 2 segundos
+
   } catch (error) {
     console.error("Error en el registro:", error.response?.data || error.message);
     toast.error(error.response?.data?.error || "Error en el registro");
