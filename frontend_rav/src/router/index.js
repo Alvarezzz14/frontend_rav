@@ -13,6 +13,7 @@ import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
 import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
+import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 
 
 
@@ -77,6 +78,12 @@ const routes = [
         path: '/perfilusuario',
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
+      },
+    
+      {
+        path: '/LineaTiempoNueva',
+        name: 'LineaTiempoNuevaPage',
+        component: LineaTiempoNuevaPage
       },
 
 
