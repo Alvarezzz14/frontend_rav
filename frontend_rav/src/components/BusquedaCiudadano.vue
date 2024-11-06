@@ -45,52 +45,58 @@
 		</template>
 	  </Dialog>
 	</div>
+</template>
 
-  </template>
-  
-  <script setup>
-  import Ciudadano from '@/assets/images/Ciudadano.svg';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useEventStore } from '@/stores/storedataOff.js';
-  import Dialog from 'primevue/dialog';
-  import Button from 'primevue/button';
-  
-  const searchCedula = ref('');
-  const noResultsModal = ref(false);
-  const modalMessage = ref('');
-  const loading = ref(false);
-  const router = useRouter();
-  const eventStore = useEventStore();
-  
-  const searchUser = async () => {
-  if (!searchCedula.value.trim()) {
-    noResultsModal.value = true;
-    modalMessage.value = "Por favor, ingrese un número de documento.";
-    return;
-  }
+<script setup>
+import Ciudadano from "@/assets/images/Ciudadano.svg";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useEventStore } from "@/stores/storedataOff.js";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
+import axios from 'axios';
 
-  loading.value = true;
+const searchCedula = ref("");
+const noResultsModal = ref(false);
+const modalMessage = ref("");
+const loading = ref(false);
+const router = useRouter();
+const eventStore = useEventStore();
+async function searchByCedula(cedula) {
   try {
-    const results = await eventStore.searchByCedula(searchCedula.value);
-    if (results.length > 0) {
-      router.push({
-        name: "RutaAccionPage",
-        params: {
-          cedula: searchCedula.value,
-        },
-      });
-    } else {
-      noResultsModal.value = true;
-      modalMessage.value = `No se encontraron resultados con el documento: ${searchCedula.value}`;
-    }
+    const response = await axios.get(`http://localhost:8081/api/v1/victimas/${cedula}`);
+    return response.data; // Aquí accedemos directamente a los datos JSON
   } catch (error) {
-    console.error("Error al buscar el usuario:", error);
-    noResultsModal.value = true;
-    modalMessage.value = "Ocurrió un error al realizar la búsqueda.";
-  } finally {
-    loading.value = false;
+    console.error('Error al buscar eventos por cédula:', error);
+    return [];
   }
+}
+
+// Modifica para usar la API
+const searchUser = async () => {
+	if (!searchCedula.value.trim()) {
+		noResultsModal.value = true;
+		modalMessage.value = "Por favor, ingrese un número de cédula.";
+		return;
+	}
+
+	loading.value = true;
+	const results = await searchByCedula(searchCedula.value);
+	
+	console.log(results)
+	if (Object.keys(results).length > 0) {
+		eventStore.setUserInfo(results)
+		router.push({
+			name: "PerfilUsuarioPage",
+			params: { userInfo: results },
+		});
+	} else {
+		noResultsModal.value = true;
+		modalMessage.value = `No se encontraron resultados con la cédula: ${searchCedula.value}`;
+	}
+
+	loading.value = false;
+
 };
 
   </script>

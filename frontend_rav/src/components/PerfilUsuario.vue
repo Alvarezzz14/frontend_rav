@@ -18,35 +18,35 @@
     <div class="flex flex-col lg:flex-row gap-6">
       <div class="flex-1">
         <label class="block text-customPurple mb-2">TIPO DE DOCUMENTO:</label>
-        <p class="text-black mb-4">{{ userData["TIPO DE DOCUMENTO"] || "C:C" }}</p>
+        <p class="text-black mb-4">{{ userInfo.tipo_documento || "NO REGISTRA" }}</p>
 
-        <label class="block text-customPurple mb-2">NOMBRES:</label>
-        <p class="text-black mb-4">{{ userData.NOMBRES || "Andrw" }}</p>
+        <label class="block text-customPurple mb-2">NOMBRE COMPLETO:</label>
+        <p class="text-black mb-4">{{ userInfo.nombrecompleto || "NO REGISTRA" }}</p>
 
-        <label class="block text-customPurple mb-2">APELLIDOS:</label>
-        <p class="text-black mb-4">{{ userData.APELLIDOS || "Godan" }}</p>
+        <label class="block text-customPurple mb-2">CIUDAD:</label>
+        <p class="text-black mb-4">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
 
-        <label class="block text-customPurple mb-2">UBICACIÓN:</label>
-        <p class="text-black mb-4">{{ userData.UBICACIÓN || "Risaralda" }}</p>
+        <label class="block text-customPurple mb-2">GENERO:</label>
+        <p class="text-black mb-4">{{ userInfo.genero || "NO REGISTRA" }}</p>
 
-        <label class="block text-customPurple mb-2">PROVIENE DE SOFIA:</label>
-        <p class="text-black">{{ userData["PROVIENE DE SOFIA"] || "NO" }}</p>
+        <label class="block text-customPurple mb-2">ID HOGAR:</label>
+        <p class="text-black">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
       </div>
       <div class="flex-1">
         <label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
-        <p class="text-black mb-4">{{ userData["NÚMERO DE DOCUMENTO"] || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
-        <p class="text-black mb-4">{{ userData["PROCEDENCIA ÉTNICA"] || "NO" }}</p>
+        <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
 
-        <label class="block text-customPurple mb-2">ID HOGAR:</label>
-        <p class="text-black mb-4">{{ userData["ID HOGAR"] || "NO" }}</p>
+        <label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
+        <p class="text-black mb-4">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
+
+        <label class="block text-customPurple mb-2">HECHO:</label>
+        <p class="text-black mb-4">{{ userInfo.hecho || "NO REGISTRA" }}</p>
 
         <label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
-        <p class="text-black mb-4">{{ userData["NÚMERO DE CONTACTO"] || "NO" }}</p>
-
-        <label class="block text-customPurple mb-2">PROVIENE DE RUV:</label>
-        <p class="text-black">{{ userData["ROVIENE DE RUV"] || "NO" }}</p>
+        <p class="text-black">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
       </div>
     </div>
   </div>
@@ -55,31 +55,24 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import data from "@/assets/data.json";
+import { useEventStore } from "@/stores/storedataOff.js";
 
 const route = useRoute();
-const userData = ref({
-  "TIPO DE DOCUMENTO": '',
-  "NOMBRES": '',
-  "APELLIDOS": '',
-  "UBICACIÓN": '',
-  "PROVIENE DE SOFIA": '',
-  "NÚMERO DE DOCUMENTO": '',
-  "PROCEDENCIA ÉTNICA": '',
-  "ID HOGAR": '',
-  "NÚMERO DE CONTACTO": '',
-  "ROVIENE DE RUV": '',
-});
 
-// Obtener el número de documento de los parámetros de la ruta
-onMounted(() => {
-  const cedula = route.params.cedula; // Tomamos el número de documento de los parámetros
-  const result = data.find((user) => user["NÚMERO DE DOCUMENTO"] === cedula); // Busca por el número de documento
-
-  if (result) {
-    userData.value = result; // Asignamos los datos del usuario a userData
+const eventStore = useEventStore();
+const userInfo = ref({})
+onMounted( () => {
+  const info = route.params.userInfo;
+//  const results = await eventStore.searchByCedula(cedula);
+  
+  userInfo.value = eventStore.userInfo
+  console.log(userInfo.value)
+  console.log(userInfo.value.nombrecompleto)
+  /*if (results.length > 0) {
+    userData.value = results[0];
   } else {
     console.error(`No se encontró usuario con el número de documento: ${cedula}`);
-  }
+  }*/
 });
+
 </script>
