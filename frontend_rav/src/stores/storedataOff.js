@@ -17,6 +17,6 @@ export const useEventStore = defineStore('eventStore', () => {
       return [];
     }
   }*/
-  
+   
   return { userInfo, setUserInfo };
 });
