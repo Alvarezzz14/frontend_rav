@@ -7,7 +7,6 @@ import App from './App.vue';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
-import Sidebar from 'primevue/sidebar';
 import Ripple from 'primevue/ripple';
 import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
@@ -15,7 +14,7 @@ import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
 import 'primeicons/primeicons.css';
 import 'flowbite';
-import './styles/style.css';
+import '@/styles/style.css';
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -25,6 +24,9 @@ app.use(router)
     .use(PrimeVue, {
         theme: {
             preset: Aura,
+            options: {
+                darkModeSelector: '.no-dark-mode' // Clase inexistente para evitar el modo oscuro
+            }
         },
     })
     .use(Toast, {
@@ -39,5 +41,5 @@ app.use(router)
     .directive('styleclass', StyleClass)
     .directive('ripple', Ripple)
     .component('Drawer', Drawer)
-    
+
     .mount('#app');

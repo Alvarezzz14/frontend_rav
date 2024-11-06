@@ -1,8 +1,6 @@
 <template>
-    <RegistrodeActividad />
+	<RegistrodeActividad />
 </template>
 <script setup>
-
-
-import RegistrodeActividad from '../components/RegistrodeActividad.vue';
+import RegistrodeActividad from "@/components/RegistrodeActividad.vue";
 </script>
