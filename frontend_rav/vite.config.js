@@ -10,7 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@pages': '/src/pages'
+      '@pages': './src/pages'
     }
   }
 })

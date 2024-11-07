@@ -5,7 +5,10 @@
       <!-- Icono y Título -->
       <div class="flex items-center mb-4 md:mb-0">
         <div class="p-6 bg-customPurple rounded-full">
-          <img :src="Reportes" alt="Reportes" width="50" height="50" />
+          <!-- Icono SVG -->
+          <svg width="65" height="57" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- SVG del ícono -->
+          </svg>
         </div>
         <div class="ml-4 text-center md:text-left">
           <p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
@@ -37,7 +40,7 @@
     <div class="flex flex-col xl:flex-row items-center xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">
       <!-- Imagen a la Izquierda -->
       <div class="flex-1 max-w-md lg:max-w-lg p-4">
-        <img src="@/assets/images/PersonaReportes.jpg" alt="Persona sonriendo" class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
+        <img src="@/assets/images/PersonaReportes.svg" alt="Persona sonriendo" class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
       </div>
 
       <!-- Formulario a la Derecha -->

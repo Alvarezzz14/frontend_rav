@@ -3,32 +3,47 @@
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
-			<div class="py-8 flex items-center h-auto justify-center shadow-md">
-				<RavIcon />
+			<div
+				class="py-8 hidden lg:flex items-center h-auto justify-center shadow-md">
+				<RavIcon class="" />
 			</div>
 
 			<!-- Menu de navegación -->
 			<nav>
-				<ul class="list-none flex flex-col py-4">
+				<ul class="list-none flex flex-col px-3">
 					<li
 						v-for="item in menuItems"
 						:key="item.title"
-						class="pt-1 py-8 relative w-full">
+						class="pt-1 py-4 md:py-5 relative w-full">
 						<router-link
 							v-if="item.to"
 							:to="item.to"
-							class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+							class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
 							<!-- Contenedor redondo para el icono -->
 							<span
-								class="inline-flex items-center justify-center h-12 rounded-full w-12 text-lg bg-customPurple text-white mr-2">
-								<i :class="[item.icon, 'text-xl ']"></i>
+								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg bg-customPurple text-white mr-2">
+								<i :class="[item.icon]"></i>
 							</span>
-							<span class="text-left">{{ item.title }}</span>
+							<span
+								class="text-left sm:text-md md:text-base lg:text-lg font-sm"
+								>{{ item.title }}</span
+							>
 						</router-link>
+					</li>
+					<li class="block lg:hidden">
+						<span
+							class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg bg-customPurple text-white mr-2">
+							<i class="pi-sign-out"></i>
+						</span>
+						<span
+							class="text-left text-gray-500 sm:text-md md:text-base lg:text-lg font-sm"
+							>Cerrar Sesión</span
+						>
 					</li>
 				</ul>
 				<!-- Sección inferior con el avatar, nombre y email -->
-				<div class="p-4 border text:sm flex-shrink-0 shadow-top">
+				<div
+					class="hidden lg:block p-4 border text:sm flex-shrink-0 shadow-top">
 					<div class="flex items-center justify-center">
 						<Avatar
 							:src="user.avatar"
