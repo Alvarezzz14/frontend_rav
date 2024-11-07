@@ -3,8 +3,9 @@
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
-			<div class="py-8 flex items-center h-auto justify-center shadow-md">
-				<RavIcon />
+			<div
+				class="py-8 hidden md:flex items-center h-auto justify-center shadow-md">
+				<RavIcon class="" />
 			</div>
 
 			<!-- Menu de navegación -->

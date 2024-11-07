@@ -5,10 +5,10 @@
 			<Header />
 		</header>
 		<!-- Sección para pantallas pequeñas -->
+		<div class="lg:hidden flex justify-center py-4">
+			<img src="@/assets/images/ravLogo.png" alt="" />
+		</div>
 		<div class="lg:hidden flex flex-col">
-			<div class="flex justify-center">
-				<!-- <RavIcon2></RavIcon2> -->
-			</div>
 			<button
 				@click="toggleSidebar"
 				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
@@ -66,7 +66,7 @@ import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
-import RavIcon2 from "@/components/Icons/RavIcon2.vue";
+import RavLogo from "@/assets/images/ravLogo.png";
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
