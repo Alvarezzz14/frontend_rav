@@ -70,8 +70,8 @@ import { ref } from 'vue';
 import Reportes from "@/assets/images/Reportes.svg";
 import VerLine from "@/assets/images/VerLine.svg";
 import LogoSena from "@/assets/images/logosenaverde.svg";
-import event1 from "@/assets/images/CiudadanoRutaAtencion.svg";
-import event2 from "@/assets/images/cuidadanoflauta.svg";
+import event1 from "@/assets/images/TargetsTime.png";
+import event2 from "@/assets/images/TargetsTime.png";
 
 // Datos de la línea de tiempo
 const timelineData = ref([
