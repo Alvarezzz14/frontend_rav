@@ -34,8 +34,6 @@
       <!-- Botón de carga -->
       <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
     </div>
-
-    
   </div>
 </template>
 
@@ -61,28 +59,26 @@ const createFormData = (archivoBlob, fileName) => {
   return formData;
 };
 
-const createBlob = (newWorkBook, typeFile) =>{
-      let blob;
+const createBlob = (newWorkBook, typeFile) => {
+  let blob;
 
-      switch (typeFile) {
-        case "xlsx":
-          // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
-          blob = XLSX.write(newWorkBook, {
-            bookType: typeFile,
-            type: "array",
-          });
-          break;
+  switch (typeFile) {
+    case "xlsx":
+      // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
+      blob = XLSX.write(newWorkBook, {
+        bookType: typeFile,
+        type: "array",
+      });
+      break;
 
-        case "txt":
-          blob = newWorkBook;
-          break;
-      }
+    case "txt":
+      blob = newWorkBook;
+      break;
+  }
 
-
-      const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
-      return archivoBlob;
-    }
-
+  const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
+  return archivoBlob;
+}
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
@@ -120,7 +116,6 @@ const handleDragOver = (event) => {
 const selectFile = () => {
   document.querySelector('input[type="file"]').click();
 };
-
 
 // Función para dividir archivos de texto en partes
 const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
@@ -203,15 +198,12 @@ const createPartsExcel = async (file, rowLimit = 53) => {
   alert("División y envío completados.");
 };
 
-
 // Función que llama a las funciones de división dependiendo del tipo de archivo
 const createParts = async (file) => {
   switch (file.type) {
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": 
     case "application/vnd.ms-excel":
       await createPartsExcel(file);
-      console.log("Esta ingresando aca");
-      
       break;
     case "text/plain":
       await createPartsTxt(file);
@@ -222,7 +214,6 @@ const createParts = async (file) => {
   }
 };
 
-
 // Función final de carga de archivo
 const uploadFileFinal = async () => {
   if (!fileToUpload.value) return;
@@ -230,16 +221,44 @@ const uploadFileFinal = async () => {
   await createParts(fileToUpload.value);
 };
 
-const uploadFile = async() => {
+const uploadFile = async () => {
   if (!fileToUpload.value) return;
-  await uploadFileFinal()
+  
+  // Emitimos el evento con el progreso inicial
+  window.dispatchEvent(new CustomEvent("file-upload-progress", {
+    detail: {
+      title: "Subiendo archivo...",
+      message: `Subiendo ${fileName.value}`,
+      progress: uploadProgress.value,
+      redirectUrl: "http://localhost:5173/subirfichero"
+    }
+  }));
+
+  await uploadFileFinal();
+  
   // Simulación de progreso de carga
   uploadProgress.value = 0;
   const interval = setInterval(() => {
     if (uploadProgress.value < 100) {
       uploadProgress.value += 10;
+      window.dispatchEvent(new CustomEvent("file-upload-progress", {
+        detail: {
+          title: "Subiendo archivo...",
+          message: `Subiendo ${fileName.value}`,
+          progress: uploadProgress.value,
+          redirectUrl: "http://localhost:5173/subirfichero"
+        }
+      }));
     } else {
       clearInterval(interval);
+      window.dispatchEvent(new CustomEvent("file-upload-progress", {
+        detail: {
+          title: "Éxito en carga",
+          message: `El archivo ${fileName.value} se ha subido exitosamente`,
+          progress: 100,
+          redirectUrl: "http://localhost:5173/subirfichero"
+        }
+      }));
     }
   }, 200);
 };
@@ -268,11 +287,6 @@ const sendFile = async (fetchOptions) => {
     loading.value = false;
   }
 };
-
-
-
-
-
 </script>
 
 <style scoped>
