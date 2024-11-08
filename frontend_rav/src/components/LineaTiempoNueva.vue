@@ -46,15 +46,15 @@
       </button>
     </div>
     <!-- Sección de Línea de Tiempo -->
-    <div v-if="timelineData && timelineData.length" class="relative bg-white w-full max-w-7xl mx-auto py-8">
+    <div v-if="timelineData && timelineData.length" class="relative bg-white w-full max-w-5xl mx-auto py-px">
       <!-- Línea vertical morada -->
-      <div class="absolute bg-customPurple w-32 left-1/2 transform -translate-x-1/2 h-full"></div>
+      <div class="absolute bg-customPurple w-12 left-1/2 transform -translate-x-1/2 h-full"></div>
 
       <!-- Contenido de la línea de tiempo -->
       <div v-for="(item, index) in timelineData" :key="index" class="relative flex items-center my-8">
         <!-- Marcador del ícono -->
         <div
-          class="relative left-2/4 transform -translate-x-1/2  rounded-full w-10 h-12 table items-center justify-center border-4 border-white">
+          class="relative left-2/4 transform -translate-x-1/2 bg-customPurple rounded-full w-12 h-12 flex items-center justify-center border-4 border-white">
           <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center">
             <img :src="LogoSena" alt="Ícono" class="w-6 h-6" />
           </div>
