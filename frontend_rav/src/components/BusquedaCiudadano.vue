@@ -69,7 +69,7 @@ const eventStore = useEventStore();
 	 
 async function searchByCedula(cedula) {
   try {
-    const response = await axios.get(`http://localhost:8081/api/v1/victimas/${cedula}`);
+    const response = await axios.get(`http://localhost:8082/api/v1/victimas/${cedula}`);
     return response.data; // Aquí accedemos directamente a los datos JSON
   } catch (error) {
     console.error('Error al buscar eventos por cédula:', error);
