@@ -14,6 +14,7 @@ import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
+import ErrorPage  from '@/pages/ErrorPage.vue';
 
 
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
     component: RegistroUsuarioPage
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'ErrorPage',
+    component: ErrorPage
   },
   {
     path: "/",

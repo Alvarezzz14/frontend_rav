@@ -9,6 +9,7 @@ export default {
   theme: {
     extend: {
       colors: {  
+        negro: '#000000',
         amarillo: '#FFBF00',  
         grisInput:'#F2F3F3',
         customPurple: '#71277A',

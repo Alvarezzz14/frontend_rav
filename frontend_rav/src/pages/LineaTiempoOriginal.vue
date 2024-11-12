@@ -6,5 +6,5 @@
 </template>
 
 <script setup>
-import LineaTiempoOriginal from "../components/LineaTiempoOriginal.vue";
+import LineaTiempoOriginal from "@/components/LineaTiempoOriginal.vue";
 </script>

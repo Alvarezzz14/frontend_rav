@@ -46,15 +46,14 @@
       </button>
     </div>
     <!-- Sección de Línea de Tiempo -->
-    <div v-if="timelineData && timelineData.length" class="relative bg-white w-full max-w-5xl mx-auto py-px">
+    <div v-if="timelineData && timelineData.length" class="relative bg-white w-full max-w-7xl mx-auto py-px">
       <!-- Línea vertical morada -->
       <div class="absolute bg-customPurple w-12 left-1/2 transform -translate-x-1/2 h-full"></div>
 
       <!-- Contenido de la línea de tiempo -->
       <div v-for="(item, index) in timelineData" :key="index" class="relative flex items-center my-8">
         <!-- Marcador del ícono -->
-        <div
-          class="relative left-2/4 transform -translate-x-1/2 bg-customPurple rounded-full w-12 h-12 flex items-center justify-center border-4 border-white">
+        <div class="relative left-2/4 transform -translate-x-1/2 rounded-full w-12 h-12 flex items-center justify-center border-4 border-white">
           <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center">
             <img :src="LogoSena" alt="Ícono" class="w-6 h-6" />
           </div>
@@ -62,8 +61,8 @@
 
         <!-- Tarjeta de contenido -->
         <div :class="`w-full md:w-2/5 ${index % 2 === 0 ? 'ml-auto pr-6 text-right' : 'mr-auto pl-6 text-left'}`">
-          <div class="bg-white p-4 rounded-lg shadow-md">
-            <img :src="item.image" alt="Imagen del evento" class="w-full h-24 object-cover rounded-md mb-3" />
+          <div class="bg-white  rounded-lg shadow-md">
+            <img :src="item.image" alt="Imagen del evento" class="w-full h-32 object-cover rounded-md mb-3" />
             <p class="text-gray-500 text-sm font-semibold">{{ item.date }}</p>
             <h3 class="text-lg font-bold mt-1">{{ item.title }}</h3>
             <p class="text-gray-700 text-sm mt-1">{{ item.description }}</p>
