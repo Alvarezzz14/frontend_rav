@@ -24,7 +24,7 @@
 					<p class="text-black mb-0 text-2xl">Perfil de</p>
 					<h2 class="text-customPurple text-5xl mt-0 font-bold">Ciudadano</h2>
 				</div>
-
+        
         <button class="bg-customPurple text-white p-4 rounded-lg shadow flex flex-col items-center">
           <svg width="40" height="40" viewBox="0 0 39 34" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M38.9961 10.0214C38.8164 10.746 38.722 11.5069 38.4348 12.184C38.1011 12.9931 37.6672 13.7566 37.1433 14.4566C35.1208 17.0803 33.0441 19.6617 30.9864 22.2592C30.9332 22.3268 30.8749 22.3914 30.7986 22.4792C30.7113 22.3782 30.6369 22.2975 30.5687 22.2107C28.4226 19.4861 26.1952 16.83 24.1476 14.0368C20.674 9.29383 23.2438 2.44485 29.1597 1.19656C33.5864 0.26412 37.8483 3.11391 38.8254 7.56721C38.8937 7.876 38.9429 8.18883 39.0001 8.49965L38.9961 10.0214ZM30.7846 18.599C30.8609 18.5143 30.897 18.479 30.9282 18.4396C32.4235 16.5475 33.9348 14.6685 35.409 12.7592C36.4223 11.4473 36.7547 9.9417 36.5016 8.30085C35.9995 5.04741 32.7056 2.80713 29.5403 3.57205C25.2824 4.60137 23.6033 9.50272 26.3268 12.963C27.331 14.2396 28.3433 15.5111 29.3515 16.7846L30.7846 18.599Z" fill="white"/>
@@ -56,6 +56,7 @@
           </svg>
             <span class="mt-2">Crear Ticket</span>
         </button>
+
 			</div>
 		</div>
 		<div class="flex flex-col lg:flex-row gap-6">
@@ -69,6 +70,7 @@
 				<p class="text-black mb-4">
 					{{ userInfo.nombrecompleto || "NO REGISTRA" }}
 				</p>
+
 
 				<label class="block text-customPurple mb-2">CIUDAD:</label>
 				<p class="text-black mb-4">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
@@ -185,6 +187,7 @@
     </div>
   </div>
 
+
 </template>
 
 <script setup>
@@ -193,6 +196,7 @@ import { useRoute } from "vue-router";
 import { useEventStore } from "@/stores/storedataOff.js";
 
 const route = useRoute();
+
 
 const eventStore = useEventStore();
 const userInfo = ref({});
@@ -213,18 +217,6 @@ const userData = ref({
   "ID HOGAR": '',
   "NÚMERO DE CONTACTO": '',
   "ROVIENE DE RUV": '',
-});
-
-// Obtener el número de documento de los parámetros de la ruta
-onMounted(() => {
-  const cedula = route.params.cedula; // Tomamos el número de documento de los parámetros
-  const result = data.find((user) => user["NÚMERO DE DOCUMENTO"] === cedula); // Busca por el número de documento
-
-  if (result) {
-    userData.value = result; // Asignamos los datos del usuario a userData
-  } else {
-    console.error(`No se encontró usuario con el número de documento: ${cedula}`);
-  }
 });
 
 

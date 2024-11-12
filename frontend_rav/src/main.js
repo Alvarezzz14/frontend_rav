@@ -7,7 +7,6 @@ import App from './App.vue';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import Avatar from 'primevue/avatar';
-import Sidebar from 'primevue/sidebar';
 import Ripple from 'primevue/ripple';
 import StyleClass from 'primevue/styleclass';
 import Drawer from 'primevue/drawer';
@@ -25,6 +24,9 @@ app.use(router)
     .use(PrimeVue, {
         theme: {
             preset: Aura,
+            options: {
+                darkModeSelector: '.no-dark-mode' // Clase inexistente para evitar el modo oscuro
+            }
         },
     })
     .use(Toast, {

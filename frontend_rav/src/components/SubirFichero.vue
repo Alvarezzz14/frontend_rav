@@ -132,7 +132,7 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
     formData.append("file", fileBlob, fileName);
 
     let fetchOptions = {
-      url: "http://localhost:8080/upload",
+      url: "http://localhost:8081/upload",
       options: {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -184,7 +184,7 @@ const createPartsExcel = async (file, rowLimit = 53) => {
       const formData = createFormData(archivoBlob, fileName);
 
       let fetchOptions = {
-        url: "http://localhost:8080/upload",
+        url: "http://localhost:8081/upload",
         options: {
           method: "POST",
           headers: { Accept: "application/json" },
