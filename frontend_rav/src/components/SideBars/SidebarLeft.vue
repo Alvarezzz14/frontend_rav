@@ -17,7 +17,7 @@
 						<router-link
 							v-if="item.to"
 							:to="item.to"
-							class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+							class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-600 hover:text-amarillo focus:bg-customPurple focus:text-amarillo">
 							<!-- Contenedor redondo para el icono -->
 							<span
 								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg bg-customPurple text-white mr-2">
