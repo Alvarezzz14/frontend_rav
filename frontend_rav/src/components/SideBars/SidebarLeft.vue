@@ -3,8 +3,7 @@
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
-			<div
-				class="py-8 hidden lg:flex items-center h-auto justify-center shadow-md">
+			<div class="py-8 hidden lg:flex items-center h-auto justify-center">
 				<RavIcon class="" />
 			</div>
 
@@ -42,8 +41,7 @@
 					</li>
 				</ul>
 				<!-- Sección inferior con el avatar, nombre y email -->
-				<div
-					class="hidden lg:block p-4 border text:sm flex-shrink-0 shadow-top">
+				<div class="hidden lg:block p-4 border text:sm flex-shrink-0">
 					<div class="flex items-center justify-center">
 						<Avatar
 							:src="user.avatar"
@@ -176,11 +174,6 @@ const logout = async () => {
 </script>
 
 <style scoped>
-.shadow-top {
-	box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
-		0 -2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
 a {
 	text-decoration: none; /* Elimina subrayado en enlaces */
 }

@@ -66,7 +66,6 @@ import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
-import RavLogo from "@/assets/images/ravLogo.png";
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
