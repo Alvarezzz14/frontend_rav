@@ -1,20 +1,19 @@
 <template>
-	<footer
-		class="bg-azulHeaderFooter w-full h-16 items-center justify-between px-4">
-		<!-- Ícono institucional a la izquierda -->
-		<div class="flex items-center">
-			<IconoGov />
+	<footer class=" w-full h-16 items-center justify-between  relative">
+		<!-- Ícono institucional a la izquierda con fondo azul -->
+		<div class="flex items-center bg-azulHeaderFooter">
+			<img :src="IconoGov" alt="" class="w-[140px] h-6 top-[1000px] ml-2 left-[20px] my-2">
 		</div>
 
-		<!-- Texto centrado -->
-		<div
-			class="absolute left-1/2 transform -translate-x-1/2 text-white text-center text-sm">
+		<!-- Texto centrado con fondo negro -->
+		<div class="w-full left-1/2 transform  text-white text-center h-6 text-sm bg-black p-1">
 			&copy; 2024 Fábrica de Software SENA CDTI. Todos los derechos reservados.
 		</div>
 	</footer>
 </template>
 
+
 <script setup>
 // Importamos el componente del ícono
-import IconoGov from "../components/Icons/IconoGov.vue";
+import IconoGov from "@/assets/images/Gov.svg"
 </script>

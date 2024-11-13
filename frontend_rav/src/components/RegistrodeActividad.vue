@@ -3,8 +3,8 @@
         <!-- Sección Izquierda (Icono y Título) -->
         <div class="flex items-center">
             <div class="p-4 bg-customPurple rounded-full">
-                <img :src="Chart" alt="Chart"width="50" height="50"   />
-                
+                <img :src="Actividad" alt="Icono de Actividad" width="50" height="50" />
+
             </div>
             <div class="ml-4">
                 <p class="text-black mb-0 text-2xl">Registro de</p>
@@ -53,50 +53,89 @@
     </div>
 
     <!-- Contenedor de Lista -->
+
     <div class="mt-4 bg-white rounded-lg shadow p-4">
-        <ul class="list-decimal pl-5 ">
-            <li class="flex items-center pb-2">
+        <ul class="list-none text-center space-y-4 sm:text-left sm:pl-5 sm:space-y-0">
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple  text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">1</span>
-                Ingrese un nombre en la casilla de <span class="font-bold pl-1">Título.</span>
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    1
+                </span>
+                <span>Ingrese un nombre en la casilla de <span class="font-bold">Título.</span></span>
             </li>
-            <li class="flex items-center pb-2">
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
-                Registre la actividad o información otorgada al ciudadano en la Sección de <span
-                    class="font-bold pl-1">Descripción.</span>
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    2
+                </span>
+                <span>Registre la actividad o información otorgada al ciudadano en la sección de <span
+                        class="font-bold">Descripción.</span></span>
             </li>
-            <li class="flex items-center pb-2">
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">3</span>
-                Una vez completa la información , presiona <span class="font-bold pl-1">Enviar.</span>
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    3
+                </span>
+                <span>Una vez completa la información, presiona <span class="font-bold">Enviar.</span></span>
             </li>
-            <!-- Agregar más actividades aquí -->
         </ul>
     </div>
-    <div class="mt-4 bg-white rounded-lg h-3/6 shadow p-4">
-        <input type="text" class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-2"
-            placeholder="Título:" />
-        <textarea name="Descripcion"
-            class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
-            id="descripcion" placeholder="Descripción:"></textarea>
-         <button
-            class="bg-amarillo border-none w-full text-customPurple mb-2 h-9 font-bold p-2 rounded-sm shadow flex justify-center items-center">
-            Cargar Archivo
-        </button>
 
+    <div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
+        <h2 class="text-center font-bold text-lg mb-4">CREAR TICKET</h2>
+
+        <!-- Botones de Palabra Clave -->
+        <div class="grid grid-cols-2 sm:grid-cols-7 gap-2 w-full">
+            <button v-for="(keyword, index) in keywords" :key="index"
+                class="bg-gray-200 text-black py-2 w-full border-none rounded-md text-sm hover:bg-customPurple hover:text-white hover:font-bold focus:bg-customPurple focus:text-white focus:font-bold"
+                @click="addToDescription(keyword)">
+                {{ keyword }}
+            </button>
+            <button
+                class="bg-amarillo text-customPurple  py-2 w-full border-none rounded-md text-sm hover:bg-yellow-500 focus:bg-yellow-500">
+                Ver más +
+            </button>
+        </div>
+
+        <!-- Campo Título -->
+        <input type="text"
+            class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-4"
+            placeholder="Título:" />
+
+        <!-- Campo Descripción -->
+        <textarea v-model="description" name="Descripcion"
+            class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-2"
+            id="descripcion" placeholder="Descripción:"></textarea>
+
+        <!-- Botón Enviar -->
         <button
-            class="bg-customPurple border-none h-19 w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
+            class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4">
             Enviar
         </button>
-        <a href="#" class="text-blue-500 text-xs no-underline mt-2 hover:underline flex justify-center items-center focus:outline-none">¿Necesitas Ayuda?</a>
-
-
     </div>
 
 </template>
 <script setup>
-import Chart from "@/assets/images/chart.svg"
+import Actividad from "@/assets/images/Actividad.png"
+import { ref } from 'vue';
+
+// Lista de palabras clave
+const keywords = [
+    'Palabra 1',
+    'Palabra clave 2',
+    'Palabra clave 3',
+    'Palabra clave 4',
+    'Palabra clave 5',
+    'Palabra clave 4'
+];
+
+// Variable reactiva para la descripción
+const description = ref('');
+
+// Función para añadir la palabra clave al campo de descripción
+const addToDescription = (keyword) => {
+    description.value += `${keyword} `;
+};
 
 </script>
 
