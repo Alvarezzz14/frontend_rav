@@ -51,22 +51,33 @@
 
   </template>
   
-  <script setup>
-  import Ciudadano from '@/assets/images/Ciudadano.svg';
-  import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { useEventStore } from '@/stores/storedataOff.js';
-  import Dialog from 'primevue/dialog';
-  import Button from 'primevue/button';
+ <script setup>
+import Ciudadano from "@/assets/images/Ciudadano.svg";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useEventStore } from "@/stores/storedataOff.js";
+import Dialog from "primevue/dialog";
+import Button from "primevue/button";
+import axios from 'axios';
+
+const searchCedula = ref("");
+const noResultsModal = ref(false);
+const modalMessage = ref("");
+const loading = ref(false);
+const router = useRouter();
+const eventStore = useEventStore();
+	 
+async function searchByCedula(cedula) {
+  try {
+    const response = await axios.get(`http://localhost:8082/api/v1/victimas/${cedula}`);
+    return response.data; // Aquí accedemos directamente a los datos JSON
+  } catch (error) {
+    console.error('Error al buscar eventos por cédula:', error);
+    return [];
+  }
+}
   
-  const searchCedula = ref('');
-  const noResultsModal = ref(false);
-  const modalMessage = ref('');
-  const loading = ref(false);
-  const router = useRouter();
-  const eventStore = useEventStore();
-  
-  const searchUser = async () => {
+const searchUser = async () => {
   if (!searchCedula.value.trim()) {
     noResultsModal.value = true;
     modalMessage.value = "Por favor, ingrese un número de documento.";
