@@ -123,21 +123,25 @@ const selectFile = () => {
 
 
 // Función para dividir archivos de texto en partes
-const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
+const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
   let partNumber = 1;
   let blob;
   const reader = new FileReader();
 
-  reader.onload = async (e) => {
+  reader.onload = (e) => {
     const chunkData = e.target.result;
     const fileBlob = new Blob([blob], { type: "text/plain" });
     const fileName = `${file.name}_parte${partNumber}.txt`;
     const formData = new FormData();
+    console.log("archivo grande",(file.size / (1024 * 1024)).toFixed(2), "MB")
+    console.log("Tamaño del fragmento:", (fileBlob.size / (1024 * 1024)).toFixed(2), "MB");
+    // return
     formData.append("file", fileBlob, fileName);
+    formData.append("sizeMainFile",file.size)
 
     let fetchOptions = {
-      url: "http://localhost:8080/upload",
+      url: "http://localhost:8081/api/upload",
       options: {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -145,7 +149,7 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
       },
     };
 
-    await sendFile(fetchOptions);
+    sendFile(fetchOptions);
 
     offset += chunkSize;
     partNumber += 1;
@@ -157,6 +161,7 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
 
   function readNextChunk() {
     blob = file.slice(offset, offset + chunkSize);
+    // reader.readAsText(blob);
     reader.readAsText(blob, "ISO-8859-1");
   }
 
@@ -164,41 +169,59 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
 };
 
 // Función para dividir archivos Excel en partes
-const createPartsExcel = async (file, rowLimit = 53) => {
+const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
   console.log("Se esta ejecutando");
-  
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
+  let offset = 0;
   let partCount = 0;
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
+    //const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
 
-    for (let i = 0; i < jsonData.length; i += rowLimit) {
-      const newWorkBook = XLSX.utils.book_new();
-      const newData = jsonData.slice(i, i + rowLimit);
-      const newWorksheet = XLSX.utils.aoa_to_sheet(newData);
-      XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
-      partCount++;
-
-      const archivoBlob = createBlob(newWorkBook, "xlsx");
-      console.log(archivoBlob);
+    // for (let i = 0; i < jsonData.length; i += rowLimit) {
+      //console.log(jsonData.length);
+      // return
       
-      const fileName = `${sheetName}_parte${partCount}.xlsx`;
-      const formData = createFormData(archivoBlob, fileName);
+      // const newWorkBook = XLSX.utils.book_new();
+      // const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»"});
+      const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»",blankrows:false});
+      const isoEncodeData = unescape(encodeURIComponent)
+      console.log(txtData);
+      
+      // XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
 
-      let fetchOptions = {
-        url: "http://localhost:8080/upload",
-        options: {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: formData,
-        },
-      };
+      // const archivoBlob = createBlob(newWorkBook, "xlsx");
+      // console.log(archivoBlob);
+      const blob = new Blob([txtData],{type:"text/plain"})
+      await createPartsTxt(blob)
+    //   while(offset < blob.size){
+        
+    //     console.log(offset,file.size)
+    //   partCount++;
+    //   const fileName = `${sheetName}_parte${partCount}.txt`;
+    //   const formData = new FormData();
+    
+      
+    //   const partBlob = blob.slice(offset,offset+chunkSize)
+    //   console.log(blob.size,partBlob.size,chunkSize);
 
-      await sendFile(fetchOptions);
-    }
+    //   formData.append("file",partBlob,fileName)
+    //   formData.append("sizeMainFile",blob.size)
+
+    //   let fetchOptions = {
+    //     url: "http://localhost:8081/api/upload",
+    //     options: {
+    //       method: "POST",
+    //       headers: { Accept: "application/json" },
+    //       body: formData,
+    //     },
+    //   };
+
+    //   await sendFile(fetchOptions);
+    //   offset+=chunkSize
+    // }
   }
   alert("División y envío completados.");
 };
