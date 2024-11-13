@@ -6,7 +6,7 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
-			<img src="@/assets/images/ravLogo.png" alt="" />
+			<img src="@/assets/images/ravLogo.png" alt="Logo Rav" />
 		</div>
 		<div class="lg:hidden flex flex-col">
 			<button

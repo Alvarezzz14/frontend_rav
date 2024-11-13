@@ -28,7 +28,13 @@
 									'text-GrisIconosDash': !isActive(item),
 									'text-amarillo': isActive(item),
 								}">
-								<i :class="[item.icon]"></i>
+								<img
+									:src="item.icon"
+									:alt="`Icono de ${item.title}`"
+									:class="{
+										'text-amarillo': isActive(item),
+										'text-GrisIconosDash': !isActive(item),
+									}" />
 							</span>
 							<span
 								class="text-left sm:text-md md:text-base lg:text-lg font-sm transition-colors duration-200"
@@ -75,9 +81,9 @@
 
 <script setup>
 import { ref } from "vue";
-import RavIcon from "../Icons/RavIcon.vue";
-import Avatar from "../Buttons/Avatar.vue";
-import LogoutButton from "../Buttons/LogoutButton.vue";
+import RavIcon from "@/components/Icons/RavIcon.vue";
+import Avatar from "@/components/Buttons/Avatar.vue";
+import LogoutButton from "@/components/Buttons/LogoutButton.vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
@@ -94,43 +100,63 @@ const user = ref({
 
 const menuItems = ref([
 	{
-		title: "Dashboard",
+		title: "Inicio",
 		to: { name: "HomePage" },
-		icon: "pi pi-home",
+		icon: new URL("@/assets/iconosDash/dash.svg", import.meta.url).href,
 		submenuOpen: false,
 		submenu: [],
 	},
 	{
-		title: "Registro de Actividad",
+		title: "Búsqueda del Ciudadano",
 		to: { name: "RegistroActividadPage" },
-		icon: "pi pi-tag",
-		submenuOpen: false,
-		submenu: [],
+		icon: new URL("@/assets/iconosDash/buscar.svg", import.meta.url).href,
+		submenuOpen: true,
+		submenu: [
+			{
+				title: "Registro de Actividad",
+				to: { name: "RegistroActividadPage" },
+				icon: new URL("@/assets/iconosDash/ticket.svg", import.meta.url).href,
+				submenuOpen: false,
+			},
+			{
+				title: "Perfil del Ciudadano",
+				to: { name: "PerfilUsuarioPage" },
+				icon: new URL("@/assets/iconosDash/perfil.svg", import.meta.url).href,
+				submenuOpen: false,
+			},
+			{
+				title: "Ruta de Atención",
+				to: { name: "RutaacionPage" },
+				icon: new URL("@/assets/iconosDash/rutaAt.svg", import.meta.url).href,
+				submenuOpen: false,
+			},
+			{
+				title: "Linea de Tiempo",
+				to: { name: "LineaTiempoNuevaPage" },
+				icon: new URL("@/assets/iconosDash/lineaT.svg", import.meta.url).href,
+				submenuOpen: false,
+			},
+		],
 	},
-	{
-		title: "Ruta de Atención",
-		to: { name: "BusquedaCiudadanoPage" },
-		icon: "pi pi-sitemap",
-		submenuOpen: false,
-	},
+
 	{
 		title: "Mapa",
 		to: { name: "DepartamentosPage" },
-		icon: "pi pi-map",
+		icon: new URL("@/assets/iconosDash/mapa.svg", import.meta.url).href,
 		submenuOpen: false,
 		submenu: [],
 	},
 	{
 		title: "Cargar Archivo",
 		to: { name: "SubirFicheroPage" },
-		icon: "pi pi-file-arrow-up",
+		icon: new URL("@/assets/iconosDash/subir.svg", import.meta.url).href,
 		submenuOpen: false,
 		submenu: [],
 	},
 	{
 		title: "Generar Reportes",
 		to: { name: "FormatodeReportesPage" },
-		icon: "pi pi-file",
+		icon: new URL("@/assets/iconosDash/reporte.svg", import.meta.url).href,
 		submenuOpen: false,
 		submenu: [],
 	},
