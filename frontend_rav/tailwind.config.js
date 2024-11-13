@@ -16,6 +16,7 @@ export default {
         textBackground: '#003150', // Color del texto en la tarjeta
         azulHeaderFooter: '#3366CC', //Azul del header y el fotter
         moradoSecundario: '#5F2A68', // MOrado Secundario mas oscuro
+        GrisIconosDash: '#D9D9D9', // Gris de los Iconos
       },
       fontFamily: {
         sans: ['Work Sans', 'sans-serif'], // Fuente global "Work Sans"
