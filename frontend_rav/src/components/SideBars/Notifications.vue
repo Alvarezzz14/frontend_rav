@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-auto">
+	<div class="overflow-auto w-72">
 		<!-- Sidebar Derecho -->
 		<div>
 			<div class="flex flex-col bg-white items-center">

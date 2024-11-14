@@ -34,20 +34,20 @@
 		</div>
 
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
-		<div class="flex flex-grow overflow-hidden">
+		<div class="flex overflow-hidden">
 			<!-- Sidebar izquierda -->
 			<aside class="h-full bg-gray-100 hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Contenido principal -->
-			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
+			<main class="flex flex-grow p-4 overflow-y-auto bg-gray-50">
 				<router-view />
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
 			<aside
-				class="h-full bg-gray-100 hidden lg:flex"
+				class="h-full bg-gray-100 hidden lg:flex max-w-72"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
