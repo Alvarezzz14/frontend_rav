@@ -39,7 +39,7 @@
 
 <script setup>
 import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import Button from 'primevue/button';
 import * as XLSX from "xlsx";
 
@@ -51,34 +51,85 @@ const uploadProgress = ref(0);
 const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
+const uploadTimestamp = ref(''); // Almacena la fecha y hora de carga del archivo
 const acceptedFileTypes = ["text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Tipos permitidos
 
-const createFormData = (archivoBlob, fileName) => {
-  const formData = new FormData();
-  formData.append("file", archivoBlob, fileName);
-  return formData;
-};
-
-const createBlob = (newWorkBook, typeFile) => {
-  let blob;
-
-  switch (typeFile) {
-    case "xlsx":
-      // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
-      blob = XLSX.write(newWorkBook, {
-        bookType: typeFile,
-        type: "array",
-      });
-      break;
-
-    case "txt":
-      blob = newWorkBook;
-      break;
-  }
-
-  const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
-  return archivoBlob;
+// Función para seleccionar archivo
+function selectFile() {
+  document.querySelector('input[type="file"]').click();
 }
+
+// Manejar archivo al arrastrar y soltar
+function handleDrop(event) {
+  const file = event.dataTransfer.files[0];
+  handleFile(file);
+}
+
+// Manejar archivo al cargar
+
+
+// Manejar archivo cargado y guardarlo en localStorage
+function handleFile(file) {
+  if (file) {
+    fileToUpload.value = file;
+    fileName.value = file.name;
+    
+    // Registrar la fecha y hora actual
+    const timestamp = new Date().toLocaleString();
+    uploadTimestamp.value = timestamp;
+
+    saveFileToLocalStorage(file, timestamp);
+  }
+}
+
+// Guardar archivo en localStorage
+function saveFileToLocalStorage(file, timestamp) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    const fileData = reader.result;
+    const fileInfo = {
+      name: file.name,
+      data: fileData,
+      uploadedAt: timestamp, // Guardar la fecha y hora de carga
+    };
+    localStorage.setItem('uploadedFile', JSON.stringify(fileInfo));
+
+    // Solo marcar sesión activa si no existe ya la marca
+    if (!sessionStorage.getItem('sessionStarted')) {
+      sessionStorage.setItem('sessionStarted', 'true');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+// Cargar archivo y timestamp desde localStorage al montar el componente
+function loadFileFromLocalStorage() {
+  const fileInfo = localStorage.getItem('uploadedFile');
+  if (fileInfo) {
+    const parsedFileInfo = JSON.parse(fileInfo);
+    fileName.value = parsedFileInfo.name;
+    fileToUpload.value = parsedFileInfo.data;
+    uploadTimestamp.value = parsedFileInfo.uploadedAt; // Cargar fecha y hora de carga
+  }
+}
+
+// Limpiar localStorage si el navegador se cerró completamente
+function clearLocalStorageIfBrowserClosed() {
+  if (!sessionStorage.getItem('sessionStarted')) {
+    localStorage.removeItem('uploadedFile');
+  }
+}
+
+// Configuración de eventos
+onMounted(() => {
+  loadFileFromLocalStorage();
+  window.addEventListener('beforeunload', clearLocalStorageIfBrowserClosed);
+});
+
+// Antes de desmontar, eliminar solo el listener, no la marca de sesión
+onBeforeUnmount(() => {
+  window.removeEventListener('beforeunload', clearLocalStorageIfBrowserClosed);
+});
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
@@ -92,29 +143,6 @@ const handleFileUpload = (event) => {
   } else {
     alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
   }
-};
-
-const handleDrop = (event) => {
-  const files = event.dataTransfer.files;
-  if (files.length > 0) {
-    const file = files[0];
-    // Validar el tipo de archivo
-    if (acceptedFileTypes.includes(file.type)) {
-      fileToUpload.value = file;
-      fileName.value = file.name;
-      uploadProgress.value = 0;
-    } else {
-      alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
-    }
-  }
-};
-
-const handleDragOver = (event) => {
-  event.preventDefault(); // Evitar que el navegador realice una acción predeterminada
-};
-
-const selectFile = () => {
-  document.querySelector('input[type="file"]').click();
 };
 
 // Función para dividir archivos de texto en partes
@@ -160,8 +188,6 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
 
 // Función para dividir archivos Excel en partes
 const createPartsExcel = async (file, rowLimit = 53) => {
-  console.log("Se esta ejecutando");
-  
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
   let partCount = 0;
@@ -178,8 +204,6 @@ const createPartsExcel = async (file, rowLimit = 53) => {
       partCount++;
 
       const archivoBlob = createBlob(newWorkBook, "xlsx");
-      console.log(archivoBlob);
-      
       const fileName = `${sheetName}_parte${partCount}.xlsx`;
       const formData = createFormData(archivoBlob, fileName);
 
@@ -221,48 +245,6 @@ const uploadFileFinal = async () => {
   await createParts(fileToUpload.value);
 };
 
-const uploadFile = async () => {
-  if (!fileToUpload.value) return;
-  
-  // Emitimos el evento con el progreso inicial
-  window.dispatchEvent(new CustomEvent("file-upload-progress", {
-    detail: {
-      title: "Subiendo archivo...",
-      message: `Subiendo ${fileName.value}`,
-      progress: uploadProgress.value,
-      redirectUrl: "http://localhost:5173/subirfichero"
-    }
-  }));
-
-  await uploadFileFinal();
-  
-  // Simulación de progreso de carga
-  uploadProgress.value = 0;
-  const interval = setInterval(() => {
-    if (uploadProgress.value < 100) {
-      uploadProgress.value += 10;
-      window.dispatchEvent(new CustomEvent("file-upload-progress", {
-        detail: {
-          title: "Subiendo archivo...",
-          message: `Subiendo ${fileName.value}`,
-          progress: uploadProgress.value,
-          redirectUrl: "http://localhost:5173/subirfichero"
-        }
-      }));
-    } else {
-      clearInterval(interval);
-      window.dispatchEvent(new CustomEvent("file-upload-progress", {
-        detail: {
-          title: "Éxito en carga",
-          message: `El archivo ${fileName.value} se ha subido exitosamente`,
-          progress: 100,
-          redirectUrl: "http://localhost:5173/subirfichero"
-        }
-      }));
-    }
-  }, 200);
-};
-
 // Función para enviar el archivo al servidor
 const sendFile = async (fetchOptions) => {
   let { url, options } = fetchOptions;
@@ -288,6 +270,7 @@ const sendFile = async (fetchOptions) => {
   }
 };
 </script>
+
 
 <style scoped>
 .text-customPurple {
