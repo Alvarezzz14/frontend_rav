@@ -1,6 +1,8 @@
 <template>
+	
 	<!-- Contenedor principal con el fondo CustomPurple -->
 	<div class="min-h-screen bg-customPurple text-white flex flex-col">
+		<Header></Header>
 		<!-- Contenedor del grid -->
 		<div
 			class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-6 p-8 lg:p-16">
@@ -29,7 +31,7 @@
 							type="email"
 							id="email"
 							v-model="form.email"
-							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="mt-1 block w-full border-none bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required
 							autofocus />
 					</div>
@@ -42,7 +44,7 @@
 							type="password"
 							id="password"
 							v-model="form.password"
-							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="mt-1 block w-full border-none bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
 					</div>
 
@@ -56,7 +58,7 @@
 								: 'bg-amarillo hover:bg-yellow-600',
 						]"
 						:disabled="isLoading"
-						class="border-2 border-moradoSecundario mt-4 w-full py-3 text-lg text-black font-bold rounded-lg transition transition-colors">
+						class="border-none border-moradoSecundario mt-4 w-full py-3 text-lg text-black font-bold rounded-lg transition transition-colors">
 						<span v-if="!isLoading">Iniciar sesión</span>
 						<span v-else>Cargando...</span>
 					</button>
@@ -82,9 +84,11 @@
 			<img
 				:src="VectorPlantas"
 				alt="Vector Plantas"
-				class="absolute bottom-0 left-0 w-full h-auto z-0" />
+				class="  fixed bottom-0 left-0 w-full h-auto z-0" />
 		</div>
+		<Footer></Footer>
 	</div>
+	
 </template>
 
 <script setup>
@@ -96,6 +100,8 @@ import VectorPlantas from "@/assets/images/vectorplantas.svg";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import Footer from "@/components/Footer.vue";
+import Header from "@/components/Header.vue";
 
 const router = useRouter();
 const toast = useToast();
