@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-auto bg-white">
+	<div class="overflow-auto bg-white w-72">
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
