@@ -1,10 +1,8 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
-import HomePage from '@/pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '@/pages/DepartamentosPage.vue';
 import LoginPage from '@/pages/LoginPage.vue';
-import LineaTiempoOriginal from '@/components/LineaTiempoOriginal.vue';
 import Rutaaccionpage from '@/pages/Rutaaccionpage.vue';
 import BusquedaCiudadanoPage from '@/pages/BusquedaCiudadanoPage.vue';
 import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
@@ -48,11 +46,7 @@ const routes = [
         component: Rutaaccionpage,
         props: true,
       },
-      {
-        path: '/lineatiempo',
-        name: 'LineaTiempo',
-        component: LineaTiempoOriginal
-      },
+
       {
         path: '/busquedaciudadano',
         name: 'BusquedaCiudadanoPage',
@@ -79,7 +73,7 @@ const routes = [
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
-    
+
       {
         path: '/LineaTiempoNueva',
         name: 'LineaTiempoNuevaPage',

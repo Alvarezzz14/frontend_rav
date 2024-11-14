@@ -1,7 +1,6 @@
 <template>
-    <BusquedaCiudadano></BusquedaCiudadano>
+	<BusquedaCiudadano></BusquedaCiudadano>
 </template>
 <script setup>
-
-import BusquedaCiudadano from '../components/BusquedaCiudadano.vue'
+import BusquedaCiudadano from "@/components/BusquedaCiudadano.vue";
 </script>
