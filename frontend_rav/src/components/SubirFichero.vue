@@ -28,7 +28,7 @@
           <p>{{ fileName }}</p>
           <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
         </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ uploadProgress }}%</span>
+        <span class="ml-4 font-semibold text-customPurple">{{ intUploadProgress }}%</span>
       </div>
 
       <!-- Botón de carga -->
@@ -39,15 +39,19 @@
 
 <script setup>
 import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
+import { useFileNotificationStore } from '../stores/fileNotification';
 import { ref } from 'vue';
 import Button from 'primevue/button';
 import * as XLSX from "xlsx";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
+const fileNotificationStore = useFileNotificationStore();
 const fileName = ref("");
 const fileToUpload = ref(null);
 const uploadProgress = ref(0);
+const intUploadProgress = ref(0);
+let partsFile = 0;
 const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
@@ -117,22 +121,80 @@ const selectFile = () => {
   document.querySelector('input[type="file"]').click();
 };
 
+const updateEventFileUpload = (bodyFetchOptions)=>{
+  const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
+  const sizePartFile = bodyFetchOptions.get("file").size;
+  partsFile = window.Math.round(sizeMainFile / sizePartFile)
+  console.log(partsFile);
+  console.log(uploadProgress.value);
+  
+
+  if (uploadProgress.value < sizeMainFile) {
+    uploadProgress.value = parseFloat((uploadProgress.value + (100 / partsFile)).toFixed(2))
+    intUploadProgress.value = window.Math.round(uploadProgress.value);
+
+    console.log(uploadProgress.value)
+  }
+  
+  fileNotificationStore.setUploadProgress(uploadProgress.value)
+
+}
+
+
+
+// Función para enviar el archivo al servidor
+const sendFile = async (fetchOptions) => {
+  let { url, options } = fetchOptions;
+
+  loading.value = true;
+  uploadSuccess.value = false;
+  uploadError.value = false;
+
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+
+    if (!response.ok)
+      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
+
+      
+      updateEventFileUpload(fetchOptions.options.body)
+
+    console.log(json);
+    uploadSuccess.value = true;
+  } catch (err) {
+    uploadError.value = true;
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+};
+
 // Función para dividir archivos de texto en partes
-const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
+const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
   let partNumber = 1;
   let blob;
   const reader = new FileReader();
 
-  reader.onload = async (e) => {
+  console.log(file.size);
+  
+
+  reader.onload = (e) => {
     const chunkData = e.target.result;
     const fileBlob = new Blob([blob], { type: "text/plain" });
     const fileName = `${file.name}_parte${partNumber}.txt`;
     const formData = new FormData();
+    console.log("archivo grande",(file.size / (1024 * 1024)).toFixed(2), "MB")
+    console.log("Tamaño del fragmento:", (fileBlob.size / (1024 * 1024)).toFixed(2), "MB");
+    // return
     formData.append("file", fileBlob, fileName);
+    formData.append("sizeMainFile",file.size)
 
     let fetchOptions = {
-      url: "http://localhost:8081/upload",
+
+      url: "http://localhost:8081/api/upload",
+
       options: {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -140,7 +202,7 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
       },
     };
 
-    await sendFile(fetchOptions);
+    sendFile(fetchOptions);
 
     offset += chunkSize;
     partNumber += 1;
@@ -151,7 +213,9 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
   };
 
   function readNextChunk() {
+    //Aqui se separa el archivo
     blob = file.slice(offset, offset + chunkSize);
+    // reader.readAsText(blob);
     reader.readAsText(blob, "ISO-8859-1");
   }
 
@@ -159,41 +223,23 @@ const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
 };
 
 // Función para dividir archivos Excel en partes
-const createPartsExcel = async (file, rowLimit = 53) => {
+const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
   console.log("Se esta ejecutando");
-  
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
-  let partCount = 0;
+
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
 
-    for (let i = 0; i < jsonData.length; i += rowLimit) {
-      const newWorkBook = XLSX.utils.book_new();
-      const newData = jsonData.slice(i, i + rowLimit);
-      const newWorksheet = XLSX.utils.aoa_to_sheet(newData);
-      XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
-      partCount++;
+   
+      const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»",blankrows:false});
+      const isoEncodeData = unescape(encodeURIComponent)
+      console.log(txtData);
+      const blob = new Blob([txtData],{type:"text/plain"})
+      createPartsTxt(blob)
+    
 
-      const archivoBlob = createBlob(newWorkBook, "xlsx");
-      console.log(archivoBlob);
-      
-      const fileName = `${sheetName}_parte${partCount}.xlsx`;
-      const formData = createFormData(archivoBlob, fileName);
-
-      let fetchOptions = {
-        url: "http://localhost:8081/upload",
-        options: {
-          method: "POST",
-          headers: { Accept: "application/json" },
-          body: formData,
-        },
-      };
-
-      await sendFile(fetchOptions);
-    }
   }
   alert("División y envío completados.");
 };
@@ -224,69 +270,23 @@ const uploadFileFinal = async () => {
 const uploadFile = async () => {
   if (!fileToUpload.value) return;
   
-  // Emitimos el evento con el progreso inicial
-  window.dispatchEvent(new CustomEvent("file-upload-progress", {
-    detail: {
-      title: "Subiendo archivo...",
-      message: `Subiendo ${fileName.value}`,
-      progress: uploadProgress.value,
-      redirectUrl: "http://localhost:5173/subirfichero"
-    }
-  }));
+
+  // // Emitimos el evento con el progreso inicial
+  // window.dispatchEvent(new CustomEvent("file-upload-progress", {
+  //   detail: {
+  //     title: "Subiendo archivo...",
+  //     message: `Subiendo ${fileName.value}`,
+  //     progress: uploadProgress.value,
+  //     redirectUrl: "http://localhost:5173/subirfichero"
+  //   }
+  // }));
 
   await uploadFileFinal();
   
-  // Simulación de progreso de carga
-  uploadProgress.value = 0;
-  const interval = setInterval(() => {
-    if (uploadProgress.value < 100) {
-      uploadProgress.value += 10;
-      window.dispatchEvent(new CustomEvent("file-upload-progress", {
-        detail: {
-          title: "Subiendo archivo...",
-          message: `Subiendo ${fileName.value}`,
-          progress: uploadProgress.value,
-          redirectUrl: "http://localhost:5173/subirfichero"
-        }
-      }));
-    } else {
-      clearInterval(interval);
-      window.dispatchEvent(new CustomEvent("file-upload-progress", {
-        detail: {
-          title: "Éxito en carga",
-          message: `El archivo ${fileName.value} se ha subido exitosamente`,
-          progress: 100,
-          redirectUrl: "http://localhost:5173/subirfichero"
-        }
-      }));
-    }
-  }, 200);
 };
 
-// Función para enviar el archivo al servidor
-const sendFile = async (fetchOptions) => {
-  let { url, options } = fetchOptions;
 
-  loading.value = true;
-  uploadSuccess.value = false;
-  uploadError.value = false;
 
-  try {
-    const response = await fetch(url, options);
-    const json = await response.json();
-
-    if (!response.ok)
-      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
-
-    console.log(json);
-    uploadSuccess.value = true;
-  } catch (err) {
-    uploadError.value = true;
-    console.error(err);
-  } finally {
-    loading.value = false;
-  }
-};
 </script>
 
 <style scoped>
