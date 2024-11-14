@@ -8,9 +8,11 @@ export default {
   ],
   theme: {
     extend: {
+
       colors: {
         amarillo: '#FDC300',
         grisInput: '#F2F3F3',
+        negro: '#000000',
         customPurple: '#71277A',
         cardBackground: '#D9D9D9', // Fondo para la tarjeta
         textBackground: '#003150', // Color del texto en la tarjeta

@@ -3,5 +3,5 @@
 </template>
 <script setup>
 
-import FormatodeReportes from '../components/FormatodeReportes.vue';
+import FormatodeReportes from '@/components/FormatodeReportes.vue';
 </script>
