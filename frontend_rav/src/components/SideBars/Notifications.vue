@@ -146,31 +146,31 @@ const toggleNotifications = () => {
 };
 
 // Función para manejar la actualización del progreso de la carga
-const handleFileUploadProgress = (event) => {
-  const notification = event.detail;
+// const handleFileUploadProgress = (event) => {
+//   const notification = event.detail;
 
-  // Buscar la notificación existente o crear una nueva si no existe
-  const existingNotification = notifications.value.find(
-    (notif) => notif.title === notification.title && notif.message === notification.message
-  );
+//   // Buscar la notificación existente o crear una nueva si no existe
+//   const existingNotification = notifications.value.find(
+//     (notif) => notif.title === notification.title && notif.message === notification.message
+//   );
 
-  if (existingNotification) {
-    // Actualizar la notificación con el progreso
-    existingNotification.progress = notification.progress;
-  } else {
-    // Si es una nueva notificación, añadirla a la lista
-    notifications.value.push(notification);
-  }
-};
+//   if (existingNotification) {
+//     // Actualizar la notificación con el progreso
+//     existingNotification.progress = notification.progress;
+//   } else {
+//     // Si es una nueva notificación, añadirla a la lista
+//     notifications.value.push(notification);
+//   }
+// };
 
 // Escuchar el evento de progreso de carga
-window.addEventListener("file-upload-progress", handleFileUploadProgress);
+// window.addEventListener("file-upload-progress", handleFileUploadProgress);
 
-// Limpiar el evento cuando el componente sea destruido
-import { onUnmounted } from "vue";
-onUnmounted(() => {
-  window.removeEventListener("file-upload-progress", handleFileUploadProgress);
-});
+// // Limpiar el evento cuando el componente sea destruido
+// import { onUnmounted } from "vue";
+// onUnmounted(() => {
+//   window.removeEventListener("file-upload-progress", handleFileUploadProgress);
+// });
 </script>
 
 <style scoped>
