@@ -56,7 +56,7 @@
 								: 'bg-amarillo hover:bg-yellow-600',
 						]"
 						:disabled="isLoading"
-						class="border-2 border-moradoSecundario mt-4 w-full py-3 text-lg text-black font-bold rounded-lg transition transition-colors">
+						class="border-2 border-moradoSecundario mt-4 w-full py-3 text-lg text-black font-bold rounded-lg  transition-colors">
 						<span v-if="!isLoading">Iniciar sesión</span>
 						<span v-else>Cargando...</span>
 					</button>
