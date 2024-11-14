@@ -1,21 +1,26 @@
 <template>
-<div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg">
-        <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
-        <div class="flex-1 text-customPurple">
-          <p>{{ fileName }}</p>
-          <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
-        </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ intUploadProgress }}%</span>
-      </div>
+    <!-- <Teleport to="body"> -->
+        <div v-if="uploadProgress > 0"  class="uploaded-file mb-4 flex items-center p-2 bg-purple-100 rounded-lg w-2/4">
+                <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
+                <div class="flex-1 text-customPurple">
+                  <p>{{ fileName }}</p>
+                  <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
+                </div>
+                <span class="ml-4 font-semibold text-customPurple">{{ intUploadProgress }}%</span>
+              </div>
+    <!-- </Teleport> -->
 
 </template>
 
 <script setup>
-import {ref,computed} from 'vue'
-import { useFileNotificationStore, useFileNotificationStore } from '../stores/fileNotification';
-const useFileNotificationStore = useFileNotificationStore();
-const uploadProgress = ref(useFileNotificationStore.uploadProgress.value);
-const intUploadProgress = ref(useFileNotificationStore.intUploadProgress.value);
+import {computed} from 'vue'
+import { useFileNotificationStore } from '../stores/fileNotification';
+const fileNotificationStore = useFileNotificationStore();
+const uploadProgress = computed(()=> fileNotificationStore.uploadProgress)
+const intUploadProgress = computed(()=> fileNotificationStore.intUploadProgress)
+
+
+
 
 
 

@@ -39,12 +39,14 @@
 
 <script setup>
 import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
+import { useFileNotificationStore } from '../stores/fileNotification';
 import { ref } from 'vue';
 import Button from 'primevue/button';
 import * as XLSX from "xlsx";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
+const fileNotificationStore = useFileNotificationStore();
 const fileName = ref("");
 const fileToUpload = ref(null);
 const uploadProgress = ref(0);
@@ -130,8 +132,11 @@ const updateEventFileUpload = (bodyFetchOptions)=>{
   if (uploadProgress.value < sizeMainFile) {
     uploadProgress.value = parseFloat((uploadProgress.value + (100 / partsFile)).toFixed(2))
     intUploadProgress.value = window.Math.round(uploadProgress.value);
+
     console.log(uploadProgress.value)
   }
+  
+  fileNotificationStore.setUploadProgress(uploadProgress.value)
 
 }
 
