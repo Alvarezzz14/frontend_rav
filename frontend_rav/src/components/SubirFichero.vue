@@ -28,14 +28,12 @@
           <p>{{ fileName }}</p>
           <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
         </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ uploadProgress }}%</span>
+        <span class="ml-4 font-semibold text-customPurple">{{ intUploadProgress }}%</span>
       </div>
 
       <!-- Botón de carga -->
       <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
     </div>
-
-    
   </div>
 </template>
 
@@ -50,6 +48,8 @@ const uploadedFile = ref(null);
 const fileName = ref("");
 const fileToUpload = ref(null);
 const uploadProgress = ref(0);
+const intUploadProgress = ref(0);
+let partsFile = 0;
 const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
@@ -61,28 +61,26 @@ const createFormData = (archivoBlob, fileName) => {
   return formData;
 };
 
-const createBlob = (newWorkBook, typeFile) =>{
-      let blob;
+const createBlob = (newWorkBook, typeFile) => {
+  let blob;
 
-      switch (typeFile) {
-        case "xlsx":
-          // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
-          blob = XLSX.write(newWorkBook, {
-            bookType: typeFile,
-            type: "array",
-          });
-          break;
+  switch (typeFile) {
+    case "xlsx":
+      // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
+      blob = XLSX.write(newWorkBook, {
+        bookType: typeFile,
+        type: "array",
+      });
+      break;
 
-        case "txt":
-          blob = newWorkBook;
-          break;
-      }
+    case "txt":
+      blob = newWorkBook;
+      break;
+  }
 
-
-      const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
-      return archivoBlob;
-    }
-
+  const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
+  return archivoBlob;
+}
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
@@ -121,6 +119,52 @@ const selectFile = () => {
   document.querySelector('input[type="file"]').click();
 };
 
+const updateEventFileUpload = (bodyFetchOptions)=>{
+  const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
+  const sizePartFile = bodyFetchOptions.get("file").size;
+  partsFile = window.Math.round(sizeMainFile / sizePartFile)
+  console.log(partsFile);
+  console.log(uploadProgress.value);
+  
+
+  if (uploadProgress.value < sizeMainFile) {
+    uploadProgress.value = parseFloat((uploadProgress.value + (100 / partsFile)).toFixed(2))
+    intUploadProgress.value = window.Math.round(uploadProgress.value);
+    console.log(uploadProgress.value)
+  }
+
+}
+
+
+
+// Función para enviar el archivo al servidor
+const sendFile = async (fetchOptions) => {
+  let { url, options } = fetchOptions;
+
+  loading.value = true;
+  uploadSuccess.value = false;
+  uploadError.value = false;
+
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+
+    if (!response.ok)
+      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
+
+      
+      updateEventFileUpload(fetchOptions.options.body)
+
+    console.log(json);
+    uploadSuccess.value = true;
+  } catch (err) {
+    uploadError.value = true;
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+};
+
 
 // Función para dividir archivos de texto en partes
 const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
@@ -128,6 +172,9 @@ const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
   let partNumber = 1;
   let blob;
   const reader = new FileReader();
+
+  console.log(file.size);
+  
 
   reader.onload = (e) => {
     const chunkData = e.target.result;
@@ -160,6 +207,7 @@ const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
   };
 
   function readNextChunk() {
+    //Aqui se separa el archivo
     blob = file.slice(offset, offset + chunkSize);
     // reader.readAsText(blob);
     reader.readAsText(blob, "ISO-8859-1");
@@ -173,59 +221,20 @@ const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
   console.log("Se esta ejecutando");
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
-  let offset = 0;
-  let partCount = 0;
+
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
-    //const jsonData = XLSX.utils.sheet_to_json(workSheet, { header: 1, defval: "Vacio" });
-
-    // for (let i = 0; i < jsonData.length; i += rowLimit) {
-      //console.log(jsonData.length);
-      // return
-      
-      // const newWorkBook = XLSX.utils.book_new();
-      // const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»"});
+   
       const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»",blankrows:false});
       const isoEncodeData = unescape(encodeURIComponent)
       console.log(txtData);
-      
-      // XLSX.utils.book_append_sheet(newWorkBook, newWorksheet, sheetName);
-
-      // const archivoBlob = createBlob(newWorkBook, "xlsx");
-      // console.log(archivoBlob);
       const blob = new Blob([txtData],{type:"text/plain"})
-      await createPartsTxt(blob)
-    //   while(offset < blob.size){
-        
-    //     console.log(offset,file.size)
-    //   partCount++;
-    //   const fileName = `${sheetName}_parte${partCount}.txt`;
-    //   const formData = new FormData();
+      createPartsTxt(blob)
     
-      
-    //   const partBlob = blob.slice(offset,offset+chunkSize)
-    //   console.log(blob.size,partBlob.size,chunkSize);
-
-    //   formData.append("file",partBlob,fileName)
-    //   formData.append("sizeMainFile",blob.size)
-
-    //   let fetchOptions = {
-    //     url: "http://localhost:8081/api/upload",
-    //     options: {
-    //       method: "POST",
-    //       headers: { Accept: "application/json" },
-    //       body: formData,
-    //     },
-    //   };
-
-    //   await sendFile(fetchOptions);
-    //   offset+=chunkSize
-    // }
   }
   alert("División y envío completados.");
 };
-
 
 // Función que llama a las funciones de división dependiendo del tipo de archivo
 const createParts = async (file) => {
@@ -233,8 +242,6 @@ const createParts = async (file) => {
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": 
     case "application/vnd.ms-excel":
       await createPartsExcel(file);
-      console.log("Esta ingresando aca");
-      
       break;
     case "text/plain":
       await createPartsTxt(file);
@@ -245,7 +252,6 @@ const createParts = async (file) => {
   }
 };
 
-
 // Función final de carga de archivo
 const uploadFileFinal = async () => {
   if (!fileToUpload.value) return;
@@ -253,47 +259,22 @@ const uploadFileFinal = async () => {
   await createParts(fileToUpload.value);
 };
 
-const uploadFile = async() => {
+const uploadFile = async () => {
   if (!fileToUpload.value) return;
-  await uploadFileFinal()
-  // Simulación de progreso de carga
-  uploadProgress.value = 0;
-  const interval = setInterval(() => {
-    if (uploadProgress.value < 100) {
-      uploadProgress.value += 10;
-    } else {
-      clearInterval(interval);
-    }
-  }, 200);
+  
+  // // Emitimos el evento con el progreso inicial
+  // window.dispatchEvent(new CustomEvent("file-upload-progress", {
+  //   detail: {
+  //     title: "Subiendo archivo...",
+  //     message: `Subiendo ${fileName.value}`,
+  //     progress: uploadProgress.value,
+  //     redirectUrl: "http://localhost:5173/subirfichero"
+  //   }
+  // }));
+
+  await uploadFileFinal();
+  
 };
-
-// Función para enviar el archivo al servidor
-const sendFile = async (fetchOptions) => {
-  let { url, options } = fetchOptions;
-
-  loading.value = true;
-  uploadSuccess.value = false;
-  uploadError.value = false;
-
-  try {
-    const response = await fetch(url, options);
-    const json = await response.json();
-
-    if (!response.ok)
-      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
-
-    console.log(json);
-    uploadSuccess.value = true;
-  } catch (err) {
-    uploadError.value = true;
-    console.error(err);
-  } finally {
-    loading.value = false;
-  }
-};
-
-
-
 
 
 </script>
