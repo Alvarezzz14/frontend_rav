@@ -19,26 +19,19 @@
 							:to="item.to"
 							@click="setActive(item)"
 							:class="[
-								'flex flex-row h-16 items-center transform text-black transition-colors duration-200',
+								'flex flex-row h-16 items-center transform text-black transition-colors duration-200 ',
 								isActive(item) ? 'bg-customPurple text-amarillo' : '',
 							]">
 							<span
-								v-if="item.icon && item.icon.includes('<svg')"
+								v-if="item.icon"
 								v-html="item.icon"
 								:class="{
 									'text-GrisIconosDash': !isActive(item),
 									'text-amarillo': isActive(item),
 								}"
-								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 w-6 md:w-9 lg:w-12 text-lg mr-2 transition-colors duration-200">
+								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 w-6 md:w-9 lg:w-12 text-lg mr-4 transition-colors duration-200">
 							</span>
-							<img
-								v-else-if="item.icon"
-								:src="item.icon"
-								:class="{
-									'!text-GrisIconosDash': !isActive(item),
-									'!text-amarillo': isActive(item),
-								}"
-								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 w-6 md:w-9 lg:w-12 text-lg mr-2 transition-colors duration-200" />
+
 							<span
 								class="text-left sm:text-md md:text-base lg:text-lg font-sm transition-colors duration-200"
 								:class="{ 'text-amarillo': isActive(item) }"
