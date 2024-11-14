@@ -5,18 +5,18 @@
         <!-- Mensaje de error -->
         <div class="static inline-grid">
           <!-- Número 404 -->
-          <h1 class="text-negro font-bold mb-44 text-6xl ">Oops...</h1>
+          <h1 class="text-negro font-bold mb-80 text-7xl ">Oops...</h1>
           <!-- Imágenes de los personajes -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <img :src="characterImage" alt="404 con personajes" class="w-[600px] sm:w-[800px] object-contain" />
+          <div class="absolute inset-0 flex w-full my-9  items-center justify-center">
+            <img :src="characterImage" alt="404 con personajes" class="w-full object-contain" />
           </div>
         </div>
   
         <!-- Mensaje de texto -->
-        <h2 class="text-2xl sm:text-3xl mt-3 font-semibold text-negro">Página no encontrada</h2>
+        <h2 class="md:text-6xl sm:text-3xl  font-bold text-negro">Página no encontrada</h2>
   
         <!-- Botón -->
-        <button @click="goHome" class="bg-customPurple text-amarillo px-8 py-3  text-lg shadow hover:bg-purple-700">
+        <button @click="goHome" class="bg-customPurple text-amarillo px-8 py-3   text-lg shadow hover:bg-purple-700">
           Regresar a la página de inicio
         </button>
       </div>
