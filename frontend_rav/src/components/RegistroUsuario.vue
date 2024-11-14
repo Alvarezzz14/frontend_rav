@@ -22,7 +22,7 @@
                 v-model="formData.name"
                 type="text"
                 placeholder="Nombre"
-                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
+                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
                 required
               />
             </div>
@@ -31,7 +31,7 @@
                 v-model="formData.email"
                 type="email"
                 placeholder="Correo SENA"
-                class="w-full px-3  h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
+                class="w-full px-3  h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
                 required
               />
             </div>
@@ -41,7 +41,7 @@
                 type="password"
                 placeholder="Crear contraseña"
 
-                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
+                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
                 required
               />
             </div>
@@ -51,14 +51,14 @@
                 type="password"
                 placeholder="Confirmar contraseña"
 
-                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
+                class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
                 required
               />
             </div>
             <!-- Botón de Iniciar -->
             <button
               type="submit"
-              class="w-full bg-customPurple text-amarillo font-bold py-2 text-lg rounded-lg transition duration-200"
+              class="w-full bg-azulBarraApe text-amarillo font-bold py-2 text-lg rounded-lg transition duration-200"
             >
 
               Registrarse

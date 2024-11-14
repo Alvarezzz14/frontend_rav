@@ -7,7 +7,7 @@
 
     <!-- Contenedor del título "Colombia" -->
     <div class="w-full max-w-md text-center">
-      <h1 class="font-bold text-6xl md:text-7xl mt-0 leading-10 text-customPurple">Colombia</h1>
+      <h1 class="font-bold text-6xl md:text-7xl mt-0 leading-10 text-azulBarraApe">Colombia</h1>
     </div>
   </div>
 </template>

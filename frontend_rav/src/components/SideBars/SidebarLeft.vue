@@ -1,8 +1,8 @@
 <template>
-	<div class="overflow-auto bg-white">
+	<div class="overflow-auto">
 		<!-- Barra lateral izquierda -->
 		<div>
-			<!-- Ícono centrado -->
+			<!-- Ícono centrado  Rav-->
 			<div
 				class="py-8 hidden lg:flex items-center h-auto justify-center shadow-md">
 				<RavIcon class="" />
@@ -10,18 +10,18 @@
 
 			<!-- Menu de navegación -->
 			<nav>
-				<ul class="list-none flex flex-col px-3">
+				<ul class="list-none flex flex-col px-3 ">
 					<li
 						v-for="item in menuItems"
 						:key="item.title"
-						class="pt-1 py-4 md:py-5 relative w-full">
+						class="pt-1 py-4 md:py-5 relative w-full ">
 						<router-link
 							v-if="item.to"
 							:to="item.to"
-							class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+							class="flex flex-row items-center transform hover:translate-x-2 transition-transform ease-in duration-200 text-black  hover:text-yellow-400 focus:bg-azulBarraApe focus:text-yellow-400">
 							<!-- Contenedor redondo para el icono -->
 							<span
-								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg bg-customPurple text-white mr-2">
+								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg text-black mr-2  hover:text-yellow-400 focus:bg-azulBarraApe focus:text-yellow-400">
 								<i :class="[item.icon]"></i>
 							</span>
 							<span
@@ -32,11 +32,11 @@
 					</li>
 					<li class="block lg:hidden">
 						<span
-							class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg bg-customPurple text-white mr-2">
-							<i class="pi-sign-out"></i>
+							class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 rounded-full w-6 md:w-9 lg:w-12 text-lg  text-black mr-2  hover:text-yellow-400 focus:bg-azulBarraApe focus:text-yellow-400" >
+							<i class="pi pi-sign-out"></i>
 						</span>
 						<span
-							class="text-left text-gray-500 sm:text-md md:text-base lg:text-lg font-sm"
+							class="w-full py-2 cursor-pointer border-azulBarraApe border-2 bg-azulBarraApe  rounded-lg hover:bg-azulSelectorApe  focus:bg-azulSelectorApe transition-colors text-base !text-amarillo !font-bold  px-2"
 							>Cerrar Sesión</span
 						>
 					</li>
@@ -59,7 +59,7 @@
 					<div class="mt-4 text-center">
 						<LogoutButton
 							@click="logout"
-							class="text-base !text-amarillo !font-bold py-1 px-2" />
+							class="text-base !text-amarillo !font-bold py-1 px-2 !bg-azulBarraApe" />
 					</div>
 				</div>
 			</nav>
@@ -88,7 +88,7 @@ const user = ref({
 
 const menuItems = ref([
 	{
-		title: "Dashboard",
+		title: "Inicio",
 		to: { name: "HomePage" },
 		icon: "pi pi-home",
 		submenuOpen: false,
@@ -102,7 +102,7 @@ const menuItems = ref([
 		submenu: [],
 	},
 	{
-		title: "Ruta de Atención",
+		title: "Busqueda del Ciudadano",
 		to: { name: "BusquedaCiudadanoPage" },
 		icon: "pi pi-sitemap",
 		submenuOpen: false,

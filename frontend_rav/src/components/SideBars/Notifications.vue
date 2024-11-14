@@ -5,7 +5,7 @@
 		<div class="flex flex-col bg-white items-center">
 		  <!-- Sección de Actividad -->
 		  <h2
-			class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
+			class="text-lg bg-amarillo w-full text-center font-bold text-azulBarraApe py-2">
 			Actividad
 		  </h2>
 		  <div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
@@ -31,7 +31,7 @@
 				  "
 				  stroke-width="6"
 				  fill="none"
-				  class="text-customPurple transition-all duration-1000 ease-out" />
+				  class="text-azulBarraApe transition-all duration-1000 ease-out" />
 			  </svg>
 			  <span
 				class="absolute inset-0 flex items-center justify-center text-lg font-bold">
@@ -44,12 +44,12 @@
 		  <!-- Sección de Notificaciones -->
 		  <div class="shadow-top w-full">
 			<h2
-			  class="text-lg font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
+			  class="text-lg font-semibold bg-azulBarraApe mb-2 p-2 flex items-center text-amarillo justify-between">
 			  Notificaciones
 			  <button
 				v-if="extraNotifications > 0"
 				@click="toggleNotifications"
-				class="bg-amarillo text-customPurple w-6 h-6 rounded-full flex items-center justify-center text-xs">
+				class="bg-amarillo text-azulBarraApe w-6 h-6 rounded-full flex items-center justify-center text-xs">
 				+{{ extraNotifications }}
 			  </button>
 			</h2>

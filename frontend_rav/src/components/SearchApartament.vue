@@ -32,7 +32,7 @@
         <img :src="selectedInfo.imageUrl" :alt="selectedInfo.name" class="rounded-t-lg w-full h-40 object-cover" />
 
         <!-- Encabezado con nombre y fondo color -->
-        <div class="bg-customPurple text-white py-2 px-4 flex items-center">
+        <div class="bg-azulBarraApe text-white py-2 px-4 flex items-center">
           <!-- Cambia el tamaño del texto según el ancho de pantalla -->
           <h2 class="font-bold text-2xl md:text-3xl">{{ selectedInfo.name }}</h2>
           <!-- Imagen del mapa del departamento seleccionado -->
@@ -56,7 +56,7 @@
             v-for="dep in departamentos"
             :key="dep.code"
             :d="getDepartmentPath(dep.code)" 
-            :fill="selectedCountry && selectedCountry.code === dep.code ? 'purple' : '#F2F3F3'" 
+            :fill="selectedCountry && selectedCountry.code === dep.code ? '#000B77' : '#F2F3F3'" 
             :stroke="selectedCountry && selectedCountry.code === dep.code ? 'black' : 'none'"
           />
         </g>

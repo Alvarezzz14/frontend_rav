@@ -8,7 +8,7 @@
 		maximizable
 		modal
 		header="Detalles del Evento"
-		class="!text-customPurple"
+		class="!text-azulBarraApe"
 		:style="{ width: '50rem' }"
 		:breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
 		<p class="m-0 text-black">{{ selectedEvent?.description }}</p>

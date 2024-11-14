@@ -3,18 +3,18 @@
     <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
     <!-- Sección de carga de archivo -->
     <div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
-      <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">Cargar Archivo</h2>
-      <p class="text-center mb-2 text-customPurple">Adjunta el archivo que deseas compartir</p>
+      <h2 class="text-2xl font-bold text-center mb-4 text-azulBarraApe">Cargar Archivo</h2>
+      <p class="text-center mb-2 text-azulBarraApe">Adjunta el archivo que deseas compartir</p>
       <br>
 
       <!-- Área de arrastrar y soltar -->
       <div
-        class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
+        class="upload-container p-8 border-dashed border-2 border-azulBarraApe text-center rounded-lg"
         @drop.prevent="handleDrop"
         @dragover.prevent="handleDragOver"
       >
         <img src="@/assets/images/download.svg" alt="Upload Icon" class="upload-icon mb-2" />
-        <p class="text-customPurple">Arrastra y suelta el archivo <br /> o</p>
+        <p class="text-azulBarraApe">Arrastra y suelta el archivo <br /> o</p>
         <!-- Botón de color amarillo -->
         <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
         <!-- Input oculto para selección de archivo -->
@@ -22,17 +22,17 @@
       </div>
 
       <!-- Archivos cargados -->
-      <div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg">
+      <div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-azulBarraApe-100 rounded-lg">
         <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
-        <div class="flex-1 text-customPurple">
+        <div class="flex-1 text-azulBarraApe">
           <p>{{ fileName }}</p>
           <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
         </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ uploadProgress }}%</span>
+        <span class="ml-4 font-semibold text-azulBarraApe">{{ uploadProgress }}%</span>
       </div>
 
       <!-- Botón de carga -->
-      <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
+      <Button label="Subir" class="azulBarraApe-button mt-4 w-full" @click="uploadFile" />
     </div>
   </div>
 </template>
@@ -290,20 +290,20 @@ const sendFile = async (fetchOptions) => {
 </script>
 
 <style scoped>
-.text-customPurple {
-  color: #7A1F7E;
+.text-azulBarraApe {
+  color: #000B77;
 }
 .yellow-button {
   background-color: #FDC300 !important;
-  color: #7A1F7E !important;
+  color: #000B77 !important;
   font-weight: bold;
   border-radius: 12px;
   padding: 12px 24px;
   border: none;
   font-size: 1.25rem;
 }
-.purple-button {
-  background-color: #7A1F7E !important;
+.azulBarraApe-button {
+  background-color: #000B77 !important;
   color: #FDC300 !important;
   font-weight: bold;
   border-radius: 12px;
@@ -323,6 +323,6 @@ const sendFile = async (fetchOptions) => {
   background-color: #E0C8E0;
 }
 .progress-bar {
-  background-color: #7A1F7E;
+  background-color: #000B77;
 }
 </style>

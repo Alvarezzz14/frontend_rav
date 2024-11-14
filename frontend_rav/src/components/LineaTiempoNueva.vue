@@ -4,12 +4,12 @@
     <div class="bg-gray-100 flex flex-col lg:flex-row items-center justify-between p-4 rounded-lg shadow-md w-full max-w-7xl mb-8">
       <!-- Icono y Título -->
       <div class="flex items-center mb-4 lg:mb-0">
-        <div class="p-3 bg-customPurple rounded-full">
+        <div class="p-3 bg-azulBarraApe rounded-full">
           <img :src="Reportes" alt="Reportes" class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-16 lg:h-16" />
         </div>
         <div class="ml-4 text-center lg:text-left">
           <p class="text-black mb-0 text-base sm:text-lg md:text-xl lg:text-3xl xl:text-4xl">Formato de</p>
-          <h2 class="text-customPurple text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-0 font-bold">Reportes</h2>
+          <h2 class="text-azulBarraApe text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-0 font-bold">Reportes</h2>
         </div>
       </div>
 
@@ -27,7 +27,7 @@
       </div>
 
       <!-- Botón Línea de Tiempo -->
-      <button class="bg-customPurple text-white px-4 py-2 rounded-lg shadow flex items-center max-w-xs md:max-w-none">
+      <button class="bg-azulBarraApe text-white px-4 py-2 rounded-lg shadow flex items-center max-w-xs md:max-w-none">
         <img :src="VerLine" alt="Ver Línea de Tiempo" class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10" />
         <span class="ml-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">Ver Línea de Tiempo</span>
       </button>
@@ -36,14 +36,14 @@
     <!-- Sección de Línea de Tiempo -->
     <div v-if="timelineData && timelineData.length" class="relative w-full max-w-5xl mt-8">
       <!-- Línea vertical morada central con íconos -->
-      <div class="absolute bg-customPurple w-16 left-1/2 transform -translate-x-1/2 h-full flex flex-col items-center justify-center">
+      <div class="absolute bg-azulBarraApe w-16 left-1/2 transform -translate-x-1/2 h-full flex flex-col items-center justify-center">
         <div v-for="(item, index) in timelineData" :key="index" class="flex flex-col items-center my-4">
           <!-- Ícono de punto en la línea de tiempo con fecha -->
           <div class="bg-white rounded-full w-8 h-8 flex items-center justify-center border-4 border-white">
             <img :src="LogoSena" alt="Ícono" class="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" />
           </div>
           <!-- Línea vertical entre íconos -->
-          <div v-if="index < timelineData.length - 1" class="bg-customPurple w-1 h-10"></div>
+          <div v-if="index < timelineData.length - 1" class="bg-azulBarraApe w-1 h-10"></div>
         </div>
       </div>
 

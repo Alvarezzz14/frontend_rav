@@ -1,6 +1,6 @@
 <template>
-	<!-- Contenedor principal con el fondo CustomPurple -->
-	<div class="min-h-screen bg-customPurple text-white flex flex-col">
+	<!-- Contenedor principal con el fondo azulBarraApe -->
+	<div class="min-h-screen bg-azulBarraApe text-white flex flex-col">
 		<!-- Contenedor del grid -->
 		<div
 			class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-x-6 p-8 lg:p-16">
@@ -29,7 +29,7 @@
 							type="email"
 							id="email"
 							v-model="form.email"
-							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 							required
 							autofocus />
 					</div>
@@ -42,7 +42,7 @@
 							type="password"
 							id="password"
 							v-model="form.password"
-							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="mt-1 block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 							required />
 					</div>
 

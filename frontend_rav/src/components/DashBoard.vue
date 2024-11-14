@@ -5,9 +5,9 @@
 			<div
 				v-for="(image, index) in imagePaths"
 				:key="index"
-				class="flex-1 p-4 border border-purple-800 rounded-lg text-center bg-gray-100">
+				class="flex-1 p-4 border border-azulBarraApe-800 rounded-lg text-center bg-gray-100">
 				<h4 class="font-bold text-lg">{{ image.title }}</h4>
-				<div class="mt-2 text-3xl font-semibold text-purple-700">
+				<div class="mt-2 text-3xl font-semibold text-azulBarraApe-700">
 					<p>{{ image.count }}</p>
 				</div>
 				<div class="mt-3">
@@ -21,17 +21,17 @@
 
 		<!-- Segunda Sección: Gráficos -->
 		<div class="flex gap-5">
-			<div class="flex-1 p-4 border border-purple-800 rounded-lg bg-gray-100">
+			<div class="flex-1 p-4 border border-azulBarraApe-800 rounded-lg bg-gray-100">
 				<LineChart />
 			</div>
-			<div class="flex-1 p-4 border border-purple-800 rounded-lg bg-gray-100">
+			<div class="flex-1 p-4 border border-azulBarraApe-800 rounded-lg bg-gray-100">
 				<BarChart />
 			</div>
 		</div>
 
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-purple-800 rounded-lg bg-gray-100">
-			<h3 class="text-xl font-semibold text-purple-700 mb-4">Tabla de Datos</h3>
+		<div class="p-4 border border-azulBarraApe-800 rounded-lg bg-gray-100">
+			<h3 class="text-xl font-semibold text-azulBarraApe-700 mb-4">Tabla de Datos</h3>
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
