@@ -43,6 +43,7 @@
 			<!-- Contenido principal -->
 			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
 				<router-view />
+				<Plantas></Plantas>
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
@@ -66,6 +67,8 @@ import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
+import Plantas from "@/components/plantas.vue";
+
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
