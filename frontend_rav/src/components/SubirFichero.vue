@@ -170,7 +170,6 @@ const sendFile = async (fetchOptions) => {
   }
 };
 
-
 // Función para dividir archivos de texto en partes
 const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
@@ -193,7 +192,9 @@ const createPartsTxt =  (file, chunkSize = 250 * 1024 * 1024) => {
     formData.append("sizeMainFile",file.size)
 
     let fetchOptions = {
+
       url: "http://localhost:8081/api/upload",
+
       options: {
         method: "POST",
         headers: { Accept: "application/json" },
@@ -230,6 +231,7 @@ const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
+
    
       const txtData = XLSX.utils.sheet_to_csv(workSheet,{FS:"»",blankrows:false});
       const isoEncodeData = unescape(encodeURIComponent)
@@ -237,6 +239,7 @@ const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
       const blob = new Blob([txtData],{type:"text/plain"})
       createPartsTxt(blob)
     
+
   }
   alert("División y envío completados.");
 };
@@ -267,6 +270,7 @@ const uploadFileFinal = async () => {
 const uploadFile = async () => {
   if (!fileToUpload.value) return;
   
+
   // // Emitimos el evento con el progreso inicial
   // window.dispatchEvent(new CustomEvent("file-upload-progress", {
   //   detail: {
@@ -280,6 +284,7 @@ const uploadFile = async () => {
   await uploadFileFinal();
   
 };
+
 
 
 </script>

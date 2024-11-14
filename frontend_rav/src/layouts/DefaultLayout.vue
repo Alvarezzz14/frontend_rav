@@ -6,7 +6,9 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
-			<img src="@/assets/images/ravLogo.png" alt="" />
+
+			<img src="@/assets/images/ravLogo.png" alt="Logo Rav" />
+
 		</div>
 		<div class="lg:hidden flex flex-col">
 			<button
@@ -69,7 +71,6 @@ import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
 import RavLogo from "@/assets/images/ravLogo.png";
 import FileNotification from "../components/FileNotification.vue";
-
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
