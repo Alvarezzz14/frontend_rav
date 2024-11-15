@@ -18,23 +18,21 @@
           <!-- Título -->
           <h2 class="text-3xl  font-semibold text-black m-2 text-center">Registrar Usuario</h2>
 
-          <div class="inline-block ">
-            <label>
-              <input type="radio" name="role" value="Administrador" class="bg-customPurple " />
-              Administrador
-            </label>
 
-            <label>
-              <input type="radio" name="role" value="Funcionario" />
-              Funcionario
-            </label>
 
-            <label>
-              <input type="radio" name="role" value="Operario" />
-              Operario
-            </label>
+          <div class="inline-block">
+            <div class="radio-button">
+              <input type="radio" id="admin" name="role" value="Administrador" class="cheked:bg-customPurple"  />
+              <label for="admin">Administrador</label>
+
+              <input type="radio" id="funcionario" name="role" value="Funcionario" />
+              <label for="funcionario">Funcionario</label>
+
+              <input type="radio" id="operario" name="role" value="Operario" />
+              <label for="operario">Operario</label>
+            </div>
           </div>
-
+>>>>>>> main
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>

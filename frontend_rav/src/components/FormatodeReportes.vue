@@ -1,7 +1,9 @@
 <template>
   <div class="bg-gray-100 min-h-screen p-4 flex flex-col items-center justify-center">
     <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
+
     <div class="bg-gray-100 flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+
       <!-- Icono y Título -->
       <div class="flex items-center mb-4 md:mb-0">
         <div class="p-6 bg-customPurple rounded-full">
@@ -13,6 +15,7 @@
           <h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">Reportes</h2>
         </div>
       </div>
+
     </div>
 
     <!-- Sección Central (Imagen y Formulario) -->
@@ -29,6 +32,7 @@
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-semibold mb-2">Seleccione el formato en el cual desea descargar el archivo.</label>
           <div class="space-y-2">
+
             <label class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
               :class="{ 'bg-customPurple text-white font-bold': selectedFormat === 'pdf', 'bg-gray-100': selectedFormat !== 'pdf' }"
               @click="selectFormat('pdf')">
@@ -37,6 +41,7 @@
             <label class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
               :class="{ 'bg-customPurple text-white font-bold': selectedFormat === 'excel', 'bg-gray-100': selectedFormat !== 'excel' }"
               @click="selectFormat('excel')">
+
               EXCEL
             </label>
           </div>
@@ -44,6 +49,7 @@
 
         <!-- Selección de Departamento -->
         <div class="mb-4">
+
           <label class="block text-gray-700 text-sm font-semibold mb-2">Seleccione Departamento</label>
           <div class="flex flex-wrap gap-4">
             <select v-model="selectedDepartamento" class="block p-4 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12 border-none" id="departamento">
@@ -52,6 +58,7 @@
                 {{ departamento.name }}
               </option>
             </select>
+
           </div>
         </div>
 
@@ -59,19 +66,22 @@
         <div class="mb-4">
           <label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas.</label>
           <div class="flex items-center space-x-4">
+
             <input type="date"
               class="w-1/2 p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple"
               placeholder="Desde" />
             <input type="date"
               class="w-1/2 p-2 border rounded text-negro bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple"
               placeholder="Hasta" />
+
           </div>
         </div>
 
         <!-- Botón de Búsqueda -->
+
         <button class="w-full bg-customPurple text-lg cursor-pointer border-none text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
           @click="handleDownloadExcel">Generar Reporte</button>
-        
+
       </div>
     </div>
   </div>
@@ -136,11 +146,5 @@ const departamentos = ref([
 </script>
 
 <style scoped>
-@media (max-width: 768px) {
 
-  /* Ajustes responsivos para pantallas pequeñas */
-  .bg-gray-100 {
-    padding: 1rem;
-  }
-}
 </style>
