@@ -22,8 +22,6 @@
         <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept=".txt,.csv,.xlsx" />
       </div>
 
-    
-
       <!-- Archivos cargados -->
       <div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg">
         <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
@@ -37,7 +35,7 @@
         <!-- Mostrar fecha y hora de carga -->
         <div v-if="uploadTimestamp" class="upload-timestamp mt-4 text-center text-customPurple font-semibold">
         <p>Fecha y hora de carga: {{ uploadTimestamp }}</p>
-      </div>
+        </div>
 
       <!-- Botón de carga -->
       <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
@@ -60,7 +58,7 @@ const loading = ref(false);
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const uploadTimestamp = ref(''); // Almacena la fecha y hora de carga del archivo
-const acceptedFileTypes = ["text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Tipos permitidos
+const acceptedFileTypes = ["text/plain", "text/csv"];
 
 // Función para seleccionar archivo
 function selectFile() {
@@ -139,19 +137,14 @@ onBeforeUnmount(() => {
   window.removeEventListener('beforeunload', clearLocalStorageIfBrowserClosed);
 });
 
-// Métodos para manejar la carga de archivos
-const handleFileUpload = (event) => {
+function handleFileUpload(event) {
   const file = event.target.files[0];
-  
-  // Validar el tipo de archivo
-  if (acceptedFileTypes.includes(file.type)) {
-    fileToUpload.value = file;
-    fileName.value = file.name;
-    uploadProgress.value = 0;
+  if (file && acceptedFileTypes.includes(file.type)) {
+    handleFile(file);
   } else {
-    alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+    alert("Por favor, selecciona un archivo válido (.txt, .csv).");
   }
-};
+}
 
 // Función para dividir archivos de texto en partes
 const createPartsTxt = async (file, chunkSize = 250 * 1024 * 1024) => {
@@ -320,154 +313,3 @@ const sendFile = async (fetchOptions) => {
 
 
 
-
-
-
-
-
-
-
-
-
-<template>
-  <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
-    <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
-
-    <!-- Sección de carga de archivo -->
-    <div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
-      <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">Cargar Archivo</h2>
-      <p class="text-center mb-2 text-customPurple">Adjunta el archivo que deseas compartir</p>
-      <br>
-
-      <!-- Área de arrastrar y soltar -->
-      <div
-        class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
-        @drop.prevent="handleDrop"
-        @dragover.prevent="handleDragOver"
-      >
-        <img src="@/assets/images/download.svg" alt="Upload Icon" class="upload-icon mb-2" />
-        <p class="text-customPurple">Arrastra y suelta el archivo <br /> o</p>
-        <!-- Botón de color amarillo -->
-        <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
-        <!-- Input oculto para selección de archivo -->
-        <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept=".txt,.csv,.xlsx" />
-      </div>
-
-      <!-- Archivos cargados -->
-      <div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg">
-        <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
-        <div class="flex-1 text-customPurple">
-          <p>{{ fileName }}</p>
-          <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
-        </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ uploadProgress }}%</span>
-      </div>
-
-      <!-- Mostrar fecha y hora de carga -->
-      <div v-if="uploadTimestamp" class="upload-timestamp mt-4 text-center text-customPurple font-semibold">
-        <p>Fecha y hora de carga: {{ uploadTimestamp }}</p>
-      </div>
-
-      <!-- Botón de carga -->
-      <Button label="Subir" class="purple-button mt-4 w-full" @click="uploadFile" />
-    </div>
-  </div>
-</template>
-
-<script setup>
-import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import Button from 'primevue/button';
-import * as XLSX from "xlsx";
-
-// Variables y lógica para la carga de archivos
-const uploadedFile = ref(null);
-const fileName = ref("");
-const fileToUpload = ref(null);
-const uploadProgress = ref(0);
-const loading = ref(false);
-const uploadSuccess = ref(false);
-const uploadError = ref(false);
-const uploadTimestamp = ref(''); // Almacena la fecha y hora de carga del archivo
-const acceptedFileTypes = ["text/plain", "text/csv", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]; // Tipos permitidos
-
-// Función para seleccionar archivo
-function selectFile() {
-  document.querySelector('input[type="file"]').click();
-}
-
-// Manejar archivo al arrastrar y soltar
-function handleDrop(event) {
-  const file = event.dataTransfer.files[0];
-  handleFile(file);
-}
-
-// Manejar archivo al cargar
-function handleFileUpload(event) {
-  const file = event.target.files[0];
-  handleFile(file);
-}
-
-// Manejar archivo cargado y guardarlo en localStorage
-function handleFile(file) {
-  if (file) {
-    fileToUpload.value = file;
-    fileName.value = file.name;
-
-    // Registrar la fecha y hora actual
-    const timestamp = new Date().toLocaleString();
-    uploadTimestamp.value = timestamp;
-
-    saveFileToLocalStorage(file, timestamp);
-  }
-}
-
-// Guardar archivo en localStorage
-function saveFileToLocalStorage(file, timestamp) {
-  const reader = new FileReader();
-  reader.onload = () => {
-    const fileData = reader.result;
-    const fileInfo = {
-      name: file.name,
-      data: fileData,
-      uploadedAt: timestamp, // Guardar la fecha y hora de carga
-    };
-    localStorage.setItem('uploadedFile', JSON.stringify(fileInfo));
-
-    // Solo marcar sesión activa si no existe ya la marca
-    if (!sessionStorage.getItem('sessionStarted')) {
-      sessionStorage.setItem('sessionStarted', 'true');
-    }
-  };
-  reader.readAsDataURL(file);
-}
-
-// Cargar archivo y timestamp desde localStorage al montar el componente
-function loadFileFromLocalStorage() {
-  const fileInfo = localStorage.getItem('uploadedFile');
-  if (fileInfo) {
-    const parsedFileInfo = JSON.parse(fileInfo);
-    fileName.value = parsedFileInfo.name;
-    fileToUpload.value = parsedFileInfo.data;
-    uploadTimestamp.value = parsedFileInfo.uploadedAt; // Cargar fecha y hora de carga
-  }
-}
-
-// Limpiar localStorage si el navegador se cerró completamente
-function clearLocalStorageIfBrowserClosed() {
-  if (!sessionStorage.getItem('sessionStarted')) {
-    localStorage.removeItem('uploadedFile');
-  }
-}
-
-// Configuración de eventos
-onMounted(() => {
-  loadFileFromLocalStorage();
-  window.addEventListener('beforeunload', clearLocalStorageIfBrowserClosed);
-});
-
-// Antes de desmontar, eliminar solo el listener, no la marca de sesión
-onBeforeUnmount(() => {
-  window.removeEventListener('beforeunload', clearLocalStorageIfBrowserClosed);
-});
-</script>
