@@ -32,7 +32,7 @@
               <label for="operario">Operario</label>
             </div>
           </div>
->>>>>>> main
+
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>
