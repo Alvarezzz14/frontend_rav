@@ -16,14 +16,7 @@
 				</div>
 			</div>
 		</div>
-		/* Mesa de trabajo 3 1 */
-
-position: absolute;
-width: 141px;
-height: 145px;
-left: 330px;
-top: 118px;
-
+		
 
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
