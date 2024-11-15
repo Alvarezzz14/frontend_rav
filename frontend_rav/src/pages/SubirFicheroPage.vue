@@ -1,7 +1,7 @@
 <template>
-	<SubirFichero> </SubirFichero>
+	<SubirFicheroPage></SubirFicheroPage>
 </template>
 
 <script setup>
-import SubirFichero from "@/components/SubirFichero.vue";
+import SubirFicheroPage from "@/components/SubirFichero.vue";
 </script>
