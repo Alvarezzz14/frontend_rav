@@ -1,5 +1,6 @@
 <template>
 	<div class="overflow-auto">
+
 	  <!-- Sidebar Derecho -->
 	  <div>
 		<div class="flex flex-col bg-white items-center">
@@ -37,6 +38,7 @@
 				class="absolute inset-0 flex items-center justify-center text-lg font-bold">
 				{{ goal.value }}
 			  </span>
+
 			</div>
 			<p class="text-center text-xs font-semibold">{{ goal.label }}</p>
 		  </div>
@@ -125,12 +127,14 @@ onMounted(() => {
 
 // Notificaciones
 const notifications = ref([
+
   {
     title: "Título de notificación",
     date: "17/07/2024",
     message: "Lorem ipsum dolor sit amet...",
     redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
   },
+
 ]);
 
 const additionalNotifications = computed(() => notifications.value.slice(1));

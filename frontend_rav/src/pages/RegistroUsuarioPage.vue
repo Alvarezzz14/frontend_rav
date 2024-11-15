@@ -4,5 +4,5 @@
 
 <script setup>
 
-import RegistroUsuario from '../components/RegistroUsuario.vue';
+import RegistroUsuario from '@/components/RegistroUsuario.vue';
 </script>

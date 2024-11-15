@@ -15,6 +15,8 @@ import 'vue-toastification/dist/index.css';
 import 'primeicons/primeicons.css';
 import 'flowbite';
 import '@/styles/style.css';
+
+import TimeLine from 'primevue/timeline';
 const pinia = createPinia();
 
 const app = createApp(App);
@@ -36,6 +38,7 @@ app.use(router)
         pauseOnHover: true,
     })
     .component('Dialog', Dialog)
+    .component('TimeLine', TimeLine)
     .component('Button', Button)
     .component('Avatar', Avatar)
     .directive('styleclass', StyleClass)

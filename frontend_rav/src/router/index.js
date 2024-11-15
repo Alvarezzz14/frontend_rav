@@ -1,10 +1,8 @@
 
 import { createRouter, createWebHistory } from 'vue-router';
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
-import HomePage from '@/pages/HomePage.vue'; // Importa las páginas
 import DepartamentosPage from '@/pages/DepartamentosPage.vue';
 import LoginPage from '@/pages/LoginPage.vue';
-import LineaTiempoOriginal from '@/components/LineaTiempoOriginal.vue';
 import Rutaaccionpage from '@/pages/Rutaaccionpage.vue';
 import BusquedaCiudadanoPage from '@/pages/BusquedaCiudadanoPage.vue';
 import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
@@ -14,7 +12,7 @@ import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
-
+import ErrorPage  from '@/pages/ErrorPage.vue';
 
 
 const routes = [
@@ -27,6 +25,11 @@ const routes = [
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
     component: RegistroUsuarioPage
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'ErrorPage',
+    component: ErrorPage
   },
   {
     path: "/",
@@ -48,11 +51,7 @@ const routes = [
         component: Rutaaccionpage,
         props: true,
       },
-      {
-        path: '/lineatiempo',
-        name: 'LineaTiempo',
-        component: LineaTiempoOriginal
-      },
+
       {
         path: '/busquedaciudadano',
         name: 'BusquedaCiudadanoPage',
@@ -80,6 +79,12 @@ const routes = [
         component: PerfilUsuarioPage
       },
     
+      {
+        path: '/LineaTiempoNueva',
+        name: 'LineaTiempoNuevaPage',
+        component: LineaTiempoNuevaPage
+      },
+
       {
         path: '/LineaTiempoNueva',
         name: 'LineaTiempoNuevaPage',

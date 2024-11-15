@@ -51,6 +51,7 @@ import * as XLSX from "xlsx";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
+const fileNotificationStore = useFileNotificationStore();
 const fileName = ref("");
 const fileToUpload = ref(null);
 const uploadProgress = ref(0);

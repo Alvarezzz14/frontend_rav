@@ -13,6 +13,7 @@ export const useFileNotificationStore = defineStore('fileNotification', () => {
     setIntUploadProgress(newUploadProgress);
 }
 
+
 return {uploadProgress,intUploadProgress,setUploadProgress};
 })
 
