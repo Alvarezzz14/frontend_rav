@@ -11,7 +11,7 @@
 						image.path === 'certificaciones' ? 'w-60 h-9' : 'w-28 h-12 max-w-full'
 					]" />
 				</div>
-				<div class="mt-2 text-3xl font-semibold text-purple-700">
+				<div class="mt-2 text-2xl font-semibold text-customPurple">
 					<p>{{ image.count }}</p>
 				</div>
 			</div>
@@ -20,10 +20,10 @@
 
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-			<div class="p-4 border border-purple-800 rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
+			<div class="p-4 border border-customPurple rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
 				<LineChart />
 			</div>
-			<div class="p-4 border border-purple-800 rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
+			<div class="p-4 border border-customPurple rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
 				<BarChart />
 			</div>
 		</div>
@@ -32,8 +32,8 @@
 
 
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-purple-800 rounded-lg bg-gray-100">
-			<h3 class="text-xl font-semibold text-purple-700 mb-4">Tabla de Datos</h3>
+		<div class="p-4 border border-customPurple rounded-lg bg-gray-100">
+			<h3 class="text-xl font-semibold text-customPurple mb-4">Tabla de Datos</h3>
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
@@ -78,17 +78,17 @@ const imagePaths = ref([
 	},
 	{
 		title: "APE",
-		count: "97883112",
+		count: "9788312",
 		path: LogoApe,
 	},
 	{
 		title: "CERTIFICACIONES",
-		count: "85883161",
+		count: "8588316",
 		path: Certificaciones,
 	},
 	{
 		title: "FONDO EMPRENDER",
-		count: "99883151",
+		count: "9988315",
 		path: FondoEmprender,
 	},
 ]);
