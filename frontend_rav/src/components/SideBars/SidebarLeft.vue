@@ -48,7 +48,7 @@
 							:src="IconoLogout"
 							alt="IconoLogoutResponsive" />
 						<span
-							class="text-left text-black text-sm md:text-base lg:text-lg font-bold"
+							class="text-left mt-1 ml-0.5 text-black text-sm md:text-base lg:text-lg font-bold"
 							>Cerrar Sesión</span
 						>
 
