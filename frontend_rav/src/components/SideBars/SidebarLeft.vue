@@ -9,6 +9,7 @@
 
 			<!-- Menu de navegación -->
 			<nav>
+				<span class="lg:hidden flex-1 text-left"> Menú Principal </span>
 				<ul class="list-none flex flex-col px-0 border">
 					<li
 						v-for="item in menuItems"
@@ -39,6 +40,9 @@
 								>{{ item.title }}</span
 							>
 						</router-link>
+					</li>
+					<li class="lg:hidden">
+						<Notifications />
 					</li>
 					<div
 						class="cursor-pointer flex lg:hidden mt-4 ml-2 gap-1"
@@ -101,6 +105,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import { watch } from "vue";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
+import Notifications from "./Notifications.vue";
 
 const isSidebarOpen = ref(false);
 const router = useRouter();
@@ -126,7 +131,7 @@ const menuItems = ref([
 	},
 	{
 		title: "Ruta del Ciudadano",
-		to: null,
+		to: { name: "BusquedaCiudadanoPage" },
 		icon: `<svg width="34" height="39" viewBox="0 0 34 39" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <path d="M20.038 31.2135C20.0246 31.2016 20.0237 31.1996 20.0237 31.1817C20.0237 30.9938 20.0313 30.8029 20.0321 30.6141C20.0338 30.2025 20.0447 29.8625 20.1167 29.456C20.4013 27.8416 21.4051 26.4708 22.7111 25.9151C23.6145 26.429 24.6735 26.43 25.576 25.9131C26.903 26.4827 27.9126 27.8863 28.1814 29.5335C28.2667 30.0554 28.2391 30.4838 28.2525 31.0037C28.2542 31.0703 28.2919 31.1588 28.2467 31.2125H20.038V31.2135Z" fill="currentColor"/>
 <path d="M24.0159 21.2057C25.8632 21.0991 27.108 23.1023 26.1962 24.7197C25.3792 26.1674 23.3328 26.3333 22.3012 25.0233C21.1178 23.5207 22.1161 21.3153 24.0159 21.2057Z" fill="currentColor"/>

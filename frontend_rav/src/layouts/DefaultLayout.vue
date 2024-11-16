@@ -4,44 +4,41 @@
 		<header class="w-full">
 			<Header />
 		</header>
+
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
 			<img src="@/assets/images/ravLogo.png" alt="Logo Rav" />
 		</div>
-		<div class="lg:hidden flex flex-col">
-			<button
-				@click="toggleSidebar"
-				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
-				<span class="flex-1 text-left"> Menú Principal </span>
-				<div class="rounded-full bg-amarillo px-2 py-1">
-					<i class="pi pi-bars ml-auto text-customPurple"></i>
-				</div>
-			</button>
-			<div v-if="isSidebarOpen">
-				<SidebarLeft />
+
+		<!-- Barra horizontal (botón para abrir el sidebar) -->
+		<div
+			@click="toggleSidebar"
+			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
+			<div class="rounded-full bg-amarillo px-2 py-1">
+				<i class="pi pi-bars ml-auto text-customPurple"></i>
 			</div>
-			<button
-				@click="MinitoggleNotifications"
-				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
-				<span class="flex-1 text-left"> Notificaciones </span>
-				<div class="rounded-full bg-amarillo px-2 py-1">
-					<i class="pi pi-bell ml-auto text-customPurple"></i>
+		</div>
+
+		<div
+			class="lg:hidden fixed inset-0 bg-black bg-opacity-50 top-[calc(52px+125px)] overflow-auto"
+			v-if="isSidebarOpen"
+			@click="toggleSidebar">
+			<div class="flex flex-col">
+				<div v-if="isSidebarOpen">
+					<SidebarLeft />
 				</div>
-			</button>
-			<div v-if="showNotifications">
-				<Notifications />
 			</div>
 		</div>
 
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
-		<div class="flex overflow-hidden">
+		<div class="flex">
 			<!-- Sidebar izquierda -->
 			<aside class="h-full bg-gray-100 hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Contenido principal -->
-			<main class="flex flex-grow p-4 overflow-y-auto bg-gray-50">
+			<main class="flex flex-grow p-4 bg-gray-50">
 				<router-view />
 			</main>
 
