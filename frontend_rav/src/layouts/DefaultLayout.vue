@@ -4,61 +4,54 @@
 		<header class="w-full">
 			<Header />
 		</header>
-
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
 
 			<img src="@/assets/images/ravLogo.png" alt="Logo Rav" />
 
 		</div>
-
-		<!-- Barra horizontal (botón para abrir el sidebar) -->
-		<div
-			@click="toggleSidebar"
-			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
-			<svg
-				width="27"
-				height="27"
-				viewBox="0 0 25 25"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg">
-				<circle cx="12.5" cy="12.5" r="12.5" fill="#FDC300" />
-				<path
-					d="M8 8V9.12646H17.0117V8H8ZM8 11.3456V12.4721H17.0117V11.3456H8ZM8 14.725V15.8515H17.0117V14.725H8Z"
-					fill="#7A1F7E" />
-			</svg>
-		</div>
-
-		<div
-			class="lg:hidden fixed inset-0 bg-black bg-opacity-75 top-[calc(52px+125px)] overflow-auto"
-			v-if="isSidebarOpen"
-			@click="toggleSidebar">
-			<div class="flex flex-col">
-				<div v-if="isSidebarOpen">
-					<SidebarLeft />
+		<div class="lg:hidden flex flex-col">
+			<button
+				@click="toggleSidebar"
+				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
+				<span class="flex-1 text-left"> Menú Principal </span>
+				<div class="rounded-full bg-amarillo px-2 py-1">
+					<i class="pi pi-bars ml-auto text-customPurple"></i>
 				</div>
+			</button>
+			<div v-if="isSidebarOpen">
+				<SidebarLeft />
+			</div>
+			<button
+				@click="MinitoggleNotifications"
+				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
+				<span class="flex-1 text-left"> Notificaciones </span>
+				<div class="rounded-full bg-amarillo px-2 py-1">
+					<i class="pi pi-bell ml-auto text-customPurple"></i>
+				</div>
+			</button>
+			<div v-if="showNotifications">
+				<Notifications />
 			</div>
 		</div>
 
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
-		<div class="flex">
+		<div class="flex flex-grow overflow-hidden">
 			<!-- Sidebar izquierda -->
-			<aside class="h-full hidden lg:flex">
+			<aside class="h-full bg-gray-100 hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Contenido principal -->
-
 			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
 				<FileNotification/>
-
 				<router-view />
 				<Plantas></Plantas>
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
 			<aside
-				class="h-full bg-gray-100 hidden lg:flex max-w-72"
+				class="h-full bg-gray-100 hidden lg:flex"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
