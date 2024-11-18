@@ -1,104 +1,114 @@
 <template>
-	<div class="overflow-auto">
+	<div class="overflow-auto w-56 md:w-60 lg:w-72">
+		<!-- Sidebar Derecho -->
+		<div>
+			<div class="flex flex-col bg-white items-center">
+				<!-- Sección de Actividad -->
+				<h2
+					class="text-lg bg-amarillo w-full text-left lg:text-center font-bold text-customPurple py-2">
+					Actividad
+				</h2>
+				<div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
+					<div class="relative w-16 h-16 md:w-20 md:h-20">
+						<!-- Fondo del medidor vacío -->
+						<svg class="w-full h-full" viewBox="0 0 100 100">
+							<circle
+								cx="50"
+								cy="50"
+								r="40"
+								stroke="lightgray"
+								stroke-width="6"
+								fill="none" />
+							<!-- Círculo animado que muestra el progreso -->
+							<circle
+								cx="50"
+								cy="50"
+								r="40"
+								stroke="currentColor"
+								:stroke-dasharray="circumference"
+								:stroke-dashoffset="
+									circumference - (circumference * goal.value) / 100
+								"
+								stroke-width="6"
+								fill="none"
+								class="text-customPurple transition-all duration-1000 ease-out" />
+						</svg>
+						<span
+							class="absolute inset-0 flex items-center justify-center text-lg font-bold">
+							{{ goal.value }}
+						</span>
+					</div>
+					<p class="text-center text-xs font-semibold">{{ goal.label }}</p>
+				</div>
 
-	  <!-- Sidebar Derecho -->
-	  <div>
-		<div class="flex flex-col bg-white items-center">
-		  <!-- Sección de Actividad -->
-		  <h2
-			class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
-			Actividad
-		  </h2>
-		  <div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
-			<div class="relative w-16 h-16 md:w-20 md:h-20">
-			  <!-- Fondo del medidor vacío -->
-			  <svg class="w-full h-full" viewBox="0 0 100 100">
-				<circle
-				  cx="50"
-				  cy="50"
-				  r="40"
-				  stroke="lightgray"
-				  stroke-width="6"
-				  fill="none" />
-				<!-- Círculo animado que muestra el progreso -->
-				<circle
-				  cx="50"
-				  cy="50"
-				  r="40"
-				  stroke="currentColor"
-				  :stroke-dasharray="circumference"
-				  :stroke-dashoffset="
-					circumference - (circumference * goal.value) / 100
-				  "
-				  stroke-width="6"
-				  fill="none"
-				  class="text-customPurple transition-all duration-1000 ease-out" />
-			  </svg>
-			  <span
-				class="absolute inset-0 flex items-center justify-center text-lg font-bold">
-				{{ goal.value }}
-			  </span>
+				<!-- Sección de Notificaciones -->
+				<div class="w-full">
+					<h2
+						class="text-lg font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
+						Notificaciones
+						<button
+							v-if="extraNotifications > 0"
+							@click="toggleNotifications"
+							class="bg-amarillo text-customPurple w-6 h-6 rounded-full flex items-center justify-center text-xs">
+							+{{ extraNotifications }}
+						</button>
+					</h2>
 
-			</div>
-			<p class="text-center text-xs font-semibold">{{ goal.label }}</p>
-		  </div>
-  
-		  <!-- Sección de Notificaciones -->
-		  <div class="shadow-top w-full">
-			<h2
-			  class="text-lg font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
-			  Notificaciones
-			  <button
-				v-if="extraNotifications > 0"
-				@click="toggleNotifications"
-				class="bg-amarillo text-customPurple w-6 h-6 rounded-full flex items-center justify-center text-xs">
-				+{{ extraNotifications }}
-			  </button>
-			</h2>
-  
-			<!-- Mostrar solo la primera notificación -->
-			<div
-			  v-if="notifications.length > 0"
-			  class="bg-gray-50 p-3 rounded-lg mx-4 mb-2 shadow">
-			  <h3 class="font-semibold">{{ notifications[0].title }}</h3>
-			  <span class="text-xs text-gray-500">{{ notifications[0].date }}</span>
-			  <p class="text-sm mt-1">{{ notifications[0].message }}
-				<!-- Mostrar el progreso de carga -->
-				<span v-if="notifications[0].progress !== undefined">
-				  <progress :value="notifications[0].progress" max="100"></progress>
-				  <p>{{ notifications[0].progress }}%</p>
-				</span>
-				<!-- Mostrar la URL de redirección si está definida -->
-				<span v-if="notifications[0].redirectUrl">
-				  <a :href="notifications[0].redirectUrl" class="text-blue-500 underline">
-					Ir a la página
-				  </a>
-				</span>
-			  </p>
-			</div>
-  
-			<!-- Mostrar notificaciones adicionales si están desplegadas -->
-			<div v-if="showAllNotifications">
-			  <div
-				v-for="(notification, index) in additionalNotifications"
-				:key="index"
-				class="bg-gray-50 p-3 rounded-lg mb-2 mx-4 shadow">
-				<h3 class="font-semibold">{{ notification.title }}</h3>
-				<span class="text-xs text-gray-500">{{ notification.date }}</span>
-				<p class="text-sm mt-1">{{ notification.message }}
-				  <!-- Mostrar el progreso de carga -->
-				  <span v-if="notification.progress !== undefined">
-					<progress :value="notification.progress" max="100"></progress>
-					<p>{{ notification.progress }}%</p>
-				  </span>
-				  <!-- Mostrar la URL de redirección si está definida -->
-				  <span v-if="notification.redirectUrl">
-					<a :href="notification.redirectUrl" class="text-blue-500 underline">
-					  Ir a la página
-					</a>
-				  </span>
-				</p>
-			  </div>
+					<!-- Mostrar solo la primera notificación -->
+					<div
+						v-if="notifications.length > 0"
+						class="bg-gray-50 p-3 rounded-lg mx-4 mb-2">
+						<h3 class="font-semibold">{{ notifications[0].title }}</h3>
+						<span class="text-xs text-gray-500">{{
+							notifications[0].date
+						}}</span>
+						<p class="text-sm mt-1">
+							{{ notifications[0].message }}
+							<!-- Mostrar el progreso de carga -->
+							<span v-if="notifications[0].progress !== undefined">
+								<progress
+									:value="notifications[0].progress"
+									max="100"></progress>
+								<p>{{ notifications[0].progress }}%</p>
+							</span>
+							<!-- Mostrar la URL de redirección si está definida -->
+							<span v-if="notifications[0].redirectUrl">
+								<a
+									:href="notifications[0].redirectUrl"
+									class="text-blue-500 underline">
+									Ir a la página
+								</a>
+							</span>
+						</p>
+					</div>
+
+					<!-- Mostrar notificaciones adicionales si están desplegadas -->
+					<div v-if="showAllNotifications">
+						<div
+							v-for="(notification, index) in additionalNotifications"
+							:key="index"
+							class="bg-gray-50 p-3 rounded-lg mb-2 mx-4">
+							<h3 class="font-semibold">{{ notification.title }}</h3>
+							<span class="text-xs text-gray-500">{{ notification.date }}</span>
+							<p class="text-sm mt-1">
+								{{ notification.message }}
+								<!-- Mostrar el progreso de carga -->
+								<span v-if="notification.progress !== undefined">
+									<progress :value="notification.progress" max="100"></progress>
+									<p>{{ notification.progress }}%</p>
+								</span>
+								<!-- Mostrar la URL de redirección si está definida -->
+								<span v-if="notification.redirectUrl">
+									<a
+										:href="notification.redirectUrl"
+										class="text-blue-500 underline">
+										Ir a la página
+									</a>
+								</span>
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 		  </div>
 		</div>
