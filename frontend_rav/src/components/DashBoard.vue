@@ -1,24 +1,27 @@
 <template>
 	<div class="flex flex-col gap-5 p-4">
 		<!-- Primera Sección: Contenedores con contenido e imagen -->
-		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+		<div class="flex gap-5 justify-between">
 			<div v-for="(image, index) in imagePaths" :key="index"
+
 				class="p-4 border border-purple-800 rounded-lg text-center bg-white">
+
 				<h4 class="font-bold text-lg">{{ image.title }}</h4>
 				<div class="mt-3">
 					<img :src="image.path" alt="Imagen estática" :class="[
-						'rounded-lg border mx-auto',
-						image.path === 'certificaciones' ? 'w-60 h-9' : 'w-28 h-12 max-w-full'
+						' rounded-lg border ',
+						image.path === 'Certificaciones' ? 'w-60 h-9 top-56 max-w-full mx-auto ' : 'w-28 h-12 max-w-full mx-auto'
 					]" />
 				</div>
-				<div class="mt-2 text-2xl font-semibold text-customPurple">
+
+				<div class="mt-2 text-3xl font-semibold text-purple-700">
 					<p>{{ image.count }}</p>
 				</div>
 			</div>
 		</div>
-		
 
 		<!-- Segunda Sección: Gráficos -->
+
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
 			<div class="p-4 border border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
 				<LineChart />
@@ -28,10 +31,8 @@
 			</div>
 		</div>
 
-
-
-
 		<!-- Tercera Sección: Tabla de Datos -->
+
 		<div class="p-4 border border-customPurple rounded-lg bg-white">
 			<h3 class="text-xl font-semibold text-customPurple mb-4">Tabla de Datos</h3>
 			<table class="w-full border-collapse">
@@ -78,17 +79,17 @@ const imagePaths = ref([
 	},
 	{
 		title: "APE",
-		count: "9788312",
+		count: "97883112",
 		path: LogoApe,
 	},
 	{
 		title: "CERTIFICACIONES",
-		count: "8588316",
+		count: "85883161",
 		path: Certificaciones,
 	},
 	{
 		title: "FONDO EMPRENDER",
-		count: "9988315",
+		count: "99883151",
 		path: FondoEmprender,
 	},
 ]);

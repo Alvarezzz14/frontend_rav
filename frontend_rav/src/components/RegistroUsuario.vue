@@ -18,10 +18,12 @@
           <img :src="logoRav" alt="Logo RAV" class="w-72 h-auto mb-2" />
           
           <!-- Título -->
+
           <h2 class="text-3xl font-semibold text-black m-2 text-center">Registrar Usuario</h2>
 
           <!-- Opciones de rol -->
           <div class="inline-block space-x-4">
+
             <div class="radio-button">
               <input type="radio" id="admin" name="role" value="Administrador" class="custom-radio" v-model="selectedRole" />
               <label for="admin">Administrador</label>
@@ -33,7 +35,6 @@
               <label for="operario">Operario</label>
             </div>
           </div>
-
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>
