@@ -29,7 +29,7 @@
 			<!-- Imagen a la Izquierda -->
 			<div class="flex-1 max-w-md lg:max-w-lg p-4">
 				<img
-					src="@/assets/images/PersonaReportes.svg"
+					:src="PersonaReportes"
 					alt="Persona sonriendo"
 					class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
 			</div>
@@ -120,6 +120,7 @@
 import { ref } from "vue";
 import Reportes from "@/assets/images/Reportes.svg";
 import VerLine from "@/assets/images/VerLine.svg";
+import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
 const selectedFormat = ref("");
 const selectedFilter = ref("");
