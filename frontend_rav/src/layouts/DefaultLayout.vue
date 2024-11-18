@@ -46,7 +46,7 @@
 			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
 				<FileNotification/>
 				<router-view />
-				<Plantas></Plantas>
+			
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
