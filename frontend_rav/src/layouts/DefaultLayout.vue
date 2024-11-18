@@ -28,7 +28,7 @@
 		</div>
 
 		<div
-			class="lg:hidden fixed inset-0 bg-black bg-opacity-50 top-[calc(52px+125px)] overflow-auto"
+			class="lg:hidden fixed inset-0 bg-black bg-opacity-75 top-[calc(52px+125px)] overflow-auto"
 			v-if="isSidebarOpen"
 			@click="toggleSidebar">
 			<div class="flex flex-col">
@@ -41,7 +41,7 @@
 		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
 		<div class="flex">
 			<!-- Sidebar izquierda -->
-			<aside class="h-full bg-gray-100 hidden lg:flex">
+			<aside class="h-full hidden lg:flex">
 				<SidebarLeft />
 			</aside>
 
