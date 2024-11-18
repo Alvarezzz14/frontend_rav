@@ -48,7 +48,7 @@ const fileToUpload = ref(null);
 const uploadProgress = ref(0);
 const fileName = ref("");
 const fileInput = ref(null);
-const uploading = ref(false); // Agregado para controlar el estado de carga
+const uploading = ref(false); // Control del estado de carga
 
 // Variable para verificar el progreso
 const intUploadProgress = ref(0);
@@ -87,50 +87,7 @@ const handleDrop = (event) => {
   }
 };
 
-// Función para subir y almacenar el archivo en IndexedDB
-const uploadAndStoreFile = async () => {
-  if (uploading.value) {
-    console.log("Ya se está subiendo el archivo.");
-    return; // Si ya está subiendo, no hacer nada
-  }
-
-  uploading.value = true; // Marcar como subiendo
-  console.log("Iniciando carga para el archivo:", fileToUpload.value.name);
-
-  try {
-    if (!fileToUpload.value || fileToUpload.value.size === 0) {
-      alert("Por favor selecciona un archivo antes de subirlo.");
-      return;
-    }
-
-    const chunkSize = 250 * 1024 * 1024; // 250 MB en bytes
-    const totalChunks = Math.ceil(fileToUpload.value.size / chunkSize);
-
-    const db = await openIndexedDB();
-
-    for (let i = 0; i < totalChunks; i++) {
-      const start = i * chunkSize;
-      const end = start + chunkSize;
-      const chunk = fileToUpload.value.slice(start, end);
-
-      const chunkData = await chunk.arrayBuffer();
-      await storeChunk(db, i, chunkData);
-
-      uploadProgress.value = Math.floor(((i + 1) / totalChunks) * 100);
-      intUploadProgress.value = uploadProgress.value;
-      console.log(`Progreso: ${uploadProgress.value}%`);
-    }
-
-    await reconstructFile(db, totalChunks);
-    alert("Archivo cargado y reconstruido en IndexedDB con éxito.");
-  } catch (error) {
-    console.error("Error durante la carga:", error);
-  } finally {
-    uploading.value = false; // Marcar como no subiendo
-  }
-};
-
-// Abrir IndexedDB
+// Función para abrir IndexedDB
 const openIndexedDB = () => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open("FileStorageDB", 1);
@@ -168,6 +125,21 @@ const storeChunk = (db, id, chunkData) => {
   });
 };
 
+// Obtener un chunk de IndexedDB
+const getChunk = (store, id) => {
+  return new Promise((resolve, reject) => {
+    const request = store.get(id);
+
+    request.onsuccess = (event) => {
+      resolve(event.target.result.data);
+    };
+
+    request.onerror = (event) => {
+      reject("Error al obtener el chunk:", event.target.errorCode);
+    };
+  });
+};
+
 // Reconstruir el archivo a partir de los chunks almacenados
 const reconstructFile = async (db, totalChunks) => {
   const transaction = db.transaction(["fileChunks"], "readonly");
@@ -184,23 +156,88 @@ const reconstructFile = async (db, totalChunks) => {
 
   await storeChunk(db, "reconstructedFile", reconstructedFile.buffer);
   console.log("Archivo reconstruido.");
+
+  // Llamar a la función para enviar el archivo a la API
+  await sendFileToAPI(db);
 };
 
-// Obtener un chunk de IndexedDB
-const getChunk = (store, id) => {
-  return new Promise((resolve, reject) => {
-    const request = store.get(id);
+// Enviar el archivo reconstruido a la API
+const sendFileToAPI = async (db) => {
+  try {
+    const transaction = db.transaction(["fileChunks"], "readonly");
+    const store = transaction.objectStore("fileChunks");
+    const request = store.get("reconstructedFile");
 
-    request.onsuccess = (event) => {
-      resolve(event.target.result.data);
+    request.onsuccess = async (event) => {
+      const reconstructedData = event.target.result?.data;
+      if (reconstructedData) {
+        const blob = new Blob([reconstructedData], { type: "application/octet-stream" });
+
+        // Crear FormData y adjuntar el archivo reconstruido
+        const formData = new FormData();
+        formData.append("file", blob, fileName.value);
+
+        const response = await fetch("http://localhost:8081/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("Archivo enviado con éxito.");
+          alert("Archivo enviado con éxito.");
+        } else {
+          console.error("Error al enviar el archivo:", response.statusText);
+          alert("Error al enviar el archivo.");
+        }
+      } else {
+        console.error("No se encontró el archivo reconstruido en IndexedDB.");
+      }
     };
 
     request.onerror = (event) => {
-      reject("Error al obtener el chunk:", event.target.errorCode);
+      console.error("Error al acceder a reconstructedFile:", event.target.errorCode);
     };
-  });
+  } catch (error) {
+    console.error("Error al enviar el archivo:", error);
+  }
+};
+
+// Función para subir y almacenar el archivo en IndexedDB
+const uploadAndStoreFile = async () => {
+  if (uploading.value) return;
+
+  uploading.value = true;
+  try {
+    if (!fileToUpload.value || fileToUpload.value.size === 0) {
+      alert("Por favor selecciona un archivo antes de subirlo.");
+      return;
+    }
+
+    const chunkSize = 250 * 1024 * 1024;
+    const totalChunks = Math.ceil(fileToUpload.value.size / chunkSize);
+
+    const db = await openIndexedDB();
+
+    for (let i = 0; i < totalChunks; i++) {
+      const start = i * chunkSize;
+      const end = start + chunkSize;
+      const chunk = fileToUpload.value.slice(start, end);
+      const chunkData = await chunk.arrayBuffer();
+      await storeChunk(db, i, chunkData);
+      uploadProgress.value = Math.floor(((i + 1) / totalChunks) * 100);
+      intUploadProgress.value = uploadProgress.value;
+    }
+
+    await reconstructFile(db, totalChunks);
+    alert("Archivo cargado y reconstruido en IndexedDB con éxito.");
+  } catch (error) {
+    console.error("Error durante la carga:", error);
+  } finally {
+    uploading.value = false;
+  }
 };
 </script>
+
 
 <style scoped>
 .text-customPurple {
