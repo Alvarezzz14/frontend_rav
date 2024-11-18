@@ -1,65 +1,63 @@
 <template>
   <div class="h-screen flex items-center justify-center bg-gray-100">
     <!-- Contenedor principal -->
-    <div class="bg-white shadow-lg rounded-lg overflow-flex flex flex-col lg:flex-row-reverse h-full w-full max-w-full relative">
+    <div
+      class="bg-white shadow-lg rounded-lg overflow-flex flex flex-col lg:flex-row-reverse h-full w-full max-w-full relative">
       <!-- Imagen de fondo -->
       <div class="hidden lg:flex w-1/2">
         <img :src="imagenRegistro" alt="Cultura colombiana" class="w-full h-full object-cover" />
       </div>
       <!-- Contenedor para el formulario y logos, centrado y con altura reducida en pantallas pequeñas -->
       <div class="flex-1 flex items-center justify-center h-screen relative z-10 p-4 lg:p-0">
-        <div class="bg-white  rounded-lg p-6 w-full max-w-md lg:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4"> <!-- Se eliminó mt-6 aquí -->
+        <div
+          class="bg-white  rounded-lg p-6 w-full max-w-md lg:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4">
+          <!-- Se eliminó mt-6 aquí -->
           <!-- Logo -->
           <img :src="logoRav" alt="Logo RAV" class="w-72 h-auto mb-2" />
 
           <!-- Título -->
           <h2 class="text-3xl  font-semibold text-black m-2 text-center">Registrar Usuario</h2>
-          
+
+
+
+          <div class="inline-block">
+            <div class="radio-button">
+              <input type="radio" id="admin" name="role" value="Administrador" class="cheked:bg-customPurple"  />
+              <label for="admin">Administrador</label>
+
+              <input type="radio" id="funcionario" name="role" value="Funcionario" />
+              <label for="funcionario">Funcionario</label>
+
+              <input type="radio" id="operario" name="role" value="Operario" />
+              <label for="operario">Operario</label>
+            </div>
+          </div>
+
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>
-              <input
-                v-model="formData.name"
-                type="text"
-                placeholder="Nombre"
+              <input v-model="formData.name" type="text" placeholder="Nombre"
                 class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-                required
-              />
+                required />
             </div>
             <div>
-              <input
-                v-model="formData.email"
-                type="email"
-                placeholder="Correo SENA"
+              <input v-model="formData.email" type="email" placeholder="Correo SENA"
                 class="w-full px-3  h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-                required
-              />
+                required />
             </div>
             <div>
-              <input
-                v-model="formData.password"
-                type="password"
-                placeholder="Crear contraseña"
-
+              <input v-model="formData.password" type="password" placeholder="Crear contraseña"
                 class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-                required
-              />
+                required />
             </div>
             <div>
-              <input
-                v-model="formData.confirmPassword"
-                type="password"
-                placeholder="Confirmar contraseña"
-
+              <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar contraseña"
                 class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-                required
-              />
+                required />
             </div>
             <!-- Botón de Iniciar -->
-            <button
-              type="submit"
-              class="w-full bg-customPurple text-amarillo font-bold py-2 text-lg rounded-lg transition duration-200"
-            >
+            <button type="submit"
+              class="w-full bg-customPurple text-amarillo font-bold py-2 text-lg rounded-lg transition duration-200">
 
               Registrarse
             </button>
@@ -67,8 +65,9 @@
 
           <!-- Enlace para iniciar sesión -->
           <p class="text-black mt-2 text-center text-sm">
-            ¿Ya tienes una cuenta? 
-            <a @click.prevent="goToLogin" href="#" class="text-azulHeaderFooter no-underline font-normal">Inicia Sesión</a>
+            ¿Ya tienes una cuenta?
+            <a @click.prevent="goToLogin" href="#" class="text-azulHeaderFooter no-underline font-normal">Inicia
+              Sesión</a>
           </p>
 
           <!-- Logos en la parte inferior del contenedor de formulario -->
@@ -143,4 +142,3 @@ function goToLogin() {
   router.push('/login');
 }
 </script>
-

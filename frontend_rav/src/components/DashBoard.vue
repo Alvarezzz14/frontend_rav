@@ -1,37 +1,39 @@
 <template>
 	<div class="flex flex-col gap-5 p-4">
 		<!-- Primera Sección: Contenedores con contenido e imagen -->
-		<div class="flex gap-5 justify-between">
-			<div
-				v-for="(image, index) in imagePaths"
-				:key="index"
-				class="flex-1 p-4 border border-purple-800 rounded-lg text-center bg-gray-100">
+		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+			<div v-for="(image, index) in imagePaths" :key="index"
+				class="p-4 border border-purple-800 rounded-lg text-center bg-gray-100">
 				<h4 class="font-bold text-lg">{{ image.title }}</h4>
-				<div class="mt-2 text-3xl font-semibold text-purple-700">
-					<p>{{ image.count }}</p>
-				</div>
 				<div class="mt-3">
-					<img
-						:src="image.path"
-						alt="Imagen estática"
-						class="w-24 h-auto max-w-full rounded-lg border border-gray-300 mx-auto" />
+					<img :src="image.path" alt="Imagen estática" :class="[
+						'rounded-lg border mx-auto',
+						image.path === 'certificaciones' ? 'w-60 h-9' : 'w-28 h-12 max-w-full'
+					]" />
+				</div>
+				<div class="mt-2 text-2xl font-semibold text-customPurple">
+					<p>{{ image.count }}</p>
 				</div>
 			</div>
 		</div>
+		
 
 		<!-- Segunda Sección: Gráficos -->
-		<div class="flex gap-5">
-			<div class="flex-1 p-4 border border-purple-800 rounded-lg bg-gray-100">
+		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+			<div class="p-4 border border-customPurple rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
 				<LineChart />
 			</div>
-			<div class="flex-1 p-4 border border-purple-800 rounded-lg bg-gray-100">
+			<div class="p-4 border border-customPurple rounded-lg bg-gray-100 w-full max-w-full sm:max-w-full">
 				<BarChart />
 			</div>
 		</div>
 
+
+
+
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-purple-800 rounded-lg bg-gray-100">
-			<h3 class="text-xl font-semibold text-purple-700 mb-4">Tabla de Datos</h3>
+		<div class="p-4 border border-customPurple rounded-lg bg-gray-100">
+			<h3 class="text-xl font-semibold text-customPurple mb-4">Tabla de Datos</h3>
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
@@ -65,6 +67,7 @@ import BarChart from "@/components/BarChart.vue";
 import LogoSenaverde from "@/assets/images/logosenaverde.svg";
 import LogoApe from "@/assets/images/logoape.svg";
 import FondoEmprender from "@/assets/images/fondoemprender.svg";
+import Certificaciones from "@/assets/images/Certificaciones.svg";
 
 // Datos de las imágenes estáticas y sus títulos
 const imagePaths = ref([
@@ -74,18 +77,18 @@ const imagePaths = ref([
 		path: LogoSenaverde,
 	},
 	{
-		title: "Ape",
-		count: "97883112",
+		title: "APE",
+		count: "9788312",
 		path: LogoApe,
 	},
 	{
-		title: "SENA Certificados",
-		count: "85883161",
-		path: LogoSenaverde,
+		title: "CERTIFICACIONES",
+		count: "8588316",
+		path: Certificaciones,
 	},
 	{
-		title: "Fondo Emprender",
-		count: "99883151",
+		title: "FONDO EMPRENDER",
+		count: "9988315",
 		path: FondoEmprender,
 	},
 ]);

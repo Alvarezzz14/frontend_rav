@@ -110,7 +110,9 @@
 					</div>
 				</div>
 			</div>
+		  </div>
 		</div>
+	  </div>
 	</div>
 </template>
 
@@ -119,74 +121,80 @@ import { ref, computed, onMounted } from "vue";
 
 // Estado de las metas (si es necesario para otras funcionalidades)
 const goals = ref([
-	{ label: "META TRIMESTRAL", value: 0 },
-	{ label: "META DIARIA", value: 0 },
+  { label: "META TRIMESTRAL", value: 0 },
+  { label: "META DIARIA", value: 0 },
 ]);
 
 const circumference = 2 * Math.PI * 40;
 
 // Simular valores de las metas (puedes eliminar esta parte si no es necesario)
 onMounted(() => {
-	setTimeout(() => {
-		goals.value[0].value = 80;
-		goals.value[1].value = 50;
-	}, 500);
+  setTimeout(() => {
+    goals.value[0].value = 80;
+    goals.value[1].value = 50;
+  }, 500);
 });
 
 // Notificaciones
 const notifications = ref([
-	{
-		title: "Título de notificación",
-		date: "17/07/2024",
-		message: "Lorem ipsum dolor sit amet...",
-		redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
-	},
+
+  {
+    title: "Título de notificación",
+    date: "17/07/2024",
+    message: "Lorem ipsum dolor sit amet...",
+    redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
+  },
+
 ]);
 
 const additionalNotifications = computed(() => notifications.value.slice(1));
 
 const extraNotifications = computed(() =>
-	Math.max(0, notifications.value.length - 1)
+  Math.max(0, notifications.value.length - 1)
 );
 
 const showAllNotifications = ref(false);
 
 const toggleNotifications = () => {
-	showAllNotifications.value = !showAllNotifications.value;
+  showAllNotifications.value = !showAllNotifications.value;
 };
 
 // Función para manejar la actualización del progreso de la carga
-const handleFileUploadProgress = (event) => {
-	const notification = event.detail;
 
-	// Buscar la notificación existente o crear una nueva si no existe
-	const existingNotification = notifications.value.find(
-		(notif) =>
-			notif.title === notification.title &&
-			notif.message === notification.message
-	);
+// const handleFileUploadProgress = (event) => {
+//   const notification = event.detail;
 
-	if (existingNotification) {
-		// Actualizar la notificación con el progreso
-		existingNotification.progress = notification.progress;
-	} else {
-		// Si es una nueva notificación, añadirla a la lista
-		notifications.value.push(notification);
-	}
-};
+//   // Buscar la notificación existente o crear una nueva si no existe
+//   const existingNotification = notifications.value.find(
+//     (notif) => notif.title === notification.title && notif.message === notification.message
+//   );
+
+//   if (existingNotification) {
+//     // Actualizar la notificación con el progreso
+//     existingNotification.progress = notification.progress;
+//   } else {
+//     // Si es una nueva notificación, añadirla a la lista
+//     notifications.value.push(notification);
+//   }
+// };
 
 // Escuchar el evento de progreso de carga
-window.addEventListener("file-upload-progress", handleFileUploadProgress);
+// window.addEventListener("file-upload-progress", handleFileUploadProgress);
 
-// Limpiar el evento cuando el componente sea destruido
-import { onUnmounted } from "vue";
-onUnmounted(() => {
-	window.removeEventListener("file-upload-progress", handleFileUploadProgress);
-});
+// // Limpiar el evento cuando el componente sea destruido
+// import { onUnmounted } from "vue";
+// onUnmounted(() => {
+//   window.removeEventListener("file-upload-progress", handleFileUploadProgress);
+// });
 </script>
 
 <style scoped>
+.shadow-top {
+  box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 </style>

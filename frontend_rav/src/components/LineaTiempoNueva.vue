@@ -1,6 +1,7 @@
 <template>
   <div class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
     <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
+
     <div
       class="bg-gray-100 flex flex-col lg:flex-row items-center justify-between p-4 rounded-lg shadow-md w-full max-w-7xl mb-8">
       <!-- Icono y Título -->
@@ -12,10 +13,12 @@
           <p class="text-black mb-0 text-base sm:text-lg md:text-xl lg:text-3xl xl:text-4xl">Formato de</p>
           <h2 class="text-customPurple text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-0 font-bold">Reportes
           </h2>
+
         </div>
       </div>
 
       <!-- Información del Ciudadano -->
+
       <div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
         <div class="flex-shrink-0">
           <svg width="50" height="60" viewBox="0 0 50 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -37,6 +40,7 @@
       </div>
 
       <!-- Botón Línea de Tiempo -->
+
       <button
         class="bg-customPurple text-white px-4 py-2 rounded-lg shadow flex flex-col items-center max-w-xs md:max-w-none">
         <!-- Ícono -->
@@ -66,6 +70,7 @@
             <p class="text-gray-500 text-sm font-semibold">{{ item.date }}</p>
             <h3 class="text-lg font-bold mt-1">{{ item.title }}</h3>
             <p class="text-gray-700 text-sm mt-1">{{ item.description }}</p>
+
           </div>
         </div>
       </div>
@@ -98,6 +103,7 @@ const timelineData = ref([
     title: "Dato 2",
     description: "Lorem odio imperdiet, malesuada libero a, ultrices.",
     image: event2
+
   },
   {
     date: "31/10/2024",
@@ -110,11 +116,13 @@ const timelineData = ref([
     title: "Dato 2",
     description: "Lorem odio imperdiet, malesuada libero a, ultrices.",
     image: event2
+
   }
 ]);
 </script>
 
 <style scoped>
+
 @media (max-width: 768px) {
   .bg-gray-100 {
     padding: 1rem;

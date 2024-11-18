@@ -15,7 +15,6 @@ import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import ErrorPage  from '@/pages/ErrorPage.vue';
 
 
-
 const routes = [
   {
     path: '/login',
@@ -78,6 +77,12 @@ const routes = [
         path: '/perfilusuario',
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
+      },
+    
+      {
+        path: '/LineaTiempoNueva',
+        name: 'LineaTiempoNuevaPage',
+        component: LineaTiempoNuevaPage
       },
 
       {
