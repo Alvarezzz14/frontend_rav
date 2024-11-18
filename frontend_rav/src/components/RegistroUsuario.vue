@@ -17,6 +17,9 @@
 
           <!-- Título -->
           <h2 class="text-3xl  font-semibold text-black m-2 text-center">Registrar Usuario</h2>
+
+
+
           <div class="inline-block">
             <div class="radio-button">
               <input type="radio" id="admin" name="role" value="Administrador" class="cheked:bg-customPurple"  />
@@ -29,6 +32,7 @@
               <label for="operario">Operario</label>
             </div>
           </div>
+
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>
