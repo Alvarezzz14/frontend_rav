@@ -14,9 +14,17 @@
 		<div
 			@click="toggleSidebar"
 			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
-			<div class="rounded-full bg-amarillo px-2 py-1">
-				<i class="pi pi-bars ml-auto text-customPurple"></i>
-			</div>
+			<svg
+				width="27"
+				height="27"
+				viewBox="0 0 25 25"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg">
+				<circle cx="12.5" cy="12.5" r="12.5" fill="#FDC300" />
+				<path
+					d="M8 8V9.12646H17.0117V8H8ZM8 11.3456V12.4721H17.0117V11.3456H8ZM8 14.725V15.8515H17.0117V14.725H8Z"
+					fill="#7A1F7E" />
+			</svg>
 		</div>
 
 		<div

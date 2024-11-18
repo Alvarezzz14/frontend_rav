@@ -1,11 +1,11 @@
 <template>
-	<div class="overflow-auto w-72">
+	<div class="overflow-auto w-56 md:w-60 lg:w-72">
 		<!-- Sidebar Derecho -->
 		<div>
 			<div class="flex flex-col bg-white items-center">
 				<!-- Sección de Actividad -->
 				<h2
-					class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
+					class="text-lg bg-amarillo w-full text-left lg:text-center font-bold text-customPurple py-2">
 					Actividad
 				</h2>
 				<div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
