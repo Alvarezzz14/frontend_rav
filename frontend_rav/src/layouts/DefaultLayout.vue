@@ -41,10 +41,11 @@
 			</aside>
 
 			<!-- Contenido principal -->
-			<main class="flex-grow p-4 overflow-y-auto z-50 bg-gray-50">
+			<main
+				class="flex-grow p-4 overflow-y-auto bg-gray-50 relative bg-no-repeat bg-bottom bg-contain"
+				style="background-image: url('/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
-				<Plantas class="z-0"></Plantas>
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
