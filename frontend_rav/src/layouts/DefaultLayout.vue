@@ -46,7 +46,7 @@
 			</aside>
 
 			<!-- Contenido principal -->
-			<main class="flex flex-grow p-4 bg-gray-50">
+			<main class="overflow-auto flex flex-grow p-4 bg-gray-50">
 				<router-view />
 			</main>
 

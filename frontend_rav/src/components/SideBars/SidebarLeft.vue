@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-auto bg-white w-56 md:w-60 lg:w-72">
+	<div class="bg-white w-56 md:w-60 lg:w-72">
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
@@ -44,31 +44,33 @@
 					<li class="lg:hidden">
 						<Notifications />
 					</li>
-					<div
-						class="cursor-pointer flex lg:hidden mt-4 ml-2 gap-1"
-						@click="logout">
-						<img
-							class="w-7 h-auto"
-							:src="IconoLogout"
-							alt="IconoLogoutResponsive" />
-						<span
-							class="text-left mt-1 ml-0.5 text-black text-sm md:text-base lg:text-lg font-bold"
-							>Cerrar Sesión</span
-						>
+					<li>
+						<div
+							class="cursor-pointer flex lg:hidden mt-4 ml-2 gap-1"
+							@click="logout">
+							<img
+								class="w-7 h-auto"
+								:src="IconoLogout"
+								alt="IconoLogoutResponsive" />
+							<span
+								class="text-left mt-1 ml-0.5 text-black text-sm md:text-base lg:text-lg font-bold"
+								>Cerrar Sesión</span
+							>
 
-						<div class="mt-2 ml-16">
-							<svg
-								width="20"
-								height="20"
-								viewBox="0 0 12 11"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
-								<path
-									d="M7.49999 10.5L7.49999 9.00003L1.49997 9.00002L1.49997 1.5L7.49999 1.5L7.49999 -5.16178e-06L-3.81827e-05 -5.81745e-06L-3.91006e-05 10.5L7.49999 10.5ZM8.99999 7.50002L12 5.25001L8.99999 3.00001L8.99999 4.50001L2.99997 4.50001L2.99997 6.00001L8.99999 6.00001L8.99999 7.50002Z"
-									fill="black" />
-							</svg>
+							<div class="mt-2 ml-16">
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 12 11"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg">
+									<path
+										d="M7.49999 10.5L7.49999 9.00003L1.49997 9.00002L1.49997 1.5L7.49999 1.5L7.49999 -5.16178e-06L-3.81827e-05 -5.81745e-06L-3.91006e-05 10.5L7.49999 10.5ZM8.99999 7.50002L12 5.25001L8.99999 3.00001L8.99999 4.50001L2.99997 4.50001L2.99997 6.00001L8.99999 6.00001L8.99999 7.50002Z"
+										fill="black" />
+								</svg>
+							</div>
 						</div>
-					</div>
+					</li>
 				</ul>
 				<!-- Sección inferior con el avatar, nombre y email -->
 				<div class="hidden lg:block p-4 border text:sm flex-shrink-0">
