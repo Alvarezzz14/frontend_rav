@@ -6,7 +6,7 @@
 		<Header></Header>
 
 		<!-- Contenedor del grid -->
-		<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 sm:p-8 lg:p-16">
+		<div class="flex-1 grid grid-cols-1 w-140 lg:grid-cols-2 gap-4 p-4 sm:p-8 lg:p-16">
 			<!-- Columna izquierda: Logo, formulario y iconos -->
 			<div class="flex flex-col justify-center items-center space-y-4">
 				<!-- Logo responsive -->
