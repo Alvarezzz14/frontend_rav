@@ -8,10 +8,10 @@
 		<!-- Contenedor del grid -->
 		<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 sm:p-8 lg:p-16">
 			<!-- Columna izquierda: Logo, formulario y iconos -->
-			<div class="flex flex-col justify-center items-center space-y-6">
+			<div class="flex flex-col justify-center items-center space-y-4">
 				<!-- Logo responsive -->
 				<div class="flex justify-center">
-					<img :src="Logo" alt="Logo RAV" class="w-2/3 sm:w-1/2 md:w-1/3 lg:w-2/3 h-auto" />
+					<img :src="Logo" alt="Logo RAV" class=" w-1/3 sm:w-1/2 md:w-1/3 lg:w-2/3 h-auto" />
 				</div>
 
 				<!-- Título de inicio de sesión -->
@@ -61,21 +61,21 @@
 						]"
 						:disabled="isLoading"
 
-						class="w-full py-3 text-lg text-black font-bold rounded-lg transition transition-colors">
+						class="w-full py-3 text-lg border-none text-customPurple font-bold rounded-lg  ">
 						<span v-if="!isLoading">Iniciar</span>
 						<span v-else>Cargando...</span>
 					</button>
 				</form>
 
 				<!-- Enlace de registro -->
-				<p class="text-center text-sm mt-2">
+				<p class="text-center text-sm mt-2 mb-10">
 					¿No tienes cuenta aún?
-					<a @click.prevent="goToRegister" href="#" class="text-blue-400 underline">Regístrate</a>
+					<a @click.prevent="goToRegister" href="#" class="text-blue-400 mb-10 underline">Regístrate</a>
 				</p>
 
 				<!-- Iconos institucionales -->
 				<div class="flex justify-center space-x-4 mt-4">
-					<img :src="logoSena" alt="Logo SENA" class="w-10 h-auto" />
+					<img :src="logoSena" alt="Logo SENA" class="absolute  mt-10 w-68 h-16 top-[742px] left-[377px] " />
 					
 				</div>
 			</div>
@@ -88,9 +88,7 @@
 
 		<!-- Vector planta en el footer, cubriendo todo el ancho -->
 
-		<div>
-			<img :src="VectorPlantas" alt="Vector Plantas" class="fixed bottom-0 left-0 w-full h-auto z-0" />
-		</div>
+		
 
 		<Footer></Footer>
 
@@ -105,7 +103,6 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import Logo from '@/assets/images/logorav.svg';
 import MapaCollage from '@/assets/images/colombiaCollage1.webp';
-import VectorPlantas from '@/assets/images/vectorplantas.svg';
 import logoSena from '@/assets/images/logosInstitucionales.svg';
 
 
