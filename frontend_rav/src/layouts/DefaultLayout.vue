@@ -43,7 +43,7 @@
 			<!-- Contenido principal -->
 			<main
 				class="flex-grow p-4 overflow-y-auto bg-gray-50 relative bg-no-repeat bg-bottom bg-contain"
-				style="background-image: url('/assets/images/plantas.png')">
+				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
 			</main>
