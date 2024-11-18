@@ -38,7 +38,7 @@
 			:style="{ width: '30rem' }">
 			<p class="m-0 text-customPurple">
 				{{ modalMessage }}
-				<strong>{{ searchCedula }}</strong>
+				
 			</p>
 			<template #footer>
 				<Button
