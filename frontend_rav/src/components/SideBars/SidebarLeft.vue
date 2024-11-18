@@ -41,9 +41,6 @@
 							>
 						</router-link>
 					</li>
-					<li class="lg:hidden">
-						<Notifications />
-					</li>
 					<li>
 						<div
 							class="cursor-pointer flex lg:hidden mt-4 ml-2 gap-1"
@@ -70,6 +67,9 @@
 								</svg>
 							</div>
 						</div>
+					</li>
+					<li class="lg:hidden">
+						<Notifications />
 					</li>
 				</ul>
 				<!-- Sección inferior con el avatar, nombre y email -->
