@@ -6,9 +6,7 @@
 		</header>
 		<!-- Sección para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
-
 			<img src="@/assets/images/ravLogo.png" alt="Logo Rav" />
-
 		</div>
 		<div class="lg:hidden flex flex-col">
 			<button
@@ -43,10 +41,10 @@
 			</aside>
 
 			<!-- Contenido principal -->
-			<main class="flex-grow p-4 overflow-y-auto bg-gray-50">
-				<FileNotification/>
+			<main class="flex-grow p-4 overflow-y-auto z-50 bg-gray-50">
+				<FileNotification />
 				<router-view />
-				<Plantas></Plantas>
+				<Plantas class="z-0"></Plantas>
 			</main>
 
 			<!-- Sidebar derecha de notificaciones -->
@@ -72,10 +70,8 @@ import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
 import Plantas from "@/components/plantas.vue";
 
-
 import RavLogo from "@/assets/images/ravLogo.png";
 import FileNotification from "../components/FileNotification.vue";
-
 
 // Controla el colapso del sidebar y de la barra de notificaciones
 
