@@ -15,8 +15,6 @@ import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import ErrorPage  from '@/pages/ErrorPage.vue';
 
-
-
 const routes = [
   {
     path: '/login',
@@ -91,7 +89,6 @@ const routes = [
         name: 'LineasAtencionPage',
         component: LineasAtencionPage
       },
-
 
     ]
   },

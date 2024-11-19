@@ -102,7 +102,7 @@ import CasanareBandera from "@/assets/images/webp/casanare.webp";
 import CasanareCiudad from "@/assets/images/imagenDepartamento/casanare.svg";
 import CasanareMapa from "@/assets/images/FragmentoDepartamentos/Casanare.svg";
 
-import CaucaBandera from "@/assets/images/webp/casanare.webp";
+import CaucaBandera from "@/assets/images/webp/cauca.webp";
 import CaucaCiudad from "@/assets/images/imagenDepartamento/cauca.svg";
 import CaucaMapa from "@/assets/images/FragmentoDepartamentos/Cauca.svg";
 
