@@ -37,12 +37,14 @@
 				@click="closeSidebar"></div>
 
 			<!-- Sidebar izquierdo desplegable -->
-			<aside
-				v-show="isSidebarOpen && isSmallScreen"
-				class="absolute left-0 shadow-md lg:hidden z-30 w-52"
-				:style="sidebarStyle">
-				<SidebarLeft />
-			</aside>
+			<transition name="slide">
+				<aside
+					v-show="isSidebarOpen && isSmallScreen"
+					class="absolute left-0 shadow-md lg:hidden z-30 w-52"
+					:style="sidebarStyle">
+					<SidebarLeft @item-click="closeSidebar" />
+				</aside>
+			</transition>
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
 			<aside v-show="!isSmallScreen" class="hidden lg:flex h-full">
@@ -125,8 +127,23 @@ onMounted(() => {
 onBeforeUnmount(() => {
 	window.removeEventListener("resize", handleResize);
 });
+
+// Cerrar barra lateral al seleccionar un ítem
+const handleItemClick = (item) => {
+	toggleSidebar();
+	router.push(item.to);
+};
 </script>
 
 <style scoped>
-/* Ajuste para evitar problemas de scroll con el overlay */
+.slide-enter-active,
+.slide-leave-active {
+	transition: transform 0.3s ease;
+}
+.slide-enter-from {
+	transform: translateX(-100%);
+}
+.slide-leave-to {
+	transform: translateX(-100%);
+}
 </style>

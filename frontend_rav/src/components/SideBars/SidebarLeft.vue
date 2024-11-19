@@ -15,7 +15,8 @@
 					<li
 						v-for="item in menuItems"
 						:key="item.title"
-						class="py-0.5 md:py-2 relative w-full">
+						class="py-0.5 md:py-2 relative w-full"
+						@click="handleItemClick(item)">
 						<router-link
 							v-if="item.to"
 							:to="item.to"
@@ -99,6 +100,7 @@
 </template>
 <script setup>
 import { ref } from "vue";
+import { defineProps, defineEmits } from "vue";
 import RavIcon from "@/components/Icons/RavIcon.vue";
 import Avatar from "@/components/Buttons/Avatar.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
@@ -114,11 +116,13 @@ const isSidebarOpen = ref(false);
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
+
 const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
 	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
 });
+
 const menuItems = ref([
 	{
 		title: "Inicio",
@@ -248,6 +252,18 @@ const menuItems = ref([
 	},
 ]);
 const activeItem = ref(null);
+const emit = defineEmits(["item-click"]);
+
+const handleItemClick = (item) => {
+	// Emitir evento para que el layout cierre el menú
+	emit("item-click", item);
+
+	// Navegar al enlace especificado
+	if (item.to) {
+		router.push(item.to);
+	}
+};
+
 //observar cambios en la ruta actual
 watch(
 	() => route.name,
@@ -273,6 +289,7 @@ const isActive = (item) => {
 	return activeItem.value === item.title || route.name === item.to?.name;
 };
 const hasShownNoSessionToast = ref(false);
+
 const logout = async () => {
 	// Verificar si hay un token en el localStorage
 	const token = localStorage.getItem("token");
