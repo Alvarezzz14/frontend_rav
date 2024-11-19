@@ -1,214 +1,375 @@
 <template>
   <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
+    <!-- Imagen del ciudadano -->
     <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
-    <div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
-      <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">Cargar Archivo</h2>
-      <p class="text-center mb-2 text-customPurple">Adjunta el archivo que deseas compartir</p>
-      <br>
+
+    <!-- Sección de carga de archivo -->
+    <div
+      class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg"
+    >
+      <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">
+        Cargar Archivo
+      </h2>
+      <p class="text-center mb-2 text-customPurple">
+        Adjunta el archivo que deseas compartir
+      </p>
 
       <!-- Área de arrastrar y soltar -->
       <div
         class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
-        @drop.prevent="handleDrop"
-        @dragover.prevent="handleDragOver"
+        @drop="handleDrop"
+        @dragover="handleDragOver"
       >
-        <img src="@/assets/images/download.svg" alt="Upload Icon" class="upload-icon mb-2" />
-        <p class="text-customPurple">Arrastra y suelta el archivo <br /> o</p>
-        <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
+        <img
+          src="@/assets/images/download.svg"
+          alt="Upload Icon"
+          class="upload-icon mb-2 w-16 h-16 mx-auto"
+        />
+        <p class="text-customPurple mb-4">
+          Arrastra y suelta el archivo aquí <br />
+          o
+        </p>
+        <!-- Botón amarillo personalizado -->
+        <Button
+          label="Buscar"
+          class="yellow-button mt-4"
+          @click="selectFile"
+        />
         <!-- Input oculto para selección de archivo -->
-        <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept=".txt" />
+        <input
+          type="file"
+          ref="fileInput"
+          class="hidden"
+          @change="handleFileUpload"
+          accept=".txt,.csv,.xlsx"
+        />
       </div>
 
       <!-- Archivos cargados -->
-      <div v-if="fileToUpload" class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg">
-        <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
+      <div
+        v-if="fileToUpload"
+        class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg shadow-md"
+      >
+        <!-- Icono de archivo (cambiar según tipo de archivo si es necesario) -->
+        <img
+          src="@/assets/images/excel-Logo.svg"
+          alt="Archivo"
+          class="file-icon w-10 h-10 mr-4"
+        />
         <div class="flex-1 text-customPurple">
-          <p>{{ fileName }}</p>
-          <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>
+          <p class="truncate font-medium">{{ fileName }}</p>
+          <!-- Barra de progreso -->
+          <div class="progress-bar bg-customPurple-light h-2 rounded-full mt-1">
+            <div
+              class="bg-customPurple h-2 rounded-full transition-all duration-300"
+              :style="{ width: uploadProgress + '%' }"
+            ></div>
+          </div>
         </div>
-        <span class="ml-4 font-semibold text-customPurple">{{ intUploadProgress }}%</span>
+        <span class="ml-4 font-semibold text-customPurple">
+          {{ intUploadProgress }}%
+        </span>
       </div>
 
+      <!-- Mensajes de error y éxito -->
+      <p
+        v-if="uploadError"
+        class="text-red-500 text-center mt-4"
+      >
+        Error al subir el archivo. Intenta nuevamente.
+      </p>
+      <p
+        v-if="uploadSuccess"
+        class="text-green-500 text-center mt-4"
+      >
+        Archivo subido exitosamente.
+      </p>
+
       <!-- Botón de carga -->
-      <Button 
-        label="Subir" 
-        class="purple-button mt-4 w-full" 
+      <Button
+        label="Subir"
+        class="purple-button mt-4 w-full"
         :disabled="!fileToUpload || uploading" 
-        @click="uploadAndStoreFile" />
+        @click="uploadFile"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import Ciudadano from '@/assets/images/cuidadanoflauta.svg';
-import { ref } from 'vue';
-import Button from 'primevue/button';
+import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
+import { useFileNotificationStore } from "../stores/fileNotification";
+import { ref, onUnmounted } from "vue";
+import Button from "primevue/button";
+import * as XLSX from "xlsx";
 
+// Variables y lógica para la carga de archivos
+const uploadedFile = ref(null);
+const backupPartsFile = [];
+const fileNotificationStore = useFileNotificationStore();
+const fetchController = new AbortController();
+const fileName = ref("");
 const fileToUpload = ref(null);
 const uploadProgress = ref(0);
-const fileName = ref("");
-const fileInput = ref(null);
-const uploading = ref(false); // Agregado para controlar el estado de carga
-
-// Variable para verificar el progreso
 const intUploadProgress = ref(0);
+let wifiErrorFetch = false;
+let partsFile = 0;
+const loading = ref(false);
+const uploading = ref(false); // Controla el estado de carga
+const uploadSuccess = ref(false);
+const uploadError = ref(false);
 
-// Manejador de clic para seleccionar archivo
-const selectFile = () => {
-  fileInput.value.click();
+const acceptedFileTypes = [
+  "text/plain",
+  "text/csv",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+]; // Tipos permitidos
+
+const fetchOptions = {
+  url: "http://localhost:8081/api/upload",
+  options: {
+    method: "POST",
+    headers: { Accept: "application/json" },
+    signal: fetchController.signal,
+  },
 };
 
-// Manejador de archivo cargado
+const createFormData = (archivoBlob, fileName) => {
+  const formData = new FormData();
+  formData.append("file", archivoBlob, fileName);
+  return formData;
+};
+
+const createBlob = (newWorkBook, typeFile) => {
+  let blob;
+
+  switch (typeFile) {
+    case "xlsx":
+      blob = XLSX.write(newWorkBook, {
+        bookType: typeFile,
+        type: "array",
+      });
+      break;
+
+    case "txt":
+      blob = newWorkBook;
+      break;
+  }
+
+  const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
+  return archivoBlob;
+};
+
+// Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
-  if (file && file.size > 0) {
+
+  if (acceptedFileTypes.includes(file.type)) {
     fileToUpload.value = file;
     fileName.value = file.name;
-    console.log("Archivo seleccionado:", fileToUpload.value);
+    uploadProgress.value = 0;
   } else {
-    console.error("El archivo está vacío.");
+    alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
   }
 };
 
-// Manejador de dragover
+const handleDrop = (event) => {
+  const files = event.dataTransfer.files;
+  if (files.length > 0) {
+    const file = files[0];
+    if (acceptedFileTypes.includes(file.type)) {
+      fileToUpload.value = file;
+      fileName.value = file.name;
+      uploadProgress.value = 0;
+    } else {
+      alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+    }
+  }
+};
+
 const handleDragOver = (event) => {
   event.preventDefault();
 };
 
-// Manejador de drop para arrastrar y soltar
-const handleDrop = (event) => {
-  const file = event.dataTransfer.files[0];
-  if (file && file.size > 0) {
-    fileToUpload.value = file;
-    fileName.value = file.name;
-    console.log("Archivo arrastrado:", fileToUpload.value);
-  } else {
-    console.error("El archivo arrastrado está vacío.");
+const selectFile = () => {
+  document.querySelector('input[type="file"]').click();
+};
+
+const updateEventFileUpload = (bodyFetchOptions) => {
+  const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
+  const sizePartFile = bodyFetchOptions.get("file").size;
+  partsFile = window.Math.round(sizeMainFile / sizePartFile);
+
+  if (uploadProgress.value < sizeMainFile) {
+    uploadProgress.value = parseFloat(
+      (uploadProgress.value + 100 / partsFile).toFixed(2)
+    );
+    intUploadProgress.value = window.Math.round(uploadProgress.value);
+  }
+
+  fileNotificationStore.setUploadProgress(uploadProgress.value);
+};
+
+const ReuploadFile = async () => {
+  for (const formData of backupPartsFile) {
+    const copyFetchOptions = {
+      url: fetchOptions.url,
+      options: {
+        ...fetchOptions.options,
+        body: formData,
+      },
+    };
+
+    await sendFile(copyFetchOptions);
   }
 };
 
-// Función para subir y almacenar el archivo en IndexedDB
-const uploadAndStoreFile = async () => {
-  if (uploading.value) {
-    console.log("Ya se está subiendo el archivo.");
-    return; // Si ya está subiendo, no hacer nada
-  }
+const ConnectionWifi = (callback) => {
+  window.addEventListener("online", async () => await callback());
+};
 
-  uploading.value = true; // Marcar como subiendo
-  console.log("Iniciando carga para el archivo:", fileToUpload.value.name);
+async function sendFile(fetchOptions) {
+  let { url, options } = fetchOptions;
+
+  loading.value = true;
+  uploadSuccess.value = false;
+  uploadError.value = false;
 
   try {
-    if (!fileToUpload.value || fileToUpload.value.size === 0) {
-      alert("Por favor selecciona un archivo antes de subirlo.");
-      return;
+    const response = await fetch(url, options);
+    const json = await response.json();
+
+    if (!response.ok)
+      throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
+
+    updateEventFileUpload(fetchOptions.options.body);
+
+    uploadSuccess.value = true;
+  } catch (err) {
+    if (!err.error) err.error = true;
+    uploadError.value = true;
+    if (err.name === "AbortError") {
+      console.log("La solicitud fue cancelada con éxito");
+    } else if (err instanceof TypeError) {
+      const formData = fetchOptions.options.body;
+      backupPartsFile.push(formData);
+      wifiErrorFetch = true;
+      ConnectionWifi(ReuploadFile);
+    } else {
+      console.error(err);
     }
-
-    const chunkSize = 250 * 1024 * 1024; // 250 MB en bytes
-    const totalChunks = Math.ceil(fileToUpload.value.size / chunkSize);
-
-    const db = await openIndexedDB();
-
-    for (let i = 0; i < totalChunks; i++) {
-      const start = i * chunkSize;
-      const end = start + chunkSize;
-      const chunk = fileToUpload.value.slice(start, end);
-
-      const chunkData = await chunk.arrayBuffer();
-      await storeChunk(db, i, chunkData);
-
-      uploadProgress.value = Math.floor(((i + 1) / totalChunks) * 100);
-      intUploadProgress.value = uploadProgress.value;
-      console.log(`Progreso: ${uploadProgress.value}%`);
-    }
-
-    await reconstructFile(db, totalChunks);
-    alert("Archivo cargado y reconstruido en IndexedDB con éxito.");
-  } catch (error) {
-    console.error("Error durante la carga:", error);
   } finally {
-    uploading.value = false; // Marcar como no subiendo
+    loading.value = false;
   }
-};
+}
 
-// Abrir IndexedDB
-const openIndexedDB = () => {
-  return new Promise((resolve, reject) => {
-    const request = indexedDB.open("FileStorageDB", 1);
-
-    request.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      db.createObjectStore("fileChunks", { keyPath: "id" });
-    };
-
-    request.onsuccess = (event) => {
-      resolve(event.target.result);
-    };
-
-    request.onerror = (event) => {
-      reject("Error al abrir la base de datos:", event.target.errorCode);
-    };
-  });
-};
-
-// Almacenar un chunk en IndexedDB
-const storeChunk = (db, id, chunkData) => {
-  return new Promise((resolve, reject) => {
-    const transaction = db.transaction(["fileChunks"], "readwrite");
-    const store = transaction.objectStore("fileChunks");
-
-    const request = store.put({ id, data: chunkData });
-
-    request.onsuccess = () => {
-      resolve();
-    };
-
-    request.onerror = (event) => {
-      reject("Error al almacenar el chunk:", event.target.errorCode);
-    };
-  });
-};
-
-// Reconstruir el archivo a partir de los chunks almacenados
-const reconstructFile = async (db, totalChunks) => {
-  const transaction = db.transaction(["fileChunks"], "readonly");
-  const store = transaction.objectStore("fileChunks");
-
-  let reconstructedFile = new Uint8Array(totalChunks * 250 * 1024 * 1024);
+const createPartsTxt = (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
+  let partNumber = 1;
+  let blob;
+  const reader = new FileReader();
 
-  for (let i = 0; i < totalChunks; i++) {
-    const chunk = await getChunk(store, i);
-    reconstructedFile.set(new Uint8Array(chunk), offset);
-    offset += chunk.byteLength;
+  reader.onload = (e) => {
+    const chunkData = e.target.result;
+    const fileBlob = new Blob([blob], { type: "text/plain" });
+    const fileName = `${file.name}_parte${partNumber}.txt`;
+    const formData = new FormData();
+
+    formData.append("file", fileBlob, fileName);
+    formData.append("sizeMainFile", file.size);
+    fileNotificationStore.setFileName(`${file.name}_parte.txt`);
+
+    const copyFetchOptions = {
+      url: fetchOptions.url,
+      options: {
+        ...fetchOptions.options,
+        body: formData,
+      },
+    };
+
+    fileNotificationStore.setFetchController(fetchController);
+
+    sendFile(copyFetchOptions);
+
+    offset += chunkSize;
+    partNumber += 1;
+
+    if (wifiErrorFetch) return;
+
+    if (offset < file.size) {
+      readNextChunk();
+    }
+  };
+
+  function readNextChunk() {
+    blob = file.slice(offset, offset + chunkSize);
+    reader.readAsText(blob, "ISO-8859-1");
   }
 
-  await storeChunk(db, "reconstructedFile", reconstructedFile.buffer);
-  console.log("Archivo reconstruido.");
+  readNextChunk();
 };
 
-// Obtener un chunk de IndexedDB
-const getChunk = (store, id) => {
-  return new Promise((resolve, reject) => {
-    const request = store.get(id);
+const createPartsExcel = async (file) => {
+  const data = await file.arrayBuffer();
+  const workBook = XLSX.read(data);
 
-    request.onsuccess = (event) => {
-      resolve(event.target.result.data);
-    };
-
-    request.onerror = (event) => {
-      reject("Error al obtener el chunk:", event.target.errorCode);
-    };
-  });
+  for (const sheetName of workBook.SheetNames) {
+    const workSheet = workBook.Sheets[sheetName];
+    const txtData = XLSX.utils.sheet_to_csv(workSheet, {
+      FS: "»",
+      blankrows: false,
+    });
+    const blob = new Blob([txtData], { type: "text/plain" });
+    createPartsTxt(blob);
+  }
+  alert("División y envío completados.");
 };
+
+const createParts = async (file) => {
+  switch (file.type) {
+    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+    case "application/vnd.ms-excel":
+      await createPartsExcel(file);
+      break;
+    case "text/plain":
+      createPartsTxt(file);
+      break;
+    default:
+      alert("Tipo de archivo no soportado.");
+      break;
+  }
+};
+
+const uploadFileFinal = async () => {
+  if (!fileToUpload.value) return;
+
+  uploading.value = true; // Deshabilita el botón
+  await createParts(fileToUpload.value);
+  uploading.value = false; // Vuelve a habilitar el botón
+};
+
+const uploadFile = async () => {
+  if (!fileToUpload.value) return;
+  await uploadFileFinal();
+};
+
+onUnmounted(() => {
+  removeEventListener("online", async () => await ReuploadFile());
+});
+
+
+console.log(backupPartsFile)
+
 </script>
+
 
 <style scoped>
 .text-customPurple {
-  color: #7A1F7E;
+  color: #7a1f7e;
 }
 .yellow-button {
-  background-color: #FDC300 !important;
-  color: #7A1F7E !important;
+  background-color: #fdc300 !important;
+  color: #7a1f7e !important;
   font-weight: bold;
   border-radius: 12px;
   padding: 12px 24px;
@@ -216,8 +377,8 @@ const getChunk = (store, id) => {
   font-size: 1.25rem;
 }
 .purple-button {
-  background-color: #7A1F7E !important;
-  color: #FDC300 !important;
+  background-color: #7a1f7e !important;
+  color: #fdc300 !important;
   font-weight: bold;
   border-radius: 12px;
   padding: 12px 24px;
@@ -229,16 +390,13 @@ const getChunk = (store, id) => {
 }
 .upload-icon {
   width: 50px;
-  height: 50px;
+  height: auto;
   margin-bottom: 10px;
 }
-.file-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 10px;
+.uploaded-file {
+  background-color: #e0c8e0;
 }
 .progress-bar {
-  height: 6px;
-  background-color: #8f5f9e;
+  background-color: #7a1f7e;
 }
 </style>
