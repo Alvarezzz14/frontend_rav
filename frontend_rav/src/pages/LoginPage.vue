@@ -1,7 +1,7 @@
 <template>
 	<!-- Contenedor principal con el fondo CustomPurple -->
 	<div class="min-h-screen bg-customPurple text-white flex flex-col">
-  
+
 	  <!-- Header (barra superior) -->
 	  <Header></Header>
   
@@ -39,6 +39,7 @@
 				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 				required
 			  />
+
 			</div>
   
 			<!-- Botón de iniciar sesión -->
@@ -63,6 +64,7 @@
 			<img :src="MapaCollage" alt="Mapa de Colombia" class="w-full h-auto" />
 		  </div>
 		</div>
+
   
 		<!-- Mapa para pantallas mayores a 768px -->
 		<div class="hidden md:flex items-center justify-center">
@@ -111,11 +113,8 @@
   }
   </script>
   
-  <style>
-  /* Personalización del fondo y colores */
-  .bg-customPurple {
-	background-color: #6a1b9a; /* Color púrpura personalizado */
-  }
+  <style scoped>
+  
   
   button {
 	transition: background-color 0.3s ease;

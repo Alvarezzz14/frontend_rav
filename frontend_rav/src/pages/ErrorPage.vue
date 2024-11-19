@@ -1,8 +1,6 @@
 <template>
-   <Error></Error>
-   
+	<Error></Error>
 </template>
 <script setup>
-import Error from '@/components/Error.vue';
-
+import Error from "@/components/Error404.vue";
 </script>

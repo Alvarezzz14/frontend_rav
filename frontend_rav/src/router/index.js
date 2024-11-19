@@ -12,7 +12,7 @@ import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
-import ErrorPage  from '@/pages/ErrorPage.vue';
+import ErrorPage from '@/pages/ErrorPage.vue';
 
 
 const routes = [
@@ -78,19 +78,12 @@ const routes = [
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
-    
-      {
-        path: '/LineaTiempoNueva',
-        name: 'LineaTiempoNuevaPage',
-        component: LineaTiempoNuevaPage
-      },
 
       {
         path: '/LineaTiempoNueva',
         name: 'LineaTiempoNuevaPage',
         component: LineaTiempoNuevaPage
       },
-
 
     ]
   },
