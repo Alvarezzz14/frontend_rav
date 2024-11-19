@@ -5,61 +5,47 @@
 			<Header />
 		</header>
 
-		<!-- Sección para pantallas pequeñas -->
+		<!-- Logo para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
 			<img :src="RavLogo" alt="Logo Rav" />
 		</div>
 
-		<div class="lg:hidden flex flex-col">
-			<!-- Barra horizontal (botón para abrir el sidebar) -->
-			<div
-				@click="toggleSidebar"
-				class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
-				<svg
-					width="27"
-					height="27"
-					viewBox="0 0 25 25"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg">
-					<circle cx="12.5" cy="12.5" r="12.5" fill="#FDC300" />
-					<path
-						d="M8 8V9.12646H17.0117V8H8ZM8 11.3456V12.4721H17.0117V11.3456H8ZM8 14.725V15.8515H17.0117V14.725H8Z"
-						fill="#7A1F7E" />
-				</svg>
-			</div>
-
-			<!--Overlay Efecto de Pantalla Oscura al desplegar menu en Responsive inferior a 1024px-->
-
-			<div
-				class="lg:hidden fixed inset-0 bg-black bg-opacity-75 top-[calc(52px+125px)] overflow-auto"
-				v-if="isSidebarOpen"
-				@click="toggleSidebar">
-				<div class="flex flex-col">
-					<div v-if="isSidebarOpen">
-						<SidebarLeft />
-					</div>
-				</div>
-			</div>
-			<div v-if="isSidebarOpen">
-				<SidebarLeft />
-			</div>
-			<button
-				@click="MinitoggleNotifications"
-				class="flex cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg p-4 w-full">
-				<span class="flex-1 text-left"> Notificaciones </span>
-				<div class="rounded-full bg-amarillo px-2 py-1">
-					<i class="pi pi-bell ml-auto text-customPurple"></i>
-				</div>
-			</button>
-			<div v-if="showNotifications">
-				<Notifications />
-			</div>
+		<!-- Barra horizontal (botón para abrir el sidebar) -->
+		<div
+			@click="toggleSidebar"
+			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
+			<svg
+				width="27"
+				height="27"
+				viewBox="0 0 25 25"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg">
+				<circle cx="12.5" cy="12.5" r="12.5" fill="#FDC300" />
+				<path
+					d="M8 8V9.12646H17.0117V8H8ZM8 11.3456V12.4721H17.0117V11.3456H8ZM8 14.725V15.8515H17.0117V14.725H8Z"
+					fill="#7A1F7E" />
+			</svg>
 		</div>
 
-		<!-- Contenedor principal con sidebar izquierdo, contenido y sidebar derecho -->
-		<div class="flex flex-grow overflow-hidden">
-			<!-- Sidebar izquierda -->
-			<aside class="h-full hidden lg:flex">
+		<!-- Contenedor principal -->
+		<div class="flex flex-grow relative">
+			<!-- Overlay (solo para main) -->
+			<div
+				v-if="isSidebarOpen"
+				class="absolute inset-0 bg-black bg-opacity-75 z-20"
+				:style="overlayStyle"
+				@click="closeSidebar"></div>
+
+			<!-- Sidebar izquierdo desplegable -->
+			<aside
+				v-if="isSidebarOpen"
+				class="absolute left-0 shadow-md z-30 w-52"
+				:style="sidebarStyle">
+				<SidebarLeft />
+			</aside>
+
+			<!-- Sidebar izquierdo (para pantallas grandes) -->
+			<aside v-show="!isSidebarOpen" class="hidden lg:flex h-full">
 				<SidebarLeft />
 			</aside>
 
@@ -71,9 +57,9 @@
 				<router-view />
 			</main>
 
-			<!-- Sidebar derecha de notificaciones -->
+			<!-- Sidebar derecho de notificaciones -->
 			<aside
-				class="h-full bg-gray-100 hidden lg:flex max-w-72"
+				class="hidden lg:flex h-full max-w-72"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
@@ -87,34 +73,47 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
+// Componentes
 import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
-import Plantas from "@/components/plantas.vue";
 import RavLogo from "@/assets/images/ravLogo.png";
 import FileNotification from "@/components/FileNotification.vue";
 
-// Controla el colapso del sidebar y de la barra de notificaciones
-
-const isNotificationsCollapsed = ref(false);
-const isNotificationsOpen = ref(false); // Controla si la barra de notificaciones está abierta
+// Estados para controlar los menús y el overlay
 const isSidebarOpen = ref(false);
-const showNotifications = ref(false);
+const isNotificationsCollapsed = ref(false);
 
+// Métodos
 const toggleSidebar = () => {
 	isSidebarOpen.value = !isSidebarOpen.value;
 };
 
-const MinitoggleNotifications = () => {
-	showNotifications.value = !showNotifications.value;
-};
-const toggleNotifications = () => {
-	isNotificationsOpen.value = !isNotificationsOpen.value;
+const closeSidebar = () => {
+	isSidebarOpen.value = false;
 };
 
-// Computar si es móvil
+const toggleNotifications = () => {
+	isNotificationsCollapsed.value = !isNotificationsCollapsed.value;
+};
+
+// Estilos dinámicos para overlay y sidebar
+const overlayStyle = computed(() => ({
+	bottom: `64px`, // Ajusta para que termine antes del footer
+}));
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Ajuste para evitar problemas de scroll con el overlay */
+html,
+body {
+	overflow: hidden;
+}
+
+main {
+	overflow-y: auto;
+}
+</style>
