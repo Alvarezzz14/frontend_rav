@@ -2,10 +2,12 @@
   <div class="bg-gray-100 min-h-screen p-4 flex flex-col items-center justify-center">
     <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
     <div class="bg-gray-100 flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+    <div class="bg-gray-100 flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
       <!-- Icono y Título -->
       <div class="flex items-center mb-4 md:mb-0 ">
         <div class="p-6 bg-azulBarraApe rounded-full ">
           <!-- Icono SVG -->
+          <img :src="Reportes" alt=" Icono de Reportes" width="50" height="50" />
           <img :src="Reportes" alt=" Icono de Reportes" width="50" height="50" />
         </div>
         <div class="ml-4 text-center md:text-left ">
@@ -28,6 +30,8 @@
       <div class="flex-1 max-w-md lg:max-w-lg p-4">
         <img src="@/assets/images/PersonaReportes.svg" alt="Persona sonriendo"
           class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
+        <img src="@/assets/images/PersonaReportes.svg" alt="Persona sonriendo"
+          class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
       </div>
 
       <!-- Formulario a la Derecha -->
@@ -47,7 +51,9 @@
         </div>
 
         <!-- Selección de Departamento -->
+        <!-- Selección de Departamento -->
         <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-semibold mb-2">Seleccione Departamento</label>
           <label class="block text-gray-700 text-sm font-semibold mb-2">Seleccione Departamento</label>
           <div class="flex flex-wrap gap-4">
             <label class="flex items-center">
@@ -73,6 +79,7 @@
 
         <!-- Selección de Fechas -->
         <div class="mb-4">
+          <label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas.</label>
           <label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas.</label>
           <div class="flex items-center space-x-4">
             <input type="date" class="w-1/2 p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-azulBarraApe" placeholder="Desde" />
@@ -144,10 +151,49 @@ const departamentos = ref([
 
 ]);
 
+
+const departamentos = ref([
+
+  { name: "Amazonas", code: "91" },
+  { name: "Antioquia", code: "05" },
+  { name: "Arauca", code: "81" },
+  { name: "Atlantico", code: "08" },
+  { name: "Bolivar", code: "13" },
+  { name: "Boyacá", code: "15" },
+  { name: "Caldas", code: "17" },
+  { name: "Caquetá", code: "18" },
+  { name: "Casanare", code: "85" },
+  { name: "Cauca", code: "19" },
+  { name: "Cesar", code: "20" },
+  { name: "Chocó", code: "27" },
+  { name: "Cundinamarca", code: "25" },
+  { name: "Cordoba", code: "23" },
+  { name: "Guainia", code: "94" },
+  { name: "Guaviare", code: "95" },
+  { name: "Huila", code: "41" },
+  { name: "La Guajira", code: "44" },
+  { name: "Magdalena", code: "47" },
+  { name: "Meta", code: "50" },
+  { name: "Nariño", code: "52" },
+  { name: "Norte de Santander", code: "54" },
+  { name: "Putumayo", code: "86" },
+  { name: "Quindio", code: "63" },
+  { name: "Risaralda", code: "66" },
+  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
+  { name: "Santander", code: "68" },
+  { name: "Sucre", code: "70" },
+  { name: "Tolima", code: "73" },
+  { name: "Valle del Cauca", code: "76" },
+  { name: "Vaupés", code: "97" },
+  { name: "Vichada", code: "99" },
+
+]);
+
 </script>
 
 <style scoped>
 @media (max-width: 768px) {
+
 
   /* Ajustes responsivos para pantallas pequeñas */
   .bg-gray-100 {
