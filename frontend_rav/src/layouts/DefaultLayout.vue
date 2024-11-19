@@ -31,21 +31,21 @@
 		<div class="flex flex-grow relative">
 			<!-- Overlay (solo para main) -->
 			<div
-				v-if="isSidebarOpen"
+				v-show="isSidebarOpen && isSmallScreen"
 				class="absolute inset-0 lg:hidden h-full bg-black bg-opacity-75 z-20"
 				:style="overlayStyle"
 				@click="closeSidebar"></div>
 
 			<!-- Sidebar izquierdo desplegable -->
 			<aside
-				v-if="isSidebarOpen"
+				v-show="isSidebarOpen && isSmallScreen"
 				class="absolute left-0 shadow-md lg:hidden z-30 w-52"
 				:style="sidebarStyle">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
-			<aside v-if="!isSidebarOpen" class="hidden lg:flex h-full">
+			<aside v-show="!isSmallScreen" class="hidden lg:flex h-full">
 				<SidebarLeft />
 			</aside>
 
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 // Componentes
 import Header from "@/components/Header.vue";
@@ -86,6 +86,7 @@ import FileNotification from "@/components/FileNotification.vue";
 // Estados para controlar los menús y el overlay
 const isSidebarOpen = ref(false);
 const isNotificationsCollapsed = ref(false);
+const isSmallScreen = ref(window.innerWidth < 1024); // Verificar si es pantalla pequeña
 
 // Métodos
 const toggleSidebar = () => {
@@ -104,6 +105,26 @@ const toggleNotifications = () => {
 const overlayStyle = computed(() => ({
 	bottom: `64px`, // Ajusta para que termine antes del footer
 }));
+
+// Listener para detectar cambios en el tamaño de la pantalla
+const handleResize = () => {
+	isSmallScreen.value = window.innerWidth < 1024;
+
+	// Si se pasa a pantalla grande, asegúrate de cerrar el sidebar responsive
+	if (!isSmallScreen.value) {
+		isSidebarOpen.value = false;
+	}
+};
+
+// Eventos para montar y desmontar el listener
+onMounted(() => {
+	window.addEventListener("resize", handleResize);
+	handleResize(); // Ejecutar al montar por si cambia el tamaño rápidamente
+});
+
+onBeforeUnmount(() => {
+	window.removeEventListener("resize", handleResize);
+});
 </script>
 
 <style scoped>

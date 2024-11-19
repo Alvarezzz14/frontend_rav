@@ -1,10 +1,10 @@
 <template>
-	<div class="overflow-auto bg-white w-56 md:w-60 lg:w-72">
+	<div class="overflow-y-auto max-h-screen bg-white w-56 md:w-60 lg:w-72">
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
 			<div class="py-8 hidden lg:flex items-center h-auto justify-center">
-				<RavIcon class="" />
+				<img src="@/assets/images/LogosRav/ravLogoAside.png" alt="logo RAV" />
 			</div>
 			<!-- Menu de navegación -->
 			<nav>
@@ -106,6 +106,8 @@ import { useToast } from "vue-toastification";
 import { watch } from "vue";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
 import Notifications from "./Notifications.vue";
+import RavLogo from "@/assets/images/ravLogo.png";
+
 const isSidebarOpen = ref(false);
 const router = useRouter();
 const route = useRoute();

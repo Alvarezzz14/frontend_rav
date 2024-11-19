@@ -49,7 +49,7 @@
 						<button
 							v-if="extraNotifications > 0"
 							@click="toggleNotifications"
-							class="bg-amarillo text-customPurple w-6 h-6 rounded-full flex items-center justify-center text-xs">
+							class="bg-amarillo text-customPurple w-6 h-6 cursor-copy rounded-full flex items-center justify-center text-xs">
 							+{{ extraNotifications }}
 						</button>
 					</h2>
