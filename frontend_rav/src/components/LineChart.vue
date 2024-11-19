@@ -15,10 +15,12 @@ const chartData = reactive({
 	labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
 	datasets: [
 		{
-			label: "Procesos",
-			backgroundColor: "rgba(75, 192, 192, 0.2)",
-			borderColor: "rgba(122, 31, 126)",
-			data: [40, 20, 60, 80, 100],
+			label: "Mi Línea",
+			borderColor: 'rgba(253, 195, 0, 1)', // Color amarillo
+			data: [3, 19, 8, 15, 20, 25],
+			textColor: 'rgba(255, 255, 255, 1)',
+			fill: false, // Opcional, dependiendo si deseas que la línea esté rellena o no
+			tension: 0.1
 		},
 	],
 });

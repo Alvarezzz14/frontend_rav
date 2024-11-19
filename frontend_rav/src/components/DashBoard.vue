@@ -1,12 +1,11 @@
 <template>
 	<div class="flex flex-col gap-5 p-4">
 	  <!-- Primera Sección: Contenedores con contenido e imagen -->
-	  <div class="flex gap-5 justify-between">
+	  <div class="flex gap-5 justify-between ">
 		<div v-for="(image, index) in imagePaths" :key="index"
-		  class="  rounded-lg text-center bg-white w-full sm:w-1/4 md:w-1/5"
+		  class="  rounded-lg text-center shadow-lg  w-full  sm:w-1/4 md:w-1/5"
 		  :style="{
 			backgroundImage: 'url(' + image.path + '), linear-gradient(180deg, rgba(0, 0, 0, 0) 16%, #71277A 85.5%)',
-			
 			backgroundPosition: 'center',
 			height: '287.6px',
 			width: '287.6px',
@@ -27,7 +26,7 @@
   
 	  <!-- Segunda Sección: Gráficos -->
 	  <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-		<div class="p-4 border border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
+		<div class="p-4 border  rounded-lg bg-custom-gradient bg-opacity-20 w-full max-w-full sm:max-w-full">
 		  <LineChart />
 		</div>
 		<div class="p-4 border border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
