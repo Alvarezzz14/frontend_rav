@@ -15,12 +15,12 @@
 					<li
 						v-for="item in menuItems"
 						:key="item.title"
-						class="py-1 md:py-2 relative w-full">
+						class="py-0.5 md:py-2 relative w-full">
 						<router-link
 							v-if="item.to"
 							:to="item.to"
 							@click="setActive(item)"
-							class="px-2 h-10 md:h-16 lg:h-20"
+							class="px-6 h-10 md:h-16 lg:h-20"
 							:class="[
 								'flex flex-row  items-center transform text-black transition-colors duration-200 ',
 								isActive(item) ? 'bg-customPurple text-amarillo' : '',
@@ -32,11 +32,11 @@
 									'text-GrisIconosDash': !isActive(item),
 									'text-amarillo': isActive(item),
 								}"
-								class="inline-flex items-center justify-center h-6 md:h-9 lg:h-12 w-6 md:w-9 lg:w-12 text-lg mr-4 transition-colors duration-200">
+								class="inline-flex items-center justify-center h-4 md:h-7 lg:h-12 w-4 md:w-7 lg:w-12 text-lg mr-4 transition-colors duration-200">
 							</span>
 
 							<span
-								class="text-left sm:text-md md:text-base lg:text-lg font-sm transition-colors duration-200"
+								class="text-left text-sm md:text-md lg:text-lg transition-colors duration-200"
 								:class="{ 'text-amarillo': isActive(item) }"
 								>{{ item.title }}</span
 							>
@@ -45,21 +45,21 @@
 
 					<li>
 						<div
-							class="cursor-pointer flex lg:hidden mt-4 ml-2 gap-1"
+							class="cursor-pointer flex lg:hidden mt-4 ml-6 gap-1"
 							@click="logout">
 							<img
-								class="w-7 h-auto"
+								class="w-4 h-auto"
 								:src="IconoLogout"
 								alt="IconoLogoutResponsive" />
 							<span
-								class="text-left mt-1 ml-0.5 text-black text-sm md:text-base lg:text-lg font-bold"
+								class="text-left mt-1 ml-0.5 text-black text-sm md:text-base lg:text-lg font-semibold"
 								>Cerrar Sesión</span
 							>
 
-							<div class="mt-2 ml-16">
+							<div class="mt-1 ml-12">
 								<svg
-									width="20"
-									height="20"
+									width="12"
+									height="10.5"
 									viewBox="0 0 12 11"
 									fill="none"
 									xmlns="http://www.w3.org/2000/svg">
