@@ -8,7 +8,9 @@
 			</div>
 			<!-- Menu de navegación -->
 			<nav>
-				<span class="lg:hidden flex-1 text-left"> Menú Principal </span>
+				<div class="lg:hidden flex ml-4 pt-4">
+					<span class="text-customPurple font-bold"> Menú Principal </span>
+				</div>
 				<ul class="list-none flex flex-col px-0 border">
 					<li
 						v-for="item in menuItems"
