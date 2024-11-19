@@ -79,7 +79,7 @@ const imagePaths = ref([
 	},
 	{
 		title: "APE",
-		count: "97883112",
+		count: "9888112",
 		path: LogoApe,
 	},
 	{

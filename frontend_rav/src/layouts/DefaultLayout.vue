@@ -55,6 +55,7 @@
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
+
 			</main>
 
 			<!-- Sidebar derecho de notificaciones -->

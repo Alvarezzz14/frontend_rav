@@ -1,10 +1,12 @@
 <template>
+
 	<div>
 		<img
 			:src="plantas"
 			alt="Plantas"
-			class="absolute bottom-0 opacity-60 w-8/12 h-72" />
+			class="absolute bottom-0 opacity-60 w-8/12 h-72 z-" />
 	</div>
+
 </template>
 
 <script setup>
