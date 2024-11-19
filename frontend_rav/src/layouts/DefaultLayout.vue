@@ -9,7 +9,7 @@
 		<div class="lg:hidden flex justify-center py-4">
 			<img :src="RavLogo" alt="Logo Rav" />
 		</div>
-
+    
 		<!-- Barra horizontal (botón para abrir el sidebar) -->
 		<div
 			@click="toggleSidebar"

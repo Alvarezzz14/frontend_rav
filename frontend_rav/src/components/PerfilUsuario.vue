@@ -22,49 +22,49 @@
 				</div>
 				<div class="ml-4 text-center lg:text-left">
 					<p class="text-black mb-0 text-2xl">Perfil de</p>
-					<h2 class="text-customPurple text-5xl mt-0 font-bold">Ciudadano</h2>
+					<h2 class="text-azulBarraApe text-5xl mt-0 font-bold">Ciudadano</h2>
 				</div>
 			</div>
 		</div>
 		<div class="flex flex-col lg:flex-row gap-6">
 			<div class="flex-1">
-				<label class="block text-customPurple mb-2">TIPO DE DOCUMENTO:</label>
+				<label class="block text-azulBarraApe mb-2">TIPO DE DOCUMENTO:</label>
 				<p class="text-black mb-4">
 					{{ userInfo.tipo_documento || "NO REGISTRA" }}
 				</p>
 
-				<label class="block text-customPurple mb-2">NOMBRE COMPLETO:</label>
+				<label class="block text-azulBarraApe mb-2">NOMBRE COMPLETO:</label>
 				<p class="text-black mb-4">
 					{{ userInfo.nombrecompleto || "NO REGISTRA" }}
 				</p>
 
-				<label class="block text-customPurple mb-2">CIUDAD:</label>
+				<label class="block text-azulBarraApe mb-2">CIUDAD:</label>
 				<p class="text-black mb-4">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
 
-				<label class="block text-customPurple mb-2">GENERO:</label>
+				<label class="block text-azulBarraApe mb-2">GENERO:</label>
 				<p class="text-black mb-4">{{ userInfo.genero || "NO REGISTRA" }}</p>
 
-				<label class="block text-customPurple mb-2">ID HOGAR:</label>
+				<label class="block text-azulBarraApe mb-2">ID HOGAR:</label>
 				<p class="text-black">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
 			</div>
 			<div class="flex-1">
-				<label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
+				<label class="block text-azulBarraApe mb-2">NÚMERO DE DOCUMENTO:</label>
 				<p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
 
-				<label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
+				<label class="block text-azulBarraApe mb-2">PROCEDENCIA ÉTNICA:</label>
 				<p class="text-black mb-4">
 					{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}
 				</p>
 
-				<label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
+				<label class="block text-azulBarraApe mb-2">ESTADO VICTIMA:</label>
 				<p class="text-black mb-4">
 					{{ userInfo.estadovictima || "NO REGISTRA" }}
 				</p>
 
-				<label class="block text-customPurple mb-2">HECHO:</label>
+				<label class="block text-azulBarraApe mb-2">HECHO:</label>
 				<p class="text-black mb-4">{{ userInfo.hecho || "NO REGISTRA" }}</p>
 
-				<label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
+				<label class="block text-azulBarraApe mb-2">NÚMERO DE CONTACTO:</label>
 				<p class="text-black">
 					{{ userInfo.numtelefonocelular || "NO REGISTRA" }}
 				</p>

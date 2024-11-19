@@ -18,7 +18,7 @@
 							<time class="text-lg font-bold text-gray-700">{{ date }}</time>
 							<button
 								@click="toggleGroup(date)"
-								class="text-customPurple font-semibold hover:underline cursor-pointer mt-2">
+								class="text-azulBarraApe font-semibold hover:underline cursor-pointer mt-2">
 								{{ openedGroups[date] ? "Cerrar" : "Ver más" }}
 							</button>
 						</div>
@@ -32,7 +32,7 @@
 									alt="Profile"
 									class="w-14 h-14 rounded-full" />
 								<div>
-									<p class="font-semibold text-customPurple">
+									<p class="font-semibold text-azulBarraApe">
 										{{ event.title }}
 									</p>
 									<p class="text-gray-600">{{ event.description }}</p>
@@ -40,7 +40,7 @@
 							</div>
 							<button
 								@click.prevent="$emit('showEventDetails', event)"
-								class="text-customPurple hover:underline">
+								class="text-azulBarraApe hover:underline">
 								Ver más
 							</button>
 						</div>
@@ -50,7 +50,7 @@
 					<td
 						v-else
 						colspan="2"
-						class="text-customPurple border-t py-4 text-center">
+						class="text-azulBarraApe border-t py-4 text-center">
 						Haz click para ver más información.
 					</td>
 				</tr>
@@ -92,6 +92,6 @@ td {
 }
 
 td button {
-	@apply text-customPurple font-semibold hover:underline cursor-pointer;
+	@apply text-azulBarraApe font-semibold hover:underline cursor-pointer;
 }
 </style>

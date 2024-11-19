@@ -1,9 +1,11 @@
 <template>
 	<div class="overflow-auto bg-white w-56 md:w-60 lg:w-72">
+
 		<!-- Barra lateral izquierda -->
 		<div>
-			<!-- Ícono centrado -->
-			<div class="py-8 hidden lg:flex items-center h-auto justify-center">
+			<!-- Ícono centrado  Rav-->
+			<div
+				class="py-8 hidden lg:flex items-center h-auto justify-center">
 				<RavIcon class="" />
 			</div>
 			<!-- Menu de navegación -->
@@ -88,7 +90,7 @@
 					<div class="mt-4 text-center">
 						<LogoutButton
 							@click="logout"
-							class="text-base !text-amarillo !font-bold py-1 px-2" />
+							class="text-base !text-amarillo !font-bold py-1 px-2 !bg-azulBarraApe" />
 					</div>
 				</div>
 			</nav>

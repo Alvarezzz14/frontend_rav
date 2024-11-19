@@ -1,7 +1,6 @@
 <template>
 	<div class="min-h-screen flex flex-col items-center py-8">
 		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
-
 		<div
 			class="flex flex-col lg:flex-row items-center justify-between p-4 rounded-lg shadow-md w-full max-w-7xl mb-8">
 			<!-- Icono y Título -->
@@ -25,7 +24,6 @@
 			</div>
 
 			<!-- Información del Ciudadano -->
-
 			<div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
 				<div class="flex-shrink-0">
 					<svg
@@ -55,6 +53,7 @@
 					</p>
 				</div>
 			</div>
+
 
 			<!-- Botón Línea de Tiempo -->
 

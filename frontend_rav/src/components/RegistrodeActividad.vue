@@ -1,5 +1,22 @@
 <template>
+    <div class="bg-gray-100 flex flex-col sm:flex-row items-center sm:justify-between p-4 rounded-lg shadow-md">
+        <!-- Sección Izquierda (Icono y Título) -->
+        <div class="flex items-center mb-4 sm:mb-0"></div>
+            <div class="p-4 bg-azulBarraApe rounded-full">
+                <img :src="Actividad" alt="Icono de Actividad" width="50" height="50" />
+                
+            </div>
+            <div class="ml-4">
+                <p class="text-black mb-0 text-2xl">Registro de</p>
+                <h2 class="text-azulBarraApe text-5xl mt-0 font-bold">Actividad</h2>
+            </div>
 
+        </div>
+        <div class="ml-4">
+            <p class="text-black mb-0 text-lg sm:text-2xl">Registro de</p>
+            <h2 class="text-customPurple text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
+        </div>
+    
 <div class="bg-gray-100 flex flex-col sm:flex-row items-center sm:justify-between p-4 rounded-lg shadow-md">
     <!-- Sección Izquierda (Icono y Título) -->
     <div class="flex items-center mb-4 sm:mb-0">
@@ -12,7 +29,6 @@
             <h2 class="text-customPurple text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
         </div>
     </div>
-
     <!-- Contenedor de la información del ciudadano y el botón Crear Ticket en una misma fila -->
     <div class="flex items-center space-x-4">
         <!-- Sección Central (Información del ciudadano) -->
@@ -34,7 +50,8 @@
         </div>
 
         <!-- Botón Crear Ticket (al lado de la información del ciudadano) -->
-        <button class="bg-customPurple text-white p-2 sm:p-4 rounded-lg shadow flex flex-col items-center">
+        <button class="bg-azulBarraApe text-white p-2 sm:p-4 rounded-lg shadow flex flex-col items-center">
+
             <svg width="40" height="40" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M27.5 0C20.24 0 13.88 5.16 12.5 12C5.9 12 0.5 17.4 0.5 24C0.5 26.22 1.16 28.26 2.18 30H15.5L27.5 18L39.5 30H47.96C48.32 29.04 48.5 28.08 48.5 27C48.5 23.1 45.98 19.26 42.5 18V15C42.5 6.72 35.78 0 27.5 0ZM27.5 27L12.5 42H24.5V45C24.5 45.7957 24.8161 46.5587 25.3787 47.1213C25.9413 47.6839 26.7044 48 27.5 48C28.2956 48 29.0587 47.6839 29.6213 47.1213C30.1839 46.5587 30.5 45.7957 30.5 45V42H42.5L27.5 27Z" fill="white" />
             </svg>
@@ -43,9 +60,6 @@
         </button>
     </div>
 </div>
-
-
-
 
     <!-- Contenedor de Lista -->
 
@@ -60,21 +74,28 @@
             </li>
             <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
-                    2
-                </span>
-                <span>Registre la actividad o información otorgada al ciudadano en la sección de <span
-                        class="font-bold">Descripción.</span></span>
+                    class="bg-azulBarraApe text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">2</span>
+                Registre la actividad o información otorgada al ciudadano en la Sección de <span
+                    class="font-bold pl-1">Descripción.</span>
             </li>
             <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
-                    3
-                </span>
-                <span>Una vez completa la información, presiona <span class="font-bold">Enviar.</span></span>
+                    class="bg-azulBarraApe text-white font-bold rounded-full w-6 h-6 flex items-center justify-center mr-2">3</span>
+                Una vez completa la información , presiona <span class="font-bold pl-1">Enviar.</span>
             </li>
         </ul>
     </div>
+    <div class="mt-4 bg-white rounded-lg h-3/6 shadow p-4">
+        <input type="text" class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-2"
+            placeholder="Título:" />
+        <textarea name="Descripcion"
+            class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mb-3"
+            id="descripcion" placeholder="Descripción:"></textarea>
+         <button
+            class="bg-amarillo border-none w-full text-azulBarraApe mb-2 h-9 font-bold p-2 rounded-sm shadow flex justify-center items-center">
+            Cargar Archivo
+        </button>
+
 
     <div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
         <h2 class="text-center font-bold text-lg mb-4">CREAR TICKET</h2>
@@ -104,10 +125,11 @@
 
         <!-- Botón Enviar -->
         <button
-            class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4">
+            class="bg-azulBarraApe border-none h-19 w-full text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center">
             Enviar
         </button>
     </div>
+</div>
 
 </template>
 <script setup>
