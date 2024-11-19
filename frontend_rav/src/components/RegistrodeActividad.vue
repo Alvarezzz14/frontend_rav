@@ -1,9 +1,11 @@
 <template>
+
 <div class="bg-gray-100 flex flex-col sm:flex-row items-center sm:justify-between p-4 rounded-lg shadow-md">
     <!-- Sección Izquierda (Icono y Título) -->
     <div class="flex items-center mb-4 sm:mb-0">
         <div class="p-4 bg-customPurple rounded-full">
             <img :src="Actividad" alt="Icono de Actividad" width="50" height="50" />
+
         </div>
         <div class="ml-4">
             <p class="text-black mb-0 text-lg sm:text-2xl">Registro de</p>
@@ -109,6 +111,7 @@
 
 </template>
 <script setup>
+
 import Actividad from "@/assets/images/Actividad.png"
 import { ref } from 'vue';
 
@@ -129,6 +132,7 @@ const description = ref('');
 const addToDescription = (keyword) => {
     description.value += `${keyword} `;
 };
+
 
 </script>
 

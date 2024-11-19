@@ -1,11 +1,11 @@
 <template>
-	<div class="overflow-auto">
+	<div class="overflow-auto w-56 md:w-60 lg:w-72">
 		<!-- Sidebar Derecho -->
 		<div>
 			<div class="flex flex-col bg-white items-center">
 				<!-- Sección de Actividad -->
 				<h2
-					class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
+					class="text-lg bg-amarillo w-full text-left lg:text-center font-bold text-customPurple py-2">
 					Actividad
 				</h2>
 				<div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
@@ -116,7 +116,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-
 // Estado de las metas (si es necesario para otras funcionalidades)
 const goals = ref([
 	{ label: "META TRIMESTRAL", value: 0 },
@@ -124,7 +123,6 @@ const goals = ref([
 ]);
 
 const circumference = 2 * Math.PI * 40;
-
 // Simular valores de las metas (puedes eliminar esta parte si no es necesario)
 onMounted(() => {
 	setTimeout(() => {
@@ -141,52 +139,22 @@ const notifications = ref([
 		message: "Lorem ipsum dolor sit amet...",
 		redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
 	},
+	{
+		title: "Título de notificación",
+		date: "17/07/2024",
+		message: "Lorem ipsum dolor sit amet...",
+		redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
+	},
 ]);
 
 const additionalNotifications = computed(() => notifications.value.slice(1));
-
 const extraNotifications = computed(() =>
 	Math.max(0, notifications.value.length - 1)
 );
 
 const showAllNotifications = ref(false);
-
 const toggleNotifications = () => {
 	showAllNotifications.value = !showAllNotifications.value;
 };
-
-// Función para manejar la actualización del progreso de la carga
-const handleFileUploadProgress = (event) => {
-	const notification = event.detail;
-
-	// Buscar la notificación existente o crear una nueva si no existe
-	const existingNotification = notifications.value.find(
-		(notif) =>
-			notif.title === notification.title &&
-			notif.message === notification.message
-	);
-
-	if (existingNotification) {
-		// Actualizar la notificación con el progreso
-		existingNotification.progress = notification.progress;
-	} else {
-		// Si es una nueva notificación, añadirla a la lista
-		notifications.value.push(notification);
-	}
-};
-
-// Escuchar el evento de progreso de carga
-window.addEventListener("file-upload-progress", handleFileUploadProgress);
-
-// Limpiar el evento cuando el componente sea destruido
-import { onUnmounted } from "vue";
-onUnmounted(() => {
-	window.removeEventListener("file-upload-progress", handleFileUploadProgress);
-});
 </script>
-
-<style scoped>
-a {
-	text-decoration: none;
-}
-</style>
+<style scoped></style>
