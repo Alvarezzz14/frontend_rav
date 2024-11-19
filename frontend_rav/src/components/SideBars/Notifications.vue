@@ -34,9 +34,9 @@
 								class="text-customPurple transition-all duration-1000 ease-out" />
 						</svg>
 						<span
-							class="absolute inset-0 flex items-center justify-center text-lg font-bold">
-							{{ goal.value }}
-						</span>
+							class="absolute inset-0 flex items-center justify-center text-lg font-bold"
+							>{{ goal.value }}</span
+						>
 					</div>
 					<p class="text-center text-xs font-semibold">{{ goal.label }}</p>
 				</div>

@@ -32,7 +32,7 @@
 			<!-- Overlay (solo para main) -->
 			<div
 				v-if="isSidebarOpen"
-				class="absolute inset-0 lg:hidden bg-black bg-opacity-75 z-20"
+				class="absolute inset-0 lg:hidden h-full bg-black bg-opacity-75 z-20"
 				:style="overlayStyle"
 				@click="closeSidebar"></div>
 
