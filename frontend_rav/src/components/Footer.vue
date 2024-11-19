@@ -6,9 +6,6 @@
 		<img :src="IconoGov" alt="Icono Institucional" class="w-[140px]  h-6 pl-6 sm:ml-0 my-2">
 	  </div>
 
-	
-
-
 		<!-- Texto centrado con fondo negro -->
 		<div
 			class="w-full left-1/2 transform text-white text-center h-6 text-sm bg-black p-1">
