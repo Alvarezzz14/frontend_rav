@@ -15,7 +15,6 @@ import 'vue-toastification/dist/index.css';
 import 'primeicons/primeicons.css';
 import 'flowbite';
 import '@/styles/style.css';
-
 import TimeLine from 'primevue/timeline';
 const pinia = createPinia();
 
