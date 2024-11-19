@@ -22,7 +22,7 @@
 		 <h3 class="font-sans">Entidad</h3> 
 		</div>
 		<div class="flex  gap-5 -mb-3 "> 
-			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md ">
+			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md  ">
 				<img :src="LogoSenaverde" alt="imagen logo verde sena" class="w-20 h-40" /> 
 			</div> 
 			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md">
@@ -47,31 +47,30 @@
 		 	<p class="font-sans">Seleccione la</p> 
 		 	<h3 class="font-sans">Regional</h3> 
 	</div>
-		<div class="flex items-center space-x-2 h-1hadow-md">  
+		<div class="flex items-center space-x-2 h-1-md">  
         <!-- Selección de Departamento -->
 		<Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
-          class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
+          class="rounded-lg shadow-sm text-customPurple !border !border-customPurple h-full w-full overflow-auto"
           @change="updateSelectedInfo">
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
-              <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
               <div>{{ slotProps.value.name }}</div>
             </div>
-            <span v-else class="text-customPurple">{{ slotProps.placeholder }}</span>
+            <span v-else class="">{{ slotProps.placeholder }}</span>
           </template>
           <template #option="slotProps">
-            <div class="flex items-center font-medium text-customPurple">
-              <p>{{ slotProps.option.name }}</p>
+            <div class="tex-center text-sm font-normal -mb-6 text-black">
+              <p class="">{{ slotProps.option.name }}</p>
             </div>
           </template>
         </Select>
-			 <!-- Tarjeta de Información del Departamento -->
-			 <div v-if="selectedInfo" class="w-full max-w-md rounded-lg shadow-lg bg-white">
-        <div class="p-4 text-gray-700">
+		</div> 
+    <!-- Tarjeta de Información del Departamento -->
+    <div v-if="selectedInfo" class=" rounded-lg shadow-lg bg-white">
+        <div class="p-2 text-gray-700">
           <p>{{ getDepartmentDescription(selectedInfo.name) }}</p>
         </div>
       </div>
-		</div> 
 	<div class="flex items-center justify-center"> 
 		<!-- Botón de Búsqueda -->
         <Button class="w-72 !bg-customPurple text-lg cursor-pointer border-none !text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
