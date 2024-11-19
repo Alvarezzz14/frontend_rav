@@ -20,9 +20,7 @@
               <p>{{ slotProps.option.name }}</p>
             </div>
           </template>
-          <template #dropdownicon>
-            <i class="pi pi-map"></i>
-          </template>
+
         </Select>
       </div>
 

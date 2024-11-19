@@ -1,10 +1,12 @@
 <template>
-	<div class="flex flex-col gap-5 p-4">
+	<div class="flex flex-col gap-5 p-4 ">
 		<!-- Primera Sección: Contenedores con contenido e imagen -->
+
 		<div class="flex gap-5 justify-between">
 			<div v-for="(image, index) in imagePaths" :key="index"
 
 				class="p-4 border border-purple-800 rounded-lg text-center bg-white">
+
 
 				<h4 class="font-bold text-lg">{{ image.title }}</h4>
 				<div class="mt-3">
