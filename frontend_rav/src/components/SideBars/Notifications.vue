@@ -1,11 +1,11 @@
 <template>
-	<div class="overflow-auto">
+	<div class="overflow-auto w-56 md:w-60 lg:w-72">
 		<!-- Sidebar Derecho -->
 		<div>
 			<div class="flex flex-col bg-white items-center">
 				<!-- Sección de Actividad -->
 				<h2
-					class="text-lg bg-amarillo w-full text-center font-bold text-customPurple py-2">
+					class="text-lg bg-amarillo w-full text-left lg:text-center font-bold text-customPurple py-2">
 					Actividad
 				</h2>
 				<div v-for="(goal, index) in goals" :key="index" class="border-b my-2">
@@ -42,7 +42,7 @@
 				</div>
 
 				<!-- Sección de Notificaciones -->
-				<div class="shadow-top w-full">
+				<div class="w-full">
 					<h2
 						class="text-lg font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
 						Notificaciones
@@ -57,7 +57,7 @@
 					<!-- Mostrar solo la primera notificación -->
 					<div
 						v-if="notifications.length > 0"
-						class="bg-gray-50 p-3 rounded-lg mx-4 mb-2 shadow">
+						class="bg-gray-50 p-3 rounded-lg mx-4 mb-2">
 						<h3 class="font-semibold">{{ notifications[0].title }}</h3>
 						<span class="text-xs text-gray-500">{{
 							notifications[0].date
@@ -87,7 +87,7 @@
 						<div
 							v-for="(notification, index) in additionalNotifications"
 							:key="index"
-							class="bg-gray-50 p-3 rounded-lg mb-2 mx-4 shadow">
+							class="bg-gray-50 p-3 rounded-lg mb-2 mx-4">
 							<h3 class="font-semibold">{{ notification.title }}</h3>
 							<span class="text-xs text-gray-500">{{ notification.date }}</span>
 							<p class="text-sm mt-1">
@@ -116,7 +116,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-
 // Estado de las metas (si es necesario para otras funcionalidades)
 const goals = ref([
 	{ label: "META TRIMESTRAL", value: 0 },
@@ -124,7 +123,6 @@ const goals = ref([
 ]);
 
 const circumference = 2 * Math.PI * 40;
-
 // Simular valores de las metas (puedes eliminar esta parte si no es necesario)
 onMounted(() => {
 	setTimeout(() => {
@@ -150,40 +148,13 @@ const notifications = ref([
 ]);
 
 const additionalNotifications = computed(() => notifications.value.slice(1));
-
 const extraNotifications = computed(() =>
 	Math.max(0, notifications.value.length - 1)
 );
 
 const showAllNotifications = ref(false);
-
 const toggleNotifications = () => {
 	showAllNotifications.value = !showAllNotifications.value;
 };
-// Función para manejar la actualización del progreso de la carga
-const handleFileUploadProgress = (event) => {
-	const notification = event.detail;
-	// Buscar la notificación existente o crear una nueva si no existe
-	const existingNotification = notifications.value.find(
-		(notif) =>
-			notif.title === notification.title &&
-			notif.message === notification.message
-	);
-	if (existingNotification) {
-		// Actualizar la notificación con el progreso
-		existingNotification.progress = notification.progress;
-	} else {
-		// Si es una nueva notificación, añadirla a la lista
-		notifications.value.push(notification);
-	}
-};
-// Escuchar el evento de progreso de carga
-window.addEventListener("file-upload-progress", handleFileUploadProgress);
-// Limpiar el evento cuando el componente sea destruido
-import { onUnmounted } from "vue";
-onUnmounted(() => {
-	window.removeEventListener("file-upload-progress", handleFileUploadProgress);
-});
 </script>
-
 <style scoped></style>
