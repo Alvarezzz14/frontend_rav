@@ -10,20 +10,18 @@
       </div>
       
       <!-- Contenedor para el formulario y logos, centrado y con altura reducida en pantallas pequeñas -->
-      <div class="flex-1 flex items-center justify-center h-screen relative z-10 p-4 lg:p-0">
+      <div class="flex-1 flex items-center justify-center h-full relative z-10 p-4 lg:p-0">
         <div
-          class="bg-white rounded-lg p-6 w-full max-w-md lg:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4 sm:mt-10 lg:mt-0">
-          <!-- Ajuste de margen superior para pantallas pequeñas -->
+          class="bg-white rounded-lg p-6 w-full max-w-sm sm:max-w-md md:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4 sm:mt-10 lg:mt-0">
+          
           <!-- Logo -->
           <img :src="logoRav" alt="Logo RAV" class="w-72 h-auto mb-2" />
           
           <!-- Título -->
-
           <h2 class="text-3xl font-semibold text-black m-2 text-center">Registrar Usuario</h2>
 
           <!-- Opciones de rol -->
           <div class="inline-block space-x-4">
-
             <div class="radio-button">
               <input type="radio" id="admin" name="role" value="Administrador" class="custom-radio" v-model="selectedRole" />
               <label for="admin">Administrador</label>
@@ -35,6 +33,7 @@
               <label for="operario">Operario</label>
             </div>
           </div>
+
           <!-- Formulario -->
           <form @submit.prevent="submitForm" class="space-y-3 w-full">
             <div>
