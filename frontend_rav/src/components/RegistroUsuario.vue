@@ -12,8 +12,13 @@
       <!-- Contenedor para el formulario y logos, centrado y con altura reducida en pantallas pequeñas -->
       <div class="flex-1 flex items-center justify-center h-full relative z-10 p-4 lg:p-0">
         <div
-          class="bg-white rounded-lg p-6 w-full max-w-sm sm:max-w-md md:max-w-lg h-auto flex flex-col items-center max-h-[90vh] space-y-4 sm:mt-10 lg:mt-0">
+          class="bg-white rounded-lg p-6 w-full max-w-md sm:max-w-lg md:max-w-xl h-auto flex flex-col items-center max-h-[75vh] space-y-4 sm:mt-20 lg:mt-0">
           
+          <!-- Botón de Volver atrás -->
+          <button @click="goBack" class="absolute top-4 left-4 text-gray-600 hover:text-gray-800">
+            ← Volver atrás
+          </button>
+
           <!-- Logo -->
           <img :src="logoRav" alt="Logo RAV" class="w-72 h-auto mb-2" />
           
@@ -135,6 +140,11 @@ async function submitForm() {
 
 function goToLogin() {
   router.push('/login');
+}
+
+// Nueva función para volver atrás
+function goBack() {
+  router.go(-1); // Va atrás en el historial de navegación
 }
 </script>
 

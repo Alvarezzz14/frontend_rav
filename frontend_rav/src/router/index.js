@@ -12,8 +12,11 @@ import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
 import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
+import ErrorPage from '@/pages/ErrorPage.vue';
+import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
-import ErrorPage  from '@/pages/ErrorPage.vue';
+
+
 
 const routes = [
   {
@@ -85,9 +88,15 @@ const routes = [
         component: LineaTiempoNuevaPage
       },
       {
+
+        path: '/ListaUsuarios',
+        name: 'ListaUsuariosPage',
+        component: ListaUsuariosPage
+
         path: '/lineasatencion',
         name: 'LineasAtencionPage',
         component: LineasAtencionPage
+
       },
 
     ]
