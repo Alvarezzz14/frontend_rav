@@ -8,7 +8,7 @@
 			</div>
 			<!-- Menu de navegación -->
 			<nav>
-				<div class="lg:hidden flex ml-4 pt-4">
+				<div class="lg:hidden flex ml-6 pt-4">
 					<span class="text-customPurple font-bold"> Menú Principal </span>
 				</div>
 				<ul class="list-none flex flex-col px-0 border">
@@ -21,7 +21,7 @@
 							v-if="item.to"
 							:to="item.to"
 							@click="setActive(item)"
-							class="px-6 h-10 md:h-16 lg:h-20"
+							class="px-6 h-10 md:h-16"
 							:class="[
 								'flex flex-row  items-center transform text-black transition-colors duration-200 ',
 								isActive(item) ? 'bg-customPurple text-amarillo' : '',
@@ -42,6 +42,26 @@
 								>{{ item.title }}</span
 							>
 						</router-link>
+						<!-- Submenú -->
+						<ul
+							v-if="item.submenu && item.submenuOpen"
+							class="pl-10 mt-2 space-y-1 transition-all duration-300">
+							<li
+								v-for="submenuItem in item.submenu"
+								:key="submenuItem.title"
+								@click="handleItemClick(submenuItem)">
+								<router-link
+									:to="submenuItem.to"
+									class="flex flex-row items-center px-4 h-10 text-sm transition-colors duration-200 hover:text-amarillo">
+									<span
+										v-if="submenuItem.icon"
+										v-html="submenuItem.icon"
+										class="inline-flex items-center justify-center h-4 md:h-6 lg:h-8 w-4 md:w-6 lg:w-8 mr-4">
+									</span>
+									<span>{{ submenuItem.title }}</span>
+								</router-link>
+							</li>
+						</ul>
 					</li>
 
 					<li>
@@ -153,16 +173,6 @@ const menuItems = ref([
 		submenuOpen: false,
 		submenu: [
 			{
-				title: "Búsqueda del Ciudadano",
-				to: { name: "BusquedaCiudadanoPage" },
-				icon: `<svg width="34" height="34" viewBox="0 0 34 34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.3215 0.0224217C20.8956 -0.55239 27.2974 10.0419 22.3381 18.337C22.0487 18.8205 21.2592 19.6839 21.0965 20.0591C21.0678 20.1264 21.0295 20.1793 21.063 20.2563L23.4506 22.6614C24.3931 22.1058 25.3285 22.0769 26.2113 22.76C28.3117 25.2348 31.4241 27.5004 33.4146 29.9944C35.2734 32.3249 32.3117 35.2904 30.0294 33.3976C27.5247 31.322 25.2759 28.2796 22.7879 26.115C22.2281 25.3334 22.1778 24.304 22.6874 23.4839L20.2281 20.9297C14.3047 26.6442 4.38142 24.6287 1.0274 17.1225C-2.32662 9.61625 2.90297 0.527487 11.3215 0.0224217ZM11.4077 2.46597C4.06325 2.94699 -0.16158 11.3503 4.01779 17.5169C8.19716 23.6835 16.788 23.1424 20.3429 16.9421C24.1563 10.2945 18.9913 1.97053 11.4077 2.46597Z" />
-<path d="M11.6412 4.60523C17.3634 4.25494 18.4664 12.5748 12.8443 13.6738C6.41237 14.9307 5.14647 5.00131 11.6412 4.60523Z"/>
-<path d="M15.5669 12.8647C16.6448 13.3353 17.6351 14.4543 18.0937 15.6083C18.3537 16.2641 18.5641 16.6371 18.1221 17.2128C15.47 20.6772 10.4354 21.1704 7.08129 18.557C6.76456 18.3117 5.63945 17.2704 5.52835 16.9425C5.39362 16.5445 6.21618 15.05 6.47383 14.6796C6.74329 14.2891 7.82585 13.1026 8.22059 12.9824C8.45459 12.9123 9.09515 13.5381 9.36461 13.6883C11.369 14.8197 13.9076 14.4993 15.5693 12.8647H15.5669Z" />
-</svg>
-`,
-			},
-			{
 				title: "Registro de Actividad",
 				to: { name: "RegistroActividadPage" },
 				icon: `<svg width="38" height="38" viewBox="0 0 38 38" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -258,8 +268,11 @@ const handleItemClick = (item) => {
 	// Emitir evento para que el layout cierre el menú
 	emit("item-click", item);
 
-	// Navegar al enlace especificado
-	if (item.to) {
+	// Si el ítem tiene un submenú, alternar su estado
+	if (item.submenu && item.submenu.length > 0) {
+		item.submenuOpen = !item.submenuOpen; // Alternar apertura del submenú
+	} else if (item.to) {
+		// Navegar al enlace especificado
 		router.push(item.to);
 	}
 };

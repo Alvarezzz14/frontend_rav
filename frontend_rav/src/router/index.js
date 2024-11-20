@@ -13,7 +13,7 @@ import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
-import ErrorPage  from '@/pages/ErrorPage.vue';
+import ErrorPage from '@/pages/ErrorPage.vue';
 
 const routes = [
   {
@@ -46,7 +46,7 @@ const routes = [
         component: DepartamentosPage // Página que muestra el mapa con los departamentos
       },
       {
-        path: '/rutadeaccion/:cedula',
+        path: '/rutadeaccion',
         name: 'RutaAccionPage',
         component: Rutaaccionpage,
         props: true,

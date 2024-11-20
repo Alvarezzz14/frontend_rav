@@ -103,11 +103,6 @@ const toggleNotifications = () => {
 	isNotificationsCollapsed.value = !isNotificationsCollapsed.value;
 };
 
-// Estilos dinámicos para overlay y sidebar
-const overlayStyle = computed(() => ({
-	bottom: `64px`, // Ajusta para que termine antes del footer
-}));
-
 // Listener para detectar cambios en el tamaño de la pantalla
 const handleResize = () => {
 	isSmallScreen.value = window.innerWidth < 1024;
