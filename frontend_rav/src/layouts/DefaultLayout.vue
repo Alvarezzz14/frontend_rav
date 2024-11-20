@@ -33,15 +33,13 @@
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
 				class="absolute inset-0 lg:hidden h-full bg-black bg-opacity-75 z-20"
-				:style="overlayStyle"
 				@click="closeSidebar"></div>
 
 			<!-- Sidebar izquierdo desplegable en Menos de 1024px -->
 			<transition name="slide">
 				<aside
 					v-show="isSidebarOpen && isSmallScreen"
-					class="absolute left-0 shadow-md lg:hidden z-30 w-52"
-					:style="sidebarStyle">
+					class="absolute left-0 shadow-md lg:hidden z-30 w-52">
 					<SidebarLeft @item-click="closeSidebar" />
 				</aside>
 			</transition>
