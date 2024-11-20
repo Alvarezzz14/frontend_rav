@@ -1,8 +1,8 @@
 <template>
-  <div
-    class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full"
-  >
+  <div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
+    <!-- Imagen del ciudadano -->
     <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+
     <!-- Sección de carga de archivo -->
     <div
       class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg"
@@ -13,25 +13,28 @@
       <p class="text-center mb-2 text-customPurple">
         Adjunta el archivo que deseas compartir
       </p>
-      <br />
 
       <!-- Área de arrastrar y soltar -->
       <div
         class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
-        @drop.prevent="handleDrop"
-        @dragover.prevent="handleDragOver"
+        @drop="handleDrop"
+        @dragover="handleDragOver"
       >
         <img
           src="@/assets/images/download.svg"
           alt="Upload Icon"
-          class="upload-icon mb-2"
+          class="upload-icon mb-2 w-16 h-16 mx-auto"
         />
-        <p class="text-customPurple">
-          Arrastra y suelta el archivo <br />
+        <p class="text-customPurple mb-4">
+          Arrastra y suelta el archivo aquí <br />
           o
         </p>
-        <!-- Botón de color amarillo -->
-        <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
+        <!-- Botón amarillo personalizado -->
+        <Button
+          label="Buscar"
+          class="yellow-button mt-4"
+          @click="selectFile"
+        />
         <!-- Input oculto para selección de archivo -->
         <input
           type="file"
@@ -45,30 +48,41 @@
       <!-- Archivos cargados -->
       <div
         v-if="fileToUpload"
-        class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg"
+        class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg shadow-md"
       >
+        <!-- Icono de archivo (cambiar según tipo de archivo si es necesario) -->
         <img
           src="@/assets/images/excel-Logo.svg"
-          alt="Excel Icon"
-          class="file-icon mr-2"
+          alt="Archivo"
+          class="file-icon w-10 h-10 mr-4"
         />
         <div class="flex-1 text-customPurple">
-          <p>{{ fileName }}</p>
-          <div
-            class="progress-bar mt-1 rounded-full h-2"
-            :style="{ width: uploadProgress + '%' }"
-          ></div>
-          
+          <p class="truncate font-medium">{{ fileName }}</p>
         </div>
-        <span class="ml-4 font-semibold text-customPurple"
-          >{{ intUploadProgress }}%</span
-        >
+        <span class="ml-4 font-semibold text-customPurple">
+          {{ intUploadProgress }}%
+        </span>
       </div>
+
+      <!-- Mensajes de error y éxito -->
+      <p
+        v-if="uploadError"
+        class="text-red-500 text-center mt-4"
+      >
+        Error al subir el archivo. Intenta nuevamente.
+      </p>
+      <p
+        v-if="uploadSuccess"
+        class="text-green-500 text-center mt-4"
+      >
+        Archivo subido exitosamente.
+      </p>
 
       <!-- Botón de carga -->
       <Button
         label="Subir"
         class="purple-button mt-4 w-full"
+        :disabled="!fileToUpload || uploading" 
         @click="uploadFile"
       />
     </div>
@@ -94,6 +108,7 @@ const intUploadProgress = ref(0);
 let wifiErrorFetch = false;
 let partsFile = 0;
 const loading = ref(false);
+const uploading = ref(false); // Controla el estado de carga
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
 
@@ -123,7 +138,6 @@ const createBlob = (newWorkBook, typeFile) => {
 
   switch (typeFile) {
     case "xlsx":
-      // Cambia el tipo del archivo a xlsx y devuelve un ArrayBuffer
       blob = XLSX.write(newWorkBook, {
         bookType: typeFile,
         type: "array",
@@ -143,7 +157,6 @@ const createBlob = (newWorkBook, typeFile) => {
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
 
-  // Validar el tipo de archivo
   if (acceptedFileTypes.includes(file.type)) {
     fileToUpload.value = file;
     fileName.value = file.name;
@@ -157,7 +170,6 @@ const handleDrop = (event) => {
   const files = event.dataTransfer.files;
   if (files.length > 0) {
     const file = files[0];
-    // Validar el tipo de archivo
     if (acceptedFileTypes.includes(file.type)) {
       fileToUpload.value = file;
       fileName.value = file.name;
@@ -169,7 +181,7 @@ const handleDrop = (event) => {
 };
 
 const handleDragOver = (event) => {
-  event.preventDefault(); // Evitar que el navegador realice una acción predeterminada
+  event.preventDefault();
 };
 
 const selectFile = () => {
@@ -180,24 +192,19 @@ const updateEventFileUpload = (bodyFetchOptions) => {
   const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
   const sizePartFile = bodyFetchOptions.get("file").size;
   partsFile = window.Math.round(sizeMainFile / sizePartFile);
-  console.log(partsFile);
-  console.log(uploadProgress.value);
 
   if (uploadProgress.value < sizeMainFile) {
     uploadProgress.value = parseFloat(
       (uploadProgress.value + 100 / partsFile).toFixed(2)
     );
     intUploadProgress.value = window.Math.round(uploadProgress.value);
-
-    console.log(uploadProgress.value);
   }
 
   fileNotificationStore.setUploadProgress(uploadProgress.value);
 };
 
-const ReuploadFile = async() => {
-  console.log("linea 163");
-  for (const formData of backupPartsFile)  {
+const ReuploadFile = async () => {
+  for (const formData of backupPartsFile) {
     const copyFetchOptions = {
       url: fetchOptions.url,
       options: {
@@ -205,22 +212,17 @@ const ReuploadFile = async() => {
         body: formData,
       },
     };
-    console.log("linea 166");
 
     await sendFile(copyFetchOptions);
-    console.log("linea 169");
-  };
-
+  }
 };
 
 const ConnectionWifi = (callback) => {
-  window.addEventListener("online", async()=> await callback());
+  window.addEventListener("online", async () => await callback());
 };
 
-// Función para enviar el archivo al servidor
-async function sendFile (fetchOptions) {
+async function sendFile(fetchOptions) {
   let { url, options } = fetchOptions;
-  console.log(fetchOptions);
 
   loading.value = true;
   uploadSuccess.value = false;
@@ -235,19 +237,16 @@ async function sendFile (fetchOptions) {
 
     updateEventFileUpload(fetchOptions.options.body);
 
-    console.log(json);
     uploadSuccess.value = true;
   } catch (err) {
     if (!err.error) err.error = true;
     uploadError.value = true;
     if (err.name === "AbortError") {
-      console.log("La solicitud fue cancelada con exito");
+      console.log("La solicitud fue cancelada con éxito");
     } else if (err instanceof TypeError) {
       const formData = fetchOptions.options.body;
       backupPartsFile.push(formData);
-      wifiErrorFetch = true
-      console.log(backupPartsFile);
-
+      wifiErrorFetch = true;
       ConnectionWifi(ReuploadFile);
     } else {
       console.error(err);
@@ -255,29 +254,20 @@ async function sendFile (fetchOptions) {
   } finally {
     loading.value = false;
   }
-};
+}
 
-// Función para dividir archivos de texto en partes
 const createPartsTxt = (file, chunkSize = 250 * 1024 * 1024) => {
   let offset = 0;
   let partNumber = 1;
   let blob;
   const reader = new FileReader();
 
-  console.log(file.size);
-
   reader.onload = (e) => {
     const chunkData = e.target.result;
     const fileBlob = new Blob([blob], { type: "text/plain" });
     const fileName = `${file.name}_parte${partNumber}.txt`;
     const formData = new FormData();
-    console.log("archivo grande", (file.size / (1024 * 1024)).toFixed(2), "MB");
-    console.log(
-      "Tamaño del fragmento:",
-      (fileBlob.size / (1024 * 1024)).toFixed(2),
-      "MB"
-    );
-    // return
+
     formData.append("file", fileBlob, fileName);
     formData.append("sizeMainFile", file.size);
     fileNotificationStore.setFileName(`${file.name}_parte.txt`);
@@ -305,37 +295,29 @@ const createPartsTxt = (file, chunkSize = 250 * 1024 * 1024) => {
   };
 
   function readNextChunk() {
-    //Aqui se separa el archivo
     blob = file.slice(offset, offset + chunkSize);
-    // reader.readAsText(blob);
     reader.readAsText(blob, "ISO-8859-1");
   }
 
   readNextChunk();
 };
 
-// Función para dividir archivos Excel en partes
-const createPartsExcel = async (file, chunkSize = 100 * 1024 * 1024) => {
-  console.log("Se esta ejecutando");
+const createPartsExcel = async (file) => {
   const data = await file.arrayBuffer();
   const workBook = XLSX.read(data);
 
   for (const sheetName of workBook.SheetNames) {
     const workSheet = workBook.Sheets[sheetName];
-
     const txtData = XLSX.utils.sheet_to_csv(workSheet, {
       FS: "»",
       blankrows: false,
     });
-    const isoEncodeData = unescape(encodeURIComponent);
-    console.log(txtData);
     const blob = new Blob([txtData], { type: "text/plain" });
     createPartsTxt(blob);
   }
   alert("División y envío completados.");
 };
 
-// Función que llama a las funciones de división dependiendo del tipo de archivo
 const createParts = async (file) => {
   switch (file.type) {
     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
@@ -351,11 +333,33 @@ const createParts = async (file) => {
   }
 };
 
-// Función final de carga de archivo
+
+// Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
   if (!fileToUpload.value) return;
 
-  await createParts(fileToUpload.value);
+  // Deshabilitar el botón al comenzar la carga
+  uploading.value = true;
+
+  try {
+    // Lógica de división y envío del archivo
+    await createParts(fileToUpload.value);
+
+    if (uploadProgress.value === 100) {
+      uploadSuccess.value = true; // Mostrar mensaje de éxito
+    }
+
+    // Reiniciar el estado al terminar exitosamente
+    fileToUpload.value = null;
+    fileName.value = "";
+    uploadProgress.value = 0;
+    intUploadProgress.value = 0;
+  } catch (error) {
+    console.error("Error durante la carga del archivo:", error);
+  } finally {
+    // Habilitar el botón al finalizar (con éxito o error)
+    uploading.value = false;
+  }
 };
 
 const uploadFile = async () => {
@@ -364,9 +368,11 @@ const uploadFile = async () => {
 };
 
 onUnmounted(() => {
-  removeEventListener("online", async()=> await ReuploadFile());
+  removeEventListener("online", async () => await ReuploadFile());
 });
+
 </script>
+
 
 <style scoped>
 .text-customPurple {
