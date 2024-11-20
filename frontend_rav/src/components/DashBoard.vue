@@ -1,4 +1,5 @@
 <template>
+
 	<div class="flex flex-col gap-5 p-4">
 	  <!-- Primera Sección: Contenedores con contenido e imagen -->
 	  <div class="flex gap-5 justify-between ">

@@ -32,20 +32,20 @@
 			<!-- Overlay (solo para main) -->
 			<div
 				v-if="isSidebarOpen"
-				class="absolute inset-0 bg-black bg-opacity-75 z-20"
+				class="absolute inset-0 lg:hidden bg-black bg-opacity-75 z-20"
 				:style="overlayStyle"
 				@click="closeSidebar"></div>
 
 			<!-- Sidebar izquierdo desplegable -->
 			<aside
 				v-if="isSidebarOpen"
-				class="absolute left-0 shadow-md z-30 w-52"
+				class="absolute left-0 shadow-md lg:hidden z-30 w-52"
 				:style="sidebarStyle">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
-			<aside v-show="!isSidebarOpen" class="hidden lg:flex h-full">
+			<aside v-if="!isSidebarOpen" class="hidden lg:flex h-full">
 				<SidebarLeft />
 			</aside>
 
@@ -55,7 +55,6 @@
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
-
 			</main>
 
 			<!-- Sidebar derecho de notificaciones -->
@@ -109,12 +108,4 @@ const overlayStyle = computed(() => ({
 
 <style scoped>
 /* Ajuste para evitar problemas de scroll con el overlay */
-html,
-body {
-	overflow: hidden;
-}
-
-main {
-	overflow-y: auto;
-}
 </style>
