@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col lg:flex-row items-center justify-center p-6 h-full">
+	<div class="flex flex-col lg:flex-row justify-center p-6 h-full">
 		<div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
 			<img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
 		</div>
