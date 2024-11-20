@@ -162,7 +162,7 @@ const handleFileUpload = (event) => {
     fileName.value = file.name;
     uploadProgress.value = 0;
   } else {
-    alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+    alert("Por favor, selecciona un archivo válido (.txt).");
   }
 };
 
@@ -175,7 +175,7 @@ const handleDrop = (event) => {
       fileName.value = file.name;
       uploadProgress.value = 0;
     } else {
-      alert("Por favor, selecciona un archivo válido (.txt, .csv, .xlsx).");
+      alert("Por favor, selecciona un archivo válido (.txt).");
     }
   }
 };
@@ -338,6 +338,8 @@ const createParts = async (file) => {
 const uploadFileFinal = async () => {
   if (!fileToUpload.value) return;
 
+  console.log("Iniciando la carga del archivo."); // Log antes de empezar
+  
   // Deshabilitar el botón al comenzar la carga
   uploading.value = true;
 
@@ -346,13 +348,14 @@ const uploadFileFinal = async () => {
     await createParts(fileToUpload.value);
 
     if (uploadProgress.value === 100) {
+      console.log("Carga completada al 100%.");
       uploadSuccess.value = true; // Mostrar mensaje de éxito
     }
 
     // Reiniciar el estado al terminar exitosamente
     fileToUpload.value = null;
     fileName.value = "";
-    uploadProgress.value = 0;
+    uploadProgress.value = 0; 
     intUploadProgress.value = 0;
   } catch (error) {
     console.error("Error durante la carga del archivo:", error);
@@ -366,10 +369,6 @@ const uploadFile = async () => {
   if (!fileToUpload.value) return;
   await uploadFileFinal();
 };
-
-onUnmounted(() => {
-  removeEventListener("online", async () => await ReuploadFile());
-});
 
 </script>
 
