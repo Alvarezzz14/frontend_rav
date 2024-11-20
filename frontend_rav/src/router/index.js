@@ -13,6 +13,7 @@ import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import ErrorPage from '@/pages/ErrorPage.vue';
+import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 
 
 const routes = [
@@ -83,6 +84,11 @@ const routes = [
         path: '/LineaTiempoNueva',
         name: 'LineaTiempoNuevaPage',
         component: LineaTiempoNuevaPage
+      },
+      {
+        path: '/ListaUsuarios',
+        name: 'ListaUsuariosPage',
+        component: ListaUsuariosPage
       },
 
     ]
