@@ -46,7 +46,7 @@
 
 					<li>
 						<div
-							class="cursor-pointer flex lg:hidden mt-4 ml-6 gap-1"
+							class="cursor-pointer flex lg:hidden mt-0 ml-6 mb-2 gap-1"
 							@click="logout">
 							<img
 								class="w-4 h-auto"
