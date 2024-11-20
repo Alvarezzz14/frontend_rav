@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col h-screen">
+	<div class="overflow-hidden flex flex-col h-screen">
 		<!-- Header -->
 		<header class="w-full">
 			<Header />
@@ -28,7 +28,7 @@
 		</div>
 
 		<!-- Contenedor principal -->
-		<div class="flex flex-grow relative">
+		<div class="flex flex-grow overflow-auto relative">
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
@@ -36,7 +36,7 @@
 				:style="overlayStyle"
 				@click="closeSidebar"></div>
 
-			<!-- Sidebar izquierdo desplegable -->
+			<!-- Sidebar izquierdo desplegable en Menos de 1024px -->
 			<transition name="slide">
 				<aside
 					v-show="isSidebarOpen && isSmallScreen"
@@ -68,7 +68,7 @@
 		</div>
 
 		<!-- Footer -->
-		<footer class="fixed bottom-0 w-full h-16">
+		<footer class="w-full h-16">
 			<Footer />
 		</footer>
 	</div>
