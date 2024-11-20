@@ -88,11 +88,10 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
 import { useFileNotificationStore } from "../stores/fileNotification";
-import { ref, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import Button from "primevue/button";
 import * as XLSX from "xlsx";
 
@@ -127,12 +126,14 @@ const fetchOptions = {
   },
 };
 
+// Crear FormData
 const createFormData = (archivoBlob, fileName) => {
   const formData = new FormData();
   formData.append("file", archivoBlob, fileName);
   return formData;
 };
 
+// Crear Blob
 const createBlob = (newWorkBook, typeFile) => {
   let blob;
 
@@ -333,6 +334,24 @@ const createParts = async (file) => {
   }
 };
 
+// Advertencia al intentar abandonar la página mientras se sube un archivo
+const showUnloadWarning = (event) => {
+  if (uploading.value) {
+    const message = "Estás cargando un archivo. ¿Estás seguro que deseas salir?";
+    event.returnValue = message; // Para algunos navegadores
+    return message; // Para otros navegadores
+  }
+};
+
+onMounted(() => {
+  // Agregar el evento para advertir antes de abandonar
+  window.addEventListener("beforeunload", showUnloadWarning);
+});
+
+onUnmounted(() => {
+  // Eliminar el evento cuando el componente se desmonte
+  window.removeEventListener("beforeunload", showUnloadWarning);
+});
 
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
@@ -369,8 +388,8 @@ const uploadFile = async () => {
   if (!fileToUpload.value) return;
   await uploadFileFinal();
 };
-
 </script>
+
 
 
 <style scoped>
