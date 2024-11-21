@@ -90,8 +90,8 @@ import select2 from "@/assets/imgLineasAtencion/select2.svg";
 import lineaAten from "@/assets/imgLineasAtencion/lineaAten.svg";
 import LogoSenaverde from "@/assets/images/logosenaverde.svg";
 import LogCertLab from "@/assets/imgLineasAtencion/LogCertLab.svg";
-import LogoApe from "@/assets/images/logoape.png";
-import FondoEmprender from "@/assets/images/fondoemprender.png";
+import LogoApe from "@/assets/images/LogoApe.png";
+import FondoEmprender from "@/assets/images/FondoEmprender.png";
 import Select from "primevue/select";
 
 const selectedCountry = ref();

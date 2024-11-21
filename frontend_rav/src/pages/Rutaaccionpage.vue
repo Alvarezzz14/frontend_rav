@@ -1,7 +1,7 @@
 <template>
 	<div class="space-y-4">
-		<TituloRutaAccion :nombre="nombre" :cedula="cedula" />
-		<TicketsRutaAccion :groupedEvents="groupedEvents" @showEventDetails="showEventDetails" />
+		<TituloRutaAccion />
+		<TicketsRutaAccion />
 	</div>
 	<Dialog
 		v-model:visible="dialogVisible"

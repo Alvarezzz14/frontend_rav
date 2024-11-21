@@ -1,5 +1,5 @@
 <template>
-	<div class="min-h-screen p-4 flex flex-col items-center justify-center">
+	<div class="min-h-screen p-4 flex flex-col justify-center">
 		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
 
 		<div
@@ -25,7 +25,7 @@
 
 		<!-- Sección Central (Imagen y Formulario) -->
 		<div
-			class="flex flex-col xl:flex-row items-center xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">
+			class="flex flex-col xl:flex-row xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">
 			<!-- Imagen a la Izquierda -->
 			<div class="flex-1 max-w-md lg:max-w-lg p-4">
 				<img
