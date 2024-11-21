@@ -16,8 +16,6 @@ import ErrorPage from '@/pages/ErrorPage.vue';
 import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 
-
-
 const routes = [
   {
     path: '/login',
@@ -49,7 +47,7 @@ const routes = [
         component: DepartamentosPage // Página que muestra el mapa con los departamentos
       },
       {
-        path: '/rutadeaccion/:cedula',
+        path: '/rutadeaccion',
         name: 'RutaAccionPage',
         component: Rutaaccionpage,
         props: true,

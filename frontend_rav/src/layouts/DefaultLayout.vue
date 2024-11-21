@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col h-screen">
+	<div class="overflow-hidden flex flex-col h-screen">
 		<!-- Header -->
 		<header class="w-full">
 			<Header />
@@ -28,24 +28,24 @@
 		</div>
 
 		<!-- Contenedor principal -->
-		<div class="flex flex-grow relative">
+		<div class="flex flex-grow overflow-auto relative">
 			<!-- Overlay (solo para main) -->
 			<div
-				v-if="isSidebarOpen"
-				class="absolute inset-0 lg:hidden bg-black bg-opacity-75 z-20"
-				:style="overlayStyle"
+				v-show="isSidebarOpen && isSmallScreen"
+				class="absolute inset-0 lg:hidden h-full bg-black bg-opacity-75 z-20"
 				@click="closeSidebar"></div>
 
-			<!-- Sidebar izquierdo desplegable -->
-			<aside
-				v-if="isSidebarOpen"
-				class="absolute left-0 shadow-md lg:hidden z-30 w-52"
-				:style="sidebarStyle">
-				<SidebarLeft />
-			</aside>
+			<!-- Sidebar izquierdo desplegable en Menos de 1024px -->
+			<transition name="slide">
+				<aside
+					v-show="isSidebarOpen && isSmallScreen"
+					class="absolute left-0 shadow-md lg:hidden z-30 w-52">
+					<SidebarLeft @item-click="closeSidebar" />
+				</aside>
+			</transition>
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
-			<aside v-if="!isSidebarOpen" class="hidden lg:flex h-full">
+			<aside v-show="!isSmallScreen" class="hidden lg:flex h-full">
 				<SidebarLeft />
 			</aside>
 
@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 // Componentes
 import Header from "@/components/Header.vue";
@@ -86,6 +86,7 @@ import FileNotification from "@/components/FileNotification.vue";
 // Estados para controlar los menús y el overlay
 const isSidebarOpen = ref(false);
 const isNotificationsCollapsed = ref(false);
+const isSmallScreen = ref(window.innerWidth < 1024); // Verificar si es pantalla pequeña
 
 // Métodos
 const toggleSidebar = () => {
@@ -100,12 +101,42 @@ const toggleNotifications = () => {
 	isNotificationsCollapsed.value = !isNotificationsCollapsed.value;
 };
 
-// Estilos dinámicos para overlay y sidebar
-const overlayStyle = computed(() => ({
-	bottom: `64px`, // Ajusta para que termine antes del footer
-}));
+// Listener para detectar cambios en el tamaño de la pantalla
+const handleResize = () => {
+	isSmallScreen.value = window.innerWidth < 1024;
+
+	// Si se pasa a pantalla grande, asegúrate de cerrar el sidebar responsive
+	if (!isSmallScreen.value) {
+		isSidebarOpen.value = false;
+	}
+};
+
+// Eventos para montar y desmontar el listener
+onMounted(() => {
+	window.addEventListener("resize", handleResize);
+	handleResize(); // Ejecutar al montar por si cambia el tamaño rápidamente
+});
+
+onBeforeUnmount(() => {
+	window.removeEventListener("resize", handleResize);
+});
+
+// Cerrar barra lateral al seleccionar un ítem
+const handleItemClick = (item) => {
+	toggleSidebar();
+	router.push(item.to);
+};
 </script>
 
 <style scoped>
-/* Ajuste para evitar problemas de scroll con el overlay */
+.slide-enter-active,
+.slide-leave-active {
+	transition: transform 0.3s ease;
+}
+.slide-enter-from {
+	transform: translateX(-100%);
+}
+.slide-leave-to {
+	transform: translateX(-100%);
+}
 </style>

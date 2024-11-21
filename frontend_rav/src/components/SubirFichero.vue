@@ -1,6 +1,9 @@
 <template>
-	<div class="flex flex-col lg:flex-row items-center justify-center p-6 h-full">
-		<img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+	<div class="flex flex-col lg:flex-row justify-center items-center p-6 h-full">
+		<img
+			:src="Ciudadano"
+			alt="Ciudadano"
+			class="object-cover mt-96 h-96 lg:h-full lg:mt-0" />
 		<!-- Sección de carga de archivo -->
 		<div class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl">
 			<h2 class="text-2xl font-bold text-center mb-4 text-customPurple">
@@ -64,7 +67,7 @@
 </template>
 
 <script setup>
-import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
+import Ciudadano from "@/assets/images/subirFichero/personaSubirFicheroMD.png";
 import { useFileNotificationStore } from "../stores/fileNotification";
 import { ref } from "vue";
 import Button from "primevue/button";
