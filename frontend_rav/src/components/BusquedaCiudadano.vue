@@ -1,10 +1,13 @@
 <template>
-	<div class="flex flex-col lg:flex-row justify-center p-6 h-full">
-		<div class="lg:w-1/3 flex justify-center lg:justify-start mb-6 lg:mb-0">
-			<img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+	<div class="flex flex-col lg:flex-row">
+		<div class="flex justify-center">
+			<img
+				:src="Ciudadano"
+				alt="Ciudadano"
+				class="object-cover h-96 lg:h-auto w-auto" />
 		</div>
-		<div class="flex flex-col items-center lg:items-start lg:w-2/3 lg:pl-10">
-			<div class="mb-6">
+		<div class="flex flex-col items-center lg:items-start lg:pl-10">
+			<div class="">
 				<p class="text-xl lg:text-3xl font-medium text-inherit">
 					Aquí podrás visualizar información acerca de la
 				</p>
@@ -12,7 +15,7 @@
 					Ruta de Atención al Ciudadano.
 				</h2>
 			</div>
-			<div class="w-full lg:w-2/3 bg-white p-5 rounded-2xl shadow-lg">
+			<div class="w-full bg-white p-5 rounded-2xl shadow-lg">
 				<div class="flex flex-col items-center">
 					<input
 						v-model="searchCedula"
@@ -50,7 +53,7 @@
 </template>
 
 <script setup>
-import Ciudadano from "@/assets/images/Ciudadano.svg";
+import Ciudadano from "@/assets/images/BusquedaCiudadano/personaBusquedaCiudadano.png";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useEventStore } from "@/stores/storedataOff.js";
