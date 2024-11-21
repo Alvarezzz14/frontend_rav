@@ -279,7 +279,7 @@ const emit = defineEmits(["item-click"]);
 
 // Función para actualizar el estado responsive
 const updateResponsive = () => {
-	isResponsive.value = window.innerWidth < 1024; // Evaluar si es menor a 1024px
+	isResponsive.value = window.innerWidth <= 1024; // Evaluar si es menor a 1024px
 };
 
 // Método para manejar clics
