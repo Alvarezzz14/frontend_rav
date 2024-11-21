@@ -21,9 +21,13 @@ export default {
         azulHeaderFooter: '#3366CC', //Azul del header y el fotter
         moradoSecundario: '#5F2A68', // MOrado Secundario mas oscuro
         GrisIconosDash: '#D9D9D9', // Gris de los Iconos
+        naranjagrafica:'#FDC300', // Naranja linea de Grafica
       },
       fontFamily: {
         sans: ['Work Sans', 'sans-serif'], // Fuente global "Work Sans"
+      },
+      backgroundImage: {
+        'custom-gradient': 'linear-gradient(180deg, #D160DE 0%, #71277A 100%)', // Gradiente personalizado
       },
     },
   },
