@@ -92,7 +92,8 @@ const routes = [
         path: '/ListaUsuarios',
         name: 'ListaUsuariosPage',
         component: ListaUsuariosPage
-
+      },
+      {
         path: '/lineasatencion',
         name: 'LineasAtencionPage',
         component: LineasAtencionPage
@@ -100,7 +101,7 @@ const routes = [
       },
 
     ]
-  },
+  },  
 ];
 
 const router = createRouter({
