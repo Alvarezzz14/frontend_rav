@@ -1,5 +1,6 @@
 <template>
 	<div class="min-h-screen flex flex-col items-center py-8">
+
 	  <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
 	  <div
 		class="flex flex-col lg:flex-row items-center justify-between p-4 rounded-lg shadow-md w-full max-w-7xl mb-8">

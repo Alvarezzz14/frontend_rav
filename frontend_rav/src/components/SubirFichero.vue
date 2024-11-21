@@ -87,8 +87,10 @@
       />
     </div>
   </div>
+
 </template>
 <script setup>
+
 import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
 import { useFileNotificationStore } from "../stores/fileNotification";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -128,13 +130,14 @@ const fetchOptions = {
 
 // Crear FormData
 const createFormData = (archivoBlob, fileName) => {
-  const formData = new FormData();
-  formData.append("file", archivoBlob, fileName);
-  return formData;
+	const formData = new FormData();
+	formData.append("file", archivoBlob, fileName);
+	return formData;
 };
 
 // Crear Blob
 const createBlob = (newWorkBook, typeFile) => {
+
   let blob;
 
   switch (typeFile) {
@@ -152,10 +155,12 @@ const createBlob = (newWorkBook, typeFile) => {
 
   const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
   return archivoBlob;
+
 };
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
+
   const file = event.target.files[0];
 
   if (acceptedFileTypes.includes(file.type)) {
@@ -183,10 +188,11 @@ const handleDrop = (event) => {
 
 const handleDragOver = (event) => {
   event.preventDefault();
+
 };
 
 const selectFile = () => {
-  document.querySelector('input[type="file"]').click();
+	document.querySelector('input[type="file"]').click();
 };
 
 const updateEventFileUpload = (bodyFetchOptions) => {
@@ -317,6 +323,7 @@ const createPartsExcel = async (file) => {
     createPartsTxt(blob);
   }
   alert("División y envío completados.");
+
 };
 
 const createParts = async (file) => {
@@ -332,6 +339,7 @@ const createParts = async (file) => {
       alert("Tipo de archivo no soportado.");
       break;
   }
+
 };
 
 // Advertencia al intentar abandonar la página mientras se sube un archivo
@@ -355,8 +363,7 @@ onUnmounted(() => {
 
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
-  if (!fileToUpload.value) return;
-
+	if (!fileToUpload.value) return;
   console.log("Iniciando la carga del archivo."); // Log antes de empezar
   
   // Deshabilitar el botón al comenzar la carga
@@ -413,20 +420,22 @@ const uploadFile = async () => {
   padding: 12px 24px;
   border: none;
   font-size: 1.25rem;
+
 }
 .upload-container {
-  background-color: #f8e6fb;
+	background-color: #f8e6fb;
 }
 .upload-icon {
-  width: 50px;
-  height: auto;
-  margin-bottom: 10px;
+	width: 50px;
+	height: auto;
+	margin-bottom: 10px;
 }
 .uploaded-file {
   background-color: #e0c8e0;
 }
 .progress-bar {
   background-color: #7a1f7e;
+
 }
 </style>
 
