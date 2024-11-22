@@ -41,7 +41,7 @@
 			<!-- Tarjeta de Información del Departamento -->
 			<div
 				v-if="selectedInfo"
-				class="w-full max-w-md rounded-lg shadow-lg bg-white">
+				class="w-full max-w-md rounded-lg shadow-custom bg-white">
 				<!-- Imagen principal -->
 				<img
 					:src="selectedInfo.imageUrl"
