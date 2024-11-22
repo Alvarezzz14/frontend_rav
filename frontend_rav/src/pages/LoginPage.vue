@@ -21,10 +21,10 @@
 		  <form @submit.prevent="submit" class="space-y-4 w-full max-w-sm mx-auto">
 			<div>
 			  <input
-				type="text"
-				id="nombre"
-				placeholder="Nombre"
-				v-model="form.nombre"
+				type="email"
+				id="correo"
+				placeholder="Correo"
+				v-model="form.email"
 				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 				required
 			  />
@@ -32,10 +32,10 @@
   
 			<div>
 			  <input
-				type="email"
-				id="email"
-				placeholder="Correo SENA"
-				v-model="form.email"
+				type="password"
+				id="password"
+				placeholder="Contraseña"
+				v-model="form.password"
 				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 				required
 			  />

@@ -14,23 +14,30 @@
 			</div>
 			<!-- Botones de Acción -->
 			<div class="flex flex-wrap gap-4 mt-4 justify-center">
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="RutaAtencion" alt="Icono de Atención" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Ruta de Atención</span>
-				</button>
+				<router-link to="/rutadeaccion">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="RutaAtencion" alt="Icono de Atención" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Ver Ruta de Atención</span>
+					</button>
+				</router-link>
 
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Línea de Tiempo</span>
-				</button>
 
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="Actividad" alt="Icono registrar actividad" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
-				</button>
+				<router-link to="/LineaTiempoNueva">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Ver Línea de Tiempo</span>
+					</button>
+				</router-link>
+
+				<router-link to="/registroactividad">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="Actividad" alt="Icono registrar actividad" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Registrar de Actividad</span>
+					</button>
+				</router-link>
 			</div>
 		</div>
 
@@ -38,57 +45,71 @@
 		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-lg gap-8 mb-8">
 			<!-- Primera columna -->
 			<div class="flex-1">
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">TIPO DE DOCUMENTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.tipo_documento || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.tipo_documento || "NO REGISTRA" }}
+					</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">NOMBRE COMPLETO:</label>
-					<p class="text-black w-2/3">{{ userInfo.nombrecompleto || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.nombrecompleto || "NO REGISTRA" }}
+					</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">CIUDAD:</label>
 					<p class="text-black w-2/3">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">GENERO:</label>
 					<p class="text-black w-2/3">{{ userInfo.genero || "NO REGISTRA" }}</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">ID HOGAR:</label>
-					<p class="text-black w-2/3">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.id_hogar || "NO REGISTRA" }}
+					</p>
 				</div>
 			</div>
 
 			<!-- Segunda columna -->
 			<div class="flex-1">
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">NÚMERO DE DOCUMENTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.documento || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.documento || "NO REGISTRA" }}
+					</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">PROCEDENCIA ÉTNICA:</label>
-					<p class="text-black w-2/3">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}
+					</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">ESTADO VICTIMA:</label>
-					<p class="text-black w-2/3">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.estadovictima || "NO REGISTRA" }}
+					</p>
 				</div>
 
-				<div class="flex items-center ">
+				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">HECHO:</label>
 					<p class="text-black w-2/3">{{ userInfo.hecho || "NO REGISTRA" }}</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">NÚMERO DE CONTACTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">
+						{{ userInfo.numtelefonocelular || "NO REGISTRA" }}
+					</p>
 				</div>
 			</div>
 		</div>
@@ -131,47 +152,38 @@
 </template>
 
 <script setup>
-// Simulación de datos desde una API
 import { ref, onMounted } from "vue";
 import RutaAtencion from "@/assets/images/ruta.svg";
 import Ciudadano from "@/assets/images/Usuario.svg";
 import VerLine from "@/assets/images/VerLine.svg";
 import Actividad from "@/assets/images/Actividad.png";
 import Historial from "@/assets/images/Historial.svg";
-import { useEventStore } from "@/stores/storedataOff.js";  // Cambiar según tu estructura de store
+import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
+import { useRoute } from "vue-router";
 
-// Datos de ejemplo para simular el API
-const userInfo = ref({
-	tipo_documento: "Cédula de Ciudadanía",
-	nombrecompleto: "John Pepito Doe Perez",
-	ciudad: "Dosquebradas",
-	genero: "Masculino",
-	id_hogar: "xxxxxxx",
-	documento: "117898653432",
-	pertenenciaetnica: "Indígena",
-	estadovictima: "No",
-	hecho: "Ninguno",
-	numtelefonocelular: "3216758970",
-	historial: [
-		{ ficha: "2503319", curso: "Certificado 1", estado: "Aprobado", tipo: "Presencial", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 2", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 3", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 4", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 5", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-	]
+const route = useRoute();
+const eventStore = useEventStore();
+const userInfo = ref({});
+
+onMounted(() => {
+	const info = route.params.userInfo;
+	//  const results = await eventStore.searchByCedula(cedula);
+
+	userInfo.value = eventStore.userInfo;
+	console.log(userInfo.value);
+	console.log(userInfo.value.nombrecompleto);
+	/*if (results.length > 0) {
+	userData.value = results[0];
+  } else {
+	console.error(`No se encontró usuario con el número de documento: ${cedula}`);
+  }*/
 });
-
-// onMounted(() => {
-//   userInfo.value = eventStore.userInfo; // Deberás reemplazar esto por la llamada a la API
-//   console.log(userInfo.value);
-// });
 </script>
 
 <style scoped>
 table {
 	width: 100%;
 	margin-top: 20px;
-
 }
 
 th,
@@ -181,7 +193,6 @@ td {
 }
 
 th {
-
 	font-weight: bold;
 }
 </style>

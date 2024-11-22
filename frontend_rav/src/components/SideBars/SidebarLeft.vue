@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-y-auto max-h-screen bg-white w-56 md:w-60 lg:w-72">
+	<div class="bg-white w-56 md:w-60 lg:w-72">
 		<!-- Barra lateral izquierda -->
 		<div>
 			<!-- Ícono centrado -->
@@ -189,7 +189,7 @@ const menuItems = ref([
 		submenu: [
 			{
 				title: "Perfil del Ciudadano",
-				to: { name: "PerfilUsuarioPage" },
+				to: { name: "PerfilCiudadanoPage" },
 				icon: `<svg width="21" height="26" viewBox="0 0 21 26" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <path d="M20.9638 25.6793C20.9979 25.6543 21 25.6501 21 25.6127C21 25.2194 20.9808 24.8199 20.9787 24.4246C20.9744 23.5632 20.9467 22.8516 20.7633 22.0006C20.0383 18.6215 17.4817 15.7522 14.1553 14.5891C11.8545 15.6648 9.15715 15.6669 6.85852 14.5849C3.47881 15.7772 0.907244 18.7151 0.222773 22.1629C0.00527763 23.2552 0.0756416 24.152 0.0415249 25.2402C0.0372601 25.3796 -0.0586929 25.5648 0.0564518 25.6772H20.9638V25.6793Z" fill="#FDC300"/>
 <path d="M10.6745 0.332416C5.39253 0.0274982 1.83314 5.7553 4.44026 10.3799C6.7765 14.5196 12.6277 14.9939 15.5776 11.2481C18.9614 6.95168 16.1067 0.645805 10.6745 0.332416Z" fill="#FDC300"/>
@@ -279,7 +279,7 @@ const emit = defineEmits(["item-click"]);
 
 // Función para actualizar el estado responsive
 const updateResponsive = () => {
-	isResponsive.value = window.innerWidth <= 1024; // Evaluar si es menor a 1024px
+	isResponsive.value = window.innerWidth < 1024; // Evaluar si es menor a 1024px
 };
 
 // Método para manejar clics
