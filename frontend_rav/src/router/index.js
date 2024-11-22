@@ -75,7 +75,7 @@ const routes = [
       },
 
       {
-        path: '/perfilusuario',
+        path: '/perfilciudadano',
         name: 'PerfilUsuarioPage',
         component: PerfilUsuarioPage
       },
