@@ -5,11 +5,7 @@
 			<div class="flex items-center">
 				<div class="p-4 bg-customPurple rounded-full">
 					<!-- Icono SVG -->
-					<img
-						:src="Ciudadano"
-						alt="Icono de Ciudadano"
-						width="50"
-						height="50" />
+					<img :src="Ciudadano" alt="Icono de Ciudadano" width="50" height="50" />
 				</div>
 				<div class="ml-4 text-center lg:text-left">
 					<p class="text-black mb-0 text-2xl">Perfil del</p>
@@ -18,29 +14,30 @@
 			</div>
 			<!-- Botones de Acción -->
 			<div class="flex flex-wrap gap-4 mt-4 justify-center">
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img
-						:src="RutaAtencion"
-						alt="Icono de Atención"
-						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Ruta de Atención</span>
-				</button>
+				<router-link to="/rutadeaccion">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="RutaAtencion" alt="Icono de Atención" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Ver Ruta de Atención</span>
+					</button>
+				</router-link>
 
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Línea de Tiempo</span>
-				</button>
 
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img
-						:src="Actividad"
-						alt="Icono registrar actividad"
-						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
-				</button>
+				<router-link to="/LineaTiempoNueva">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Ver Línea de Tiempo</span>
+					</button>
+				</router-link>
+
+				<router-link to="/registroactividad">
+					<button
+						class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+						<img :src="Actividad" alt="Icono registrar actividad" class="w-10 h-10 mb-2" />
+						<span class="text-sm">Registrar de Actividad</span>
+					</button>
+				</router-link>
 			</div>
 		</div>
 
@@ -49,9 +46,7 @@
 			<!-- Primera columna -->
 			<div class="flex-1">
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>TIPO DE DOCUMENTO:</label
-					>
+					<label class="text-black font-semibold w-1/3">TIPO DE DOCUMENTO:</label>
 					<p class="text-black w-2/3">
 						{{ userInfo.tipo_documento || "NO REGISTRA" }}
 					</p>
@@ -85,18 +80,14 @@
 			<!-- Segunda columna -->
 			<div class="flex-1">
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>NÚMERO DE DOCUMENTO:</label
-					>
+					<label class="text-black font-semibold w-1/3">NÚMERO DE DOCUMENTO:</label>
 					<p class="text-black w-2/3">
 						{{ userInfo.documento || "NO REGISTRA" }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>PROCEDENCIA ÉTNICA:</label
-					>
+					<label class="text-black font-semibold w-1/3">PROCEDENCIA ÉTNICA:</label>
 					<p class="text-black w-2/3">
 						{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}
 					</p>
@@ -115,9 +106,7 @@
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>NÚMERO DE CONTACTO:</label
-					>
+					<label class="text-black font-semibold w-1/3">NÚMERO DE CONTACTO:</label>
 					<p class="text-black w-2/3">
 						{{ userInfo.numtelefonocelular || "NO REGISTRA" }}
 					</p>
@@ -184,9 +173,9 @@ onMounted(() => {
 	console.log(userInfo.value);
 	console.log(userInfo.value.nombrecompleto);
 	/*if (results.length > 0) {
-    userData.value = results[0];
+	userData.value = results[0];
   } else {
-    console.error(`No se encontró usuario con el número de documento: ${cedula}`);
+	console.error(`No se encontró usuario con el número de documento: ${cedula}`);
   }*/
 });
 </script>

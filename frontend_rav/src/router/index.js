@@ -48,7 +48,7 @@ const routes = [
       },
       {
         path: '/rutadeaccion',
-        name: 'RutaAccionPage',
+        name: 'RutaAtencionPage',
         component: Rutaaccionpage,
         props: true,
       },

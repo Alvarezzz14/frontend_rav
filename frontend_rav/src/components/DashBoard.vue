@@ -28,7 +28,7 @@
 	  </div>
   
 	  <!-- Segunda Sección: Gráficos -->
-	  <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-2">
+	  <div class="grid gap-5 sm:grid-cols-1 md:grid-cols-1  lg:grid-cols-2">
 		<div class="p-4 border my-card  rounded-lg bg-custom-gradient bg-opacity-20 w-full max-w-full sm:max-w-full">
 		  <LineChart />
 		</div>
