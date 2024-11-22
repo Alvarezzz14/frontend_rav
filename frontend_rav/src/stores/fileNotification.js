@@ -4,6 +4,8 @@ import { defineStore } from 'pinia'
 export const useFileNotificationStore = defineStore('fileNotification', () => {
   const uploadProgress = ref(0)
   const intUploadProgress = ref(0)
+  const fetchController = ref(null);
+  const fileName = ref("");
   
   const setIntUploadProgress = (newUploadProgress) => {
     intUploadProgress.value = window.Math.round(newUploadProgress)
@@ -13,8 +15,12 @@ export const useFileNotificationStore = defineStore('fileNotification', () => {
     setIntUploadProgress(newUploadProgress);
 }
 
+const setFetchController = (newFetchController) => fetchController.value = newFetchController;
 
-return {uploadProgress,intUploadProgress,setUploadProgress};
+const setFileName  = (newFileName) => fileName.value = newFileName
+
+
+return {uploadProgress,intUploadProgress,fetchController,fileName,setUploadProgress,setFetchController,setFileName};
 })
 
 
