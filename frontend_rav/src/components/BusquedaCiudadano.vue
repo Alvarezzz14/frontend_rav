@@ -1,29 +1,30 @@
 <template>
 	<div class="">
 		<div class="flex flex-col lg:flex-row-reverse items-center m-5">
-			<div class="-mt-5">
+			<div class="-mt-5 lg:mx-14">
 				<!-- Titulo-->
-				<p class="text-2xl text-center md:text-4xl font-medium">
+				<p class="text-2xl text-center md:text-4xl lg:text-left font-medium">
 					Aquí podrás visualizar información acerca de la
 				</p>
 				<h2
-					class="text-3xl md:text-7xl text-center md:text-justify -mt-5 font-bold text-customPurple">
+					class="text-3xl md:text-7xl text-center md:text-left -mt-5 font-bold text-customPurple">
 					Ruta de Atención al Ciudadano.
 				</h2>
-				<div class="hidden lg:flex items-center justify-center">
-					<div class="w-80 bg-white p-4 rounded-2xl shadow-custom">
+				<div class="hidden lg:flex items-center">
+					<div
+						class="w-80 md:w-[28.75rem] md:h-52 bg-white flex py-12 justify-center rounded-2xl shadow-custom -mt-12">
 						<div class="flex flex-col items-center">
 							<input
 								v-model="searchCedula"
 								@keydown.enter="searchUser"
 								type="text"
 								placeholder="Digite el Documento de Identificación"
-								class="w-72 h-10 border text-center text-black text-xs border-none bg-grisInput rounded-md" />
+								class="w-[25rem] h-12 border text-center text-black text-base border-none bg-grisInput rounded-md" />
 							<Button
 								type="button"
 								label="Buscar"
 								:loading="loading"
-								class="mt-3 w-72 h-10 text-base !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
+								class="mt-3 w-[25rem] h-12 !text-2xl !font-semibold !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
 								@click="searchUser" />
 						</div>
 					</div>
