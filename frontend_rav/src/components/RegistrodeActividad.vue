@@ -83,7 +83,7 @@
         <div class="grid grid-cols-2 sm:grid-cols-7 gap-2 w-full">
             <button v-for="(keyword, index) in keywords" :key="index"
                 class="bg-gray-200 text-black py-2 w-full border-none rounded-md text-sm hover:bg-customPurple hover:text-white hover:font-bold focus:bg-customPurple focus:text-white focus:font-bold"
-                @click="addToDescription(keyword)">
+                @click="addToKeywords(keyword)">
                 {{ keyword }}
             </button>
             <button
@@ -95,16 +95,23 @@
         <!-- Campo Título -->
         <input type="text"
             class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-4"
-            placeholder="Título:" />
+            placeholder="Título:"
+            name="titulo"
+            v-model="title"
+            />
 
         <!-- Campo Descripción -->
-        <textarea v-model="description" name="Descripcion"
+        <textarea v-model="content" 
             class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-2"
-            id="descripcion" placeholder="Descripción:"></textarea>
+            id="descripcion" 
+            placeholder="Descripción:"
+            ></textarea>
 
         <!-- Botón Enviar -->
         <button
-            class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4">
+            class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
+            @click="()=>sendTicker(fetchOptions)"
+            >
             Enviar
         </button>
     </div>
@@ -113,7 +120,9 @@
 <script setup>
 
 import Actividad from "@/assets/images/Actividad.png"
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useEventStore } from "../stores/storedataOff"; 
+import { useAuthStore } from "../stores/auth";
 
 // Lista de palabras clave
 const keywords = [
@@ -126,12 +135,65 @@ const keywords = [
 ];
 
 // Variable reactiva para la descripción
-const description = ref('');
+const authStore = useAuthStore();
+const eventStore = useEventStore();
+const content = ref('');
+const title = ref('');
+const keyWords = ref('')
+const user_id = computed(()=> authStore.authenticatedUser.user_id)
+const documentNumber = computed(()=> eventStore.userInfo.documento);
+const bodyFetch = computed(()=> {
+    return{
+    id_ticket:0,
+    titulo:title.value,
+    contenido:content.value,
+    palabras_clave: keyWords.value,
+    numero_documento: documentNumber,
+    id_usuario: user_id
+}
+})
+const fetchOptions = {
+    url: "http://localhost:8082/api/v1/victimas/ticket",
+    options: {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+    }
+}
+
 
 // Función para añadir la palabra clave al campo de descripción
-const addToDescription = (keyword) => {
-    description.value += `${keyword} `;
+const addToKeywords = (keyword) => {
+    keyWords.value += `${keyword},`;
+    console.log(keyWords.value);
+    
 };
+
+const ChangeTicketIDInFetchBody = ()=>{
+    const id_ticket = window.Date.now();
+    const newBodyFetch = {
+        ...bodyFetch.value,
+        id_ticket
+    }
+    return newBodyFetch
+}
+
+const sendTicker = async(fetchOptions)=>{
+    const body = ChangeTicketIDInFetchBody();
+    const {url,options} = fetchOptions
+    options.body = JSON.stringify(body);
+    try{
+        const response = await fetch(url,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }
+}
 
 
 </script>

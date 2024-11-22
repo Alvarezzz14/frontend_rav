@@ -80,6 +80,7 @@
   <script setup>
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useAuthStore } from '../stores/auth';
   import axios from 'axios';
   import { useToast } from 'vue-toastification';
   import Logo from '@/assets/images/logorav.svg';
@@ -94,6 +95,7 @@
 	email: '',
   });
   
+  const authStore = useAuthStore();
   const errorMessage = ref('');
   const isLoading = ref(false);
   const router = useRouter();
@@ -102,7 +104,8 @@
   async function submit() {
 	isLoading.value = true;
 	try {
-	  await axios.post('http://localhost:8080/api/auth/login', form);
+	  const response = await axios.post('http://localhost:8080/api/auth/login', form);
+	  useAuthStore.setAuthenticatedUser(response.data)
 	  toast.success("Inicio de sesión exitoso.");
 	  router.push('/dashboard');
 	} catch (error) {

@@ -1,187 +1,78 @@
 <template>
-	<div class="bg-white p-6 border-none rounded-lg h-auto">
-		<!-- Sección superior: Título e Icono -->
-		<div class="flex flex-col lg:flex-row items-center justify-between mb-6">
-			<div class="flex items-center">
-				<div class="p-4 bg-customPurple rounded-full">
-					<!-- Icono SVG -->
-					<img :src="Ciudadano" alt="Icono de Ciudadano" width="50" height="50" />
-				</div>
-				<div class="ml-4 text-center lg:text-left">
-					<p class="text-black mb-0 text-2xl">Perfil del</p>
-					<h2 class="text-customPurple text-5xl mt-0 font-bold">Ciudadano</h2>
-				</div>
-			</div>
-			<!-- Botones de Acción -->
-			<div class="flex flex-wrap gap-4 mt-4 justify-center">
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="RutaAtencion" alt="Icono de Atención" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Ruta de Atención</span>
-				</button>
-
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Línea de Tiempo</span>
-				</button>
-
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="Actividad" alt="Icono registrar actividad" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
-				</button>
-			</div>
+	<div class="bg-gray-100 p-4 rounded-lg shadow-md">
+	  <div class="flex flex-col lg:flex-row items-center justify-between mb-6">
+		<div class="flex items-center">
+		  <div class="p-4">
+			<svg width="148" height="153" viewBox="0 0 148 153" fill="none" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M73.7941 141.112C110.968 141.112 141.104 110.893 141.104 73.6161C141.104 36.3391 110.968 6.12012 73.7941 6.12012C36.6201 6.12012 6.48462 36.3391 6.48462 73.6161C6.48462 110.893 36.6201 141.112 73.7941 141.112Z" fill="#741E78" />
+			  <path d="M119.569 96.0302V98.5412C118.784 102.969 115.671 106.434 111.205 107.28L49.3873 107.313C48.3773 110.887 45.6728 113.984 42.0836 115.081C41.4409 115.281 40.7481 115.298 40.1555 115.566C39.2957 115.499 38.3191 115.658 37.4761 115.566C29.5297 114.704 25.3645 105.187 29.8886 98.5496C35.1723 90.7988 46.8581 93.1592 49.3956 101.948H110.179C115.804 100.826 115.437 93.0671 109.619 92.4561L58.6608 92.4394C50.3221 91.5103 46.6995 81.056 52.9431 75.2136C54.1701 74.0669 57.175 72.5268 58.8528 72.5268H81.1226L68.4602 55.0081C60.2217 40.5947 71.1897 22.6742 87.8253 23.7623C103.184 24.7668 111.957 42.0762 104.085 55.301C99.7615 62.5747 93.2508 69.4047 88.7017 76.6365C88.2092 77.2476 87.5832 77.8251 86.7569 77.9088C77.9925 78.3608 68.6104 77.2978 59.9128 77.9004C54.0282 78.3106 53.4356 85.76 59.0281 87.049C76.4733 87.1913 93.9687 86.756 111.389 87.275C115.479 88.0032 119.102 91.8534 119.569 96.0134V96.0302ZM84.837 29.2029C73.7856 30.1822 67.4752 42.8295 73.1011 52.3296L86.1225 70.1078L86.5649 70.384L99.5612 52.3966C105.805 41.4903 97.441 28.0813 84.8287 29.2029H84.837ZM37.9685 99.3029C31.1657 100.224 32.2592 110.971 39.5127 110.176C46.4324 109.414 45.5059 98.2901 37.9685 99.3029Z" fill="white" />
+			  <path d="M86.2475 36.2171C96.8482 36.0497 97.0068 52.3547 86.3978 52.3631C75.7637 52.3715 75.7637 36.3845 86.2475 36.2171ZM86.2392 41.5907C82.6917 41.7414 82.7501 47.6005 87.0989 46.8974C87.8919 46.7718 88.8518 45.6168 88.977 44.8383C89.2358 43.1894 87.9837 41.5238 86.2392 41.5991V41.5907Z" fill="white" />
+			</svg>
+		  </div>
+		  <div class="ml-4 text-center lg:text-left">
+			<p class="text-black mb-0 text-2xl">Perfil de</p>
+			<h2 class="text-customPurple text-5xl mt-0 font-bold">Ciudadano</h2>
+		  </div>
 		</div>
-
-		<!-- Información personal del ciudadano -->
-		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-lg gap-8 mb-8">
-			<!-- Primera columna -->
-			<div class="flex-1">
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">TIPO DE DOCUMENTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.tipo_documento || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">NOMBRE COMPLETO:</label>
-					<p class="text-black w-2/3">{{ userInfo.nombrecompleto || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">CIUDAD:</label>
-					<p class="text-black w-2/3">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">GENERO:</label>
-					<p class="text-black w-2/3">{{ userInfo.genero || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">ID HOGAR:</label>
-					<p class="text-black w-2/3">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
-				</div>
-			</div>
-
-			<!-- Segunda columna -->
-			<div class="flex-1">
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">NÚMERO DE DOCUMENTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.documento || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">PROCEDENCIA ÉTNICA:</label>
-					<p class="text-black w-2/3">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">ESTADO VICTIMA:</label>
-					<p class="text-black w-2/3">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center ">
-					<label class="text-black font-semibold w-1/3">HECHO:</label>
-					<p class="text-black w-2/3">{{ userInfo.hecho || "NO REGISTRA" }}</p>
-				</div>
-
-				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">NÚMERO DE CONTACTO:</label>
-					<p class="text-black w-2/3">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
-				</div>
-			</div>
+	  </div>
+	  <div class="flex flex-col lg:flex-row gap-6">
+		<div class="flex-1">
+		  <label class="block text-customPurple mb-2">TIPO DE DOCUMENTO:</label>
+		  <p class="text-black mb-4">{{ userInfo.tipo_documento || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">NOMBRE COMPLETO:</label>
+		  <p class="text-black mb-4">{{ userInfo.nombrecompleto || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">CIUDAD:</label>
+		  <p class="text-black mb-4">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">GENERO:</label>
+		  <p class="text-black mb-4">{{ userInfo.genero || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">ID HOGAR:</label>
+		  <p class="text-black">{{ userInfo.id_hogar || "NO REGISTRA" }}</p>
 		</div>
-		<!-- Historial del Ciudadano -->
-		<div class="text-white rounded-lg shadow-md">
-			<!-- Título del historial -->
-			<div class="flex items-center bg-customPurple p-px">
-				<img :src="Historial" alt="Icono de Historial" class="w-8 h-8 mr-2" />
-				<h3 class="text-xl font-bold">HISTORIAL DEL CIUDADANO</h3>
-			</div>
-			<!-- Contenedor de la tabla con scroll horizontal -->
-			<div class="overflow-x-auto">
-				<table class="min-w-full bg-white text-gray-900">
-					<thead>
-						<tr class="bg-gray-200">
-							<th class="px-4 py-2 border">FICHA</th>
-							<th class="px-4 py-2 border">CURSO</th>
-							<th class="px-4 py-2 border">ESTADO</th>
-							<th class="px-4 py-2 border">TIPO</th>
-							<th class="px-4 py-2 border">MODALIDAD</th>
-							<th class="px-4 py-2 border">FECHA INICIO</th>
-							<th class="px-4 py-2 border">FECHA FIN</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(course, index) in userInfo.historial" :key="index">
-							<td class="px-4 py-2 border">{{ course.ficha }}</td>
-							<td class="px-4 py-2 border">{{ course.curso }}</td>
-							<td class="px-4 py-2 border">{{ course.estado }}</td>
-							<td class="px-4 py-2 border">{{ course.tipo }}</td>
-							<td class="px-4 py-2 border">{{ course.modalidad }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_inicio }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_fin }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		<div class="flex-1">
+		  <label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
+		  <p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
+		  <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
+		  <p class="text-black mb-4">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">HECHO:</label>
+		  <p class="text-black mb-4">{{ userInfo.hecho || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
+		  <p class="text-black">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
 		</div>
+	  </div>
 	</div>
-</template>
-
-<script setup>
-// Simulación de datos desde una API
-import { ref, onMounted } from "vue";
-import RutaAtencion from "@/assets/images/ruta.svg";
-import Ciudadano from "@/assets/images/Usuario.svg";
-import VerLine from "@/assets/images/VerLine.svg";
-import Actividad from "@/assets/images/Actividad.png";
-import Historial from "@/assets/images/Historial.svg";
-import { useEventStore } from "@/stores/storedataOff.js";  // Cambiar según tu estructura de store
-
-// Datos de ejemplo para simular el API
-const userInfo = ref({
-	tipo_documento: "Cédula de Ciudadanía",
-	nombrecompleto: "John Pepito Doe Perez",
-	ciudad: "Dosquebradas",
-	genero: "Masculino",
-	id_hogar: "xxxxxxx",
-	documento: "117898653432",
-	pertenenciaetnica: "Indígena",
-	estadovictima: "No",
-	hecho: "Ninguno",
-	numtelefonocelular: "3216758970",
-	historial: [
-		{ ficha: "2503319", curso: "Certificado 1", estado: "Aprobado", tipo: "Presencial", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 2", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 3", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 4", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-		{ ficha: "2503319", curso: "Certificado 5", estado: "Pendiente", tipo: "Virtual", modalidad: "Tecnología", fecha_inicio: "01/01/2021", fecha_fin: "01/01/2024" },
-	]
-});
-
-// onMounted(() => {
-//   userInfo.value = eventStore.userInfo; // Deberás reemplazar esto por la llamada a la API
-//   console.log(userInfo.value);
-// });
-</script>
-
-<style scoped>
-table {
-	width: 100%;
-	margin-top: 20px;
-
-}
-
-th,
-td {
-	padding: 10px;
-	text-align: center;
-}
-
-th {
-
-	font-weight: bold;
-}
-</style>
+  </template>
+  
+  <script setup>
+  import { ref, onMounted } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { useEventStore } from "@/stores/storedataOff.js";
+  
+  const route = useRoute();
+  
+  const eventStore = useEventStore();
+  const userInfo = ref({})
+  onMounted( () => {
+	const info = route.params.userInfo;
+  //  const results = await eventStore.searchByCedula(cedula);
+	
+	userInfo.value = eventStore.userInfo
+	console.log(userInfo.value)
+	console.log(userInfo.value.nombrecompleto)
+	/*if (results.length > 0) {
+	  userData.value = results[0];
+	} else {
+	  console.error(`No se encontró usuario con el número de documento: ${cedula}`);
+	}*/
+  });
+  
+  </script>
