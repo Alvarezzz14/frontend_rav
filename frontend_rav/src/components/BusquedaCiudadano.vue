@@ -1,25 +1,16 @@
 <template>
 	<div class="">
-		<div class="flex flex-col items-center lg:pl-10">
+		<div class="flex flex-col lg:flex-row-reverse items-center m-5">
 			<div class="-mt-5">
 				<!-- Titulo-->
-				<p class="text-2xl text-center lg:text-4xl font-medium">
+				<p class="text-2xl text-center md:text-4xl font-medium">
 					Aquí podrás visualizar información acerca de la
 				</p>
-				<h2 class="text-3xl text-center -mt-5 font-bold text-customPurple">
+				<h2
+					class="text-3xl md:text-7xl text-center md:text-justify -mt-5 font-bold text-customPurple">
 					Ruta de Atención al Ciudadano.
 				</h2>
-			</div>
-			<!-- Imagen Ciudadano-->
-			<div class="relative mt-4 flex justify-center">
-				<!-- Imagen -->
-				<img
-					:src="Ciudadano"
-					alt="Ciudadano"
-					class="object-cover h-96 lg:h-auto w-auto" />
-
-				<!-- Contenedor con el botón encima -->
-				<div class="absolute top-52 flex items-center justify-center">
+				<div class="hidden lg:flex items-center justify-center">
 					<div class="w-80 bg-white p-4 rounded-2xl shadow-custom">
 						<div class="flex flex-col items-center">
 							<input
@@ -32,7 +23,35 @@
 								type="button"
 								label="Buscar"
 								:loading="loading"
-								class="mt-3 w-72 h-10 text-base lg:w-auto !hover:bg-purple-600 !border-none !bg-customPurple text-white"
+								class="mt-3 w-72 h-10 text-base !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
+								@click="searchUser" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Imagen Ciudadano-->
+			<div class="relative mt-4 flex justify-center">
+				<!-- Imagen -->
+				<img
+					:src="Ciudadano"
+					alt="Ciudadano"
+					class="object-cover h-96 lg:h-auto w-auto" />
+
+				<!-- Contenedor con el botón encima -->
+				<div class="absolute top-52 lg:hidden flex items-center justify-center">
+					<div class="w-80 bg-white p-4 rounded-2xl shadow-custom">
+						<div class="flex flex-col items-center">
+							<input
+								v-model="searchCedula"
+								@keydown.enter="searchUser"
+								type="text"
+								placeholder="Digite el Documento de Identificación"
+								class="w-72 h-10 border text-center text-black text-xs border-none bg-grisInput rounded-md" />
+							<Button
+								type="button"
+								label="Buscar"
+								:loading="loading"
+								class="mt-3 w-72 h-10 text-base !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
 								@click="searchUser" />
 						</div>
 					</div>
@@ -105,7 +124,7 @@ const searchUser = async () => {
 		});
 	} else {
 		noResultsModal.value = true;
-		modalMessage.value = `No se encontraron resultados con la cédula: ${searchCedula.value}`;
+		modalMessage.value = `No se encontraron resultados con la cédula:`;
 	}
 
 	loading.value = false;
