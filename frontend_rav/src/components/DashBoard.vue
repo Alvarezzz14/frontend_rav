@@ -88,7 +88,7 @@
 	  path: Certificados,
 	},
 	{
-	  title: "EN PROCESO",
+	  title: "POR CERTIFICAR",
 	  count: "85883161",
 	  path: EnProceso,
 	},
