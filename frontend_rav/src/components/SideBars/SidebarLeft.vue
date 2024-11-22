@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-white w-56 md:w-60 lg:w-72">
 		<!-- Barra lateral izquierda -->
-		<div class="overflow-y-auto">
+		<div>
 			<!-- Ícono centrado -->
 			<div class="py-8 hidden lg:flex items-center h-auto justify-center">
 				<img src="@/assets/images/LogosRav/ravLogoAside.png" alt="logo RAV" />
