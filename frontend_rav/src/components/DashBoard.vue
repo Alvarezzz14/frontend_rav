@@ -70,9 +70,9 @@
   import { ref } from "vue";
   import LineChart from "@/components/LineChart.vue";
   import BarChart from "@/components/BarChart.vue";
-  import EnFormacion from "@/assets/images/EnFormacion.svg";
-  import Certificados from "@/assets/images/Certificados.svg";
-  import EnProceso from "@/assets/images/EnProceso.svg";
+  import EnFormacion from "@/assets/images/EnFormacion.png";
+  import Certificados from "@/assets/images/Certificados.png";
+  import EnProceso from "@/assets/images/PorCertificar.png";
   import Cancelados from "@/assets/images/Cancelados.svg";
   
   // Datos de las imágenes estáticas y sus títulos
