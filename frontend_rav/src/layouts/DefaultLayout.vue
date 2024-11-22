@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-hidden flex flex-col h-screen">
+	<div class="overflow-hidden flex flex-col max-h-dvh">
 		<!-- Header -->
 		<header class="w-full">
 			<Header />
@@ -32,7 +32,7 @@
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
-				class="absolute inset-0 lg:hidden h-full bg-black bg-opacity-75 z-20"
+				class="absolute inset-0 lg:hidden min-h-dvh bg-black bg-opacity-75 z-20"
 				@click="closeSidebar"></div>
 
 			<!-- Sidebar izquierdo desplegable en Menos de 1024px -->
@@ -55,7 +55,6 @@
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
-
 			</main>
 
 			<!-- Sidebar derecho de notificaciones -->
