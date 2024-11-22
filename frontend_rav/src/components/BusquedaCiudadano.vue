@@ -94,7 +94,7 @@ const searchUser = async () => {
 	if (Object.keys(results).length > 0) {
 		eventStore.setUserInfo(results);
 		router.push({
-			name: "PerfilUsuarioPage",
+			name: "PerfilCiudadanoPage",
 			params: { userInfo: results },
 		});
 	} else {

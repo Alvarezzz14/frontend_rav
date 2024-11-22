@@ -1,5 +1,5 @@
 <template>
-	<div class="overflow-hidden flex flex-col max-h-dvh">
+	<div class="overflow-auto flex flex-col min-h-dvh">
 		<!-- Header -->
 		<header class="w-full">
 			<Header />
@@ -28,7 +28,7 @@
 		</div>
 
 		<!-- Contenedor principal -->
-		<div class="flex flex-grow overflow-auto relative">
+		<div class="flex flex-grow overflow-y-visible relative">
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
@@ -51,7 +51,7 @@
 
 			<!-- Contenido principal -->
 			<main
-				class="flex-grow p-4 overflow-y-auto bg-gray-50 relative bg-no-repeat bg-bottom bg-contain"
+				class="flex-grow p-4 overflow-auto bg-gray-50 relative bg-no-repeat bg-bottom bg-contain"
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
