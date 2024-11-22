@@ -1,35 +1,41 @@
 <template>
-	<div class="flex flex-col lg:flex-row">
-		<div class="flex justify-center">
-			<img
-				:src="Ciudadano"
-				alt="Ciudadano"
-				class="object-cover h-96 lg:h-auto w-auto" />
-		</div>
-		<div class="flex flex-col items-center lg:items-start lg:pl-10">
-			<div class="">
-				<p class="text-xl lg:text-3xl font-medium text-inherit">
+	<div class="">
+		<div class="flex flex-col items-center lg:pl-10">
+			<div class="-mt-5">
+				<!-- Titulo-->
+				<p class="text-2xl text-center lg:text-4xl font-medium">
 					Aquí podrás visualizar información acerca de la
 				</p>
-				<h2 class="lg:text-5xl font-bold text-customPurple">
+				<h2 class="text-3xl text-center -mt-5 font-bold text-customPurple">
 					Ruta de Atención al Ciudadano.
 				</h2>
 			</div>
-			<div class="w-full bg-white p-5 rounded-2xl shadow-lg">
-				<div class="flex flex-col items-center">
-					<input
-						v-model="searchCedula"
-						@keydown.enter="searchUser"
-						type="text"
-						placeholder="Ingrese número de documento"
-						class="w-full p-4 border text-customPurple border-customPurple rounded-lg" />
-					<Button
-						type="button"
-						label="Buscar"
-						icon="pi pi-search"
-						:loading="loading"
-						class="mt-4 w-full lg:w-auto !hover:bg-purple-600 !border-none !bg-customPurple text-white"
-						@click="searchUser" />
+			<!-- Imagen Ciudadano-->
+			<div class="relative mt-4 flex justify-center">
+				<!-- Imagen -->
+				<img
+					:src="Ciudadano"
+					alt="Ciudadano"
+					class="object-cover h-96 lg:h-auto w-auto" />
+
+				<!-- Contenedor con el botón encima -->
+				<div class="absolute top-52 flex items-center justify-center">
+					<div class="w-80 bg-white p-4 rounded-2xl shadow-custom">
+						<div class="flex flex-col items-center">
+							<input
+								v-model="searchCedula"
+								@keydown.enter="searchUser"
+								type="text"
+								placeholder="Digite el Documento de Identificación"
+								class="w-72 h-10 border text-center text-black text-xs border-none bg-grisInput rounded-md" />
+							<Button
+								type="button"
+								label="Buscar"
+								:loading="loading"
+								class="mt-3 w-72 h-10 text-base lg:w-auto !hover:bg-purple-600 !border-none !bg-customPurple text-white"
+								@click="searchUser" />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
