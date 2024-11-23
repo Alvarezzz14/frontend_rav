@@ -113,42 +113,24 @@
 				</div>
 			</div>
 		</div>
-		<!-- Historial del Ciudadano -->
-		<div class="text-white rounded-lg shadow-md">
-			<!-- Título del historial -->
-			<div class="flex items-center bg-customPurple p-px">
-				<img :src="Historial" alt="Icono de Historial" class="w-8 h-8 mr-2" />
-				<h3 class="text-xl font-bold">HISTORIAL DEL CIUDADANO</h3>
-			</div>
-			<!-- Contenedor de la tabla con scroll horizontal -->
-			<div class="overflow-x-auto">
-				<table class="min-w-full bg-white text-gray-900">
-					<thead>
-						<tr class="bg-gray-200">
-							<th class="px-4 py-2 border">FICHA</th>
-							<th class="px-4 py-2 border">CURSO</th>
-							<th class="px-4 py-2 border">ESTADO</th>
-							<th class="px-4 py-2 border">TIPO</th>
-							<th class="px-4 py-2 border">MODALIDAD</th>
-							<th class="px-4 py-2 border">FECHA INICIO</th>
-							<th class="px-4 py-2 border">FECHA FIN</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(course, index) in userInfo.historial" :key="index">
-							<td class="px-4 py-2 border">{{ course.ficha }}</td>
-							<td class="px-4 py-2 border">{{ course.curso }}</td>
-							<td class="px-4 py-2 border">{{ course.estado }}</td>
-							<td class="px-4 py-2 border">{{ course.tipo }}</td>
-							<td class="px-4 py-2 border">{{ course.modalidad }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_inicio }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_fin }}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+		<div class="flex-1">
+		  <label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
+		  <p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">PROCEDENCIA ÉTNICA:</label>
+		  <p class="text-black mb-4">{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">ESTADO VICTIMA:</label>
+		  <p class="text-black mb-4">{{ userInfo.estadovictima || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">HECHO:</label>
+		  <p class="text-black mb-4">{{ userInfo.hecho || "NO REGISTRA" }}</p>
+  
+		  <label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
+		  <p class="text-black">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
 		</div>
-	</div>
+	  </div>
+	
 </template>
 
 <script setup>
@@ -172,11 +154,7 @@ onMounted(() => {
 	userInfo.value = eventStore.userInfo;
 	console.log(userInfo.value);
 	console.log(userInfo.value.nombrecompleto);
-	/*if (results.length > 0) {
-	userData.value = results[0];
-  } else {
-	console.error(`No se encontró usuario con el número de documento: ${cedula}`);
-  }*/
+	
 });
 </script>
 
