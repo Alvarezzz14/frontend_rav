@@ -108,6 +108,7 @@
 	  </div>
 	</div>
   </template>
+
   <script setup>
   import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
   import TXT from "@/assets/images/txt.svg";
@@ -357,62 +358,60 @@
   };
   
   // Advertencia al intentar abandonar la página mientras se sube un archivo
-  const showUnloadWarning = (event) => {
-  console.log("Evento beforeunload detectado");
+const showUnloadWarning = (event) => {
+  console.log("Evento beforeunload disparado. Estado uploading:", uploading.value);
   if (uploading.value) {
     const message = "Estás cargando un archivo. ¿Estás seguro que deseas salir?";
-    event.returnValue = message; // Para algunos navegadores
-    return message; // Para otros navegadores
+    event.returnValue = message;
+    return message;
   }
 };
+
+const registerUnloadWarning = () => {
+  if (!uploading.value) return;
+  window.addEventListener("beforeunload", showUnloadWarning);
+  console.log("Evento beforeunload registrado dinámicamente.");
+};
+
+const removeUnloadWarning = () => {
+  window.removeEventListener("beforeunload", showUnloadWarning);
+  console.log("Evento beforeunload eliminado dinámicamente.");
+};
+
+onUnmounted(() => {
+  if (!uploading.value) {
+    console.log("Eliminando evento beforeunload porque no hay carga activa.");
+    window.removeEventListener("beforeunload", showUnloadWarning);
+  }
+});
   
-  onMounted(() => {
-	// Agregar el evento para advertir antes de abandonar
-	window.addEventListener("beforeunload", showUnloadWarning);
-  });
-  
-  onUnmounted(() => {
-	// Eliminar el evento cuando el componente se desmonte
-	window.removeEventListener("beforeunload", showUnloadWarning);
-  });
-  
-  // Funcion para deshabilitar el boton, una vez subido
-  const uploadFileFinal = async () => {
-	if (!fileToUpload.value) return;
-  
-	console.log("Iniciando la carga del archivo."); // Log antes de empezar
-	
-	// Deshabilitar el botón al comenzar la carga
-	uploading.value = true;
-  
-	try {
-	  // Lógica de división y envío del archivo
-	  await createParts(fileToUpload.value);
-  
-	  if (uploadProgress.value === 100) {
-		console.log("Carga completada al 100%.");
-		uploadSuccess.value = true; // Mostrar mensaje de éxito
-	  }
-  
-	  // Reiniciar el estado al terminar exitosamente
-	  fileToUpload.value = null;
-	  fileName.value = "";
-	  uploadProgress.value = 0; 
-	  intUploadProgress.value = 0;
-	} catch (error) {
-	  console.error("Error durante la carga del archivo:", error);
-	} finally {
-	  // Habilitar el botón al finalizar (con éxito o error)
-	  uploading.value = false;
-	}
-  };
+const uploadFileFinal = async () => {
+  if (!fileToUpload.value) return;
+
+  console.log("Iniciando la carga del archivo.");
+  uploading.value = true;
+  registerUnloadWarning(); // Agrega el evento dinámicamente
+
+  try {
+    await createParts(fileToUpload.value);
+    if (uploadProgress.value === 100) {
+      console.log("Carga completada al 100%.");
+      uploadSuccess.value = true;
+    }
+  } catch (error) {
+    console.error("Error durante la carga del archivo:", error);
+  } finally {
+    uploading.value = false;
+    removeUnloadWarning(); // Elimina el evento al finalizar
+  }
+};
+
   
   const uploadFile = async () => {
 	if (!fileToUpload.value) return;
 	await uploadFileFinal();
   };
   </script>
-  
   
   
   <style scoped>
