@@ -1,6 +1,6 @@
 <template>
   <div v-if="uploadProgress > 0"  class="uploaded-file mb-4 flex items-center p-2 bg-purple-100 rounded-lg w-2/4">
-          <img src="@/assets/images/excel-Logo.svg" alt="Excel Icon" class="file-icon mr-2" />
+          <img src="@/assets/images/txt.svg" alt="TXT Icon" class="file-icon mr-2" />
           <div class="flex-1 text-customPurple">
             <p>{{ fileName }}</p>
             <div class="progress-bar mt-1 rounded-full h-2" :style="{ width: uploadProgress + '%' }"></div>

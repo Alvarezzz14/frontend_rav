@@ -1,5 +1,25 @@
 <template>
-	<div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-gray-100 h-full">
+	<div
+		class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+		<!-- Icono y Título -->
+		<div class="flex items-center mb-4 md:mb-0">
+			<div class="p-6 bg-customPurple rounded-full">
+				<!-- Icono SVG -->
+				<img
+					:src="download"
+					alt="Icono download"
+					width="50"
+					height="50" />
+			</div>
+			<div class="ml-4 text-center md:text-left">
+				<p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
+				<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
+					Reportes
+				</h2>
+			</div>
+		</div>
+	</div>
+	<div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-transparent h-full">
 	  <!-- Imagen del ciudadano -->
 	  <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
   
@@ -21,8 +41,8 @@
 		  @dragover="handleDragOver"
 		>
 		  <img
-			src="@/assets/images/download.svg"
-			alt="Upload Icon"
+			src="@/assets/images/txt.svg"
+			alt="TXT"
 			class="upload-icon mb-2 w-16 h-16 mx-auto"
 		  />
 		  <p class="text-customPurple mb-4">
@@ -52,7 +72,7 @@
 		>
 		  <!-- Icono de archivo (cambiar según tipo de archivo si es necesario) -->
 		  <img
-			src="@/assets/images/excel-Logo.svg"
+			src="@/assets/images/txt.svg"
 			alt="Archivo"
 			class="file-icon w-10 h-10 mr-4"
 		  />
@@ -90,6 +110,8 @@
   </template>
   <script setup>
   import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
+  import TXT from "@/assets/images/txt.svg";
+  import download from "@/assets/images/download.svg";
   import { useFileNotificationStore } from "../stores/fileNotification";
   import { ref, onMounted, onUnmounted } from "vue";
   import Button from "primevue/button";
@@ -336,12 +358,13 @@
   
   // Advertencia al intentar abandonar la página mientras se sube un archivo
   const showUnloadWarning = (event) => {
-	if (uploading.value) {
-	  const message = "Estás cargando un archivo. ¿Estás seguro que deseas salir?";
-	  event.returnValue = message; // Para algunos navegadores
-	  return message; // Para otros navegadores
-	}
-  };
+  console.log("Evento beforeunload detectado");
+  if (uploading.value) {
+    const message = "Estás cargando un archivo. ¿Estás seguro que deseas salir?";
+    event.returnValue = message; // Para algunos navegadores
+    return message; // Para otros navegadores
+  }
+};
   
   onMounted(() => {
 	// Agregar el evento para advertir antes de abandonar
