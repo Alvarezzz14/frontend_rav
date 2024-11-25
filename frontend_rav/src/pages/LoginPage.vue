@@ -61,6 +61,7 @@
   <script setup>
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useAuthStore } from '../stores/auth';
   import axios from 'axios';
   import { useToast } from 'vue-toastification';
   import Logo from '@/assets/images/logorav.svg';
@@ -71,10 +72,11 @@
   import Footer from '../components/Footer.vue';
   
   const form = reactive({
-	nombre: '',
 	email: '',
+	password: '',
   });
   
+  const authStore = useAuthStore();
   const errorMessage = ref('');
   const isLoading = ref(false);
   const router = useRouter();
@@ -83,9 +85,12 @@
   async function submit() {
 	isLoading.value = true;
 	try {
-	  await axios.post('http://localhost:8080/api/auth/login', form);
+	  const response = await axios.post('http://localhost:8080/api/auth/signin', form);
+	  console.log(response.data);
+	  
+	  authStore.setAuthenticatedUser(response.data)
 	  toast.success("Inicio de sesión exitoso.");
-	  router.push('/dashboard');
+	  router.push('/');
 	} catch (error) {
 	  errorMessage.value = error.response?.data?.error || "Error en el inicio de sesión.";
 	} finally {
@@ -108,3 +113,4 @@
   }
   </style>
   
+>>>>>>> c464dfdbf340a423be31c3d3d62f2ecd084daea7
