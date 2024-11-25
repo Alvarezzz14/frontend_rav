@@ -122,7 +122,7 @@
 			</div>
 			<!-- Contenedor de la tabla con scroll horizontal -->
 			<div class="overflow-x-auto">
-				<table class="min-w-full bg-white text-gray-900">
+				<table class=" min-w-full bg-white text-gray-900">
 					<thead>
 						<tr class="bg-gray-200">
 							<th class="px-4 py-2 border">FICHA</th>
