@@ -34,13 +34,11 @@
         </div>
 
         <!-- Botón Crear Ticket (al lado de la información del ciudadano) -->
-        <button class="bg-customPurple text-white p-2 sm:p-4 rounded-lg shadow flex flex-col items-center">
-            <svg width="40" height="40" viewBox="0 0 49 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M27.5 0C20.24 0 13.88 5.16 12.5 12C5.9 12 0.5 17.4 0.5 24C0.5 26.22 1.16 28.26 2.18 30H15.5L27.5 18L39.5 30H47.96C48.32 29.04 48.5 28.08 48.5 27C48.5 23.1 45.98 19.26 42.5 18V15C42.5 6.72 35.78 0 27.5 0ZM27.5 27L12.5 42H24.5V45C24.5 45.7957 24.8161 46.5587 25.3787 47.1213C25.9413 47.6839 26.7044 48 27.5 48C28.2956 48 29.0587 47.6839 29.6213 47.1213C30.1839 46.5587 30.5 45.7957 30.5 45V42H42.5L27.5 27Z" fill="white" />
-            </svg>
-
-            <span class="mt-2 text-xs sm:text-base">Crear Ticket</span>
-        </button>
+        <button
+				class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center" style="width: 120px; height: 110px;">
+				<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
+				<span class="text-sm">Regresar a Perfil del Ciudadano</span>
+			</button>
     </div>
 </div>
 
@@ -113,6 +111,7 @@
 <script setup>
 
 import Actividad from "@/assets/images/Actividad.png"
+import personwhite from "@/assets/images/UserWhite.svg";
 import { ref } from 'vue';
 
 // Lista de palabras clave
