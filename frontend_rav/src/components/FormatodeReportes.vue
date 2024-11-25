@@ -15,7 +15,7 @@
 						height="50" />
 				</div>
 				<div class="ml-4 text-center md:text-left">
-					<p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
+					<p class="text-black mb-0 text-2xl md:text-3xl">Generar</p>
 					<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
 						Reportes
 					</h2>

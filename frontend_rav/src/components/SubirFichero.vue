@@ -12,14 +12,14 @@
 					height="50" />
 			</div>
 			<div class="ml-4 text-center md:text-left">
-				<p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
+				<p class="text-black mb-0 text-2xl md:text-3xl">Cargar</p>
 				<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
-					Reportes
+					Archivo
 				</h2>
 			</div>
 		</div>
 	</div>
-	<div class="flex flex-col lg:flex-row items-center justify-center p-6 bg-transparent h-full">
+	<div class="flex flex-col xl:flex-row xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">		
 	  <!-- Imagen del ciudadano -->
 	  <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
   
@@ -95,7 +95,7 @@
 		  v-if="uploadSuccess"
 		  class="text-green-500 text-center mt-4"
 		>
-		  Archivo subido exitosamente.
+		  Parte subida exitosamente.
 		</p>
   
 		<!-- Botón de carga -->

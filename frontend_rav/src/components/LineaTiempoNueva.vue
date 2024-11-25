@@ -45,17 +45,11 @@
   
 		<!-- Botón Línea de Tiempo -->
 		<button
-		  class="bg-customPurple text-white px-4 py-2 rounded-lg shadow flex flex-col items-center max-w-xs md:max-w-none">
-		  <!-- Ícono -->
-		  <img
-			:src="personwhite"
-			alt="Persona"
-			class="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 mb-2" />
-		  <!-- Texto -->
-		  <span class="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-			Regresar a Perfil del Ciudadano
-		  </span>
+			class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center" style="width: 120px; height: 100px;">
+			<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
+			<span class="text-sm">Regresar a Perfil del Ciudadano</span>
 		</button>
+
 	  </div>
 
 	  <!-- Sección de Línea de Tiempo -->
@@ -66,8 +60,8 @@
 		<div class="absolute bg-customPurple left-[calc(36%+26px)] h-full" style="width: 340px;"></div>
 
 		<!-- Línea vertical blanca -->
-		<div class="absolute bg-customWWhite left-[calc(50%+26px)] h-full" style="width: 10px;"></div>
-	
+		<div class="absolute bg-customWWhite left-[calc(50%+26px)] h-full" style="width: 10px; height: 77%; top: 12%;" ></div>
+
 		<!-- Contenido de la línea de tiempo -->
 		<div
 		  v-for="(item, index) in timelineData"
