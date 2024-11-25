@@ -6,7 +6,7 @@
 			class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
 			<!-- Icono y Título -->
 			<div class="flex items-center mb-4 md:mb-0">
-				<div class="p-6 bg-customPurple rounded-full">
+				<div class="p-6 bg-azulBarraApe rounded-full">
 					<!-- Icono SVG -->
 					<img
 						:src="Reportes"
@@ -16,7 +16,7 @@
 				</div>
 				<div class="ml-4 text-center md:text-left">
 					<p class="text-black mb-0 text-2xl md:text-3xl">Formato de</p>
-					<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
+					<h2 class="text-azulBarraApe text-5xl md:text-6xl mt-0 font-bold">
 						Reportes
 					</h2>
 				</div>
@@ -46,7 +46,7 @@
 						<label
 							class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
 							:class="{
-								'bg-customPurple text-white font-bold':
+								'bg-azulBarraApe text-white font-bold':
 									selectedFormat === 'pdf',
 								'bg-gray-100': selectedFormat !== 'pdf',
 							}"
@@ -56,7 +56,7 @@
 						<label
 							class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
 							:class="{
-								'bg-customPurple text-white font-bold':
+								'bg-azulBarraApe text-white font-bold':
 									selectedFormat === 'excel',
 								'bg-gray-100': selectedFormat !== 'excel',
 							}"
@@ -95,11 +95,11 @@
 					<div class="flex items-center space-x-4">
 						<input
 							type="date"
-							class="w-1/2 p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="w-1/2 p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 							placeholder="Desde" />
 						<input
 							type="date"
-							class="w-1/2 p-2 border rounded text-negro bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="w-1/2 p-2 border rounded text-negro bg-gray-50 focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 							placeholder="Hasta" />
 					</div>
 				</div>
@@ -107,7 +107,7 @@
 				<!-- Botón de Búsqueda -->
 
 				<button
-					class="w-full bg-customPurple text-lg cursor-pointer border-none text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
+					class="w-full bg-azulBarraApe text-lg cursor-pointer border-none text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
 					@click="handleDownloadExcel">
 					Generar Reporte
 				</button>

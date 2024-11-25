@@ -1,6 +1,6 @@
 <template>
-	<!-- Contenedor principal con el fondo CustomPurple -->
-	<div class="min-h-screen bg-customPurple text-white flex flex-col">
+	<!-- Contenedor principal con el fondo azulBarraApe -->
+	<div class="min-h-screen bg-azulBarraApe text-white flex flex-col">
 
 	  <!-- Header (barra superior) -->
 	  <Header></Header>
@@ -25,7 +25,7 @@
 				id="nombre"
 				placeholder="Nombre"
 				v-model="form.nombre"
-				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 				required
 			  />
 			</div>
@@ -36,7 +36,7 @@
 				id="email"
 				placeholder="Correo SENA"
 				v-model="form.email"
-				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-azulBarraApe"
 				required
 			  />
 
@@ -45,7 +45,7 @@
 			<!-- Botón de iniciar sesión -->
 			<button
 			  type="submit"
-			  class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
+			  class="w-full py-3 text-lg bg-amarillo border-none text-azulBarraApe font-bold rounded-lg"
 			  :disabled="isLoading"
 			>
 			  <span v-if="!isLoading">Iniciar</span>

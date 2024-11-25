@@ -18,7 +18,7 @@ export default {
         cardBackground: '#D9D9D9', // Fondo para la tarjeta
         textBackground: '#003150', // Color del texto en la tarjeta
         azulHeaderFooter: '#3366CC', //Azul del header y el fotter
-        azulBarraApe:"#000B77", // azul para la barra de menu ape rav
+        azulBarraApe:"#315CA0", // azul para la barra de menu ape rav
         azulSelectorApe: "#010958",// azul para seleccionar el dash board
       },
       fontFamily: {

@@ -16,7 +16,6 @@
         <img src="@/assets/images/download.svg" alt="Upload Icon" class="upload-icon mb-2" />
         <p class="text-azulBarraApe">Arrastra y suelta el archivo <br /> o</p>
         <!-- Botón de color amarillo -->
-        <Button label="Buscar" class="yellow-button mt-4" @click="selectFile" />
         <!-- Input oculto para selección de archivo -->
         <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept=".txt,.csv,.xlsx" />
       </div>

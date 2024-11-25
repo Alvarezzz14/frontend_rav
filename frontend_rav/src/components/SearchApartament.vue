@@ -5,17 +5,17 @@
       <!-- Selector del Departamento -->
       <div class="w-full max-w-xs md:max-w-md">
         <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
-          class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
+          class="w-full rounded-lg shadow-sm text-azulBarraApe !border !border-azulBarraApe"
           @change="updateSelectedInfo">
           <template #value="slotProps">
-            <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
+            <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-azulBarraApe">
               <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
               <div>{{ slotProps.value.name }}</div>
             </div>
-            <span v-else class="text-customPurple">{{ slotProps.placeholder }}</span>
+            <span v-else class="text-azulBarraApe">{{ slotProps.placeholder }}</span>
           </template>
           <template #option="slotProps">
-            <div class="flex items-center font-medium text-customPurple">
+            <div class="flex items-center font-medium text-azulBarraApe">
               <img :alt="slotProps.name" :src="slotProps.option.flagUrl" class="w-6 h-6 mr-2" />
               <p>{{ slotProps.option.name }}</p>
             </div>

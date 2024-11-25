@@ -13,7 +13,7 @@
 		<!-- Barra horizontal (botón para abrir el sidebar) -->
 		<div
 			@click="toggleSidebar"
-			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
+			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-azulBarraApe text-amarillo text-lg shadow-md p-4 w-full">
 			<svg
 				width="27"
 				height="27"

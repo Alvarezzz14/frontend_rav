@@ -24,17 +24,17 @@
 
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-			<div class="p-4 border border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
+			<div class="p-4 border border-azulBarraApe rounded-lg bg-white w-full max-w-full sm:max-w-full">
 				<LineChart />
 			</div>
-			<div class="p-4 border border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
+			<div class="p-4 border border-azulBarraApe rounded-lg bg-white w-full max-w-full sm:max-w-full">
 				<BarChart />
 			</div>
 		</div>
 
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-customPurple rounded-lg bg-white">
-			<h3 class="text-xl font-semibold text-customPurple mb-4">Tabla de Datos</h3>
+		<div class="p-4 border border-azulBarraApe rounded-lg bg-white">
+			<h3 class="text-xl font-semibold text-azulBarraApe mb-4">Tabla de Datos</h3>
 
 			<table class="w-full border-collapse">
 				<thead>

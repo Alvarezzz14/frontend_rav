@@ -14,19 +14,19 @@
         </div>
         <div class="ml-4">
             <p class="text-black mb-0 text-lg sm:text-2xl">Registro de</p>
-            <h2 class="text-customPurple text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
+            <h2 class="text-azulBarraApe text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
         </div>
     
 <div class="bg-gray-100 flex flex-col sm:flex-row items-center sm:justify-between p-4 rounded-lg shadow-md">
     <!-- Sección Izquierda (Icono y Título) -->
     <div class="flex items-center mb-4 sm:mb-0">
-        <div class="p-4 bg-customPurple rounded-full">
+        <div class="p-4 bg-azulBarraApe rounded-full">
             <img :src="Actividad" alt="Icono de Actividad" width="50" height="50" />
 
         </div>
         <div class="ml-4">
             <p class="text-black mb-0 text-lg sm:text-2xl">Registro de</p>
-            <h2 class="text-customPurple text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
+            <h2 class="text-azulBarraApe text-3xl sm:text-5xl mt-0 font-bold">Actividad</h2>
         </div>
     </div>
     <!-- Contenedor de la información del ciudadano y el botón Crear Ticket en una misma fila -->
@@ -67,7 +67,7 @@
         <ul class="list-none text-center space-y-4 sm:text-left sm:pl-5 sm:space-y-0">
             <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
                 <span
-                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    class="bg-azulBarraApe text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
                     1
                 </span>
                 <span>Ingrese un nombre en la casilla de <span class="font-bold">Título.</span></span>
@@ -103,12 +103,12 @@
         <!-- Botones de Palabra Clave -->
         <div class="grid grid-cols-2 sm:grid-cols-7 gap-2 w-full">
             <button v-for="(keyword, index) in keywords" :key="index"
-                class="bg-gray-200 text-black py-2 w-full border-none rounded-md text-sm hover:bg-customPurple hover:text-white hover:font-bold focus:bg-customPurple focus:text-white focus:font-bold"
+                class="bg-gray-200 text-black py-2 w-full border-none rounded-md text-sm hover:bg-azulBarraApe hover:text-white hover:font-bold focus:bg-azulBarraApe focus:text-white focus:font-bold"
                 @click="addToDescription(keyword)">
                 {{ keyword }}
             </button>
             <button
-                class="bg-amarillo text-customPurple  py-2 w-full border-none rounded-md text-sm hover:bg-yellow-500 focus:bg-yellow-500">
+                class="bg-amarillo text-azulBarraApe  py-2 w-full border-none rounded-md text-sm hover:bg-yellow-500 focus:bg-yellow-500">
                 Ver más +
             </button>
         </div>

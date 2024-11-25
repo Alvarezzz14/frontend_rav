@@ -16,7 +16,7 @@
         <h2 class="text-2xl sm:text-3xl mt-3 font-semibold text-negro">Página no encontrada</h2>
   
         <!-- Botón -->
-        <button @click="goHome" class="bg-customPurple text-amarillo px-8 py-3  text-lg shadow hover:bg-purple-700">
+        <button @click="goHome" class="bg-azulBarraApe text-amarillo px-8 py-3  text-lg shadow hover:bg-purple-700">
           Regresar a la página de inicio
         </button>
       </div>

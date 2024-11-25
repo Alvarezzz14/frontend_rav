@@ -5,7 +5,7 @@
 			class="flex flex-col lg:flex-row items-center justify-between p-4 rounded-lg shadow-md w-full max-w-7xl mb-8">
 			<!-- Icono y Título -->
 			<div class="flex items-center mb-4 lg:mb-0">
-				<div class="p-3.5 bg-customPurple rounded-full">
+				<div class="p-3.5 bg-azulBarraApe rounded-full">
 					<img
 						:src="VerLine"
 						alt="VerLine"
@@ -17,7 +17,7 @@
 						Formato de
 					</p>
 					<h2
-						class="text-customPurple text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-0 font-bold">
+						class="text-azulBarraApe text-lg sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-0 font-bold">
 						Reportes
 					</h2>
 				</div>
@@ -58,7 +58,7 @@
 			<!-- Botón Línea de Tiempo -->
 
 			<button
-				class="bg-customPurple text-white px-4 py-2 rounded-lg shadow flex flex-col items-center max-w-xs md:max-w-none">
+				class="bg-azulBarraApe text-white px-4 py-2 rounded-lg shadow flex flex-col items-center max-w-xs md:max-w-none">
 				<!-- Ícono -->
 				<img
 					:src="ruta"
@@ -76,7 +76,7 @@
 			class="relative bg-white w-full max-w-7xl mx-auto py-px">
 			<!-- Línea vertical morada -->
 			<div
-				class="absolute bg-customPurple w-12 left-1/2 transform -translate-x-1/2 h-full"></div>
+				class="absolute bg-azulBarraApe w-12 left-1/2 transform -translate-x-1/2 h-full"></div>
 
 			<!-- Contenido de la línea de tiempo -->
 			<div

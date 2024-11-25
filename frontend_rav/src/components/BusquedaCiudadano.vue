@@ -1,11 +1,11 @@
 <template> 
-<div class="block lg:flex items-center justify-center p-6 bg-grisFondo h-full">
-	 <div class="flex flex-col items-center lg:items-center lg:w-2/3 lg:pl-10"> 
-		<div class="mb-4 w-2/3">
-			 <p class="text-xl lg:text-3xl font-medium text-inherit"> Aquí podrás visualizar información acerca de la </p> 
-			<h2 class="lg:text-6xl font-bold text- text-azulBarraApe"> Ruta de Atención al Ciudadano. </h2>
+<div class="block lg:flex items-center justify-center p-6 h-full">
+	 <div class="  lg:pl- lg:pr-10 "> 
+		<div class="-mb-4 w-full h-">
+			 <p class="lg:text-4xl font-medium  -mb-10"> Aquí podrás visualizar información acerca de la </p> 
+			<h1 class="tracking-wide text-7xl font-bold  text-azulBarraApe"> Ruta de Atención al Ciudadano. </h1>
 		 </div> 
-		 <div class="w-full lg:w-2/3 bg-white p-5 rounded-2xl shadow-lg">
+		 <div class="w-full mb-30 bg-white p-10 rounded-2xl shadow-lg">
 			 <div class="flex flex-col items-center">
                     <input
                         v-model="searchCedula"
@@ -18,13 +18,13 @@
                         label="Buscar"
                         icon="pi pi-search"
                         :loading="loading"
-                        class="mt-4 w-full p-4  !hover:bg-purple-600 !border-none !bg-azulBarraApe !text-yellow-500 "
+                        class="mt-3 w-full   hover:bg-azulBarraApe !border-none !bg-azulBarraApe !text-yellow-400"
                         @click="searchUser" />
                 </div>
             </div>
         </div>
-    <div class="flex items-center justify-center lg:w-2/3">
-            <img src="@/assets/images/CiudadanoRutaAtencion.svg" alt="Persona sonriendo" class="rounded-lg object-cover w-2/3 max-h-96 xl:max-h-full" />
+    <div class=" flex items-center justify-center lg:w-2/3">
+            <img src="@/assets/images/CiudadanoRutaAtencion.svg" alt="Persona sonriendo" class="rounded-lg object-cover w-96" />
 </div>
 
         <Dialog
@@ -32,7 +32,7 @@
             modal
             header="Búsqueda Fallida"
             :style="{ width: '30rem' }">
-            <p class="m-0 text-customPurple">
+            <p class="m-0 text-azulBarraApe">
                 {{ modalMessage }}
                 <strong>{{ searchCedula }}</strong>
             </p>
@@ -74,7 +74,7 @@ async function searchByCedula(cedula) {
 	}
 }
 
-
+const searchUser = async () => {
   if (!searchCedula.value.trim()) {
     noResultsModal.value = true;
     modalMessage.value = "Por favor, ingrese un número de documento.";
