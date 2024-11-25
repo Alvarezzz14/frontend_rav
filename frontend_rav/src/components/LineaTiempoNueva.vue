@@ -35,10 +35,10 @@
 	
 			<!-- Botón Crear Ticket (al lado de la información del ciudadano) -->
 			<button
-			class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center" style="width: 120px; height: 100px;">
-			<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
-			<span class="text-sm">Regresar a Perfil del Ciudadano</span>
-		</button>
+				class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center" style="width: 120px; height: 110px;">
+				<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
+				<span class="text-sm">Regresar a Perfil del Ciudadano</span>
+			</button>
 		</div>
 	</div>
 
@@ -52,7 +52,7 @@
 		v-if="timelineData && timelineData.length"
 		class="relative bg-white w-full max-w-7xl mx-auto py-10">
 		<!-- Línea vertical morada -->		
-		<div class="absolute bg-customPurple left-[calc(36%+26px)] h-full" style="width: 340px; height: 105%; top: -1%;"></div>
+		<div class="absolute bg-customPurple left-[calc(36%+26px)] h-full" style="width: 340px; height: 100%; top: -1%;"></div>
 
 		<!-- Línea vertical blanca -->
 		<div class="absolute bg-customWWhite left-[calc(50%+26px)] h-full" style="width: 10px; height: 77%; top: 12%;" ></div>
@@ -75,17 +75,21 @@
 				? 'ml-auto pr-10 text-right'
 				: 'mr-auto pl-10 text-left'
 			}`">
+			
 			<div class="bg-white rounded-lg shadow-lg p-5">
-			  <img
-				:src="item.image"
-				alt="Imagen del evento"
-				class="w-full h-60 object-cover rounded-md mb-4" />			
+				<div class="relative" style="width: 500px; height: 300px;">
+					<img
+					:src="item.image"
+					alt="Imagen del evento"
+					class="absolute inset-0 w-full h-full object-cover rounded-md"/>
+				</div>
 				<div class="bg-customYellow text-[#7A1F7E] text-xl font-semibold mb-2 p-4 w-[150px] rounded-lg">
 					{{ item.date }}
 				</div>
-			  <h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
-			  <p class="text-gray-700 text-sm">{{ item.description }}</p>
+					<h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
+					<p class="text-gray-700 text-sm">{{ item.description }}</p>
 			</div>
+
 		  </div>
 		</div>
 	  </div>
