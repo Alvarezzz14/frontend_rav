@@ -148,7 +148,7 @@ function goBack() {
 }
 </script>
 
-<style>
+<style scoped>
 /* Estilo para radio buttons personalizados */
 .radio-button input[type="radio"].custom-radio {
   appearance: none;

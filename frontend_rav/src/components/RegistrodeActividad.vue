@@ -43,14 +43,62 @@
           </svg>
         </div>
 
-        <!-- Información del ciudadano -->
-        <div class="flex flex-col space-y-1">
-          <p class="text-gray-800 font-semibold text-sm sm:text-base">
-            <span class="font-bold">Ciudadano:</span> John Doe
-          </p>
-          <p class="text-gray-800 font-semibold text-sm sm:text-base">
-            <span class="font-bold">Cédula:</span> 123456789
-          </p>
+
+        <!-- Botón Crear Ticket (al lado de la información del ciudadano) -->
+        <button
+				class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center" style="width: 120px; height: 110px;">
+				<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
+				<span class="text-sm">Regresar a Perfil del Ciudadano</span>
+			</button>
+    </div>
+</div>
+
+
+
+
+    <!-- Contenedor de Lista -->
+
+    <div class="mt-4 bg-white rounded-lg shadow p-4">
+        <ul class="list-none text-center space-y-4 sm:text-left sm:pl-5 sm:space-y-0">
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
+                <span
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    1
+                </span>
+                <span>Ingrese un nombre en la casilla de <span class="font-bold">Título.</span></span>
+            </li>
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
+                <span
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    2
+                </span>
+                <span>Registre la actividad o información otorgada al ciudadano en la sección de <span
+                        class="font-bold">Descripción.</span></span>
+            </li>
+            <li class="flex flex-col items-center sm:flex-row sm:items-start pb-2">
+                <span
+                    class="bg-customPurple text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mb-2 sm:mb-0 sm:mr-2">
+                    3
+                </span>
+                <span>Una vez completa la información, presiona <span class="font-bold">Enviar.</span></span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
+        <h2 class="text-center font-bold text-lg mb-4">CREAR TICKET</h2>
+
+        <!-- Botones de Palabra Clave -->
+        <div class="grid grid-cols-2 sm:grid-cols-7 gap-2 w-full">
+            <button v-for="(keyword, index) in keywords" :key="index"
+                class="bg-gray-200 text-black py-2 w-full border-none rounded-md text-sm hover:bg-customPurple hover:text-white hover:font-bold focus:bg-customPurple focus:text-white focus:font-bold"
+                @click="addToDescription(keyword)">
+                {{ keyword }}
+            </button>
+            <button
+                class="bg-amarillo text-customPurple  py-2 w-full border-none rounded-md text-sm hover:bg-yellow-500 focus:bg-yellow-500">
+                Ver más +
+            </button>
         </div>
       </div>
 
@@ -167,9 +215,12 @@
 <script setup>
 
 import Actividad from "@/assets/images/Actividad.png"
+import personwhite from "@/assets/images/UserWhite.svg";
+import { ref } from 'vue';
 import { computed, ref } from 'vue';
 import { useEventStore } from "../stores/storedataOff";
 import { useAuthStore } from "../stores/auth";
+
 
 // Lista de palabras clave
 const keywords = [
