@@ -77,19 +77,19 @@
 			}`">
 			
 			<div class="bg-white rounded-lg shadow-lg p-5">
-    <div class="relative w-full h-[200px] sm:h-[250px] md:h-[300px]">
-        <img
-            :src="item.image"
-            alt="Imagen del evento"
-            class="absolute inset-0 w-full h-full object-cover rounded-md"/>
-    </div>
-    <!-- Separación entre la imagen y la fecha -->
-    <div class="bg-customYellow text-[#7A1F7E] text-xl font-semibold mb-2 p-4 w-[150px] rounded-lg mt-4">
-        {{ item.date }}
-    </div>
-    <h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
-    <p class="text-gray-700 text-sm">{{ item.description }}</p>
-</div>
+				<div class="relative w-full h-[200px] sm:h-[250px] md:h-[300px]">
+					<img
+						:src="item.image"
+						alt="Imagen del evento"
+						class="absolute inset-0 w-full h-full object-cover rounded-md"/>
+				</div>
+				<!-- Separación entre la imagen y la fecha -->
+				<div class="bg-customYellow text-[#7A1F7E] text-xl font-semibold mb-2 p-4 w-[150px] rounded-lg mt-4">
+					{{ item.date }}
+				</div>
+				<h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
+				<p class="text-gray-700 text-sm">{{ item.description }}</p>
+			</div>
 
 
 
