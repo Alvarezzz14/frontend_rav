@@ -9,7 +9,7 @@ import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
 import RegistroUsuarioPage from '@/pages/RegistroUsuarioPage.vue';
 import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
 import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
-import PerfilUsuarioPage from '@/pages/PerfilUsuarioPage.vue'
+import PerfilCiudadanoPage from '@/pages/PerfilCiudadanoPage.vue'
 import DashBoardPage from '@/pages/DashBoardPage.vue'
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import ErrorPage from '@/pages/ErrorPage.vue';
@@ -49,7 +49,7 @@ const routes = [
       },
       {
         path: '/rutadeaccion',
-        name: 'RutaAccionPage',
+        name: 'RutaAtencionPage',
         component: Rutaaccionpage,
         props: true,
       },
@@ -76,9 +76,10 @@ const routes = [
       },
 
       {
-        path: '/perfilusuario',
-        name: 'PerfilUsuarioPage',
-        component: PerfilUsuarioPage
+
+        path: '/PerfilCiudadano',
+        name: 'PerfilCiudadanoPage',
+        component: PerfilCiudadanoPage
       },
 
       {
@@ -106,7 +107,7 @@ const routes = [
 
       },
     ]
-  },  
+  },
 ];
 
 const router = createRouter({

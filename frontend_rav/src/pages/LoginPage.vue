@@ -21,10 +21,10 @@
 		  <form @submit.prevent="submit" class="space-y-4 w-full max-w-sm mx-auto">
 			<div>
 			  <input
-				type="text"
-				id="nombre"
-				placeholder="Nombre"
-				v-model="form.nombre"
+				type="email"
+				id="correo"
+				placeholder="Correo"
+				v-model="form.email"
 				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 				required
 			  />
@@ -32,10 +32,10 @@
   
 			<div>
 			  <input
-				type="email"
-				id="email"
-				placeholder="Correo SENA"
-				v-model="form.email"
+				type="password"
+				id="password"
+				placeholder="Contraseña"
+				v-model="form.password"
 				class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
 				required
 			  />
@@ -80,6 +80,7 @@
   <script setup>
   import { reactive, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { useAuthStore } from '../stores/auth';
   import axios from 'axios';
   import { useToast } from 'vue-toastification';
   import Logo from '@/assets/images/logorav.svg';
@@ -90,10 +91,11 @@
   import Footer from '../components/Footer.vue';
   
   const form = reactive({
-	nombre: '',
 	email: '',
+	password: '',
   });
   
+  const authStore = useAuthStore();
   const errorMessage = ref('');
   const isLoading = ref(false);
   const router = useRouter();
@@ -102,9 +104,12 @@
   async function submit() {
 	isLoading.value = true;
 	try {
-	  await axios.post('http://localhost:8080/api/auth/login', form);
+	  const response = await axios.post('http://localhost:8080/api/auth/signin', form);
+	  console.log(response.data);
+	  
+	  authStore.setAuthenticatedUser(response.data)
 	  toast.success("Inicio de sesión exitoso.");
-	  router.push('/dashboard');
+	  router.push('/');
 	} catch (error) {
 	  errorMessage.value = error.response?.data?.error || "Error en el inicio de sesión.";
 	} finally {
@@ -129,4 +134,3 @@
   }
   </style>
   
->>>>>>> c464dfdbf340a423be31c3d3d62f2ecd084daea7
