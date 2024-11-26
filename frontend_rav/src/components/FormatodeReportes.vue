@@ -1,9 +1,8 @@
 <template>
 	<div class="min-h-screen p-4 flex flex-col items-center justify-center">
 		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
-
 		<div
-			class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+			class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-10 -mt-16 ">
 			<!-- Icono y Título -->
 			<div class="flex items-center mb-4 md:mb-0">
 				<div class="p-6 bg-azulBarraApe rounded-full">
@@ -26,20 +25,30 @@
 		<!-- Sección Central (Imagen y Formulario) -->
 		<div
 			class="flex flex-col xl:flex-row items-center xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">
-			<!-- Imagen a la Izquierda -->
-			<div class="flex-1 max-w-md lg:max-w-lg p-4">
-				<img
-					:src="PersonaReportes"
-					alt="Persona sonriendo"
-					class="rounded-lg object-cover w-full h-full max-h-96 xl:max-h-full" />
-			</div>
+			
+			
 
-			<!-- Formulario a la Derecha -->
+			<!-- Formulario Izquierdo -->
 			<div
-				class="flex-1 max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-md w-full">
+				class="flex-1 max-w-md lg:max-w-lg p-3 bg-white rounded-lg shadow-md w-full">
+				<label class="block text-black text-sm font-bold mb-2"
+						>Seleccione El Tipo De Reporte.</label
+				   		Opciones de rol -->
+				   <div class="inline-block space-x-4">
+            <div class="radio-button">
+              <input type="radio" id="admin" name="role" value="Administrador" class="custom-radio" v-model="selectedRole" />
+              <label for="admin">Orientados</label>
+
+              <input type="radio" id="funcionario" name="role" value="Funcionario" class="custom-radio" v-model="selectedRole" />
+              <label for="funcionario">Colocados</label>
+
+              <input type="radio" id="operario" name="role" value="Operario" class="custom-radio" v-model="selectedRole" />
+              <label for="operario">Incritos</label>
+            </div>
+          </div>''
 				<!-- Selección de Formato -->
 				<div class="mb-4">
-					<label class="block text-gray-700 text-sm font-semibold mb-2"
+					<!--<label class="block text-gray-700 text-sm font-semibold mb-2"
 						>Seleccione el formato en el cual desea descargar el archivo.</label
 					>
 					<div class="space-y-2">
@@ -63,29 +72,27 @@
 							@click="selectFormat('excel')">
 							EXCEL
 						</label>
-					</div>
+					</div>-->
 				</div>
 
 				<!-- Selección de Departamento -->
-				<div class="mb-4">
-					<label class="block text-gray-700 text-sm font-semibold mb-2"
-						>Seleccione Departamento</label
-					>
-					<div class="flex flex-wrap gap-4">
-						<select
-							v-model="selectedDepartamento"
-							class="block p-4 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12 border-none"
-							id="departamento">
-							<option disabled value="">Seleccione Departamento</option>
-							<option
-								v-for="departamento in departamentos"
-								:key="departamento.code"
-								:value="departamento.code">
-								{{ departamento.name }}
-							</option>
-						</select>
-					</div>
-				</div>
+<div class="mb-4">
+  <div class="grid grid-wrap gap-4 p-2">
+    <!-- Select -->
+    <select v-model="selectedDepartamento"  placeholder="Seleccione departamento"
+      class="block p-4 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12"
+      id="departamento">
+      <option disabled value="">Seleccione Departamento</option>
+      <option
+        v-for="departamento in departamentos"
+        :key="departamento.code"
+        :value="departamento.code">
+        {{ departamento.name }}
+      </option>
+    </select>
+  </div>
+</div>
+
 
 				<!-- Selección de Fechas -->
 				<div class="mb-4">
@@ -111,6 +118,13 @@
 					@click="handleDownloadExcel">
 					Generar Reporte
 				</button>
+			</div>
+			<!-- Imagen a la Izquierda -->
+			<div class="">
+				<img
+					:src="PersonaReportes"
+					alt="Persona sonriendo"
+					class=" h-fit w-min -mt-40 " />
 			</div>
 		</div>
 	</div>
@@ -172,5 +186,36 @@ const departamentos = ref([
 ]);
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Estilo para radio buttons personalizados */
+.radio-button input[type="radio"].custom-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #315CA0; /* Color morado del borde */
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.radio-button input[type="radio"].custom-radio:checked {
+  background-color: #315CA0; /* Fondo morado al seleccionar */
+  border-color: #315CA0; /* Asegura que el borde sea morado al seleccionarse */
+}
+
+.radio-button label {
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 1rem;
+  color: #333; /* Color del texto */
+}
+
+.radio-button input[type="radio"].custom-radio:checked + label {
+  color: #080808; /* Color del texto cuando se selecciona */
+  font-weight: 00;
+}
+</style>
 

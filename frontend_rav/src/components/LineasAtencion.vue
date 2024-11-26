@@ -1,57 +1,56 @@
 <template>
   <div>
-    <router-view />
     <div>
       <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
       <div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl">
         <!-- Icono y Título -->
-        <div class="flex items-center -mb-8">
-          <div class="p-5 bg-azulBarraApe rounded-full mb-5">
+        <div class="flex items-center md:-mb-8  -mb-6">
+          <div class="p-3 md:p-5 bg-azulBarraApe rounded-full md:mb-5 mb-10 -mt-6">
             <!-- Icono SVG -->
-            <img :src="lineaAten" alt=" Icono de Lineas de atencion" width="60" height="60" />
+            <img :src="lineaAten" alt=" Icono de Lineas de atencion" class="w-10 h-10 md:w-20 md:h-20"  />
           </div>
           <div class="ml-3 text-center md:text-left">
-            <p class="text-black mb-0 text-6xl md:text-2xl">lineas de</p>
-            <h2 class="text-azulBarraApe text-5xl md:text-5xl mt-0 font-bold">Atencion</h2>
+            <p class="text-black md:mb-0 text-md md:text-2xl ">lineas de</p>
+            <h2 class="text-azulBarraApe text-3xl md:text-5xl md:mt-0 font-bold">Atencion</h2>
           </div>
         </div>
       </div>
   
       <!-- Contenedores de imagen -->
-      <div class="flex flex-col gap-7 p-4">
+      <div class="md:flex-col md:gap-7 md:p-4  grid grid-col gap-2">
         <div class="flex items-center space-x-1 flex-auto -mb-5">
-          <img :src="select1" alt="Icono de selección 1" width="25" height="25" />
-          <p class="font-sans text-xl">Seleccione la</p>
-          <h3 class="font-sans text-xl">Entidad</h3>
+          <img :src="select1" alt="Icono de selección 1" class="w-6 h-6 " />
+          <p class="font-sans text md:text-xl">Seleccione la</p>
+          <h3 class="font-sans text-sm md:text-xl">Entidad</h3>
         </div>
-        <div class="flex justify-between">
+        <div class="md:flex md:justify-between grid grid-cols-2  items-center  ">
           <div
             @click="selectImage(LogoSenaverde); selectSede(sedes[0])"
-            class="w-72 h-36 flex flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
             :class="['', selectedImage === LogoSenaverde ? 'bg-gray-200' : 'bg-white']"><h2></h2>
-            <img :src="LogoSenaverde" alt="imagen logo verde sena" class="w-20 h-40" />
-            <h4 class="font-bold -mb-10 text-center text-xl">SENA</h4>
+            <img :src="LogoSenaverde" alt="imagen logo verde sena" class="md:w-20 md:h-40 object-center md:-mt-8 w-40 h-10" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">SENA</h4>
           </div>
           <div
             @click="selectImage(LogoApe); selectSede(sedes[1])"
-            class="w-72 h-36 flex flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
             :class="[selectedImage === LogoApe ? 'bg-gray-200' : 'bg-white']">
-            <img :src="LogoApe" alt="Imagen ape" class="object-scale-down h-48 w-64 object-center" />
-            <h4 class="font-bold -mb-10 text-center text-xl">APE</h4>
+            <img :src="LogoApe" alt="Imagen ape" class="object-scale-down md:h-48 md:w-64  w-44 h-10" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">APE</h4>
           </div>
           <div
             @click="selectImage(LogCertLab); selectSede(sedes[2])"
-            class="w-72 h-36 flex flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
             :class="[selectedImage === LogCertLab ? 'bg-gray-200' : 'bg-white']">
-            <img :src="LogCertLab" alt="Imagen certificados laborales" class="h-48 w-64 object-center" />
-            <h4 class="font-bold -mb-10 text-center text-xl">CERTIFICACIONES</h4>
+            <img :src="LogCertLab" alt="Imagen certificados laborales" class="md:h-48 md:w-64 object-center w-44 h-8" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">CERTIFICACIONES</h4>
           </div>
           <div
             @click="selectImage(FondoEmprender); selectSede(sedes[3])"
-            class="w-72 h-36 flex flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
             :class="[selectedImage === FondoEmprender ? 'bg-gray-200' : 'bg-white']">
-            <img :src="FondoEmprender" alt="Imagen fondo emprender" class="object-scale-down h-48 w-64 object-center" />
-            <h4 class="font-bold -mb-10 text-center text-xl">FONDO EMPRENDER</h4>
+            <img :src="FondoEmprender" alt="Imagen fondo emprender" class="object-scale-down md:h-48 md:w-64 object-center w-44 h-7" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">FONDO EMPRENDER</h4>
           </div>
         </div>
   
@@ -59,9 +58,9 @@
         <div class="flex items-center space-x-1 flex-auto -mb-3">
           <img :src="select2" alt="Icono de selección 2" width="25" height="25" />
           <p class="font-sans text-xl">Seleccione la</p>
-          <h3 class="font-sans text-xl">Regional</h3>
+          <h3 class="font-sans text-sm md:text-xl">Regional</h3>
         </div>
-        <div class="flex items-center space-x-2 h-1hadow-md">
+        <div class="flex items-center space-x-2 h-1 shadow-md">
           <!-- Selección de Departamento -->
           <Select v-model="selectedCountry" :options="departamentos" placeholder="Seleccione departamento"
             class="w-full rounded-lg shadow-md text-black" @change="updateSelectedInfo">
@@ -115,10 +114,40 @@ const selectedDepart = ref (null);
 const sedes = ["SERVICIO NACIONAL DE APRENDISAJE SENA", "AGENCIA PUBLICA DE EMPLEO", "CERTIFICACION COMPETENCIAS LABORALES", "FONDO EMPRENDER"];
 
 
+
 const departamentos = ref([
-  { name: "Amazonas", code: "91" },
-  { name: "Antioquia", code: "05" },
-  { name: "Arauca", code: "81" },
+	{ name: "Amazonas", code: "91" },
+	{ name: "Antioquia", code: "05" },
+	{ name: "Arauca", code: "81" },
+	{ name: "Atlantico", code: "08" },
+	{ name: "Bolivar", code: "13" },
+	{ name: "Boyacá", code: "15" },
+	{ name: "Caldas", code: "17" },
+	{ name: "Caquetá", code: "18" },
+	{ name: "Casanare", code: "85" },
+	{ name: "Cauca", code: "19" },
+	{ name: "Cesar", code: "20" },
+	{ name: "Chocó", code: "27" },
+	{ name: "Cundinamarca", code: "25" },
+	{ name: "Cordoba", code: "23" },
+	{ name: "Guainia", code: "94" },
+	{ name: "Guaviare", code: "95" },
+	{ name: "Huila", code: "41" },
+	{ name: "La Guajira", code: "44" },
+	{ name: "Magdalena", code: "47" },
+	{ name: "Meta", code: "50" },
+	{ name: "Nariño", code: "52" },
+	{ name: "Norte de Santander", code: "54" },
+	{ name: "Putumayo", code: "86" },
+	{ name: "Quindio", code: "63" },
+	{ name: "Risaralda", code: "66" },
+	{ name: "San Andres, Providencia y Santa Catalina", code: "88" },
+	{ name: "Santander", code: "68" },
+	{ name: "Sucre", code: "70" },
+	{ name: "Tolima", code: "73" },
+	{ name: "Valle del Cauca", code: "76" },
+	{ name: "Vaupés", code: "97" },
+	{ name: "Vichada", code: "99" },
 ]);
 
 

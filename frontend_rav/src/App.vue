@@ -1,11 +1,12 @@
 <template>
 	<div>
 	  <router-view />
-	  <div>
-		<button @click="isModalOpen = true" class="bg-blue-500 text-white px-4 py-2 rounded">Abrir Modal</button>
+	  
+	</div>
+  <div>
+		<button @click="isModalOpen = true" class="bg-blue-500 text-white px-4 py-2 rounded hidden">Abrir Modal</button>
 		<PopUp :isOpen="isModalOpen" @close="isModalOpen = false" />
 	  </div>
-	</div>
   </template>
   
   <script setup>
