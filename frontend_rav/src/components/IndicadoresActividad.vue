@@ -40,26 +40,15 @@
   
           <!-- Contenido Central (Aquí va el velocímetro) -->
           <div class="center-content">
-            <div class="speedometer-container">
-              <svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Fondo del velocímetro (semicírculo) -->
-                <path fill="none" stroke="#e0e0e0" stroke-width="15" d="M 10 100 A 90 90 0 0 1 190 100" />
-  
-                <!-- Arco de progreso (semi-circular) -->
-                <path :d="arcPath" fill="none" stroke="url(#gradient)" stroke-width="15" />
-  
-                <!-- Indicador (flecha) -->
-                <line :x1="100" :y1="100" :x2="indicatorX" :y2="indicatorY" stroke="#333" stroke-width="3" transform="rotate(180 100 100)" />
-  
-                <!-- Centro del velocímetro -->
-                <circle cx="100" cy="100" r="10" fill="#333" />
-              </svg>
-  
-              <div class="speedometer-info">
-                <p class="percentage">{{ percentage }}%</p>
-               
-              </div>
-            </div>
+            <vue-speedometer
+            :value="value"
+            :minValue="0"
+            :maxValue="100"
+            :segments="10"
+            :needleColor="'red'"
+            :startColor="'green'"
+            :endColor="'red'"
+            />
           </div>
   
           <!-- Contenido Derecho -->
@@ -91,26 +80,11 @@
   <script setup>
   import { ref, computed } from 'vue';
   import Indicador from '@/assets/images/indicador.svg';
-  
-  // Porcentaje de avance
-  const percentage = ref(36);
-  
-  // Calcula el ángulo en base al porcentaje (180 grados como máximo)
-  const angle = computed(() => (percentage.value / 100) * 180);
-  
-  // Calcula la posición del indicador (flecha)
-  const indicatorX = computed(() => 100 + 90 * Math.cos(Math.PI - (angle.value * Math.PI) / 180));
-  const indicatorY = computed(() => 100 + 90 * Math.sin(Math.PI - (angle.value * Math.PI) / 180));
-  
-  // Path para el arco del velocímetro (semi-circular)
-  const arcPath = computed(() => {
-    const startX = 10;
-    const startY = 100;
-    const endX = 100 + 90 * Math.cos(Math.PI - (angle.value * Math.PI) / 180);
-    const endY = 100 + 90 * Math.sin(Math.PI - (angle.value * Math.PI) / 180);
-  
-    return `M ${startX} ${startY} A 90 90 0 ${angle.value > 90 ? 1 : 0} 1 ${endX} ${endY}`;
-  });
+  import VueSpeedometer from "vue-speedometer";
+
+  const value = ref(10); // Valor inicial del velocímetro
+
+ 
   </script>
   
   <style scoped>
