@@ -44,7 +44,7 @@
           <!-- Botón Editar -->
           <button
             @click="editUser(user)"
-            class="bg-white border-none shadow-md p-2 rounded-full">
+            class="bg-white hover:bg-white border-none shadow-md p-2  rounded-full">
             <img :src="IconoEditar" alt="Editar" class="w-5 h-5" />
           </button>
           <!-- Botón Eliminar -->
@@ -67,6 +67,7 @@
           class="absolute top-4 right-4 text-customPurple hover:text-white border-none text-xl">
           ✕
         </button>
+        <img :src="imagenRegistro" alt="">
         <h2 class="text-3xl font-semibold text-black m-2 text-center">Registrar Usuario</h2>
         <form @submit.prevent="submitForm" class="space-y-3 p-8">
           <input v-model="formData.name" type="text" placeholder="Nombre" class="w-full px-3 h-11 py-2 bg-gray-100 rounded-lg" required />
@@ -144,7 +145,7 @@
       
       <div class="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 relative">
      
-        <button @click="closeDeleteModal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-800">✕</button>
+        <button @click="closeDeleteModal" class="absolute top-4 right-4 text-customPurple border-none rounded-full p-2 font-bold hover:bg-customPurple hover:text-white">✕</button>
         <div class="text-center">
           <img :src="DeleteSucess" class="" alt="">
           <h2 class="text-xl font-bold mb-0  text-black">¿Estás seguro que</h2>
@@ -173,6 +174,7 @@ import  IconoEliminar from '@/assets/images/IconoEliminar.svg';
 import  IconoVisualizar from '@/assets/images/IconoVisualizar.svg';
 import  RegistroUsuario from '@/assets/images/RegistroUsuario.svg';
 import DeleteSucess from '@/assets/images/delete-success.png';
+import imagenRegistro from '@/assets/images/imagenRegistro.jpg';
 
 // Estados para modales
 const showRegisterModal = ref(false);
