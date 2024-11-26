@@ -133,6 +133,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="flex-1">
 		  <label class="block text-customPurple mb-2">NÚMERO DE DOCUMENTO:</label>
 		  <p class="text-black mb-4">{{ userInfo.documento || "NO REGISTRA" }}</p>
@@ -148,6 +149,7 @@
   
 		  <label class="block text-customPurple mb-2">NÚMERO DE CONTACTO:</label>
 		  <p class="text-black">{{ userInfo.numtelefonocelular || "NO REGISTRA" }}</p>
+>>>>>>> origin/develop
 		</div>
 	  </div>
 	
