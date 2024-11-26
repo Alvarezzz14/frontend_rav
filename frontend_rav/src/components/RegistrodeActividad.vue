@@ -122,7 +122,7 @@
         <span class="mt-2 text-xs sm:text-base">Crear Ticket</span>
       </button>
     </div>
-  </div>
+  
 
   <!-- Contenedor de Lista -->
 
@@ -217,7 +217,7 @@
 import Actividad from "@/assets/images/Actividad.png"
 import personwhite from "@/assets/images/UserWhite.svg";
 import { ref } from 'vue';
-import { computed, ref } from 'vue';
+import { computed} from 'vue';
 import { useEventStore } from "../stores/storedataOff";
 import { useAuthStore } from "../stores/auth";
 
