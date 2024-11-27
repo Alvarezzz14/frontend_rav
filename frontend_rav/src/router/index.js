@@ -15,6 +15,7 @@ import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import ErrorPage from '@/pages/ErrorPage.vue';
 import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
+import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 
 const routes = [
   {
@@ -99,6 +100,12 @@ const routes = [
 
       },
 
+      {
+        path: '/indicadoresactividad',
+        name: 'IndicadoresActividadPage',
+        component: IndicadoresActividadPage
+
+      },
     ]
   },
 ];
