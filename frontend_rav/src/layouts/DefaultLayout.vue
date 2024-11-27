@@ -6,8 +6,8 @@
 		</header>
 
 		<!-- Logo para pantallas pequeñas -->
-		<div class="lg:hidden flex justify-center py-4">
-			<img :src="RavLogo" alt="Logo Rav" />
+		<div class="lg:hidden flex justify-center py-2 h-20 ">
+			<img :src="LogoApe" alt="Logo Ape" />
 		</div>
     
 		<!-- Barra horizontal (botón para abrir el sidebar) -->
@@ -80,7 +80,7 @@ import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Notifications from "@/components/SideBars/Notifications.vue";
 import Footer from "@/components/Footer.vue";
-import RavLogo from "@/assets/images/ravLogo.png";
+import LogoApe from "@/assets/images/logoape.svg";
 import FileNotification from "@/components/FileNotification.vue";
 
 // Estados para controlar los menús y el overlay

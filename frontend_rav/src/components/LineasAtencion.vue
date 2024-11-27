@@ -5,13 +5,13 @@
       <div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl">
         <!-- Icono y Título -->
         <div class="flex items-center md:-mb-8  -mb-6">
-          <div class="p-3 md:p-5 bg-azulBarraApe rounded-full md:mb-5 mb-10 -mt-6">
+          <div class="p-3 md:p-5 bg-azulBarraApe rounded-full md:mb-5 mb-10 -mt-2">
             <!-- Icono SVG -->
-            <img :src="lineaAten" alt=" Icono de Lineas de atencion" class="w-10 h-10 md:w-20 md:h-20"  />
+            <img :src="lineaAten" alt=" Icono de Lineas de atencion" class="w-10 h-10 md:w-20 md:h-20 "  />
           </div>
-          <div class="ml-3 text-center md:text-left">
-            <p class="text-black md:mb-0 text-md md:text-2xl ">lineas de</p>
-            <h2 class="text-azulBarraApe text-3xl md:text-5xl md:mt-0 font-bold">Atencion</h2>
+          <div class="md:ml-3 ml-3 ">
+            <p class="text-black md:mb-0 text-lg md:text-2xl -mt-6">Lineas de</p>
+            <h2 class="text-azulBarraApe text-4xl md:text-5xl md:mt-0 font-bold -mt-7">Atención</h2>
           </div>
         </div>
       </div>
@@ -19,45 +19,45 @@
       <!-- Contenedores de imagen -->
       <div class="md:flex-col md:gap-7 md:p-4  grid grid-col gap-2">
         <div class="flex items-center space-x-1 flex-auto -mb-5">
-          <img :src="select1" alt="Icono de selección 1" class="w-6 h-6 " />
-          <p class="font-sans text md:text-xl">Seleccione la</p>
+          <img :src="select1" alt="Icono de selección 1" class="w-5 h-5 " />
+          <p class="font-sans text-sm md:text-xl">Seleccione la</p>
           <h3 class="font-sans text-sm md:text-xl">Entidad</h3>
         </div>
-        <div class="md:flex md:justify-between grid grid-cols-2  items-center  ">
+        <div class="md:flex md:justify-between grid grid-cols-2  items-center gap-x-3 gap-y-8 p-2 ">
           <div
             @click="selectImage(LogoSenaverde); selectSede(sedes[0])"
-            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
-            :class="['', selectedImage === LogoSenaverde ? 'bg-gray-200' : 'bg-white']"><h2></h2>
-            <img :src="LogoSenaverde" alt="imagen logo verde sena" class="md:w-20 md:h-40 object-center md:-mt-8 w-40 h-10" />
-            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">SENA</h4>
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer md:p-2 shadow-md h-24 w-42 justify-center"
+            :class="['', selectedImage === LogoSenaverde ? 'bg-gray-200' : 'bg-white']">
+            <img :src="LogoSenaverde" alt="imagen logo verde sena" class="md:w-20 md:h-40 object-center md:-mt-1 w-40 h-16 mt-4" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl ">SENA</h4>
           </div>
           <div
             @click="selectImage(LogoApe); selectSede(sedes[1])"
-            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer  shadow-md h-24 w-40 "
             :class="[selectedImage === LogoApe ? 'bg-gray-200' : 'bg-white']">
-            <img :src="LogoApe" alt="Imagen ape" class="object-scale-down md:h-48 md:w-64  w-44 h-10" />
-            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">APE</h4>
+            <img :src="LogoApe" alt="Imagen ape" class="object-scale-down md:h-48 md:w-64 w-44 h-12 mt-7 " />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl ">APE</h4>
           </div>
           <div
             @click="selectImage(LogCertLab); selectSede(sedes[2])"
-            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer md:p-2 shadow-md h-24 w-42 px-2"
             :class="[selectedImage === LogCertLab ? 'bg-gray-200' : 'bg-white']">
-            <img :src="LogCertLab" alt="Imagen certificados laborales" class="md:h-48 md:w-64 object-center w-44 h-8" />
-            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">CERTIFICACIONES</h4>
+            <img :src="LogCertLab" alt="Imagen certificados laborales" class="object-scale-down md:h-48 md:w-64  w-36 h-5 mt-10 mb-4" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl -mb-7">CERTIFICACIONES</h4>
           </div>
           <div
             @click="selectImage(FondoEmprender); selectSede(sedes[3])"
-            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md"
+            class="md:w-72 md:h-36 md:flex md:flex-col items-center rounded-lg cursor-pointer p-2 shadow-md h-24 w-42"
             :class="[selectedImage === FondoEmprender ? 'bg-gray-200' : 'bg-white']">
-            <img :src="FondoEmprender" alt="Imagen fondo emprender" class="object-scale-down md:h-48 md:w-64 object-center w-44 h-7" />
-            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl">FONDO EMPRENDER</h4>
+            <img :src="FondoEmprender" alt="Imagen fondo emprender" class="object-scale-down md:h-48 md:w-64 object-center w-36 h-7 mt-8 mb-2" />
+            <h4 class="font-bold md:-mb-10 text-center text-sm md:text-xl -mb-7">FONDO EMPRENDER</h4>
           </div>
         </div>
   
         <!-- Selección de Regional -->
-        <div class="flex items-center space-x-1 flex-auto -mb-3">
-          <img :src="select2" alt="Icono de selección 2" width="25" height="25" />
-          <p class="font-sans text-xl">Seleccione la</p>
+        <div class="flex items-center space-x-1 flex-auto ">
+          <img :src="select2" alt="Icono de selección 2" class="h-5 w-5 " />
+          <p class="font-sans text-sm md:text-xl">Seleccione la</p>
           <h3 class="font-sans text-sm md:text-xl">Regional</h3>
         </div>
         <div class="flex items-center space-x-2 h-1 shadow-md">
@@ -80,8 +80,8 @@
         <div class="flex items-center justify-center">
           <!-- Botón de Búsqueda -->
           <Button
-            class="w-72 !bg-azulBarraApe text-lg cursor-pointer border-none !text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
-            type="button" label="Buscar" icon="pi pi-search" :loading="loading" @click="openModal" />
+            class="md:w-96  w-full h-10 !bg-azulBarraApe text-lg cursor-pointer border-none !text-amarillo font-bold py-2 rounded-lg shadow-md mt-4"
+            type="button" label="Buscar" icon="" :loading="loading" @click="openModal" />
         </div>
       </div>
   
@@ -177,4 +177,5 @@ const openModal = () => {
 
 <style scoped>
 /* No additional CSS needed as everything is styled with Tailwind CSS */
+
 </style>
