@@ -18,29 +18,32 @@
 			</div>
 			<!-- Botones de Acción -->
 			<div class="flex flex-wrap gap-4 mt-4 justify-center">
-				<button
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+				<router-link
+					:to="{ name: 'RutaAtencionPage' }"
+					class="cursor-pointer bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img
 						:src="RutaAtencion"
 						alt="Icono de Atención"
 						class="w-10 h-10 mb-2" />
 					<span class="text-sm">Ver Ruta de Atención</span>
-				</button>
+				</router-link>
 
-				<button
+				<router-link
+					:to="{ name: 'LineaTiempoNuevaPage' }"
 					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
 					<span class="text-sm">Ver Línea de Tiempo</span>
-				</button>
+				</router-link>
 
-				<button
+				<router-link
+					:to="{ name: 'RegistroActividadPage' }"
 					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img
 						:src="Actividad"
 						alt="Icono registrar actividad"
 						class="w-10 h-10 mb-2" />
 					<span class="text-sm">Registrar de Actividad</span>
-				</button>
+				</router-link>
 			</div>
 		</div>
 
