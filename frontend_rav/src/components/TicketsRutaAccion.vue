@@ -2,7 +2,7 @@
 	<div class="p-5 rounded-md">
 		<table class="w-full border-separate">
 			<thead>
-				<tr class="text-left text-gray-700">
+				<tr class="text-gray-700">
 					<th class="">
 						<svg
 							width="26"
@@ -91,11 +91,6 @@
 					<td class="py-4 px-2">
 						<div class="flex flex-col items-start">
 							<time class="text-lg font-bold text-gray-700">{{ date }}</time>
-							<button
-								@click="toggleGroup(date)"
-								class="text-customPurple font-semibold hover:underline cursor-pointer mt-2">
-								{{ openedGroups[date] ? "Cerrar" : "Ver más" }}
-							</button>
 						</div>
 					</td>
 
@@ -167,8 +162,8 @@ const toggleGroup = (date) => {
 <style scoped>
 /* Aplicar bordes con espaciado */
 table {
-	border-collapse: collapse;
-	border-spacing: 8px; /* Espacio entre celdas */
+	border-collapse: separate;
+	border-spacing: 1px 0px; /* Espacio entre celdas */
 	width: 100%;
 }
 
