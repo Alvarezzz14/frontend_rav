@@ -142,7 +142,7 @@ import { ref, computed, onMounted } from 'vue';
 import Indicador from '@/assets/images/indicador.svg';
 import VueSpeedometer from 'vue-speedometer';
 
-const value = ref(59); // Valor inicial del velocímetro
+const value = ref(190); // Valor inicial del velocímetro
 
 // Estado de las metas con valores dinámicos
 const goals = ref([

@@ -34,10 +34,10 @@
 						</router-link>
 					</div>
 				</div>
-				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
+				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden" style="gap: 10px;"
                :style="getGradientStyle(index)">
             <!-- Indicador Circular -->
-            <div class="relative w-24 h-24 md:w-28 md:h-28">
+            <div class="relative w-20 h-20 md:w-28 md:h-28">
               <svg class="w-full h-full" viewBox="0 0 100 100">
                 <circle
                   cx="50"
