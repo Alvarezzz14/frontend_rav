@@ -231,15 +231,13 @@ const keywords = [
 // Variable reactiva para la descripción
 const authStore = useAuthStore();
 const eventStore = useEventStore();
-const content = ref("");
-const title = ref("");
-const keyWords = ref("");
-console.log(authStore.authenticatedUser.user_id);
-const user_id = computed(() => {
-	console.log(authStore.authenticatedUser);
-	return authStore.authenticatedUser.user_id;
-});
-const documentNumber = computed(() => eventStore.userInfo.documento);
+const content = ref('');
+const title = ref('');
+const keyWords = ref('')
+console.log(authStore.getAuthenticatedUser.user_id);
+const user_id = authStore.getAuthenticatedUser.user_id;
+
+const documentNumber = computed(()=> eventStore.userInfo.documento);
 
 const fetchOptions = {
 	url: "http://localhost:8082/api/v1/victimas/ticket",
@@ -258,36 +256,36 @@ const addToKeywords = (keyword) => {
 	console.log(keyWords.value);
 };
 
-const createBodyFetch = () => {
-	return {
-		id_ticket: window.Date.now(),
-		titulo: title.value,
-		contenido: content.value,
-		palabras_clave: keyWords.value,
-		numero_documento: documentNumber.value,
-		id_usuario: user_id.value,
-	};
-};
+const createBodyFetch = ()=>{
+return{
+    id_ticket:window.Date.now(),
+    titulo:title.value,
+    contenido:content.value,
+    palabras_clave: keyWords.value,
+    numero_documento: documentNumber.value,
+    id_usuario: user_id
+}
+}
 
-const sendTicker = async (fetchOptions) => {
-	const body = createBodyFetch();
-	const { url, options } = fetchOptions;
-	options.body = JSON.stringify(body);
-	try {
-		const response = await fetch(url, options);
-		const json = await response.json();
-		if (!response.ok)
-			throw {
-				error: true,
-				errorStatus: response.status,
-				errorMsg: response.statusText,
-			};
-		console.log(json);
-	} catch (error) {
-		if (!error.error) error.error = true;
-		console.log(error);
-	}
-};
+
+
+const sendTicker = async(fetchOptions)=>{
+    const body = createBodyFetch();
+    const {url,options} = fetchOptions
+    options.body = JSON.stringify(body);
+    try{
+        const response = await fetch(url,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+        
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }finally{
+      keyWords.value = ''
+    }
+}
 </script>
 
 <style scoped>

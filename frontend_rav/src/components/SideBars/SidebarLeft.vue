@@ -148,6 +148,7 @@
 </template>
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from "vue";
+import { useAuthStore } from "../../stores/auth";
 import Avatar from "@/components/Buttons/Avatar.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
 import axios from "axios";
@@ -159,6 +160,7 @@ import Notifications from "./Notifications.vue";
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
+const authStore = useAuthStore();
 
 const user = ref({
 	name: "Amy Elsner",
@@ -348,9 +350,7 @@ const isActive = (item) => {
 const hasShownNoSessionToast = ref(false);
 
 const logout = async () => {
-	// Verificar si hay un token en el localStorage
-	const token = localStorage.getItem("token");
-	if (!token) {
+	authStore.logout()
 		// Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
 		if (!hasShownNoSessionToast.value) {
 			toast.info("No hay sesión activa.");
@@ -358,7 +358,7 @@ const logout = async () => {
 		}
 		router.push({ name: "LoginPage" });
 		return;
-	}
+	
 	try {
 		// Configurar la petición con el token
 		const config = {
