@@ -1,6 +1,6 @@
 <template>
-	<div class="p-5 rounded-md">
-		<table class="w-full border-separate">
+	<div class="">
+		<table class="">
 			<thead>
 				<tr class="text-gray-700">
 					<th class="">
@@ -66,7 +66,7 @@
 								d="M13 11L14.3471 15.1459H18.7063L15.1796 17.7082L16.5267 21.8541L13 19.2918L9.47329 21.8541L10.8204 17.7082L7.29366 15.1459H11.6529L13 11Z"
 								fill="#010101" />
 						</svg>
-						Ticket
+						<span>Ticket</span>
 					</th>
 					<th class="">
 						<svg
@@ -82,7 +82,7 @@
 								d="M12.6482 8.01577C12.8398 8.09358 12.9835 8.25577 13.1826 8.33358C14.1457 8.71046 15.0524 7.90139 14.9583 6.77358C14.9381 6.53264 14.8154 6.35358 14.8096 6.13796C15.8785 5.92889 17.0533 6.68171 17.5096 7.77108C18.1533 9.30671 17.5289 11.1386 16.1222 11.7733C13.9868 12.737 11.865 10.4073 12.649 8.01483L12.6482 8.01577Z"
 								fill="black" />
 						</svg>
-						Visualizar
+						<span>Visualizar</span>
 					</th>
 				</tr>
 			</thead>
@@ -111,10 +111,7 @@
 						</div>
 					</td>
 
-					<td
-						v-else
-						colspan="2"
-						class="text-customPurple py-4 px-2 text-center">
+					<td v-else class="text-customPurple py-4 px-2 text-center">
 						<button
 							@click.prevent="$emit('showEventDetails', event)"
 							class="text-customPurple hover:underline">
