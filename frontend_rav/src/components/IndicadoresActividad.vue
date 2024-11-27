@@ -53,10 +53,10 @@
 
         <!-- Contenido Derecho (Aquí se inserta el indicador circular) -->
         <div class="right-content flex flex-wrap justify-center gap-6">
-          <div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden shadow-lg"
+          <div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
                :style="getGradientStyle(index)">
             <!-- Contenedor redondeado para el indicador circular -->
-            <div class="relative w-24 h-24 md:w-28 md:h-28">
+            <div class="relative w-22 h-22 md:w-24 md:h-24">
               <!-- Fondo del medidor vacío -->
               <svg class="w-full h-full" viewBox="0 0 100 100">
                 <circle
@@ -88,7 +88,7 @@
             <div class="flex flex-col justify-center items-start">
               <!-- Meta Trimestral -->
               <div :class="index === 2 ? 'text-white' : 'text-black' " class="text-sm font-semibold">
-                META {{ goal.label }}
+                 {{ goal.label }}
               </div>
               <!-- Valor de la meta -->
               <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold' ">
