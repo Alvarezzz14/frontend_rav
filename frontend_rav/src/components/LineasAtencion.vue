@@ -22,10 +22,12 @@
 		 <h3 class="font-sans">Entidad</h3> 
 		</div>
 		<div class="flex  gap-5 -mb-3 "> 
-			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md ">
+			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md "
+      @click="()=> handleEntityClick({image: LogoSenaverde,sede:sedes[0],newEntity:'sena'})">
 				<img :src="LogoSenaverde" alt="imagen logo verde sena" class="w-20 h-40" /> 
 			</div> 
-			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md">
+			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md"
+      @click="()=>handleEntityClick({image: LogoApe,sede:sedes[0],newEntity: 'ape'})">
 				<img :src="LogoApe" alt="Imagen ape" class="object-scale-down h-48 w-32 object-center" />
 			</div> 
 			<div class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2  bg-white shadow-md">
@@ -54,7 +56,6 @@
           @change="updateSelectedInfo">
           <template #value="slotProps">
             <div v-if="slotProps.value" class="flex gap-2 items-center font-semibold text-customPurple">
-              <img :alt="slotProps.value.name" :src="slotProps.value.flagUrl" class="w-6 h-6" />
               <div>{{ slotProps.value.name }}</div>
             </div>
             <span v-else class="text-customPurple">{{ slotProps.placeholder }}</span>
@@ -65,12 +66,7 @@
             </div>
           </template>
         </Select>
-			 <!-- Tarjeta de Información del Departamento -->
-			 <div v-if="selectedInfo" class="w-full max-w-md rounded-lg shadow-lg bg-white">
-        <div class="p-4 text-gray-700">
-          <p>{{ getDepartmentDescription(selectedInfo.name) }}</p>
-        </div>
-      </div>
+
 		</div> 
 	<div class="flex items-center justify-center"> 
 		<!-- Botón de Búsqueda -->
@@ -79,8 +75,12 @@
 			label="Buscar"
 			icon="pi pi-search"
 			:loading="loading"
-			@click="searchUser" />
+			@click="()=>{
+        searchDepartamentt(fetchOptions)
+        }" />
 	</div>
+   <!-- Componente de PopUp -->
+   <PopUp :data="fetchData" :isOpen="isModalOpen" :image="selectedImage" :sede="selectedSede"  :departamento="selectedCountry?.name"  @close="isModalOpen = false" />
 	</div>
 </template>
 <script setup>
@@ -93,9 +93,19 @@ import LogCertLab from "@/assets/imgLineasAtencion/LogCertLab.svg";
 import LogoApe from "@/assets/images/LogoApe.png";
 import FondoEmprender from "@/assets/images/FondoEmprender.png";
 import Select from "primevue/select";
+import PopUp from "./PopUp.vue";
 
 const selectedCountry = ref();
 const selectedInfo = ref(null);
+const selectedImage = ref(null);
+const selectedSede = ref(null);
+const isModalOpen = ref(false);
+const fetchData = ref([]);
+// const selectedDepart = ref (null);
+let entity;
+
+
+const sedes = ["SERVICIO NACIONAL DE APRENDISAJE SENA", "AGENCIA PUBLICA DE EMPLEO", "CERTIFICACION COMPETENCIAS LABORALES", "FONDO EMPRENDER"];
 
 const departamentos = ref([
 
@@ -171,12 +181,81 @@ const descriptions = {
   return descriptions[name] || "No description available.";
 };
 
-const updateSelectedInfo = () => {
 
+
+const fetchOptions = {
+    url: "http://localhost:8082/api/v1/victimas/lines",
+    options: {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    }
+}
+
+
+
+
+
+const updateSelectedInfo = () => {
   const selected = departamentos.value.find((dep) => dep.code === selectedCountry.value?.code);
   selectedInfo.value = selected ? selected : null;
   console.log(selectedInfo.value);
 };
+
+const setEntity = (newEntity)=> {
+  entity = newEntity;
+console.log(entity);
+}
+
+
+const selectImage = (image) => {
+  selectedImage.value = image;
+};
+
+const selectSede = (sede) => {
+  selectedSede.value = sede;
+};
+
+// const selectDepart = (departamentos) => {
+//   selectedDepart.value = sede;
+// };
+
+
+// const openModal = () => {
+//   isModalOpen.value = true;
+// };
+
+
+
+const searchDepartamentt = async(fetchOptions)=>{
+    const {url,options} = fetchOptions
+    let newUrl = url + `/${entity}/${selectedInfo.value.name}`
+    console.log(newUrl);
+    
+    try{
+        const response = await fetch(newUrl,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+        fetchData.value = json;
+        isModalOpen.value = true;
+        
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }finally{
+      newUrl = ''
+    }
+}
+
+const handleEntityClick = (options)=>{
+  const {image,sede,newEntity} = options
+  setEntity(newEntity)
+  selectImage(image)
+  selectSede(sede)
+}
+
 </script>
 
 <style scoped>

@@ -187,11 +187,9 @@ const eventStore = useEventStore();
 const content = ref('');
 const title = ref('');
 const keyWords = ref('')
-console.log(authStore.authenticatedUser.user_id);
-const user_id = computed(()=> {
-    console.log(authStore.authenticatedUser);
-    return authStore.authenticatedUser.user_id
-})
+console.log(authStore.getAuthenticatedUser.user_id);
+const user_id = authStore.getAuthenticatedUser.user_id;
+
 const documentNumber = computed(()=> eventStore.userInfo.documento);
 
 const fetchOptions = {
@@ -220,9 +218,10 @@ return{
     contenido:content.value,
     palabras_clave: keyWords.value,
     numero_documento: documentNumber.value,
-    id_usuario: user_id.value
+    id_usuario: user_id
 }
 }
+
 
 
 const sendTicker = async(fetchOptions)=>{
@@ -234,9 +233,12 @@ const sendTicker = async(fetchOptions)=>{
         const json = await response.json();
         if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
         console.log(json)
+        
     }catch(error){
         if (!error.error) error.error = true
         console.log(error)
+    }finally{
+      keyWords.value = ''
     }
 }
 </script>
