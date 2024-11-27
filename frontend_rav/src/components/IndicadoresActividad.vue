@@ -53,7 +53,7 @@
 
         <!-- Contenido Derecho (Aquí se inserta el indicador circular) -->
         <div class="right-content flex flex-wrap justify-center gap-6">
-          <div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
+          <div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden shadow-lg"
                :style="getGradientStyle(index)">
             <!-- Contenedor redondeado para el indicador circular -->
             <div class="relative w-24 h-24 md:w-28 md:h-28">
@@ -87,12 +87,22 @@
             <!-- Contenido de texto a la derecha del indicador -->
             <div class="flex flex-col justify-center items-start">
               <!-- Meta Trimestral -->
-              <div class="text-sm font-semibold text-gray-700"> {{ goal.label }}</div>
-              <div class="text-lg font-bold text-customPurple">{{ goal.meta || 0 }}</div> <!-- Valor de la meta -->
+              <div :class="index === 2 ? 'text-white' : 'text-black' " class="text-sm font-semibold">
+                META {{ goal.label }}
+              </div>
+              <!-- Valor de la meta -->
+              <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold' ">
+                {{ goal.meta || 0 }}
+              </div> 
 
               <!-- Estado Actual -->
-              <div class="mt-1 text-sm font-semibold text-gray-700">ESTADO ACTUAL</div>
-              <div class="text-lg font-bold text-customPurple">{{ goal.current || 0 }}</div> <!-- Valor actual -->
+              <div :class="index === 2 ? 'text-white' : 'text-black' " class="mt-1 text-sm font-semibold">
+                ESTADO ACTUAL
+              </div>
+              <!-- Valor actual -->
+              <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold' ">
+                {{ goal.current || 0 }}
+              </div>
             </div>
           </div>
         </div>
@@ -134,18 +144,16 @@ onMounted(() => {
 const getGradientStyle = (index) => {
   switch (index) {
     case 0:
-      return { background: 'linear-gradient(180deg, #F2F3F3 0%, #D9D9D9 70%)' };
+      return { background: 'linear-gradient(to right, rgba(242, 243, 243, 1), rgba(217, 217, 217, 1))' };
     case 1:
-      return { background: 'linear-gradient(180deg, rgba(234, 181, 4, 0.4) 0%, #FDC300 100%)' };
+      return { background: 'linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))' };
     case 2:
-      return { background: 'linear-gradient(180deg, #CF5FDD 0%, #71277A 74.5%)' };
+      return { background: 'linear-gradient(to right, rgba(207, 95, 221, 1), rgba(113, 39, 122, 1))' };
     default:
       return {};
   }
 };
 </script>
-
-
 
 
 <style scoped>
@@ -191,7 +199,7 @@ const getGradientStyle = (index) => {
 
 
 .right-content {
-  max-width: 30%;
+  max-width: 23%;
   display: flex;
   flex-direction: column;
   gap: 40px;
