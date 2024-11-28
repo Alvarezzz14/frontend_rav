@@ -13,7 +13,7 @@
       </div>
       <!-- Botón de Registrar Usuario -->
       <button @click="showRegisterModal = true"
-        class="bg-customPurple text-white py-4 shadow-lg border-none px-6 rounded-lg flex flex-col items-center justify-center transition duration-300">
+        class="bg-customPurple text-white py-4 cursor-pointer hover:bg-moradoSecundario shadow-lg border-none px-6 rounded-lg flex flex-col items-center justify-center transition duration-300">
         <img :src="RegistroUsuario" alt="Registrar Usuario" class="w-16 h-16 mb-2" />
         <span class="text-center font-bold text-white">Registrar Usuario</span>
       </button>
@@ -35,15 +35,15 @@
         <div class="p-4 text-center border-b border-gray-300">{{ user.numero_documento }}</div>
         <div class="p-4 text-center border-b border-gray-300">
           <!-- Botón Ver -->
-          <button @click="viewUser(user)" class="bg-white border-none shadow-md p-2 rounded-full">
+          <button @click="viewUser(user)" class="bg-white cursor-pointer border-none shadow-md p-2 rounded-full">
             <img :src="IconoVisualizar" alt="Ver" class="w-5 h-5" />
           </button>
           <!-- Botón Editar -->
-          <button @click="editUser(user)" class="bg-white hover:bg-white border-none shadow-md p-2  rounded-full">
+          <button @click="editUser(user)" class="bg-white cursor-pointer mx-2  border-none shadow-md p-2  rounded-full">
             <img :src="IconoEditar" alt="Editar" class="w-5 h-5" />
           </button>
           <!-- Botón Eliminar -->
-          <button @click="confirmDeleteUser(user)" class="bg-white border-none shadow-md p-2 rounded-full">
+          <button @click="confirmDeleteUser(user)" class="bg-white border-none cursor-pointer  shadow-md p-2 rounded-full">
             <img :src="IconoEliminar" alt="Eliminar" class="w-5 h-5" />
           </button>
         </div>
@@ -60,7 +60,7 @@
 
         <!-- Botón de Cerrar -->
         <button @click="closeRegisterModal"
-          class="absolute top-4 right-4 text-customPurple rounded-full hover:text-white border-none text-xl z-10">
+          class="absolute top-4 right-4 text-customPurple rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
           ✕
         </button>
 
@@ -81,7 +81,7 @@
               <input type="radio" id="admin" name="role" value="Administrador" v-model="formData.role"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-customPurple font-semibold': formData.role === 'Administrador', 'text-gray-700': formData.role !== 'Administrador' }"
+                :class="{ 'text-black font-semibold': formData.role === 'Administrador', 'text-gray-700': formData.role !== 'Administrador' }"
                 class="text-sm lg:text-lg">
                 Administrador
               </span>
@@ -90,7 +90,7 @@
               <input type="radio" id="funcionario" name="role" value="Funcionario" v-model="formData.role"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-customPurple font-semibold': formData.role === 'Funcionario', 'text-gray-700': formData.role !== 'Funcionario' }"
+                :class="{ 'text-black font-semibold': formData.role === 'Funcionario', 'text-gray-700': formData.role !== 'Funcionario' }"
                 class="text-sm lg:text-lg">
                 Funcionario
               </span>
@@ -99,7 +99,7 @@
               <input type="radio" id="operario" name="role" value="Operario" v-model="formData.role"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-customPurple font-semibold': formData.role === 'Operario', 'text-gray-700': formData.role !== 'Operario' }"
+                :class="{ 'text-black font-semibold': formData.role === 'Operario', 'text-gray-700': formData.role !== 'Operario' }"
                 class="text-sm lg:text-lg">
                 Operario
               </span>
@@ -109,19 +109,19 @@
           <!-- Campos del Formulario -->
           <form @submit.prevent="submitForm" class="space-y-4">
             <input v-model="formData.name" type="text" placeholder="Nombre"
-              class="w-full px-4 py-3 bg-gray-100 rounded-lg border focus:outline-none focus:ring-2 focus:ring-customPurple"
+              class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <input v-model="formData.email" type="email" placeholder="Correo SENA"
-              class="w-full px-4 py-3 bg-gray-100 rounded-lg border focus:outline-none focus:ring-2 focus:ring-customPurple"
+              class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <input v-model="formData.password" type="password" placeholder="Crear Contraseña"
-              class="w-full px-4 py-3 bg-gray-100 rounded-lg border focus:outline-none focus:ring-2 focus:ring-customPurple"
+              class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar Contraseña"
-              class="w-full px-4 py-3 bg-gray-100 rounded-lg border focus:outline-none focus:ring-2 focus:ring-customPurple"
+              class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <button type="submit"
-              class="w-full bg-customPurple text-white font-bold py-3 rounded-lg transition duration-300 hover:bg-purple-700">
+              class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300 ">
               Registrar
             </button>
           </form>
@@ -142,7 +142,6 @@
     </div>
 
 
-    <!-- Modal para Ver Usuario -->
     <!-- Modal para Ver Usuario -->
     <div v-if="showViewModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
@@ -165,7 +164,7 @@
           </div>
 
           <!-- Close Button -->
-          <button @click="closeViewModal" class="text-customPurple hover:text-white rounded-full border-none text-2xl">
+          <button @click="closeViewModal" class="text-customPurple hover:text-white hover:bg-customPurple rounded-full border-none text-2xl">
             ✕
           </button>
         </div>
@@ -251,7 +250,7 @@
             <h2 class="text-xl font-bold text-black">DATOS DE USUARIO</h2>
           </div>
           <button @click="closeEditModal"
-            class="absolute top-4 right-4 text-customPurple font-bold hover:text-white border-none rounded-full p-2">
+            class="absolute top-4 right-4 text-customPurple font-bold hover:text-white hover:bg-customPurple border-none rounded-full p-2">
             ✕
           </button>
          
@@ -294,9 +293,9 @@
               <!--rol-->
               <div class="flex flex-col">
                 <label for="rol" class="font-medium">Rol:</label>
-                <select v-model="selectedUser.rol" id="rol" class="w-full border-none px-3 h-11 bg-gray-100 rounded-lg"
+                <select v-model="selectedUser.rol" id="rol" class="w-full border-none px-3 h-11 bg-gray-100  rounded-lg"
                   required>
-                  <option value="Administrador">Administrador</option>
+                  <option  value="Administrador" >Administrador</option>
                   <option value="Funcionario">Funcionario</option>
                   <option value="Operario">Operario</option>
                 </select>
@@ -398,6 +397,7 @@ import IconoEliminar from '@/assets/images/IconoEliminar.svg';
 import IconoVisualizar from '@/assets/images/IconoVisualizar.svg';
 import RegistroUsuario from '@/assets/images/RegistroUsuario.svg';
 import DeleteSucess from '@/assets/images/delete-success.png';
+import DeleteConfirm from '@/assets/images/delete-confirm.png';
 import imagenRegistro from '@/assets/images/imagenRegistro.jpg';
 import logoRav from '@/assets/images/LogoPageRav.svg';
 import logoSena from '@/assets/images/logosenaverde.svg';
@@ -495,9 +495,6 @@ function closeSuccessModal() {
 
 
 <style scoped>
-button:hover {
-  background-color: #4b286f;
-}
 
 .modal-enter-active,
 .modal-leave-active {
