@@ -36,63 +36,29 @@
 			<!-- Formulario a la Derecha -->
 			<div
 				class="flex-1 max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-md w-full">
-				<center><h3>GENERAR REPORTES</h3></center>
+				<center><h3>Seleccione el tipo de reporte</h3></center>
 				<!-- Selección de Formato -->
 				<div class="mb-4">
-					<label class="block text-gray-700 text-sm font-semibold mb-2"
-						>Seleccione el formato en el cual desea descargar el archivo.</label
-					>
-
-					<br>
-
-					<div class="radio-button">
+					<div class="flex space-x-8"> <!-- Aquí cambiamos la dirección a horizontal -->
 						<input type="radio" id="admin" name="role" value="Administrador" class="custom-radio" v-model="selectedRole" />
-						<label for="admin">Historial de Usuarios</label>
+						<label for="admin">Registrar Ticket</label>
 
 						<input type="radio" id="funcionario" name="role" value="Funcionario" class="custom-radio" v-model="selectedRole" />
 						<label for="funcionario">Estadísticas del Ciudadano</label>
 
 						<input type="radio" id="operario" name="role" value="Operario" class="custom-radio" v-model="selectedRole" />
-						<label for="operario">Listar Usuarios</label>
-					</div>
-
-					<br>
-
-					<div class="space-y-2">
-						<label
-							class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
-							:class="{
-								'bg-customPurple text-white font-bold':
-									selectedFormat === 'pdf',
-								'bg-gray-100': selectedFormat !== 'pdf',
-							}"
-							@click="selectFormat('pdf')">
-							PDF
-						</label>
-						<label
-							class="block p-4 rounded-lg shadow-sm border cursor-pointer transition-all duration-300"
-							:class="{
-								'bg-customPurple text-white font-bold':
-									selectedFormat === 'excel',
-								'bg-gray-100': selectedFormat !== 'excel',
-							}"
-							@click="selectFormat('excel')">
-							EXCEL
-						</label>
+						<label for="operario">Historial de Usuarios</label>
 					</div>
 				</div>
 
 				<!-- Selección de Departamento -->
-				<div class="mb-4">
-					<label class="block text-gray-700 text-sm font-semibold mb-2"
-						>Seleccione Departamento</label
-					>
+				<div class="mb-4">					
 					<div class="flex flex-wrap gap-4">
 						<select
 							v-model="selectedDepartamento"
 							class="block p-4 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12 border-none"
 							id="departamento">
-							<option disabled value="">Seleccione Departamento</option>
+							<option disabled value="">Seleccione la regional</option>
 							<option
 								v-for="departamento in departamentos"
 								:key="departamento.code"
@@ -105,9 +71,7 @@
 
 				<!-- Selección de Fechas -->
 				<div class="mb-4">
-					<label class="block text-negro text-sm font-semibold mb-2"
-						>Seleccione el rango de fechas.</label
-					>
+					<label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas.</label>
 					<div class="flex items-center space-x-4">
 						<input
 							type="date"
@@ -140,7 +104,6 @@ import axios from "axios";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
-const selectedFormat = ref("");
 const selectedRole = ref("");
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
@@ -150,12 +113,8 @@ const departamentos = ref([
 ]);
 const loading = ref(false);
 
-function selectFormat(format) {
-  selectedFormat.value = format;
-}
-
 function validateInputs() {
-  if (!selectedRole.value || !selectedFormat.value || !selectedDepartamento.value) {
+  if (!selectedRole.value || !selectedDepartamento.value) {
     alert("Por favor, complete todos los campos.");
     return false;
   }
@@ -191,8 +150,7 @@ async function handleDownloadExcel() {
     });
 
     const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-    const fileExtension = selectedFormat.value === "pdf" ? "pdf" : "xlsx";
-    const fileName = `${selectedRole.value.toLowerCase()}_${new Date().toISOString()}.${fileExtension}`;
+    const fileName = `${selectedRole.value.toLowerCase()}_${new Date().toISOString()}.xlsx`;
 
     const downloadLink = document.createElement("a");
     downloadLink.href = fileURL;
@@ -207,7 +165,6 @@ async function handleDownloadExcel() {
   }
 }
 </script>
-
 
 <style scoped>
 /* Estilo para radio buttons personalizados */
@@ -240,5 +197,12 @@ async function handleDownloadExcel() {
   color: #080808; /* Color del texto cuando se selecciona */
   font-weight: 00;
 }
+
+
+.custom-radio {
+  accent-color: #71277A; /* Cambiar el color del radio button cuando está seleccionado */
+}
+
+
 </style>
 

@@ -1,4 +1,5 @@
 <template>
+
 	<div>
 		<div class="flex flex-col sm:flex-row items-center sm:justify-between p-4">
 			<!-- Sección Izquierda (Icono y Título) -->
