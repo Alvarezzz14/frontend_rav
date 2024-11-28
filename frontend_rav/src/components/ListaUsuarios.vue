@@ -514,6 +514,7 @@ function deleteUser() {
 
 
 <style scoped>
+
 @import "@/styles/table-styles.css";
 
 .modal-enter-active,
