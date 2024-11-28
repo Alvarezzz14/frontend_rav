@@ -36,7 +36,7 @@
 				<img
 					:src="Ciudadano"
 					alt="Ciudadano"
-					class="object-cover h-96 lg:h-auto w-auto" />
+					class="object-cover h-96 lg:h-96 w-auto" />
 
 				<!-- Contenedor con el botón encima -->
 				<div class="absolute top-52 lg:hidden flex items-center justify-center">

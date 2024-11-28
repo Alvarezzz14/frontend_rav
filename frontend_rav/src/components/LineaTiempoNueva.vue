@@ -55,7 +55,7 @@
 		<div class="absolute bg-customPurple left-[calc(36%+26px)] h-full" style="width: 340px; height: 100%; top: -1%;"></div>
 
 		<!-- Línea vertical blanca -->
-		<div class="absolute bg-customWWhite left-[calc(50%+26px)] h-full" style="width: 10px; height: 77%; top: 12%;" ></div>
+		<div class="absolute bg-customWWhite left-[calc(50%+26px)] h-full" style="width: 10px; height: 77%; top: 11%;" ></div>
 
 		<!-- Contenido de la línea de tiempo -->
 		<div
@@ -64,7 +64,7 @@
 		  class="relative flex items-center my-16">
 		  <!-- Marcador del ícono -->
 		  <div
-			class="absolute left-1/2 transform -translate-x-1/2 rounded-full w-16 h-16 flex items-center justify-center border-4 border-white bg-customWWhite z-10">
+			class="absolute left-1/2 transform -translate-x-1/2 rounded-full w-16 h-16 flex items-center justify-center border-4 border-white bg-customWWhite z-10" style="top: 200px;">
 			<img :src="LogoSena" alt="Ícono" class="w-10 h-10" />
 		  </div>
   
@@ -77,29 +77,25 @@
 			}`">
 			
 			<div class="bg-white rounded-lg shadow-lg p-5">
-				<div class="relative" style="width: 500px; height: 300px;">
+				<div class="relative w-full h-[200px] sm:h-[250px] md:h-[300px]">
 					<img
-					:src="item.image"
-					alt="Imagen del evento"
-					class="absolute inset-0 w-full h-full object-cover rounded-md"/>
+						:src="item.image"
+						alt="Imagen del evento"
+						class="absolute inset-0 w-full h-full object-cover rounded-md"/>
 				</div>
-				<div class="bg-customYellow text-[#7A1F7E] text-xl font-semibold mb-2 p-4 w-[150px] rounded-lg">
+				<!-- Separación entre la imagen y la fecha -->
+				<div class="bg-customYellow text-[#7A1F7E] text-xl font-semibold mb-2 p-4 w-[150px] rounded-lg mt-4">
 					{{ item.date }}
 				</div>
-					<h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
-					<p class="text-gray-700 text-sm">{{ item.description }}</p>
+				<h3 class="text-lg font-bold mb-2">{{ item.title }}</h3>
+				<p class="text-gray-700 text-sm">{{ item.description }}</p>
 			</div>
+
+
 
 		  </div>
 		</div>
-	  </div>
-
-	
-	
-	
-	
-		
-	
+	  </div>	
 	</template>
 
 <script setup>
