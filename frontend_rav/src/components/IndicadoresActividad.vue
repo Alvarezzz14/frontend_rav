@@ -22,11 +22,15 @@
         <!-- Contenido Izquierdo -->
         <div class="left-content flex flex-col p-9 max-w-lg rounded-lg">
           <h3 class="text-lg font-semibold text-black mb-1">Título:</h3>
-          <p class="text-xl font-bold text-customPurple mb-3">      
-          Descripción
-          <img :src="Signointe" alt="Indicador" class="inline-block mr-2" />
+          <p class="text-xl font-bold text-customPurple mb-3 relative flex justify-between items-center">
+          <!-- Texto de la descripción -->
+          Descripción     
+          <span class="icon-tooltip-wrapper ml-auto">
+            <!-- Icono con tooltip -->
+            <img :src="Signointe" alt="Indicador" class="inline-block mr-2 icon-with-tooltip" />
+            <span class="tooltip-text">Este es el mensaje flotante</span>
+          </span>
         </p>
-
 
           <!-- Campo de Meta -->
           <h4 class="text-lg font-semibold text-black mb-1">Meta:</h4>         
@@ -79,8 +83,8 @@
               :segmentColors="customSegmentColors"
               :width="400"
               :height="300"
-              :ringWidth="25  "
-              :currentValueText="'del ${value} del ${value}'"
+              :ringWidth="25"
+              :currentValueText="'META POR RANGO'"
               :currentValuePlaceholderStyle="valueTextStyle"
               :animate="true"
               :animationDuration="1.5"
@@ -145,7 +149,7 @@ import Indicador from '@/assets/images/indicador.svg';
 import VueSpeedometer from 'vue-speedometer';
 import Signointe from '@/assets/images/signointe.svg';
 
-const value = ref(99); // Valor inicial del velocímetro
+const value = ref(67); // Valor inicial del velocímetro
 
 // Colores personalizados para los segmentos
 const customSegmentColors = [
@@ -183,10 +187,10 @@ const circumference = computed(() => calculateCircumference(radius)); // Circunf
 
 // Simulación de valores de las metas
 onMounted(() => {
-  setTimeout(() => {
-    goals.value[0].value = 80; 
-    goals.value[1].value = 50; 
-    goals.value[2].value = 60; 
+  setInterval(() => {
+    goals.value[0].value = 80;
+    goals.value[1].value = 50;
+    goals.value[2].value = 60;
   }, 500);
 });
 
@@ -254,5 +258,45 @@ const getGradientStyle = (index) => {
 
 .text-customPurple {
   color: #71277A;
+}
+
+/* Estilo para el contenedor */
+.relative {
+  position: relative;
+}
+
+/* Contenedor del icono con tooltip */
+.icon-tooltip-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+/* Estilo para el tooltip (mensaje flotante) */
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 100%; /* Aparece por encima */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 14px;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 20; /* Asegura que el tooltip esté por encima */
+}
+
+/* Mostrar el tooltip solo cuando se pase el cursor sobre la imagen */
+.icon-with-tooltip:hover + .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Estilos para los campos de input */
+input {
+  position: relative;
+  z-index: 10; /* Asegura que los inputs estén por encima */
 }
 </style>
