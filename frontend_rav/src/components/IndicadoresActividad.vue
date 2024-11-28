@@ -24,11 +24,7 @@
           <h3 class="text-lg font-semibold text-black mb-1">Título:</h3>
           <p class="text-xl font-bold text-customPurple mb-3">Meta Anual</p>
 
-          <!-- Descripción -->
-          <h4 class="text-lg font-semibold text-black mb-1">Descripción:</h4>
-          <p class="text-sm text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed odio imperdiet, molestie libero ultricies.
-          </p>
+       
 
           <!-- Campo de Meta -->
           <h4 class="text-lg font-semibold text-black mb-1">Meta:</h4>         
@@ -70,8 +66,8 @@
         </div>
 
         <!-- Contenido Central (Aquí va el velocímetro) -->
-        <div class="center-content flex justify-center items-center" 
-            style="position: relative; top: 96%; width: 50%; justify-content: center;">
+        <div class="center-content flex justify-center items-center"  
+            style="position: absolute; top: 45%; width: 90%; justify-content: center;">
             <vue-speedometer
               :value="value"
               :minValue="0"
@@ -81,7 +77,7 @@
               :segmentColors="customSegmentColors"
               :width="400"
               :height="300"
-              :ringWidth="30"
+              :ringWidth="25  "
               :currentValueText="'del ${value} del ${value}'"
               :currentValuePlaceholderStyle="valueTextStyle"
               :animate="true"
@@ -90,7 +86,7 @@
           </div>
 
         <!-- Contenido Derecho (Indicadores Circulares) -->
-        <div class="right-content flex flex-col justify-center gap-10 w-full md:w-1/3">
+        <div class="right-content flex flex-col justify-center gap-1 w-full md:w-1/3">
           <div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
                :style="getGradientStyle(index)">
             <!-- Indicador Circular -->
@@ -146,7 +142,7 @@ import { ref, computed, onMounted } from 'vue';
 import Indicador from '@/assets/images/indicador.svg';
 import VueSpeedometer from 'vue-speedometer';
 
-const value = ref(50); // Valor inicial del velocímetro
+const value = ref(99); // Valor inicial del velocímetro
 
 // Colores personalizados para los segmentos
 const customSegmentColors = [
