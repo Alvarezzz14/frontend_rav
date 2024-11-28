@@ -514,7 +514,8 @@ function deleteUser() {
 
 
 <style scoped>
-@import "@/assets/styles/table-styles.css";
+
+@import "@/styles/table-styles.css";
 
 .modal-enter-active,
 .modal-leave-active {
