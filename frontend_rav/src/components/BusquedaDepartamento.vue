@@ -12,7 +12,7 @@
 					placeholder="Seleccione departamento"
 					class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
 					@change="updateSelectedInfo">
-					<template #value="slotProps">
+					<template #value="slotProps" >
 						<div
 							v-if="slotProps.value"
 							class="flex gap-2 items-center font-semibold text-customPurple">
