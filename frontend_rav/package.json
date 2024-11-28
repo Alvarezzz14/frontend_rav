@@ -20,7 +20,9 @@
     "vite-plugin-vue-devtools": "^7.6.1",
     "vue": "^3.5.12",
     "vue-chartjs": "^5.3.2",
+    "vue-circular-progress": "^1.0.0",
     "vue-router": "^4.4.5",
+    "vue-speedometer": "^3.0.1",
     "vue-toastification": "^2.0.0-rc.5",
     "xlsx": "^0.18.5"
   },

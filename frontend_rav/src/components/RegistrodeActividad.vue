@@ -129,6 +129,7 @@
 				id="descripcion"
 				placeholder="Descripción:"></textarea>
 
+
 			<!-- Botón Enviar -->
 			<button
 				class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"

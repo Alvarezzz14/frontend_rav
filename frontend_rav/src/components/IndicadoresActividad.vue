@@ -1,222 +1,343 @@
 <template>
-    <div class="min-h-screen p-4 flex flex-col justify-center">
-      <!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
-      <div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
-        <!-- Icono y Título -->
-        <div class="flex items-center mb-4 md:mb-0">
-          <div class="p-6 bg-customPurple rounded-full">
-            <!-- Icono SVG -->
-            <img :src="Indicador" alt="Icono de Reportes" width="50" height="50" />
-          </div>
-          <div class="ml-4 text-center md:text-left">
-            <p class="text-black mb-0 text-2xl md:text-3xl">Indicadores de</p>
-            <h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">Actividad</h2>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Contenedor Principal -->
-      <div class="dashboard-container">
-        <!-- Contenido Integrado -->
-        <div class="integrated-panel">
-          <!-- Contenido Izquierdo -->
-          <div class="left-content">
-            <h3>Título:</h3>
-            <p>Meta Global</p>
-            <h4>Descripción:</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed odio imperdiet, molestie libero ultricies.</p>
-            <h4>Meta: {1000}</h4>
-            <h4>Rango de Fecha</h4>
-            <div class="date-range">
-              <div>
-                <label>Desde</label><br><br>
-                <input type="date" class="w-1/2 p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple" placeholder="Desde" />
-              </div>
-              <div><br><label>Hasta</label><br><br>
-                <input type="date" class="w-1/2 p-2 border rounded text-negro bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple" placeholder="Hasta" />
-              </div>
-            </div>
-          </div>
-  
-          <!-- Contenido Central (Aquí va el velocímetro) -->
-          <div class="center-content">
-            <div class="speedometer-container">
-              <svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Fondo del velocímetro (semicírculo) -->
-                <path fill="none" stroke="#e0e0e0" stroke-width="15" d="M 10 100 A 90 90 0 0 1 190 100" />
-  
-                <!-- Arco de progreso (semi-circular) -->
-                <path :d="arcPath" fill="none" stroke="url(#gradient)" stroke-width="15" />
-  
-                <!-- Indicador (flecha) -->
-                <line :x1="100" :y1="100" :x2="indicatorX" :y2="indicatorY" stroke="#333" stroke-width="3" transform="rotate(180 100 100)" />
-  
-                <!-- Centro del velocímetro -->
-                <circle cx="100" cy="100" r="10" fill="#333" />
-              </svg>
-  
-              <div class="speedometer-info">
-                <p class="percentage">{{ percentage }}%</p>
-               
-              </div>
-            </div>
-          </div>
-  
-          <!-- Contenido Derecho -->
-          <div class="right-content">
-            <div class="progress-circle-container">
-              <div class="progress-circle">
-                <p class="percentage">36%</p>
-              </div>
-              <p class="meta-text">Meta Anual </p>
-            </div>
-            <div class="progress-circle-container">
-              <div class="progress-circle">
-                <p class="percentage">50%</p>
-              </div>
-              <p class="meta-text">Meta Trimestral</p>
-            </div>
-            <div class="progress-circle-container">
-              <div class="progress-circle">
-                <p class="percentage">75%</p>
-              </div>
-              <p class="meta-text">Meta Diaria</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, computed } from 'vue';
-  import Indicador from '@/assets/images/indicador.svg';
-  
-  // Porcentaje de avance
-  const percentage = ref(36);
-  
-  // Calcula el ángulo en base al porcentaje (180 grados como máximo)
-  const angle = computed(() => (percentage.value / 100) * 180);
-  
-  // Calcula la posición del indicador (flecha)
-  const indicatorX = computed(() => 100 + 90 * Math.cos(Math.PI - (angle.value * Math.PI) / 180));
-  const indicatorY = computed(() => 100 + 90 * Math.sin(Math.PI - (angle.value * Math.PI) / 180));
-  
-  // Path para el arco del velocímetro (semi-circular)
-  const arcPath = computed(() => {
-    const startX = 10;
-    const startY = 100;
-    const endX = 100 + 90 * Math.cos(Math.PI - (angle.value * Math.PI) / 180);
-    const endY = 100 + 90 * Math.sin(Math.PI - (angle.value * Math.PI) / 180);
-  
-    return `M ${startX} ${startY} A 90 90 0 ${angle.value > 90 ? 1 : 0} 1 ${endX} ${endY}`;
-  });
-  </script>
-  
-  <style scoped>
-  .dashboard-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1%;
-  }
-  
-  .integrated-panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    padding: 1%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  .left-content,
-  .center-content,
-  .right-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-  }
-  
-  .left-content {
-    max-width: 30%;
-  }
-  
-  .center-content {
-    justify-content: center;
-    align-items: center;
-    margin-top: 190px;
-  }
-  
-  
-  .right-content {
-    max-width: 30%;
-    display: flex;
-    flex-direction: column;
-    gap: 90px;
-    align-items: center;
-  }
-  
-  .progress-circle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .progress-circle {
-    width: 80px;
-    height: 80px;
-    border: 7px solid purple;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  
-  .meta-text {
-    font-size: 14px;
-    color: black;
-    text-align: center;
-    margin: 0;
-  }
-  
-  .bg-customPurple {
-    background-color: #71277A;
-  }
-  
-  .text-customPurple {
-    color: #71277A;
-  }
-  
-  /* Velocímetro */
-  .speedometer-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .speedometer-info {
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .percentage {
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  
-  .label {
-    font-size: 1.2rem;
-    color: #71277a;
-  }
-  </style>
-  
+	<div class="min-h-screen p-4 flex flex-col">
+		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
+		<div
+			class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-4">
+			<!-- Icono y Título -->
+			<div class="flex items-center mb-4 md:mb-0">
+				<div class="p-6 bg-customPurple rounded-full">
+					<!-- Icono SVG -->
+					<img
+						:src="Indicador"
+						alt="Icono de Reportes"
+						width="50"
+						height="50" />
+				</div>
+				<div class="ml-4 text-center md:text-left">
+					<p class="text-black mb-0 text-2xl md:text-3xl">Indicadores de</p>
+					<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
+						Actividad
+					</h2>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contenedor Principal -->
+		<div class="dashboard-container">
+			<!-- Contenido Integrado -->
+			<div class="integrated-panel">
+				<!-- Contenido Izquierdo -->
+				<div class="left-content flex flex-col p-9 max-w-lg rounded-lg">
+					<h3 class="text-lg font-semibold text-black mb-1">Título:</h3>
+					<p
+						class="text-xl font-bold text-customPurple mb-3 relative flex justify-between items-center">
+						<!-- Texto de la descripción -->
+						Descripción
+						<span class="icon-tooltip-wrapper ml-auto">
+							<!-- Icono con tooltip -->
+							<img
+								:src="Signointe"
+								alt="Indicador"
+								class="inline-block mr-2 icon-with-tooltip" />
+							<span class="tooltip-text">Este es el mensaje flotante</span>
+						</span>
+					</p>
+
+					<!-- Campo de Meta -->
+					<h4 class="text-lg font-semibold text-black mb-1">Meta:</h4>
+					<input
+						type="number"
+						class="w-full p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple"
+						placeholder="Digita la Meta" />
+
+					<!-- Rango de Fecha -->
+					<h4 class="text-lg font-semibold text-black mt-6 mb-2">
+						Rango de Fecha
+					</h4>
+					<div class="flex justify-between gap-4">
+						<!-- Fecha Desde -->
+						<div class="w-1/2">
+							<label for="startDate" class="text-sm text-gray-700 mb-1 block"
+								>Desde</label
+							>
+							<input
+								id="startDate"
+								type="date"
+								class="w-full p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple" />
+						</div>
+						<!-- Fecha Hasta -->
+						<div class="w-1/2">
+							<label for="endDate" class="text-sm text-gray-700 mb-1 block"
+								>Hasta</label
+							>
+							<input
+								id="endDate"
+								type="date"
+								class="w-full p-2 border rounded text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-customPurple" />
+						</div>
+					</div>
+
+					<!-- Botón Guardar -->
+					<button
+						class="w-full bg-customPurple text-lg cursor-pointer border-none text-amarillo font-bold py-2 rounded-lg shadow-md mt-4">
+						Guardar
+					</button>
+				</div>
+
+				<!-- Contenido Central (Aquí va el velocímetro) -->
+				<div class="py-20 custom-bordered-div">
+					<vue-speedometer
+						:value="value"
+						:minValue="0"
+						:maxValue="100"
+						:segments="5"
+						:needleColor="'#474747'"
+						:segmentColors="customSegmentColors"
+						:width="400"
+						:height="300"
+						:ringWidth="25"
+						:currentValueText="'META POR RANGO'"
+						:currentValuePlaceholderStyle="valueTextStyle"
+						:animate="true"
+						:animationDuration="1.5" />
+				</div>
+
+				<!-- Contenido Derecho (Indicadores Circulares) -->
+				<div
+					class="right-content flex flex-col justify-center gap-1 w-full md:w-1/3">
+					<div
+						v-for="(goal, index) in goals"
+						:key="index"
+						class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
+						:style="getGradientStyle(index)">
+						<!-- Indicador Circular -->
+						<div class="relative w-24 h-24 md:w-28 md:h-28">
+							<svg class="w-full h-full" viewBox="0 0 100 100">
+								<circle
+									cx="50"
+									cy="50"
+									r="40"
+									stroke="lightgray"
+									stroke-width="6"
+									fill="none" />
+								<circle
+									cx="50"
+									cy="50"
+									r="40"
+									stroke="currentColor"
+									:stroke-dasharray="circumference"
+									:stroke-dashoffset="
+										circumference - (circumference * goal.value) / 100
+									"
+									stroke-width="6"
+									fill="none"
+									class="text-customPurple transition-all duration-1000 ease-out" />
+							</svg>
+							<span
+								class="absolute inset-0 flex items-center justify-center text-lg font-bold w-full h-full text-center">
+								{{ goal.value }}%
+							</span>
+						</div>
+
+						<!-- Texto a la derecha del indicador -->
+						<div class="flex flex-col justify-center items-start">
+							<div
+								:class="index === 2 ? 'text-white' : 'text-black'"
+								class="text-sm font-semibold">
+								{{ goal.label }}
+							</div>
+							<div
+								:class="
+									index === 2
+										? 'text-white text-2xl font-bold'
+										: 'text-black text-xl font-bold'
+								">
+								{{ goal.meta || 0 }}
+							</div>
+							<div
+								:class="index === 2 ? 'text-white' : 'text-black'"
+								class="mt-1 text-sm font-semibold">
+								Estado Actual
+							</div>
+							<div
+								:class="
+									index === 2
+										? 'text-white text-2xl font-bold'
+										: 'text-black text-xl font-bold'
+								">
+								{{ goal.current || 0 }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import Indicador from "@/assets/images/indicador.svg";
+import VueSpeedometer from "vue-speedometer";
+import Signointe from "@/assets/images/signointe.svg";
+
+const value = ref(67); // Valor inicial del velocímetro
+
+// Colores personalizados para los segmentos
+const customSegmentColors = [
+	"#71277A", // Primer path
+	"#A032A4", // Segundo path
+	"#A032A4", // Tercer path
+	"#D041D5", // Cuarto path
+	"#E64CEB", // Quinto path
+];
+
+// Estilo para el texto del valor actual
+const valueTextStyle = {
+	fontSize: "16px",
+	fontWeight: "bold",
+	fill: "#333",
+};
+
+// Función para cambiar el valor
+const changeValue = () => {
+	value.value = Math.floor(Math.random() * 150); // Genera un valor aleatorio entre 0 y 150
+};
+
+// Estado de las metas con valores dinámicos
+const goals = ref([
+	{ label: "Meta Anual", value: 0, meta: 1776, current: 1200 },
+	{ label: "Meta Trimestral", value: 0, meta: 100, current: 50 },
+	{ label: "Meta Diaria", value: 0, meta: 800, current: 600 },
+]);
+
+// Recalcular la circunferencia de cada círculo en función de su radio
+const calculateCircumference = (radius) => 2 * Math.PI * radius;
+
+const radius = 40; // Radio del círculo
+const circumference = computed(() => calculateCircumference(radius)); // Circunferencia recalculada
+
+// Simulación de valores de las metas
+onMounted(() => {
+	setInterval(() => {
+		goals.value[0].value = 80;
+		goals.value[1].value = 50;
+		goals.value[2].value = 60;
+	}, 500);
+});
+
+// Función para obtener el fondo de gradiente correspondiente según el índice
+const getGradientStyle = (index) => {
+	switch (index) {
+		case 0:
+			return {
+				background:
+					"linear-gradient(to right, rgba(242, 243, 243, 1), rgba(217, 217, 217, 1))",
+			};
+		case 1:
+			return {
+				background:
+					"linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))",
+			};
+		case 2:
+			return {
+				background:
+					"linear-gradient(to right, rgba(207, 95, 221, 1), rgba(113, 39, 122, 1))",
+			};
+		default:
+			return {};
+	}
+};
+</script>
+
+<style scoped>
+.custom-bordered-div {
+	border-left: 1px solid #cccccc; /* Línea gris clara a la izquierda */
+	border-right: 1px solid #cccccc; /* Línea gris clara a la derecha */
+	padding-left: 0.5rem; /* Un pequeño margen para separar la línea del contenido */
+	padding-right: 0.5rem; /* Un pequeño margen para separar la línea del contenido */
+}
+.dashboard-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1%;
+}
+
+.integrated-panel {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 10px;
+	background: white;
+	border-radius: 10px;
+	padding: 1%;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	width: 100%;
+	max-width: 1200px;
+}
+
+.left-content,
+.right-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.left-content {
+	max-width: 30%;
+}
+
+.right-content {
+	max-width: 23%;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+	justify-content: center;
+}
+
+.text-customPurple {
+	color: #71277a;
+}
+
+/* Estilo para el contenedor */
+.relative {
+	position: relative;
+}
+
+/* Contenedor del icono con tooltip */
+.icon-tooltip-wrapper {
+	position: relative;
+	z-index: 10;
+}
+
+/* Estilo para el tooltip (mensaje flotante) */
+.tooltip-text {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 100%; /* Aparece por encima */
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	border-radius: 5px;
+	padding: 5px 10px;
+	font-size: 14px;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+	z-index: 20; /* Asegura que el tooltip esté por encima */
+}
+
+/* Mostrar el tooltip solo cuando se pase el cursor sobre la imagen */
+.icon-with-tooltip:hover + .tooltip-text {
+	visibility: visible;
+	opacity: 1;
+}
+
+/* Estilos para los campos de input */
+input {
+	position: relative;
+	z-index: 10; /* Asegura que los inputs estén por encima */
+}
+</style>
