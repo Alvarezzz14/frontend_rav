@@ -248,7 +248,8 @@
     <!-- Modal para Editar Usuario -->
     <div v-if="showEditModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
-      <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-6 relative">
+      <div class="bg-white shadow-lg rounded-lg w-10/12 max-w-3xl p-6 relative bg-no-repeat bg-cover bg-center "
+      :style="{ backgroundImage: `url(${FondoImagen})`, backgroundSize: '5 0%', backgroundPosition: 'center' }">
         <div>
           <div class="flex items-center">
             <!-- Imagen de Usuario -->
@@ -273,13 +274,13 @@
               <div class="flex flex-col">
                 <label for="Nombre" class="font-medium">Nombre Completo:</label>
                 <input v-model="selectedUser.nombre" type="text"
-                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                  class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
               </div>
               <!--cedula-->
               <div class="flex flex-col">
                 <label for="Nombre" class="font-medium">Cedula:</label>
                 <input v-model="selectedUser.numero_documento" type="cedula"
-                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                  class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
               </div>
             </div>
 
@@ -289,20 +290,20 @@
               <div class="flex flex-col">
                 <label for="sed_nombre" class="font-medium">Ubicación / Sede:</label>
                 <input v-model="selectedUser.sed_nombre" type="text"
-                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                  class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
               </div>
               <!--regional-->
               <div class="flex flex-col">
                 <label for="regional" class="font-medium">Regional:</label>
                 <input v-model="selectedUser.regional" type="text"
-                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                  class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <!--rol-->
               <div class="flex flex-col">
                 <label for="rol" class="font-medium">Rol:</label>
-                <select v-model="selectedUser.rol" id="rol" class="w-full border-none px-3 h-11 bg-gray-100  rounded-lg"
+                <select v-model="selectedUser.rol" id="rol" class="w-full bg-gray-100/50 border-none px-3 h-11 bg-gray-100  rounded-lg"
                   required>
                   <option  value="Administrador" >Administrador</option>
                   <option value="Funcionario">Funcionario</option>
@@ -315,7 +316,7 @@
               <div class="flex flex-col">
                 <label for="Correo" class="font-medium">Correo:</label>
                 <input v-model="selectedUser.correo" type="email"
-                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                  class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
               </div>
             </div>
 
@@ -324,13 +325,13 @@
             <div class="flex flex-col">
               <label for="Telefono" class="font-medium">Telefono:</label>
               <input v-model="selectedUser.telefono" type="telefono"
-                class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
             </div>
             <!--celular-->
             <div class="flex flex-col">
               <label for="Celular" class="font-medium">Celular:</label>
               <input v-model="selectedUser.celular" type="celular"
-                class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+                class="w-full px-3 h-11 py-2 bg-gray-100/50 border-none rounded-lg" required />
             </div>
             </div>
             
