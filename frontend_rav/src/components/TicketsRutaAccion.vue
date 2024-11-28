@@ -274,9 +274,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
+import { useEventStore } from "../stores/storedataOff";
 
 const openedGroups = ref({});
+const fetchData = ref([])
+const eventStore = useEventStore();
+const userInfo = ref({})
 
 const groupedEvents = ref({
 	"2024-11-20": [
@@ -300,10 +304,52 @@ const groupedEvents = ref({
 	],
 });
 
+
+
+
+const fetchOptions = {
+    url: "http://localhost:8082/api/v1/victimas/ticket",
+    options: {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    }
+}
+
+const getFetchData = async(fetchOptions)=>{
+	const{url,options} = fetchOptions
+	let newUrl = url+`/${userInfo.value.documento}`
+	console.log(newUrl);
+	
+	try{
+        const response = await fetch(newUrl,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+        fetchData.value = json;
+        
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }finally{
+      newUrl = ''
+    }
+}
+
+
+
 // Función para alternar la visibilidad de los detalles del evento
 const toggleEventDetails = (date) => {
 	openedGroups.value[date] = !openedGroups.value[date];
 };
+
+onMounted(()=>{
+	userInfo.value = eventStore.userInfo
+	console.log(userInfo.value);
+	
+	getFetchData(fetchOptions)
+})
 </script>
 
 <style scoped>

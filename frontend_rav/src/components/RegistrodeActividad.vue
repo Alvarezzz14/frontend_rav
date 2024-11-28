@@ -189,7 +189,7 @@ const createBodyFetch = () => {
 		titulo: title.value,
 		contenido: content.value,
 		palabras_clave: keyWords.value,
-		numero_documento: documentNumber.value,
+		numero_documento: parseInt(documentNumber.value),
 		id_usuario: user_id,
 	};
 };
