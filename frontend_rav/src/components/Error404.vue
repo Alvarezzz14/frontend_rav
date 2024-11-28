@@ -1,37 +1,34 @@
 <template>
-    <div class="bg-gray-100 flex items-center justify-center min-h-screen">
-      <!-- Contenedor principal -->
-      <div class="text-center space-y-8">
-        <!-- Mensaje de error -->
-        <div class="static inline-grid">
-          <!-- Número 404 -->
-          <h1 class="text-negro font-bold mb-44 text-6xl ">Oops...</h1>
-          <!-- Imágenes de los personajes -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <img :src="characterImage" alt="404 con personajes" class="w-[600px] sm:w-[800px] object-contain" />
-          </div>
-        </div>
-  
-        <!-- Mensaje de texto -->
-        <h2 class="text-2xl sm:text-3xl mt-3 font-semibold text-negro">Página no encontrada</h2>
-  
-        <!-- Botón -->
-        <button @click="goHome" class="bg-customPurple text-amarillo px-8 py-3  text-lg shadow hover:bg-purple-700">
-          Regresar a la página de inicio
-        </button>
+  <div class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <!-- Contenedor principal -->
+    <div class="text-center  rounded-md">
+      <!-- Mensaje de error -->
+      <h1 class="text-negro font-bold text-6xl">Oops...</h1>
+      <!-- Imágenes de los personajes -->
+      <div class="my-4 ">
+        <img :src="characterImage" alt="404 con personajes" class="w-full" />
       </div>
+      <!-- Mensaje de texto -->
+      <h2 class="text-3xl sm:text-7xl font-bold text-negro mt-1 mb-6">Página no encontrada</h2>
+      <!-- Botón -->
+     <button 
+  @click="goHome" 
+  class="bg-customPurple text-amarillo text-bold px-8 py-2 text-lg shadow hover:bg-moradoSecundario -mt-10 border-none rounded-md cursor-pointer">
+  Regresar a la página de inicio
+</button>
+
     </div>
-  </template>
-  
-  <script setup>
- 
-  import  characterImage from   '@/assets/images/error.png'
-  // Ruta de la imagen
-  
-  
-  </script>
-  
-  <style scoped>
- 
-  </style>
+  </div>
+</template>
+
+<script setup> 
+import { useRouter } from 'vue-router'; 
+import characterImage from '@/assets/images/error.png'; 
+
+const router = useRouter(); 
+const goHome = () => { router.push('/'); }; </script>
+
+<style scoped>
+/* No additional CSS needed as everything is styled with Tailwind CSS */
+</style>
   
