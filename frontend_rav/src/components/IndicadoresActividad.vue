@@ -20,7 +20,7 @@
       <!-- Contenido Integrado -->
       <div class="integrated-panel">
         <!-- Contenido Izquierdo -->
-        <div class="left-content flex flex-col p-9 max-w-lg bg-white rounded-lg">
+        <div class="left-content flex flex-col p-9 max-w-lg rounded-lg">
           <h3 class="text-lg font-semibold text-black mb-1">Título:</h3>
           <p class="text-xl font-bold text-customPurple mb-3">Meta Anual</p>
 
@@ -72,18 +72,22 @@
         <!-- Contenido Central (Aquí va el velocímetro) -->
         <div class="center-content flex justify-center items-center" 
             style="position: relative; top: 96%; width: 50%; justify-content: center;">
-          <vue-speedometer
-            :value="value"
-            :minValue="0"
-            :maxValue="100"
-            :segments="10"
-            :needleColor="'red'"
-            :startColor="'green'"
-            :endColor="'red'"
-            class="w-full"
-          />
-        </div>
-
+            <vue-speedometer
+              :value="value"
+              :minValue="0"
+              :maxValue="100"
+              :segments="5"
+              :needleColor="'#474747'"
+              :segmentColors="customSegmentColors"
+              :width="400"
+              :height="300"
+              :ringWidth="30"
+              :currentValueText="'del ${value} del ${value}'"
+              :currentValuePlaceholderStyle="valueTextStyle"
+              :animate="true"
+              :animationDuration="1.5"
+            />
+          </div>
 
         <!-- Contenido Derecho (Indicadores Circulares) -->
         <div class="right-content flex flex-col justify-center gap-10 w-full md:w-1/3">
@@ -124,7 +128,7 @@
                 {{ goal.meta || 0 }}
               </div>
               <div :class="index === 2 ? 'text-white' : 'text-black'" class="mt-1 text-sm font-semibold">
-                ESTADO ACTUAL
+                Estado Actual
               </div>
               <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
                 {{ goal.current || 0 }}
@@ -142,13 +146,34 @@ import { ref, computed, onMounted } from 'vue';
 import Indicador from '@/assets/images/indicador.svg';
 import VueSpeedometer from 'vue-speedometer';
 
-const value = ref(190); // Valor inicial del velocímetro
+const value = ref(50); // Valor inicial del velocímetro
+
+// Colores personalizados para los segmentos
+const customSegmentColors = [
+  "#71277A", // Primer path
+  "#A032A4", // Segundo path
+  "#A032A4", // Tercer path
+  "#D041D5", // Cuarto path
+  "#E64CEB", // Quinto path
+];
+
+// Estilo para el texto del valor actual
+const valueTextStyle = {
+  fontSize: "16px",
+  fontWeight: "bold",
+  fill: "#333",
+};
+
+// Función para cambiar el valor
+const changeValue = () => {
+  value.value = Math.floor(Math.random() * 150); // Genera un valor aleatorio entre 0 y 150
+};
 
 // Estado de las metas con valores dinámicos
 const goals = ref([
-  { label: "META TRIMESTRAL", value: 0, meta: 1776, current: 1200 },
-  { label: "META DIARIA", value: 0, meta: 100, current: 50 },
-  { label: "META SEMANAL", value: 0, meta: 800, current: 600 }     
+  { label: "Meta Anual", value: 0, meta: 1776, current: 1200 },
+  { label: "Meta Trimestral", value: 0, meta: 100, current: 50 },
+  { label: "Meta Diaria", value: 0, meta: 800, current: 600 }     
 ]);
 
 // Recalcular la circunferencia de cada círculo en función de su radio
@@ -160,9 +185,9 @@ const circumference = computed(() => calculateCircumference(radius)); // Circunf
 // Simulación de valores de las metas
 onMounted(() => {
   setTimeout(() => {
-    goals.value[0].value = 80; // Progreso al 80% para la meta trimestral
-    goals.value[1].value = 50; // Progreso al 50% para la meta diaria
-    goals.value[2].value = 60; // Progreso al 60% para la meta semanal
+    goals.value[0].value = 80; 
+    goals.value[1].value = 50; 
+    goals.value[2].value = 60; 
   }, 500);
 });
 

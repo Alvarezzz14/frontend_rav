@@ -34,8 +34,8 @@
 						</router-link>
 					</div>
 				</div>
-				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden" style="gap: 10px;"
-               :style="getGradientStyle(index)">
+				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center gap-6 rounded-lg overflow-hidden"
+				:style="getGradientStyle(index)">
             <!-- Indicador Circular -->
             <div class="relative w-20 h-20 md:w-28 md:h-28">
               <svg class="w-full h-full" viewBox="0 0 100 100">
@@ -71,7 +71,7 @@
                 {{ goal.meta || 0 }}
               </div>
               <div :class="index === 2 ? 'text-white' : 'text-black'" class="mt-1 text-sm font-semibold">
-                ESTADO ACTUAL
+                     Estado Actual
               </div>
               <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
                 {{ goal.current || 0 }}
@@ -180,24 +180,20 @@ const getGradientStyle = (index) => {
   }
 };
 
-
-
-
-
-
 const goals = ref([
-  { label: "META TRIMESTRAL", value: 0, meta: 1776, current: 1200 },
-  { label: "META DIARIA", value: 0, meta: 100, current: 50 },
-  { label: "META SEMANAL", value: 0, meta: 800, current: 600 }     
+  { label: "Meta Anual", value: 0, meta: 1776, current: 1200 },
+  { label: "Meta Trimestral", value: 0, meta: 100, current: 50 },
+  { label: "Meta Diaria", value: 0, meta: 800, current: 600 }     
 ]);
+
 
 const circumference = 2 * Math.PI * 40;
 // Simular valores de las metas (puedes eliminar esta parte si no es necesario)
 onMounted(() => {
 	setTimeout(() => {
-	    goals.value[0].value = 80; // Progreso al 80% para la meta trimestral
-		goals.value[1].value = 50; // Progreso al 50% para la meta diaria
-		goals.value[2].value = 60; // Progreso al 60% para la meta semanal
+	    goals.value[0].value = 80; 
+		goals.value[1].value = 50; 
+		goals.value[2].value = 60; 
 	}, 500);
 });
 
