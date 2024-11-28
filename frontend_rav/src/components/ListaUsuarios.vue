@@ -249,7 +249,7 @@
     <div v-if="showEditModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
       <div class="bg-white shadow-lg rounded-lg w-10/12 max-w-3xl p-6 relative bg-no-repeat bg-cover bg-center "
-      :style="{ backgroundImage: `url(${FondoImagen})`, backgroundSize: '5 0%', backgroundPosition: 'center' }">
+      :style="{ backgroundImage: `url(${FondoImagen})`, backgroundSize: '50%', backgroundPosition: 'center' }">
         <div>
           <div class="flex items-center">
             <!-- Imagen de Usuario -->
