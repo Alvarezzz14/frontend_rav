@@ -70,11 +70,11 @@
 					</svg>
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
-						<div class="flex">
-							<span class="text-gray-800 font-semibold">Ciudadano:</span>
+						<div class="">
+							<span class="text-gray-800 font-semibold">Ciudadano: </span>
 							<span>Julia Andrex Mosquera {{ nombre }}</span>
 						</div>
-						<div class="flex">
+						<div class="">
 							<span class="text-gray-600 font-semibold"> Cédula: </span>
 							<span>12515455252 {{ cedula }}</span>
 						</div>
@@ -105,7 +105,7 @@
 				</router-link>
 			</div>
 		</div>
-		<table class="min-h-full">
+		<table class="">
 			<thead>
 				<tr class="">
 					<th class="">
@@ -311,8 +311,7 @@ const toggleEventDetails = (date) => {
 table {
 	border-collapse: separate;
 	border-spacing: 1px 1px; /* Espacio entre celdas */
-	border-radius: 0.25rem;
-	width: 100%;
+	min-width: 100%;
 }
 
 th,
@@ -326,6 +325,8 @@ thead th {
 	background-color: #71277a;
 	color: #fff;
 	font-weight: bold;
+	border-radius: 0.5rem 0.5rem 0rem 0rem;
+	overflow: hidden;
 	padding: 12px;
 }
 
