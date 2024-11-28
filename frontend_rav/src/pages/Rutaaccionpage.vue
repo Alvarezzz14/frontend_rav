@@ -1,28 +1,26 @@
 <template>
 	<div class="space-y-4">
-		<TituloRutaAccion />
 		<TicketsRutaAccion />
+		<Dialog
+			v-model:="dialogVisible"
+			maximizable
+			modal
+			header="Detalles del Evento"
+			class="!text-customPurple"
+			:style="{ width: '50rem' }"
+			:breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+			<p class="m-0 text-black">{{ selectedEvent?.description }}</p>
+			<template #footer>
+				<Button label="Cerrar" @click="closeDialog" class="p-button-text" />
+			</template>
+		</Dialog>
 	</div>
-	<Dialog
-		v-model:visible="dialogVisible"
-		maximizable
-		modal
-		header="Detalles del Evento"
-		class="!text-customPurple"
-		:style="{ width: '50rem' }"
-		:breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-		<p class="m-0 text-black">{{ selectedEvent?.description }}</p>
-		<template #footer>
-			<Button label="Cerrar" @click="closeDialog" class="p-button-text" />
-		</template>
-	</Dialog>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useEventStore } from "@/stores/storedataOff.js";
-import TituloRutaAccion from "@/components/TituloRutaAccion.vue";
 import TicketsRutaAccion from "@/components/TicketsRutaAccion.vue";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
