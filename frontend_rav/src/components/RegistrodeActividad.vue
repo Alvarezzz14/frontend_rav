@@ -1,5 +1,4 @@
 <template>
-
 	<div>
 		<div class="flex flex-col sm:flex-row items-center sm:justify-between p-4">
 			<!-- Sección Izquierda (Icono y Título) -->
@@ -129,6 +128,7 @@
 				class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-2"
 				id="descripcion"
 				placeholder="Descripción:"></textarea>
+
 
 			<!-- Botón Enviar -->
 			<button
