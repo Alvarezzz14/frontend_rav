@@ -34,51 +34,52 @@
 						</router-link>
 					</div>
 				</div>
-				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center gap-6 rounded-lg overflow-hidden"
-				:style="getGradientStyle(index)">
-            <!-- Indicador Circular -->
-            <div class="relative w-20 h-20 md:w-28 md:h-28">
-              <svg class="w-full h-full" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke="lightgray"
-                  stroke-width="6"
-                  fill="none" />
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke="currentColor"
-                  :stroke-dasharray="circumference"
-                  :stroke-dashoffset="circumference - (circumference * goal.value) / 100"
-                  stroke-width="6"
-                  fill="none"
-                  class="text-customPurple transition-all duration-1000 ease-out" />
-              </svg>
-              <span class="absolute inset-0 flex items-center justify-center text-lg font-bold w-full h-full text-center">
-                {{ goal.value }}%
-              </span>
-            </div>
+				<div class="flex flex-col bg-white items-center gap-4"> <!-- Agrega un gap para separación -->
+				<div v-for="(goal, index) in goals" :key="index" class="indicator-wrapper flex items-center gap-10 rounded-lg overflow-hidden" :style="getGradientStyle(index)">
+					<!-- Indicador Circular -->
+					<div class="relative w-30 h-20 md:w-40 md:h-24">
+					<svg class="w-full h-full" viewBox="0 0 100 100">
+						<circle
+						cx="50"
+						cy="50"
+						r="40"
+						stroke="lightgray"
+						stroke-width="6"
+						fill="none" />
+						<circle
+						cx="50"
+						cy="50"
+						r="40"
+						stroke="currentColor"
+						:stroke-dasharray="circumference"
+						:stroke-dashoffset="circumference - (circumference * goal.value) / 100"
+						stroke-width="6"
+						fill="none"
+						class="text-customPurple transition-all duration-1000 ease-out" />
+					</svg>
+					<span class="absolute inset-0 flex items-center justify-center text-lg font-bold w-full h-full text-center">
+						{{ goal.value }}%
+					</span>
+					</div>
 
-            <!-- Texto a la derecha del indicador -->
-            <div class="flex flex-col justify-center items-start">
-              <div :class="index === 2 ? 'text-white' : 'text-black'" class="text-sm font-semibold">
-                {{ goal.label }}
-              </div>
-              <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
-                {{ goal.meta || 0 }}
-              </div>
-              <div :class="index === 2 ? 'text-white' : 'text-black'" class="mt-1 text-sm font-semibold">
-                     Estado Actual
-              </div>
-              <div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
-                {{ goal.current || 0 }}
-              </div>
-            </div>
-          </div>
-
+					<!-- Texto a la derecha del indicador -->
+					<div class="flex flex-col justify-center items-start">
+					<div :class="index === 2 ? 'text-white' : 'text-black'" class="text-sm font-semibold">
+						{{ goal.label }}
+					</div>
+					<div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
+						{{ goal.meta || 0 }}
+					</div>
+					<div :class="index === 2 ? 'text-white' : 'text-black'" class="mt-1 text-sm font-semibold">
+						Estado Actual
+					</div>
+					<div :class="index === 2 ? 'text-white text-2xl font-bold' : 'text-black text-xl font-bold'">
+						{{ goal.current || 0 }}
+					</div>
+					</div>
+				</div>
+				</div>
+				
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
 					<h2

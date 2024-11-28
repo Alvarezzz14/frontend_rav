@@ -22,9 +22,11 @@
         <!-- Contenido Izquierdo -->
         <div class="left-content flex flex-col p-9 max-w-lg rounded-lg">
           <h3 class="text-lg font-semibold text-black mb-1">Título:</h3>
-          <p class="text-xl font-bold text-customPurple mb-3">Meta Anual</p>
+          <p class="text-xl font-bold text-customPurple mb-3">      
+          Descripción
+          <img :src="Signointe" alt="Indicador" class="inline-block mr-2" />
+        </p>
 
-       
 
           <!-- Campo de Meta -->
           <h4 class="text-lg font-semibold text-black mb-1">Meta:</h4>         
@@ -141,6 +143,7 @@
 import { ref, computed, onMounted } from 'vue';
 import Indicador from '@/assets/images/indicador.svg';
 import VueSpeedometer from 'vue-speedometer';
+import Signointe from '@/assets/images/signointe.svg';
 
 const value = ref(99); // Valor inicial del velocímetro
 
