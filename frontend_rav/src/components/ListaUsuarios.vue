@@ -144,121 +144,219 @@
 
     <!-- Modal para Ver Usuario -->
     <!-- Modal para Ver Usuario -->
-  <div v-if="showViewModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
-    <!-- Modal Content -->
-    <div class="bg-white shadow-lg rounded-lg w-10/12 max-w-xl p-6 relative bg-no-repeat bg-cover bg-center "
-         :style="{ backgroundImage: `url(${FondoImagen})`,backgroundSize: '80%', backgroundPosition: 'center'  }">
+    <div v-if="showViewModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
+      <!-- Modal Content -->
+      <div class="bg-white shadow-lg rounded-lg w-10/12 max-w-xl p-6 relative bg-no-repeat bg-cover bg-center "
+        :style="{ backgroundImage: `url(${FondoImagen})`, backgroundSize: '80%', backgroundPosition: 'center' }">
 
-     
 
-      <!-- Contenedor para el título, imagen y botón de cerrar -->
-      <div class="flex items-center justify-between mb-4">
-        <!-- Título y Imagen de Usuario -->
-        <div class="flex items-center">
-          <!-- Imagen de Usuario -->
-          <div class="bg-customPurple rounded-full p-2 mr-2">
-            <img :src="Usuario" alt="Usuario" class="w-8 h-8" />
+
+        <!-- Contenedor para el título, imagen y botón de cerrar -->
+        <div class="flex items-center justify-between mb-4">
+          <!-- Título y Imagen de Usuario -->
+          <div class="flex items-center">
+            <!-- Imagen de Usuario -->
+            <div class="bg-customPurple rounded-full p-2 mr-2">
+              <img :src="Usuario" alt="Usuario" class="w-8 h-8" />
+            </div>
+            <!-- Título -->
+            <h2 class="text-xl font-bold text-black">Datos del Usuario</h2>
           </div>
-          <!-- Título -->
-          <h2 class="text-xl font-bold text-black">Datos del Usuario</h2>
+
+          <!-- Close Button -->
+          <button @click="closeViewModal" class="text-customPurple hover:text-white rounded-full border-none text-2xl">
+            ✕
+          </button>
         </div>
-        
-        <!-- Close Button -->
-        <button @click="closeViewModal" class="text-customPurple hover:text-white rounded-full border-none text-2xl">
-          ✕
-        </button>
-      </div>
 
-      <!-- Datos Personales (con valores debajo de cada campo) -->
-      <div class="mb-6">
-        <h3 class="font-semibold text-black">Datos Personales</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Nombre de Usuario -->
-          <div class="flex flex-col">
-            <span class="font-medium">Nombre de Usuario:</span>
-            <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.nombre }}</span>
-          </div>
-          <!-- Cédula -->
-          <div class="flex flex-col">
-            <span class="font-medium">Cédula:</span>
-            <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.numero_documento }}</span>
-          </div>
-          <!-- Nombres -->
-          <div class="flex flex-col">
-            <span class="font-medium">Nombres:</span>
-            <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.nombre }}</span>
-          </div>
-          <!-- Apellidos -->
-          <div class="flex flex-col">
-            <span class="font-medium">Apellidos:</span>
-            <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.apellido }}</span>
-          </div>
-          <!-- Correo -->
-          <div class="flex flex-col sm:col-span-2">
-            <span class="font-medium">Correo:</span>
-            <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.correo }}</span>
+        <!-- Datos Personales (con valores debajo de cada campo) -->
+        <div class="mb-6">
+          <h3 class="font-semibold text-black">Datos Personales</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Nombre de Usuario -->
+            <div class="flex flex-col">
+              <span class="font-medium">Nombre de Usuario:</span>
+              <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.nombre }}</span>
+            </div>
+            <!-- Cédula -->
+            <div class="flex flex-col">
+              <span class="font-medium">Cédula:</span>
+              <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.numero_documento }}</span>
+            </div>
+            <!-- Nombres -->
+            <div class="flex flex-col">
+              <span class="font-medium">Nombres:</span>
+              <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.nombre }}</span>
+            </div>
+            <!-- Apellidos -->
+            <div class="flex flex-col">
+              <span class="font-medium">Apellidos:</span>
+              <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.apellido }}</span>
+            </div>
+            <!-- Correo -->
+            <div class="flex flex-col sm:col-span-2">
+              <span class="font-medium">Correo:</span>
+              <span class="text-black bg-gray-100/50 w-64 rounded-lg p-2">{{ selectedUser.correo }}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Datos Laborales (con valores debajo de cada campo) -->
-      <div>
-        <h3 class="font-semibold text-black">Datos Laborales</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Ubicación / Sede -->
-          <div class="flex flex-col">
-            <span class="font-medium">Ubicación / Sede:</span>
-            <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.sed_nombre }}</span>
-          </div>
-          <!-- Regional -->
-          <div class="flex flex-col">
-            <span class="font-medium">Regional:</span>
-            <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.regional }}</span>
-          </div>
-          <!-- Rol -->
-          <div class="flex flex-col">
-            <span class="font-medium">Rol:</span>
-            <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.rol }}</span>
-          </div>
-          <!-- Teléfonos -->
-          <div class="flex flex-col sm:col-span-2">
-            <span class="font-medium">Teléfono:</span>
-            <span class="text-black bg-gray-100/50 rounded-lg p-2 w-64">{{ selectedUser.telefono }}</span>
-          </div>
-          <!-- Celular -->
-          <div class="flex flex-col">
-            <span class="font-medium">Celular:</span>
-            <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.celular }}</span>
+        <!-- Datos Laborales (con valores debajo de cada campo) -->
+        <div>
+          <h3 class="font-semibold text-black">Datos Laborales</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Ubicación / Sede -->
+            <div class="flex flex-col">
+              <span class="font-medium">Ubicación / Sede:</span>
+              <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.sed_nombre }}</span>
+            </div>
+            <!-- Regional -->
+            <div class="flex flex-col">
+              <span class="font-medium">Regional:</span>
+              <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.regional }}</span>
+            </div>
+            <!-- Rol -->
+            <div class="flex flex-col">
+              <span class="font-medium">Rol:</span>
+              <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.rol }}</span>
+            </div>
+            <!-- Teléfonos -->
+            <div class="flex flex-col sm:col-span-2">
+              <span class="font-medium">Teléfono:</span>
+              <span class="text-black bg-gray-100/50 rounded-lg p-2 w-64">{{ selectedUser.telefono }}</span>
+            </div>
+            <!-- Celular -->
+            <div class="flex flex-col">
+              <span class="font-medium">Celular:</span>
+              <span class="text-black bg-gray-100/50 rounded-lg w-64 p-2">{{ selectedUser.celular }}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
 
     <!-- Modal para Editar Usuario -->
     <div v-if="showEditModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
       <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-6 relative">
-        <button @click="closeEditModal"
-          class="absolute top-4 right-4 text-customPurple font-bold hover:text-white border-none rounded-full p-2">
-          ✕
-        </button>
-        <h2 class="text-xl font-bold mb-4 text-customPurple text-center">✏️ Editar Usuario</h2>
-        <form @submit.prevent="saveUser" class="space-y-3">
-          <input v-model="selectedUser.name" type="text" placeholder="Nombre"
-            class="w-full px-3 h-11 py-2 bg-gray-100 rounded-lg" required />
-          <input v-model="selectedUser.email" type="email" placeholder="Correo"
-            class="w-full px-3 h-11 py-2 bg-gray-100 rounded-lg" required />
-          <select v-model="selectedUser.role" class="w-full px-3 h-11 bg-gray-100 rounded-lg" required>
-            <option value="Administrador">Administrador</option>
-            <option value="Funcionario">Funcionario</option>
-            <option value="Operario">Operario</option>
-          </select>
-          <button type="submit" class="w-full bg-customPurple text-white font-bold py-2 rounded-lg">
-            Guardar Cambios
+        <div>
+          <div class="flex items-center">
+            <!-- Imagen de Usuario -->
+            <div class="bg-customPurple rounded-full p-2 mr-2">
+              <img :src="Usuario" alt="Usuario" class="w-8 h-8" />
+            </div>
+            <!-- Título -->
+            <h2 class="text-xl font-bold text-black">DATOS DE USUARIO</h2>
+          </div>
+          <button @click="closeEditModal"
+            class="absolute top-4 right-4 text-customPurple font-bold hover:text-white border-none rounded-full p-2">
+            ✕
           </button>
-        </form>
+         
+        </div>
+
+        <div>
+
+          <form @submit.prevent="saveUser" class="space-y-3">
+            <h3 class="font-semibold text-black ">DATOS BASE</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex flex-col">
+                <label for="Nombre" class="font-medium">Nombre Completo:</label>
+                <input v-model="selectedUser.nombre" type="text"
+                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+              </div>
+              <!--cedula-->
+              <div class="flex flex-col">
+                <label for="Nombre" class="font-medium">Cedula:</label>
+                <input v-model="selectedUser.numero_documento" type="cedula"
+                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+              </div>
+            </div>
+
+            <h3 class="font-semibold text-black ">DATOS LABORALES</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!--Ubicación / Sede-->
+              <div class="flex flex-col">
+                <label for="sed_nombre" class="font-medium">Ubicación / Sede:</label>
+                <input v-model="selectedUser.sed_nombre" type="text"
+                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+              </div>
+              <!--regional-->
+              <div class="flex flex-col">
+                <label for="regional" class="font-medium">Regional:</label>
+                <input v-model="selectedUser.regional" type="text"
+                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!--rol-->
+              <div class="flex flex-col">
+                <label for="rol" class="font-medium">Rol:</label>
+                <select v-model="selectedUser.rol" id="rol" class="w-full border-none px-3 h-11 bg-gray-100 rounded-lg"
+                  required>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Funcionario">Funcionario</option>
+                  <option value="Operario">Operario</option>
+                </select>
+              </div>
+              
+
+              <!--email-->
+              <div class="flex flex-col">
+                <label for="Correo" class="font-medium">Correo:</label>
+                <input v-model="selectedUser.correo" type="email"
+                  class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!--telefono-->
+            <div class="flex flex-col">
+              <label for="Telefono" class="font-medium">Telefono:</label>
+              <input v-model="selectedUser.telefono" type="telefono"
+                class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+            </div>
+            <!--celular-->
+            <div class="flex flex-col">
+              <label for="Celular" class="font-medium">Celular:</label>
+              <input v-model="selectedUser.celular" type="celular"
+                class="w-full px-3 h-11 py-2 bg-gray-100 border-none rounded-lg" required />
+            </div>
+            </div>
+            
+            <!--permisos de usuario-->
+            <h3 class="font-semibold text-black ">PERMISOS DE USUARIO</h3>
+            <div class="flex flex-row">
+              <input type="checkbox" id="inicio" name="inicio" value="Bike">
+              <label for="inicio">Inicio</label>
+
+              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <label for="mapa">Mapa</label>
+
+              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <label for="mapa">Busqueda del Ciudadano</label>
+
+              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <label for="mapa">Cargar Archivo</label>
+
+              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <label for="mapa">Generar Reportes</label>
+
+              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <label for="mapa">Lista de Usuarios</label>
+
+              <input type="checkbox" id="mapa" name="mapa" class="border border-customPurple font-bold" value="Bike">
+              <label for="mapa">Linea de Atención</label>
+            </div>
+
+            <button type="submit" class="w-full bg-customPurple text-amarillo border-none font-bold py-2 rounded-lg">
+              Guardar Cambios
+            </button>
+          </form>
+        </div>
+
       </div>
     </div>
 
