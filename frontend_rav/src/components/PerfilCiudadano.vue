@@ -174,7 +174,9 @@ import VerLine from "@/assets/images/VerLine.svg";
 import Actividad from "@/assets/images/Actividad.png";
 import Historial from "@/assets/images/Historial.svg";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
-// Datos de ejemplo para simular el API
+
+//DATOS QUEMADOS
+/* // Datos de ejemplo para simular el API
 const userInfo = ref({
 	tipo_documento: "Cédula de Ciudadanía",
 	nombrecompleto: "John Pepito Doe Perez",
@@ -233,11 +235,15 @@ const userInfo = ref({
 			fecha_fin: "01/01/2024",
 		},
 	],
+}); */
+//Store para obtener los datos
+const eventStore = useEventStore();
+const userInfo = eventStore.userInfo; // Obtener los datos directamente desde el store
+
+onMounted(async () => {
+  userInfo.value = eventStore.userInfo; // Deberás reemplazar esto por la llamada a la API
+   console.log(userInfo.value);
 });
-// onMounted(() => {
-//   userInfo.value = eventStore.userInfo; // Deberás reemplazar esto por la llamada a la API
-//   console.log(userInfo.value);
-// });
 </script>
 
 <style scoped>
