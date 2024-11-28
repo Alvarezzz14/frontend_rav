@@ -242,15 +242,33 @@ const userInfo = ref({
 
 <style scoped>
 table {
-	width: 100%;
-	margin-top: 20px;
+	border-collapse: separate;
+	border-spacing: 1px 1px; /* Espacio entre celdas */
+	min-width: 100%;
+	margin-top: 1rem;
 }
+
 th,
 td {
-	padding: 10px;
-	text-align: center;
+	border: 1px solid #ccc; /* Borde individual para cada celda */
+	background-color: #fff; /* Fondo blanco para celdas */
+	text-align: left; /* Alinear texto a la izquierda */
 }
-th {
+
+thead th {
+	background-color: #71277a;
+	color: #fff;
 	font-weight: bold;
+	border-radius: 0.5rem 0.5rem 0rem 0rem;
+	overflow: hidden;
+	padding: 12px;
+}
+
+tbody tr:hover td {
+	background-color: #f9f9f9; /* Fondo más claro al pasar el cursor */
+}
+
+tbody td {
+	padding: 10px; /* Espaciado interno en las celdas */
 }
 </style>
