@@ -43,8 +43,8 @@
 							</svg>
 						</div>
 						<div>
-							<h3>Ciudadano: Jhon Doe</h3>
-							<h3>Ciudadano: 12345678</h3>
+							<h3>Ciudadano: {{ personFullName }}</h3>
+							<h3>Ciudadano: {{ documentNumber }}</h3>
 						</div>
 					</div>
 				</div>
@@ -142,7 +142,7 @@
 <script setup>
 import Actividad from "@/assets/images/Actividad.png";
 import personwhite from "@/assets/images/UserWhite.svg";
-import { computed, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useEventStore } from "../stores/storedataOff";
 import { useAuthStore } from "../stores/auth";
 
@@ -162,10 +162,11 @@ const eventStore = useEventStore();
 const content = ref("");
 const title = ref("");
 const keyWords = ref("");
-console.log(authStore.getAuthenticatedUser.user_id);
-const user_id = authStore.getAuthenticatedUser.user_id;
+let user_id;
+const documentNumber = ref("");
+const personFullName = ref("");
 
-const documentNumber = computed(() => eventStore.userInfo.documento);
+
 
 const fetchOptions = {
 	url: "http://localhost:8082/api/v1/victimas/ticket",
@@ -216,6 +217,15 @@ const sendTicker = async (fetchOptions) => {
 		keyWords.value = "";
 	}
 };
+
+onMounted(()=>{
+	documentNumber.value = eventStore.getUserInfo().documento;
+	user_id = authStore.getAuthenticatedUser().user_id;
+	personFullName.value = eventStore.getUserInfo().nombrecompleto;
+	console.log(documentNumber,user_id,eventStore.getUserInfo());
+	
+})
+
 </script>
 
 <style scoped>

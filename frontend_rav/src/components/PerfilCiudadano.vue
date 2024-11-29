@@ -212,7 +212,7 @@ const getFetchData = async(fetchOptions)=>{
 }
 
 onMounted( () => {  
-  userInfo.value = eventStore.userInfo
+  userInfo.value = eventStore.getUserInfo()
   getFetchData(fetchOptions)
   console.log(fetchData.value);
   
