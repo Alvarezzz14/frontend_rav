@@ -21,34 +21,43 @@
 
     <!-- Tabla de usuarios -->
     <div class="overflow-x-auto w-full max-w-7xl bg-white shadow-lg rounded-lg">
-      <div class="grid grid-cols-5 gap-2 bg-gray-100 font-bold">
-        <div class="p-4 text-center border-b border-gray-300">NOMBRE</div>
-        <div class="p-4 text-center border-b border-gray-300">ROL</div>
-        <div class="p-4 text-center border-b border-gray-300">CORREO</div>
-        <div class="p-4 text-center border-b border-gray-300">DOCUMENTO</div>
-        <div class="p-4 text-center border-b border-gray-300">PERMISOS</div>
-      </div>
-      <div v-for="(user, index) in users" :key="index" class="grid grid-cols-5 gap-2">
-        <div class="p-4 text-center border-b border-gray-300">{{ user.nombre }}</div>
-        <div class="p-4 text-center border-b border-gray-300">{{ user.rol }}</div>
-        <div class="p-4 text-center border-b border-gray-300">{{ user.correo }}</div>
-        <div class="p-4 text-center border-b border-gray-300">{{ user.numero_documento }}</div>
-        <div class="p-4 text-center border-b border-gray-300">
+  <!-- Tabla -->
+  <table class="min-w-full table-auto">
+    <!-- Cabecera de la tabla -->
+    <thead>
+      <tr class="bg-customPurple text-white font-bold text-center">
+        <th class="p-4 border-b border-gray-300">NOMBRE</th>
+        <th class="p-4 border-b border-gray-300">ROL</th>
+        <th class="p-4 border-b border-gray-300">CORREO</th>
+        <th class="p-4 border-b border-gray-300">DOCUMENTO</th>
+        <th class="p-4 border-b border-gray-300">PERMISOS</th>
+      </tr>
+    </thead>
+    <!-- Cuerpo de la tabla -->
+    <tbody>
+      <tr v-for="(user, index) in users" :key="index" class="text-center border-t border-gray-200">
+        <td class="p-4 border-b border-gray-300">{{ user.nombre }}</td>
+        <td class="p-4 border-b border-gray-300">{{ user.rol }}</td>
+        <td class="p-4 border-b border-gray-300">{{ user.correo }}</td>
+        <td class="p-4 border-b border-gray-300">{{ user.numero_documento }}</td>
+        <td class="p-4 border-b border-gray-300 flex justify-center items-center">
           <!-- Botón Ver -->
           <button @click="viewUser(user)" class="bg-white cursor-pointer border-none shadow-md p-2 rounded-full">
             <img :src="IconoVisualizar" alt="Ver" class="w-5 h-5" />
           </button>
           <!-- Botón Editar -->
-          <button @click="editUser(user)" class="bg-white cursor-pointer mx-2  border-none shadow-md p-2  rounded-full">
+          <button @click="editUser(user)" class="bg-white cursor-pointer mx-2 border-none shadow-md p-2 rounded-full">
             <img :src="IconoEditar" alt="Editar" class="w-5 h-5" />
           </button>
           <!-- Botón Eliminar -->
-          <button @click="confirmDeleteUser(user)" class="bg-white border-none cursor-pointer  shadow-md p-2 rounded-full">
+          <button @click="confirmDeleteUser(user)" class="bg-white border-none cursor-pointer shadow-md p-2 rounded-full">
             <img :src="IconoEliminar" alt="Eliminar" class="w-5 h-5" />
           </button>
-        </div>
-      </div>
-    </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
     <!-- Modal para Registrar Usuario -->
 
@@ -75,31 +84,31 @@
           <!-- Título del Formulario -->
           <h2 class="text-2xl lg:text-3xl font-semibold text-black mb-6 text-center">Registrar Usuario</h2>
 
-          <!-- Selección de Roles -->
+          <!-- Selección de Rols -->
           <div class="flex justify-between mb-6">
             <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" id="admin" name="role" value="Administrador" v-model="formData.role"
+              <input type="radio" id="admin" name="rol" value="Administrador" v-model="formData.rol"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-black font-semibold': formData.role === 'Administrador', 'text-gray-700': formData.role !== 'Administrador' }"
+                :class="{ 'text-black font-semibold': formData.rol === 'Administrador', 'text-gray-700': formData.rol !== 'Administrador' }"
                 class="text-sm lg:text-lg">
                 Administrador
               </span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" id="funcionario" name="role" value="Funcionario" v-model="formData.role"
+              <input type="radio" id="funcionario" name="rol" value="Funcionario" v-model="formData.rol"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-black font-semibold': formData.role === 'Funcionario', 'text-gray-700': formData.role !== 'Funcionario' }"
+                :class="{ 'text-black font-semibold': formData.rol === 'Funcionario', 'text-gray-700': formData.rol !== 'Funcionario' }"
                 class="text-sm lg:text-lg">
                 Funcionario
               </span>
             </label>
             <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" id="operario" name="role" value="Operario" v-model="formData.role"
+              <input type="radio" id="operario" name="rol" value="Operario" v-model="formData.rol"
                 class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
               <span
-                :class="{ 'text-black font-semibold': formData.role === 'Operario', 'text-gray-700': formData.role !== 'Operario' }"
+                :class="{ 'text-black font-semibold': formData.rol === 'Operario', 'text-gray-700': formData.rol !== 'Operario' }"
                 class="text-sm lg:text-lg">
                 Operario
               </span>
@@ -108,10 +117,10 @@
 
           <!-- Campos del Formulario -->
           <form @submit.prevent="submitForm" class="space-y-4">
-            <input v-model="formData.name" type="text" placeholder="Nombre"
+            <input v-model="formData.nombre" type="text" placeholder="Nombre"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
-            <input v-model="formData.email" type="email" placeholder="Correo SENA"
+            <input v-model="formData.correo" type="email" placeholder="Correo SENA"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <input v-model="formData.password" type="password" placeholder="Crear Contraseña"
@@ -328,26 +337,26 @@
             <!--permisos de usuario-->
             <h3 class="font-semibold text-black ">PERMISOS DE USUARIO</h3>
             <div class="flex flex-row">
-              <input type="checkbox" id="inicio" name="inicio" value="Bike">
+              <input type="checkbox" id="inicio" name="inicio" v-model="permisos.inicio">
               <label for="inicio">Inicio</label>
 
-              <input type="checkbox" id="mapa" name="mapa" value="Bike">
+              <input type="checkbox" v-model="permisos.mapa" id="mapa" name="mapa" value="Bike">
               <label for="mapa">Mapa</label>
 
-              <input type="checkbox" id="mapa" name="mapa" value="Bike">
-              <label for="mapa">Busqueda del Ciudadano</label>
+              <input type="checkbox" v-model="permisos.busqueda" id="busqueda" name="busqueda" >
+              <label for="busqueda">Busqueda del Ciudadano</label>
 
-              <input type="checkbox" id="mapa" name="mapa" value="Bike">
-              <label for="mapa">Cargar Archivo</label>
+              <input type="checkbox" v-model="permisos.cargarArchivo" id="cargarArchivo" name="cargarArchivo" >
+              <label for="cargarArchivo">Cargar Archivo</label>
 
-              <input type="checkbox" id="mapa" name="mapa" value="Bike">
-              <label for="mapa">Generar Reportes</label>
+              <input type="checkbox" v-model="permisos.generarReporte"  id="generarReporte" name="generarReporte" >
+              <label for="generarReporte">Generar Reportes</label>
 
-              <input type="checkbox" id="mapa" name="mapa" value="Bike">
-              <label for="mapa">Lista de Usuarios</label>
+              <input type="checkbox" v-model="permisos.listarUsuarios" id="listarUsuarios" name="listarUsuarios" >
+              <label for="listarUsuarios">Lista de Usuarios</label>
 
-              <input type="checkbox" id="mapa" name="mapa" class="border border-customPurple font-bold" value="Bike">
-              <label for="mapa">Linea de Atención</label>
+              <input type="checkbox" v-model="permisos.lineaTiempo" id="lineaTiempo" name="lineaTiempo" >
+              <label for="lineaTiempo">Linea de Tiempo</label>
             </div>
 
             <button type="submit" class="w-full bg-customPurple text-amarillo border-none font-bold py-2 rounded-lg">
@@ -414,13 +423,25 @@ const showViewModal = ref(false);
 
 // Usuario seleccionado para ver, editar o eliminar
 const selectedUser = reactive({});
-const formData = reactive({ name: "", email: "", document: "", role: "" });
+const formData = reactive({ name: "", email: "", document: "", rol: "" });
 
 // Lista de usuarios
 const users = reactive([
   { nombre: "Juan ", apellido: "Perez", correo: "juan.perez@sena.edu.co", numero_documento: "123456", rol: "Funcionario", sed_nombre: "Sede Central", regional: "Regional Norte", telefono: "123-456-7890", celular: "321-654-9870" },
   { nombre: "Maria ", apellido: "Perez", correo: "juan.perez@sena.edu.co", numero_documento: "123456", rol: "Funcionario", sed_nombre: "Sede Central", regional: "Regional Norte", telefono: "123-456-7890", celular: "321-654-9870" },
 ]);
+
+
+
+const permisos = ref({
+  inicio: false,
+  mapa: false,
+  busqueda: false,
+  cargarArchivo: false,
+  generarReporte: false,
+  listarUsuarios: false,
+  lineaTiempo: false,
+});
 
 // Funciones para Registrar Usuario
 function submitForm() {
@@ -435,7 +456,7 @@ function closeRegisterModal() {
   formData.name = "";
   formData.email = "";
   formData.document = "";
-  formData.role = "";
+  formData.rol = "";
   showRegisterModal.value = false;
 }
 
@@ -487,14 +508,14 @@ function deleteUser() {
   showSuccessModal.value = true; // Mostrar la modal de éxito
 }
 
-function closeSuccessModal() {
-  showSuccessModal.value = false;
-}
+
 </script>
 
 
 
 <style scoped>
+
+@import "@/styles/table-styles.css";
 
 .modal-enter-active,
 .modal-leave-active {
@@ -524,5 +545,5 @@ function closeSuccessModal() {
   backdrop-filter: blur(5px);
 }
 
-/* Estilo para los roles (botones radio) */
+/* Estilo para los rols (botones radio) */
 </style>

@@ -85,14 +85,7 @@
 				</div>
 
 				<!-- Contenido Central (Aquí va el velocímetro) -->
-				<div
-					class="center-content flex justify-center items-center"
-					style="
-						position: absolute;
-						top: 45%;
-						width: 90%;
-						justify-content: center;
-					">
+				<div class="py-20 custom-bordered-div">
 					<vue-speedometer
 						:value="value"
 						:minValue="0"
@@ -258,6 +251,12 @@ const getGradientStyle = (index) => {
 </script>
 
 <style scoped>
+.custom-bordered-div {
+	border-left: 1px solid #cccccc; /* Línea gris clara a la izquierda */
+	border-right: 1px solid #cccccc; /* Línea gris clara a la derecha */
+	padding-left: 0.5rem; /* Un pequeño margen para separar la línea del contenido */
+	padding-right: 0.5rem; /* Un pequeño margen para separar la línea del contenido */
+}
 .dashboard-container {
 	display: flex;
 	justify-content: center;
@@ -280,7 +279,6 @@ const getGradientStyle = (index) => {
 }
 
 .left-content,
-.center-content,
 .right-content {
 	flex: 1;
 	display: flex;
@@ -289,11 +287,6 @@ const getGradientStyle = (index) => {
 
 .left-content {
 	max-width: 30%;
-}
-
-.center-content {
-	justify-content: center;
-	align-items: center;
 }
 
 .right-content {
