@@ -149,14 +149,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(course, index) in userInfo.historial" :key="index">
-							<td class="px-4 py-2 border">{{ course.ficha }}</td>
-							<td class="px-4 py-2 border">{{ course.curso }}</td>
-							<td class="px-4 py-2 border">{{ course.estado }}</td>
-							<td class="px-4 py-2 border">{{ course.tipo }}</td>
-							<td class="px-4 py-2 border">{{ course.modalidad }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_inicio }}</td>
-							<td class="px-4 py-2 border">{{ course.fecha_fin }}</td>
+						<tr v-for="(course, index) in fetchData" :key="index">
+							<td class="px-4 py-2 border">{{ course.FIC_ID }}</td>
+							<td class="px-4 py-2 border">{{ course.PRF_DENOMINACION }}</td>
+							<td class="px-4 py-2 border">{{ course.RGA_ESTADO }}</td>
+							<td class="px-4 py-2 border">{{ course.PRF_TIPO_PROGRAMA }}</td>
+							<td class="px-4 py-2 border">{{ course.modalidad || "null" }}</td>
+							<td class="px-4 py-2 border">{{ course.FIC_FCH_INICIALIZACION }}</td>
+							<td class="px-4 py-2 border">{{ course.FIC_FCH_FINALIZACION }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -174,70 +174,51 @@ import VerLine from "@/assets/images/VerLine.svg";
 import Actividad from "@/assets/images/Actividad.png";
 import Historial from "@/assets/images/Historial.svg";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
-// Datos de ejemplo para simular el API
-const userInfo = ref({
-	tipo_documento: "Cédula de Ciudadanía",
-	nombrecompleto: "John Pepito Doe Perez",
-	ciudad: "Dosquebradas",
-	genero: "Masculino",
-	id_hogar: "xxxxxxx",
-	documento: "117898653432",
-	pertenenciaetnica: "Indígena",
-	estadovictima: "No",
-	hecho: "Ninguno",
-	numtelefonocelular: "3216758970",
-	historial: [
-		{
-			ficha: "2503319",
-			curso: "Certificado 1",
-			estado: "Aprobado",
-			tipo: "Presencial",
-			modalidad: "Tecnología",
-			fecha_inicio: "01/01/2021",
-			fecha_fin: "01/01/2024",
-		},
-		{
-			ficha: "2503319",
-			curso: "Certificado 2",
-			estado: "Pendiente",
-			tipo: "Virtual",
-			modalidad: "Tecnología",
-			fecha_inicio: "01/01/2021",
-			fecha_fin: "01/01/2024",
-		},
-		{
-			ficha: "2503319",
-			curso: "Certificado 3",
-			estado: "Pendiente",
-			tipo: "Virtual",
-			modalidad: "Tecnología",
-			fecha_inicio: "01/01/2021",
-			fecha_fin: "01/01/2024",
-		},
-		{
-			ficha: "2503319",
-			curso: "Certificado 4",
-			estado: "Pendiente",
-			tipo: "Virtual",
-			modalidad: "Tecnología",
-			fecha_inicio: "01/01/2021",
-			fecha_fin: "01/01/2024",
-		},
-		{
-			ficha: "2503319",
-			curso: "Certificado 5",
-			estado: "Pendiente",
-			tipo: "Virtual",
-			modalidad: "Tecnología",
-			fecha_inicio: "01/01/2021",
-			fecha_fin: "01/01/2024",
-		},
-	],
+
+
+
+const eventStore = useEventStore();
+const userInfo = ref({})
+const fetchData = ref([])
+
+const fetchOptions = {
+    url: "http://localhost:8083/api/v1/programa",
+    options: {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    }
+}
+
+const getFetchData = async(fetchOptions)=>{
+	const{url,options} = fetchOptions
+	let newUrl = url+`/${userInfo.value.documento}`
+	console.log(newUrl);
+	
+	try{
+        const response = await fetch(newUrl,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+        fetchData.value = json;
+        
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }finally{
+      newUrl = ''
+    }
+}
+
+onMounted( () => {  
+  userInfo.value = eventStore.getUserInfo()
+  getFetchData(fetchOptions)
+  console.log(fetchData.value);
+  
 });
-// onMounted(() => {
-//   userInfo.value = eventStore.userInfo; // Deberás reemplazar esto por la llamada a la API
-//   console.log(userInfo.value);
-// });
+
+
 </script>
 
 <style scoped>
