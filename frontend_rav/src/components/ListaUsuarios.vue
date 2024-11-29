@@ -211,10 +211,10 @@
             <input v-model="formData.correo" type="email" placeholder="Correo SENA"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
-            <input v-model="formData.password" type="password" placeholder="Crear Contraseña"
+            <input v-model="formData.password" type="password" placeholder="Crear Contraseña" id="password"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
-            <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar Contraseña"
+            <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar Contraseña" id="confirmPassword"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <button type="submit"
