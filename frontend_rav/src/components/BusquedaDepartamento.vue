@@ -39,9 +39,7 @@
 			</div>
 
 			<!-- Tarjeta de Información del Departamento -->
-			<div
-				v-if="selectedInfo"
-				class="w-full max-w-md rounded-lg shadow-custom bg-white">
+			<div v-if="selectedInfo" class="w-full max-w-md rounded-lg shadow-custom">
 				<!-- Imagen principal -->
 				<img
 					:src="selectedInfo.imageUrl"
@@ -49,7 +47,8 @@
 					class="rounded-t-lg w-full h-40 object-cover" />
 
 				<!-- Encabezado con nombre y fondo color -->
-				<div class="bg-customPurple text-white py-2 px-4 flex items-center">
+				<div
+					class="bg-customPurple h-16 -mt-1 text-white py-2 px-4 flex items-center">
 					<!-- Cambia el tamaño del texto según el ancho de pantalla -->
 					<h2 class="font-bold text-xl md:text-3xl lg:4xl">
 						{{ selectedInfo.name }}

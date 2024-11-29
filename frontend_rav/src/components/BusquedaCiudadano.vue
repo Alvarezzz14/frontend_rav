@@ -112,6 +112,7 @@ const searchUser = async () => {
 		modalMessage.value = "Por favor, ingrese un número de documento.";
 		return;
 	}
+	eventStore.deleteUserInfo()
 
 	loading.value = true;
 	const results = await searchByCedula(searchCedula.value);

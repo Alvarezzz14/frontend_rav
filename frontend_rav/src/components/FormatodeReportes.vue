@@ -17,6 +17,7 @@
 
 		<!-- Sección Central (Imagen y Formulario) -->
 		<div
+
 			class="flex flex-col xl:flex-row xl:items-start  w-full max-w-9xl space-y-8 xl:space-y-9 xl:space-x-20 ">
 			<!-- Formulario a la Izquierda -->
 			<div class="flex-grow  max-w-md lg:max-w-xl  bg-white rounded-lg shadow-md w-72 p-3">
@@ -52,10 +53,12 @@
 							@click="selectFormat('excel')">
 							EXCEL
 						</label>
+
 					</div>
 				</div>
 
 				<!-- Selección de Departamento -->
+
 				<div class="mb-4">
 					<div class="grid grid-wrap">
 						<select v-model="selectedDepartamento"
@@ -105,7 +108,6 @@ import axios from "axios";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
-const selectedFormat = ref("");
 const selectedRole = ref("");
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
@@ -161,6 +163,7 @@ function validateInputs() {
 		return false;
 	}
 	return true;
+
 }
 
 function getEndpoint() {
@@ -202,6 +205,7 @@ async function handleDownloadExcel() {
 	} finally {
 		loading.value = false;
 	}
+
 }
 </script>
 
@@ -241,10 +245,12 @@ async function handleDownloadExcel() {
 	/* Color del texto cuando se selecciona */
 	font-weight: 700;
 }
+
 option {
     font-size: 14px; /* Cambia el tamaño de la fuente de las opciones */
     padding: 4px; /* Reduce el espacio interno */
     line-height: 1.2; /* Ajusta el espaciado entre líneas */
   }
+
 
 </style>

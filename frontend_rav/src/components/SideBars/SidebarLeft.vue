@@ -263,6 +263,24 @@ const menuItems = ref([
 `,
 	},
 	{
+		title: "Lista de Usuarios",
+		to: { name: "ListaUsuariosPage" },
+		icon: `<svg width="34" height="40" viewBox="0 0 34 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<path d="M20.038 32.0731C20.0246 32.0612 20.0237 32.0592 20.0237 32.0413C20.0237 31.8534 20.0313 31.6626 20.0321 31.4737C20.0338 31.0621 20.0447 30.7222 20.1167 30.3156C20.4013 28.7012 21.4051 27.3304 22.7111 26.7747C23.6145 27.2886 24.6735 27.2896 25.576 26.7727C26.903 27.3423 27.9126 28.7459 28.1814 30.3931C28.2667 30.915 28.2391 31.3435 28.2525 31.8634C28.2542 31.93 28.2919 32.0184 28.2467 32.0721H20.038V32.0731Z" fill="currentColor"/>
+<path d="M24.0159 22.0654C25.8632 21.9587 27.108 23.9619 26.1962 25.5793C25.3792 27.0271 23.3328 27.1929 22.3012 25.8829C21.1178 24.3803 22.1161 22.175 24.0159 22.0654Z" fill="currentColor"/>
+<path d="M19.2876 0.859619V4.0006H25.9131V10.2826H8.24507V4.0006H14.8706V0.859619H19.2876Z" fill="currentColor"/>
+<path d="M12.1674 15.583H27.2821C27.4984 15.6268 27.5947 15.7175 27.6343 15.848C27.7002 16.0589 27.6963 17.5647 27.6119 17.7398C27.5736 17.817 27.4879 17.8751 27.3758 17.9157L12.1687 17.9387C12.0514 17.9181 11.9313 17.8623 11.8773 17.7963C11.7718 17.6658 11.7507 16.0573 11.8153 15.848C11.8562 15.7175 11.9524 15.6268 12.1674 15.583Z" fill="currentColor"/>
+<path d="M11.9802 22.6501H19.8175C19.9297 22.6939 19.9796 22.7846 20.0001 22.9152C20.0343 23.1261 20.0322 24.6318 19.9885 24.8069C19.9686 24.8841 19.9242 24.9422 19.8661 24.9828L11.9809 25.0059C11.9201 24.9852 11.8578 24.9295 11.8298 24.8634C11.7751 24.7329 11.7641 23.1245 11.7977 22.9152C11.8189 22.7846 11.8688 22.6939 11.9802 22.6501Z" fill="currentColor"/>
+<path d="M11.9227 29.7173H17.5207C17.6008 29.7611 17.6365 29.8518 17.6511 29.9823C17.6755 30.1932 17.6741 31.699 17.6428 31.8741C17.6286 31.9513 17.5969 32.0094 17.5554 32.0499L11.9231 32.073C11.8797 32.0523 11.8352 31.9966 11.8152 31.9306C11.7761 31.8 11.7683 30.1916 11.7922 29.9823C11.8074 29.8518 11.843 29.7611 11.9227 29.7173Z" fill="currentColor"/>
+<path d="M7.57226 15C9.84247 14.8277 10.1345 18.3576 7.8307 18.5215C5.44424 18.6919 5.14257 15.1844 7.57226 15Z" fill="currentColor"/>
+<path d="M7.56996 22.0677C9.86845 21.8908 10.1127 25.4262 7.82867 25.5891C5.48497 25.7558 5.10798 22.2567 7.56996 22.0677Z" fill="currentColor"/>
+<path d="M7.55711 29.1342C9.42711 28.9903 10.2031 31.6871 8.40877 32.4745C5.8586 33.5936 4.70518 29.3534 7.55711 29.1342Z" fill="currentColor"/>
+<path d="M6.71385 5.57104V8.36848H3.35692V36.3428H30.2123V8.36848H26.8554V5.57104H33.5692V39.1403H0V5.57104H6.71385Z" fill="currentColor"/>
+</svg>
+
+`,
+	},
+	{
 		title: "Lineas de Atención",
 		to: { name: "LineasAtencionPage" },
 		icon: `<svg width="34" height="32" viewBox="0 0 34 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -350,15 +368,15 @@ const isActive = (item) => {
 const hasShownNoSessionToast = ref(false);
 
 const logout = async () => {
-	authStore.logout()
-		// Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
-		if (!hasShownNoSessionToast.value) {
-			toast.info("No hay sesión activa.");
-			hasShownNoSessionToast.value = true;
-		}
-		router.push({ name: "LoginPage" });
-		return;
-	
+	authStore.logout();
+	// Si no hay token y el mensaje azul no se ha mostrado, mostrarlo una vez
+	if (!hasShownNoSessionToast.value) {
+		toast.info("No hay sesión activa.");
+		hasShownNoSessionToast.value = true;
+	}
+	router.push({ name: "LoginPage" });
+	return;
+
 	try {
 		// Configurar la petición con el token
 		const config = {
