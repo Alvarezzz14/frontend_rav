@@ -44,7 +44,8 @@
 		</div>
 
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-customPurple my-card rounded-lg bg-white">
+		<div
+			class="p-4 border border-customPurple my-card rounded-lg bg-white overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
