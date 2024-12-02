@@ -1,6 +1,7 @@
 <template>
 	<Header />
-	<div class="min-h-screen bg-customPurple flex">
+	<div  class="min-h-screen bg-customPurple flex"
+    :style="{ backgroundImage: 'url(' + loginFinal + ')', backgroundSize: 'cover', backgroundPosition: 'center' }">
 	  <!-- Columna izquierda con el formulario de login -->
 	  <div class="w-1/2 flex flex-col justify-center items-center p-6">
 		<!-- Logo -->
@@ -50,10 +51,7 @@
 		</div>
 	  </div>
 	
-	  <!-- Columna derecha con la imagen -->
-	  <div class="w-full relative">
-		<img :src="MapaCollage" alt="Mapa de Colombia" class="w-full h-full object-cover" />
-	  </div>
+	                                                                                                                                                                                          
 	</div>
 	<Footer></Footer>
   </template>
@@ -67,6 +65,7 @@
   import Logo from '@/assets/images/logorav.svg';
   import MapaCollage from '@/assets/images/CampesinoLogin.png';
   import logoSena from '@/assets/images/logosInstitucionales.svg';
+  import loginFinal from '@/assets/images/loginFinal.png';
   
   import Header from '../components/Header.vue';
   import Footer from '../components/Footer.vue';
@@ -113,3 +112,4 @@
   }
   </style>
   
+
