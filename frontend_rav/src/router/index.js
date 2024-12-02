@@ -16,6 +16,7 @@ import ErrorPage from '@/pages/ErrorPage.vue';
 import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
+import RolesPermisosPage from '@/pages/RolesPermisos.vue'
 
 const routes = [
   {
@@ -104,6 +105,13 @@ const routes = [
         path: '/indicadoresactividad',
         name: 'IndicadoresActividadPage',
         component: IndicadoresActividadPage
+
+      },
+
+      {
+        path: '/rolespermisos',
+        name: 'RolesPermisosPage',
+        component: RolesPermisosPage
 
       },
     ]
