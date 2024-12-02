@@ -206,9 +206,9 @@ const changeValue = () => {
 
 // Estado de las metas con valores dinámicos
 const goals = ref([
-	{ label: "Meta Anual", value: 0, meta: 1776, current: 1200 },
-	{ label: "Meta Trimestral", value: 0, meta: 100, current: 50 },
-	{ label: "Meta Diaria", value: 0, meta: 800, current: 600 },
+	{ label: "Meta Anual", value: 0, meta: 1000000, current: 1200 },
+	{ label: "Meta Trimestral", value: 0, meta: 3000000, current: 50 },
+	{ label: "Meta Diaria", value: 0, meta: 30000, current: 600 },
 ]);
 
 // Recalcular la circunferencia de cada círculo en función de su radio

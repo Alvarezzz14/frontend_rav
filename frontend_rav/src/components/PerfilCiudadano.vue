@@ -136,6 +136,7 @@
 			</div>
 			<!-- Contenedor de la tabla con scroll horizontal -->
 			<div class="overflow-x-auto">
+
 				<table class="min-w-full bg-white text-gray-900">
 					<thead>
 						<tr class="bg-gray-200">
@@ -157,9 +158,10 @@
 							<td class="px-4 py-2 border">{{ course.modalidad || "null" }}</td>
 							<td class="px-4 py-2 border">{{ course.FIC_FCH_INICIALIZACION }}</td>
 							<td class="px-4 py-2 border">{{ course.FIC_FCH_FINALIZACION }}</td>
+
 						</tr>
-					</tbody>
-				</table>
+				</tbody>
+			</table>
 			</div>
 		</div>
 	</div>
@@ -174,7 +176,6 @@ import VerLine from "@/assets/images/VerLine.svg";
 import Actividad from "@/assets/images/Actividad.png";
 import Historial from "@/assets/images/Historial.svg";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
-
 
 
 const eventStore = useEventStore();
@@ -252,4 +253,5 @@ tbody tr:hover td {
 tbody td {
 	padding: 10px; /* Espaciado interno en las celdas */
 }
+
 </style>

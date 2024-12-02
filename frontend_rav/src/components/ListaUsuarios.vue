@@ -357,6 +357,9 @@
 
               <input type="checkbox" v-model="permisos.lineaTiempo" id="lineaTiempo" name="lineaTiempo" >
               <label for="lineaTiempo">Linea de Tiempo</label>
+
+              <input type="checkbox" v-model="permisos.lineaTiempo" id="rolespermisos" name="rolespermisos" >
+              <label for="lineaTiempo">Roles y Permisos</label>
             </div>
 
             <button type="submit" class="w-full bg-customPurple text-amarillo border-none font-bold py-2 rounded-lg">
