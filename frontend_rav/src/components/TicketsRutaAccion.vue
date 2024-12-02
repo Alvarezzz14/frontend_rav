@@ -72,11 +72,11 @@
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
 							<span class="text-gray-800 font-semibold">Ciudadano: </span>
-							<span>Julia Andrex Mosquera {{ nombre }}</span>
+							<span>{{ personFullName }}</span>
 						</div>
 						<div class="">
 							<span class="text-gray-600 font-semibold"> Cédula: </span>
-							<span>12515455252 {{ cedula }}</span>
+							<span>{{ documentNumber }}</span>
 						</div>
 					</div>
 				</div>
@@ -190,32 +190,33 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(events, date) in groupedEvents" :key="date">
+					<tr>
+						<td v-if="!fetchData.data || fetchData.data?.lenght == 0" colspan="3">No hay tickets disponibles</td>
+					</tr>
+					<tr v-for="(events, date) in fetchData.data" :key="date">
 						<!-- Columna de Fecha -->
 						<td class="py-4 px-2">
-							<time class="text-lg font-bold text-gray-700">{{ date }}</time>
+							<time class="text-lg font-bold text-gray-700">{{ events.fecha_hora }}</time>
 						</td>
 
 						<!-- Columna de Información del Evento (Título e Imagen) -->
 						<td class="py-4 px-2">
 							<div
-								v-for="(event, index) in events"
-								:key="index"
 								class="flex items-center space-y-2 justify-between">
 								<div>
 									<p class="font-semibold text-black">
-										{{ event.title }}
+										{{ events.titulo }}
 									</p>
 									<div v-if="openedGroups[date]" class="mt-2">
-										<p class="text-gray-600">{{ event.description }}</p>
+										<p class="text-gray-600">{{ events.contenido }}</p>
 									</div>
 								</div>
 								<!-- Mostrar los detalles del evento en la misma celda cuando se haga clic en "Ver más" -->
 
-								<img
-									:src="event.profileImage"
+								<!-- <img
+									src=""
 									alt="Imagen del evento"
-									class="w-14 h-14 rounded-full" />
+									class="w-14 h-14 rounded-full" /> -->
 							</div>
 						</td>
 
@@ -270,9 +271,15 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,onMounted } from "vue";
+import { useEventStore } from "../stores/storedataOff";
 
 const openedGroups = ref({});
+const fetchData = ref([])
+const eventStore = useEventStore();
+const userInfo = ref({})
+const personFullName = ref("")
+const documentNumber = ref(0)
 
 const groupedEvents = ref({
 	"2024-11-20": [
@@ -296,10 +303,54 @@ const groupedEvents = ref({
 	],
 });
 
+
+
+
+const fetchOptions = {
+    url: "http://localhost:8082/api/v1/victimas/ticket",
+    options: {
+        method: "GET",
+        headers: {
+            "Accept": "application/json",
+        },
+    }
+}
+
+const getFetchData = async(fetchOptions)=>{
+	const{url,options} = fetchOptions
+	let newUrl = url+`/${userInfo.value.documento}`
+	console.log(newUrl);
+	
+	try{
+        const response = await fetch(newUrl,options);
+        const json = await response.json();
+        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+        console.log(json)
+        fetchData.value = json;
+        
+    }catch(error){
+        if (!error.error) error.error = true
+        console.log(error)
+    }finally{
+      newUrl = ''
+    }
+}
+
+
+
 // Función para alternar la visibilidad de los detalles del evento
 const toggleEventDetails = (date) => {
 	openedGroups.value[date] = !openedGroups.value[date];
 };
+
+onMounted(()=>{
+	userInfo.value = eventStore.getUserInfo()
+	documentNumber.value = eventStore.getUserInfo().documento;
+	personFullName.value = eventStore.getUserInfo().nombrecompleto;
+	console.log(userInfo.value);
+	
+	getFetchData(fetchOptions)
+})
 </script>
 
 <style scoped>
