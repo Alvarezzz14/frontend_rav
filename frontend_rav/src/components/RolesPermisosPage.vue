@@ -31,25 +31,23 @@
             </div>
             
             <!-- Contenedor de los campos input y select -->
-            <div class="flex gap-4 ml-auto">
+            <div class="flex flex-wrap gap-4 text-right">
                 <!-- Campo de input -->
                 <input
                     type="text"
                     placeholder="Escribe un rol"
-                    class="border rounded-md p-2 focus:outline-none focus:ring"
-                    style="width: 490px;"
+                    class="border rounded-md p-2 w-full sm:w-96 lg:w-450 focus:outline-none focus:ring"
                 />
-                
+
                 <!-- Campo de select -->
                 <select
                     v-model="selectedRole"
-                    class="border rounded-md p-2 focus:outline-none focus:ring"
-                    style="width: 490px;"
+                    class="border rounded-md p-2 w-full sm:w-96 lg:w-450 focus:outline-none focus:ring"
                 >
                     <option value="" disabled>Seleccione el Rol</option>
                     <option v-for="role in roles" :key="role" :value="role">{{ role }}</option>
-            </select>
-            </div>
+                </select>
+                </div>
             </div>
         </div>
   
@@ -90,63 +88,66 @@
        
   
         <div class="overflow-x-auto">
-          <table class="w-full border-collapse">
-            <thead>
-              <tr class="bg-customPurple text-white">
-                <th class="border border-gray-300 p-2 text-left">
-                  <div class="flex items-center gap-2">
-                    <img src="@/assets/images/nombrerol.svg" alt="Module Icon" class="w-4 h-4" />
-                    NOMBRE DEL MODULO
-                  </div>
-                </th>
-                <th class="border border-gray-300 p-2">
-                    <div class="flex items-center gap-2">
-                    <img src="@/assets/images/verol.svg" alt="Module Icon" class="w-4 h-4" />
-                    VER
-                  </div>
-                </th>
-                <th class="border border-gray-300 p-2">
-                    <div class="flex items-center gap-2">
-                    <img src="@/assets/images/crearrol.svg" alt="Module Icon" class="w-4 h-4" />
-                    CREAR / EDITAR
-                  </div>
-                </th>
-                <th class="border border-gray-300 p-2">
-                    <div class="flex items-center gap-2">
-                    <img src="@/assets/images/exportarrol.svg" alt="Module Icon" class="w-4 h-4" />
-                    EXPORTAR
-                  </div>
-                </th>
-                <th class="border border-gray-300 p-2"><div class="flex items-center gap-2">
-                    <img src="@/assets/images/eliminarrol.svg" alt="Module Icon" class="w-4 h-4" />                              
-                    ELIMINAR
-                  </div></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(module, index) in modules" :key="index" class="odd:bg-gray-100 even:bg-white">
-                <td class="border border-gray-300 p-2">
-                  <div class="flex items-center gap-2">
-                    <input type="checkbox" class="mr-2" v-model="module.selected" />
-                    <span>{{ module.name }}</span>
-                  </div>
-                </td>
-                <td class="border border-gray-300 text-center">
-                  <input type="checkbox" v-model="module.permissions.view" />
-                </td>
-                <td class="border border-gray-300 text-center">
-                  <input type="checkbox" v-model="module.permissions.edit" />
-                </td>
-                <td class="border border-gray-300 text-center">
-                  <input type="checkbox" v-model="module.permissions.export" />
-                </td>
-                <td class="border border-gray-300 text-center">
-                  <input type="checkbox" v-model="module.permissions.delete" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <table class="w-full border-collapse">
+    <thead>
+      <tr class="bg-customPurple text-white">
+        <th class="border border-gray-300 p-2 text-left">
+          <div class="flex items-center gap-2">
+            <img src="@/assets/images/nombrerol.svg" alt="Module Icon" class="w-4 h-4" />
+            NOMBRE DEL MODULO
+          </div>
+        </th>
+        <th class="border border-gray-300 p-2">
+          <div class="flex items-center gap-2">
+            <img src="@/assets/images/verol.svg" alt="Module Icon" class="w-4 h-4" />
+            VER
+          </div>
+        </th>
+        <th class="border border-gray-300 p-2">
+          <div class="flex items-center gap-2">
+            <img src="@/assets/images/crearrol.svg" alt="Module Icon" class="w-4 h-4" />
+            CREAR / EDITAR
+          </div>
+        </th>
+        <th class="border border-gray-300 p-2">
+          <div class="flex items-center gap-2">
+            <img src="@/assets/images/exportarrol.svg" alt="Module Icon" class="w-4 h-4" />
+            EXPORTAR
+          </div>
+        </th>
+        <th class="border border-gray-300 p-2">
+          <div class="flex items-center gap-2">
+            <img src="@/assets/images/eliminarrol.svg" alt="Module Icon" class="w-4 h-4" />
+            ELIMINAR
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(module, index) in modules" :key="index">
+        <td class="border border-gray-300 p-2">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" class="mr-2" v-model="module.selected" />
+            <span>{{ module.name }}</span>
+          </div>
+        </td>
+        <td class="border border-gray-300 text-center">
+          <input type="checkbox" v-model="module.permissions.view" />
+        </td>
+        <td class="border border-gray-300 text-center">
+          <input type="checkbox" v-model="module.permissions.edit" />
+        </td>
+        <td class="border border-gray-300 text-center">
+          <input type="checkbox" v-model="module.permissions.export" />
+        </td>
+        <td class="border border-gray-300 text-center">
+          <input type="checkbox" v-model="module.permissions.delete" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
         </div>
       </div>    
   </template>
