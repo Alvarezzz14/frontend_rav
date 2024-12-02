@@ -214,7 +214,8 @@
             <input v-model="formData.password" type="password" placeholder="Crear Contraseña" id="password"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
-            <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar Contraseña" id="confirmPassword"
+            <input v-model="formData.confirmPassword" type="password" placeholder="Confirmar Contraseña"
+              id="confirmPassword"
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <button type="submit"
@@ -436,8 +437,7 @@
               </svg>
               <label for="inicio">Inicio</label>
 
-              <input  type="checkbox" v-model="permisos.mapa"
-                id="mapa" name="mapa" value="Bike">
+              <input type="checkbox" v-model="permisos.mapa" id="mapa" name="mapa" value="Bike">
               <svg class="mx-1 bg-customPurple w-9 h-7 rounded-full p-1" width="14" height="15" viewBox="0 0 14 15"
                 fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -518,7 +518,8 @@
               <label for="listarUsuarios">Lista de Usuarios</label>
 
               <input type="checkbox" v-model="permisos.lineaTiempo" id="lineaTiempo" name="lineaTiempo">
-              <svg class="mx-1 bg-customPurple w-9 h-7 rounded-full p-1" width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg class="mx-1 bg-customPurple w-9 h-7 rounded-full p-1" width="12" height="13" viewBox="0 0 12 13"
+                fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M11.1463 4.75055C11.1601 4.76933 11.4405 4.92512 11.5214 5.00123C12.1654 5.6072 12.1589 6.75437 11.5055 7.34868C11.4241 7.42285 11.1886 7.55208 11.1551 7.61037C11.0728 7.75223 10.9567 8.30638 10.8703 8.52727C10.2604 10.0877 8.96916 11.3524 7.48745 11.8279C7.11092 11.9487 6.76438 11.9652 6.39961 12.0543C6.13331 12.1194 6.09833 12.2518 5.7609 12.1259C5.10102 11.8794 5.43992 11.0214 6.14977 11.1468C6.28292 11.1704 6.39373 11.2893 6.50895 11.3019C7.24055 11.3839 8.60616 10.5291 9.14052 9.98957C13.0101 6.08071 8.9092 -0.924093 4.0267 1.47227C1.88394 2.5239 0.80227 5.23506 1.46832 7.70559C0.208822 7.78753 -0.48515 6.08945 0.394293 5.08122C0.47777 4.98536 0.721145 4.84836 0.764059 4.77613C0.829018 4.66731 0.891038 4.29582 0.946591 4.13518C2.65522 -0.821748 8.96622 -1.01931 10.8703 3.84013C10.9297 3.99203 11.1193 4.71298 11.1463 4.75055Z"
                   fill="white" />
@@ -555,10 +556,15 @@
           <h2 class="text-xl font-bold mb-0  text-black">¿Estás seguro que</h2>
           <h2 class="text-xl font-bold mb-4 mt-0 text-black">deseas eliminar este usuario?</h2>
           <div class="flex justify-center space-x-4">
-            <button @click="deleteUser"
+            <button @click="openModal"
               class="bg-amarillo text-customPurple border-none font-bold py-2 px-6 rounded-lg hover:bg-yellow-600">
               Aceptar
             </button>
+            <!-- Modal de confirmación -->
+            
+            <ModalConfirmacionEliminar v-if="isModalOpen" @click="deleteUser" />
+            
+
             <button @click="closeDeleteModal"
               class="bg-customPurple text-amarillo border-none font-bold py-2 px-6 rounded-lg hover:bg-gray-400">
               Cancelar
@@ -580,13 +586,13 @@ import IconoEliminar from '@/assets/images/IconoEliminar.svg';
 import IconoVisualizar from '@/assets/images/IconoVisualizar.svg';
 import RegistroUsuario from '@/assets/images/RegistroUsuario.svg';
 import DeleteSucess from '@/assets/images/delete-success.png';
-import DeleteConfirm from '@/assets/images/delete-confirm.png';
 import imagenRegistro from '@/assets/images/imagenRegistro.jpg';
 import logoRav from '@/assets/images/LogoPageRav.svg';
 import logoSena from '@/assets/images/logosenaverde.svg';
 import logoApe from '@/assets/images/logoape.svg';
 import Usuario from '@/assets/images/Usuario.svg';
 import FondoImagen from '@/assets/images/colombiaCollage1.webp';
+import ModalConfirmacionEliminar from '@/components/ModalConfirmacionEliminar.vue'; // Importa tu componente
 
 // Estados para modales
 const showRegisterModal = ref(false);
@@ -681,6 +687,19 @@ function deleteUser() {
   closeDeleteModal(); // Cerrar la modal de confirmación
   showSuccessModal.value = true; // Mostrar la modal de éxito
 }
+
+// Estado para controlar la visibilidad del modal
+const isModalOpen = ref(false);
+
+// Función para abrir el modal
+const openModal = () => {
+  isModalOpen.value = true;
+};
+
+// Función para cerrar el modal
+const closeModal = () => {
+  isModalOpen.value = false;
+};
 
 
 </script>
