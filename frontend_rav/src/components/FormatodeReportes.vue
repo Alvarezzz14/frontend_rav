@@ -58,6 +58,7 @@ import { ref } from "vue";
 import axios from "axios";
 import ExcelJS from "exceljs"; // Importar exceljs
 import Reportes from "@/assets/images/Reportes.svg";
+import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
@@ -127,9 +128,18 @@ async function handleDownloadTickets() {
     const worksheet = workbook.addWorksheet("Historial de Tickets");
 
     // Combinar celdas para el encabezado de imagen
-    worksheet.mergeCells("A1:H6");
+    //worksheet.mergeCells("A1:H6");
 
-  
+    // Insertar la imagen
+    //const imageId = workbook.addImage({
+    //  base64: Reportes,
+    //  extension: "png",
+    //});
+    //worksheet.addImage(imageId, {
+    //  tl: { col: 0, row: 0 }, // Celda A1
+    //  br: { col: 8, row: 6 }, // Celda H6
+    //});
+
     // Definir columnas
     worksheet.columns = [
       { header: "ID TICKET", key: "ID_TICKET", width: 15 },
@@ -143,7 +153,7 @@ async function handleDownloadTickets() {
     ];
 
     // Estilo de encabezados
-    worksheet.getRow(7).eachCell((cell) => {
+    worksheet.getRow(1).eachCell((cell) => {
       cell.fill = {
         type: "pattern",
         pattern: "solid",
@@ -163,7 +173,7 @@ async function handleDownloadTickets() {
     tickets.forEach((ticket) => {
       const row = worksheet.addRow(ticket);
       row.eachCell((cell) => {
-        cell.alignment = { wrapText: true }; // Ajustar texto automáticamente
+		cell.alignment = { wrapText: true, horizontal: "center", vertical: "middle" };// Ajustar texto automáticamente	
       });
     });
 
