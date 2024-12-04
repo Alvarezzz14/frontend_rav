@@ -154,7 +154,7 @@
   
   <script setup>
   import { ref } from "vue";
-  import Rol from "@/assets/images/Rol.svg";
+  import Rol from "@/assets/images/rol.svg";
   import Rol1 from "@/assets/images/verol.svg";
   import Rol2 from "@/assets/images/crearrol.svg";
   import Rol3 from "@/assets/images/exportarrol.svg";
