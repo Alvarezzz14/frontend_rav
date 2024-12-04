@@ -11,6 +11,7 @@
   "dependencies": {
     "@primevue/themes": "^4.1.0",
     "axios": "^1.7.7",
+    "exceljs": "^4.4.0",
     "flowbite": "^2.5.2",
     "flowbite-vue": "^0.1.6",
     "pinia": "^2.2.5",

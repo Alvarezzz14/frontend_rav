@@ -16,7 +16,9 @@
 		<!-- Sección Central -->
 		<div class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-x-20">
 			<div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-72 p-3">
-				<center><h3>Seleccione el tipo de reporte</h3></center>
+				<div class="text-center">
+					<h3>Seleccione el tipo de reporte</h3>
+				</div>
 				<!-- Selección de Departamento -->
 				<div class="mb-4">
 					<select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
@@ -51,17 +53,17 @@
 	</div>
 </template>
 
-
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import ExcelJS from "exceljs"; // Importar exceljs
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
+
 
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
 const loading = ref(false);
-
 
 
 const departamentos = ref([
@@ -99,7 +101,6 @@ const departamentos = ref([
 	{ name: "Vichada", code: "99" },
 ]);
 
-// Validación
 function validateInputs() {
   if (!selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
     alert("Por favor, complete todos los campos.");
@@ -108,7 +109,6 @@ function validateInputs() {
   return true;
 }
 
-// Manejo de Reporte
 async function handleDownloadTickets() {
   if (!validateInputs()) return;
 
@@ -121,18 +121,76 @@ async function handleDownloadTickets() {
         from: dateRange.value.from,
         to: dateRange.value.to,
       },
-      responseType: "blob",
     });
 
-    const fileURL = window.URL.createObjectURL(new Blob([response.data]));
-    const fileName = `historial_tickets_${new Date().toISOString()}.xlsx`;
+    const tickets = response.data;
 
-    const downloadLink = document.createElement("a");
-    downloadLink.href = fileURL;
-    downloadLink.setAttribute("download", fileName);
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    downloadLink.remove();
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Historial de Tickets");
+
+    // Combinar celdas para el encabezado de imagen
+    worksheet.mergeCells("A1:H6");
+
+   
+    // Definir columnas
+    worksheet.columns = [
+      { header: "ID TICKET", key: "ID_TICKET", width: 15 },
+      { header: "ID USUARIO", key: "ID_USUARIO", width: 15 },
+      { header: "NUMERO DOCUMENTO", key: "NUMERO_DOCUMENTO", width: 20 },
+      { header: "TITULO", key: "TITULO", width: 20 },
+      { header: "CONTENIDO", key: "CONTENIDO", width: 40 },
+      { header: "PALABRAS CLAVES", key: "PALABRAS_CLAVES", width: 25 },
+      { header: "DEPARTAMENTO", key: "DEPARTAMENTO", width: 20 },
+      { header: "FECHA HORA", key: "FECHA_HORA", width: 25 },
+    ];
+
+    // Estilo de encabezados
+    worksheet.getRow(7).eachCell((cell) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "77277A" },
+      };
+      cell.font = { color: { argb: "FFFFFF" }, bold: true };
+      cell.alignment = { horizontal: "center", vertical: "middle" };
+      cell.border = {
+        top: { style: "thin", color: { argb: "77277A" } },
+        bottom: { style: "thin", color: { argb: "77277A" } },
+        left: { style: "thin", color: { argb: "77277A" } },
+        right: { style: "thin", color: { argb: "77277A" } },
+      };
+    });
+
+    // Agregar datos
+    tickets.forEach((ticket) => {
+      const row = worksheet.addRow(ticket);
+      row.eachCell((cell) => {
+        cell.alignment = { wrapText: true }; // Ajustar texto automáticamente
+      });
+    });
+
+    // Estilo de bordes para todas las celdas
+    worksheet.eachRow((row) => {
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: "thin", color: { argb: "77277A" } },
+          bottom: { style: "thin", color: { argb: "77277A" } },
+          left: { style: "thin", color: { argb: "77277A" } },
+          right: { style: "thin", color: { argb: "77277A" } },
+        };
+      });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `Reporte Historial Tickets.xlsx`;
+    link.click();
+
+    alert("Reporte generado exitosamente.");
   } catch (error) {
     console.error("Error al generar el reporte:", error);
     alert("Ocurrió un error. Intente nuevamente.");
@@ -141,6 +199,8 @@ async function handleDownloadTickets() {
   }
 }
 </script>
+
+
 
 <style scoped>
 /* Estilo para radio buttons personalizados */
