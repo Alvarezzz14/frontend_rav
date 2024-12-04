@@ -1,7 +1,7 @@
 <template>
 	<div class="">
-		<div class="flex flex-col lg:flex-row-reverse items-center m-5">
-			<div class="-mt-5 lg:mx-14">
+		<div class="flex flex-col lg:flex-row-reverse items-center m-2">
+			<div class="-mt-5 lg:w-full lg:mx-14">
 				<!-- Titulo-->
 				<p class="text-2xl text-center md:text-4xl lg:text-left font-medium">
 					Aquí podrás visualizar información acerca de la
@@ -36,7 +36,7 @@
 				<img
 					:src="Ciudadano"
 					alt="Ciudadano"
-					class="object-cover h-96 lg:h-96 w-auto" />
+					class="object-cover w-5/6 lg:max-w-2xl lg:w-auto" />
 
 				<!-- Contenedor con el botón encima -->
 				<div class="absolute top-52 lg:hidden flex items-center justify-center">
@@ -112,6 +112,7 @@ const searchUser = async () => {
 		modalMessage.value = "Por favor, ingrese un número de documento.";
 		return;
 	}
+	eventStore.deleteUserInfo();
 
 	loading.value = true;
 	const results = await searchByCedula(searchCedula.value);
