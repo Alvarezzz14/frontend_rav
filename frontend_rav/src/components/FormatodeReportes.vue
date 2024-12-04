@@ -58,13 +58,10 @@ import { ref } from "vue";
 import axios from "axios";
 import ExcelJS from "exceljs"; // Importar exceljs
 import Reportes from "@/assets/images/Reportes.svg";
-import PersonaReportes from "@/assets/images/PersonaReportes.svg";
-
 
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
 const loading = ref(false);
-
 
 const departamentos = ref([
 	{ name: "Amazonas", code: "91" },
@@ -101,6 +98,7 @@ const departamentos = ref([
 	{ name: "Vichada", code: "99" },
 ]);
 
+
 function validateInputs() {
   if (!selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
     alert("Por favor, complete todos los campos.");
@@ -131,7 +129,7 @@ async function handleDownloadTickets() {
     // Combinar celdas para el encabezado de imagen
     worksheet.mergeCells("A1:H6");
 
-   
+  
     // Definir columnas
     worksheet.columns = [
       { header: "ID TICKET", key: "ID_TICKET", width: 15 },
@@ -199,6 +197,7 @@ async function handleDownloadTickets() {
   }
 }
 </script>
+
 
 
 
