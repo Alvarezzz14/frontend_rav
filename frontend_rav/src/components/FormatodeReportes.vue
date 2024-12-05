@@ -19,6 +19,40 @@
 				<div class="text-center">
 					<h3>Seleccione el tipo de reporte</h3>
 				</div>
+
+				<div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
+					<input 
+					type="radio" 
+					id="tickets" 
+					name="reportType" 
+					value="HistorialTickets" 
+					class="custom-radio" 
+					v-model="selectedReport" 
+					/>
+					<label for="tickets">Historial de Tickets</label>
+
+					<input 
+					type="radio" 
+					id="estadisticas" 
+					name="reportType" 
+					value="EstadisticasCiudadano" 
+					class="custom-radio" 
+					v-model="selectedReport" 
+					/>
+					<label for="estadisticas">Estadísticas del Ciudadano</label>
+
+					<input 
+					type="radio" 
+					id="auditLogs" 
+					name="reportType" 
+					value="AuditLogs" 
+					class="custom-radio" 
+					v-model="selectedReport" 
+					/>
+					<label for="auditLogs">Logs de Auditoría</label>
+				</div>
+
+				
 				<!-- Selección de Departamento -->
 				<div class="mb-4">
 					<select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
@@ -40,8 +74,8 @@
 				<button
 					:disabled="loading"
 					class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
-					@click="handleDownloadTickets"
-				>
+					@click="handleDownloadReport"
+					>
 					<span v-if="!loading">Generar Reporte</span>
 					<span v-else>Generando...</span>
 				</button>
@@ -56,13 +90,15 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import ExcelJS from "exceljs"; // Importar exceljs
+import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
+const selectedReport = ref(""); // Inicialización de `selectedReport`
 const selectedDepartamento = ref("");
 const dateRange = ref({ from: "", to: "" });
 const loading = ref(false);
+
 
 const departamentos = ref([
 	{ name: "Amazonas", code: "91" },
@@ -99,22 +135,38 @@ const departamentos = ref([
 	{ name: "Vichada", code: "99" },
 ]);
 
-
 function validateInputs() {
-  if (!selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
+  if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
     alert("Por favor, complete todos los campos.");
     return false;
   }
   return true;
 }
 
-async function handleDownloadTickets() {
+async function handleDownloadReport() {
   if (!validateInputs()) return;
 
   loading.value = true;
 
   try {
-    const response = await axios.get("http://127.0.0.1:5000/tickets", {
+    let endpoint;
+    let worksheetName;
+
+    if (selectedReport.value === "HistorialTickets") {
+      endpoint = "http://127.0.0.1:5000/tickets";
+      worksheetName = "Historial de Tickets";
+    } else if (selectedReport.value === "EstadisticasCiudadano") {
+      endpoint = "http://127.0.0.1:5000/estadistica_ciudadano";
+      worksheetName = "Estadísticas del Ciudadano";
+    } else if (selectedReport.value === "AuditLogs") {
+      endpoint = "http://127.0.0.1:5000/audit_logs";
+      worksheetName = "Logs de Auditoría";
+    } else {
+      alert("Tipo de reporte no válido.");
+      return;
+    }
+
+    const response = await axios.get(endpoint, {
       params: {
         departamento: selectedDepartamento.value,
         from: dateRange.value.from,
@@ -122,37 +174,23 @@ async function handleDownloadTickets() {
       },
     });
 
-    const tickets = response.data;
+    const data = response.data;
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      alert("No se encontraron datos para el reporte seleccionado.");
+      return;
+    }
 
     const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Historial de Tickets");
+    const worksheet = workbook.addWorksheet(worksheetName);
 
-    // Combinar celdas para el encabezado de imagen
-    //worksheet.mergeCells("A1:H6");
+    const headers = Object.keys(data[0]).map((key) => ({
+      header: key.replace(/_/g, " ").toUpperCase(),
+      key,
+      width: 20,
+    }));
+    worksheet.columns = headers;
 
-    // Insertar la imagen
-    //const imageId = workbook.addImage({
-    //  base64: Reportes,
-    //  extension: "png",
-    //});
-    //worksheet.addImage(imageId, {
-    //  tl: { col: 0, row: 0 }, // Celda A1
-    //  br: { col: 8, row: 6 }, // Celda H6
-    //});
-
-    // Definir columnas
-    worksheet.columns = [
-      { header: "ID TICKET", key: "ID_TICKET", width: 15 },
-      { header: "ID USUARIO", key: "ID_USUARIO", width: 15 },
-      { header: "NUMERO DOCUMENTO", key: "NUMERO_DOCUMENTO", width: 20 },
-      { header: "TITULO", key: "TITULO", width: 20 },
-      { header: "CONTENIDO", key: "CONTENIDO", width: 40 },
-      { header: "PALABRAS CLAVES", key: "PALABRAS_CLAVES", width: 25 },
-      { header: "DEPARTAMENTO", key: "DEPARTAMENTO", width: 20 },
-      { header: "FECHA HORA", key: "FECHA_HORA", width: 25 },
-    ];
-
-    // Estilo de encabezados
     worksheet.getRow(1).eachCell((cell) => {
       cell.fill = {
         type: "pattern",
@@ -161,33 +199,9 @@ async function handleDownloadTickets() {
       };
       cell.font = { color: { argb: "FFFFFF" }, bold: true };
       cell.alignment = { horizontal: "center", vertical: "middle" };
-      cell.border = {
-        top: { style: "thin", color: { argb: "77277A" } },
-        bottom: { style: "thin", color: { argb: "77277A" } },
-        left: { style: "thin", color: { argb: "77277A" } },
-        right: { style: "thin", color: { argb: "77277A" } },
-      };
     });
 
-    // Agregar datos
-    tickets.forEach((ticket) => {
-      const row = worksheet.addRow(ticket);
-      row.eachCell((cell) => {
-		cell.alignment = { wrapText: true, horizontal: "center", vertical: "middle" };// Ajustar texto automáticamente	
-      });
-    });
-
-    // Estilo de bordes para todas las celdas
-    worksheet.eachRow((row) => {
-      row.eachCell((cell) => {
-        cell.border = {
-          top: { style: "thin", color: { argb: "77277A" } },
-          bottom: { style: "thin", color: { argb: "77277A" } },
-          left: { style: "thin", color: { argb: "77277A" } },
-          right: { style: "thin", color: { argb: "77277A" } },
-        };
-      });
-    });
+    data.forEach((item) => worksheet.addRow(item));
 
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
@@ -195,13 +209,13 @@ async function handleDownloadTickets() {
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `Reporte Historial Tickets.xlsx`;
+    link.download = `Reporte_${worksheetName.replace(/ /g, "_")}.xlsx`;
     link.click();
 
     alert("Reporte generado exitosamente.");
   } catch (error) {
     console.error("Error al generar el reporte:", error);
-    alert("Ocurrió un error. Intente nuevamente.");
+    alert("Ocurrió un error al generar el reporte. Por favor, intente nuevamente.");
   } finally {
     loading.value = false;
   }
