@@ -75,6 +75,12 @@
 					</span>
 				</div>
 
+				<div v-if="fileToUpload" class="progress-container mt-4">
+					<div
+						class="progress-bar"
+						:style="{ width: `${uploadProgress}%` }"></div>
+				</div>
+
 				<!-- Mensajes de error y éxito -->
 				<p v-if="uploadError" class="text-red-500 text-center mt-4">
 					Error al subir el archivo. Intenta nuevamente.
@@ -229,7 +235,7 @@ const ConnectionWifi = (callback) => {
 	window.addEventListener("online", async () => await callback());
 };
 
-async function sendFile(fetchOptions) {
+async function sendFile(fetchOptions, chunkSize, totalSize) {
 	let { url, options } = fetchOptions;
 
 	loading.value = true;
@@ -238,49 +244,44 @@ async function sendFile(fetchOptions) {
 
 	try {
 		const response = await fetch(url, options);
-		const json = await response.json();
 
-		if (!response.ok)
-			throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
+		if (!response.ok) {
+			throw new Error("Error al subir el archivo");
+		}
 
-		updateEventFileUpload(fetchOptions.options.body);
+		// Actualiza el progreso
+		uploadProgress.value += (chunkSize / totalSize) * 100;
+		intUploadProgress.value = Math.round(uploadProgress.value);
 
 		uploadSuccess.value = true;
 	} catch (err) {
-		if (!err.error) err.error = true;
+		console.error("Error al enviar el archivo:", err);
 		uploadError.value = true;
-		if (err.name === "AbortError") {
-			console.log("La solicitud fue cancelada con éxito");
-		} else if (err instanceof TypeError) {
-			const formData = fetchOptions.options.body;
-			backupPartsFile.push(formData);
-			wifiErrorFetch = true;
-			ConnectionWifi(ReuploadFile);
-		} else {
-			console.error(err);
-		}
+		throw err;
 	} finally {
 		loading.value = false;
 	}
 }
 
-const createPartsTxt = (file, chunkSize = 250 * 1024 * 1024) => {
+const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 	let offset = 0;
 	let partNumber = 1;
-	let blob;
-	const reader = new FileReader();
+	const totalSize = file.size;
 
-	reader.onload = (e) => {
-		const chunkData = e.target.result;
-		const fileBlob = new Blob([blob], { type: "text/plain" });
-		const fileName = `${file.name}_parte${partNumber}.txt`;
+	while (offset < totalSize) {
+		const chunk = file.slice(offset, offset + chunkSize);
+
+		// Generar un nombre que incluya 'parte' y el número de la parte
+		const chunkFileName = `${
+			file.name.split(".")[0]
+		}_parte${partNumber}.${file.name.split(".").pop()}`;
+
 		const formData = new FormData();
+		formData.append("file", chunk, chunkFileName);
+		formData.append("sizeMainFile", totalSize);
+		formData.append("chunkNumber", partNumber);
 
-		formData.append("file", fileBlob, fileName);
-		formData.append("sizeMainFile", file.size);
-		fileNotificationStore.setFileName(`${file.name}_parte.txt`);
-
-		const copyFetchOptions = {
+		const fetchOptionsChunk = {
 			url: fetchOptions.url,
 			options: {
 				...fetchOptions.options,
@@ -288,26 +289,12 @@ const createPartsTxt = (file, chunkSize = 250 * 1024 * 1024) => {
 			},
 		};
 
-		fileNotificationStore.setFetchController(fetchController);
-
-		sendFile(copyFetchOptions);
+		// Envía el "chunky" y actualiza el progreso
+		await sendFile(fetchOptionsChunk, chunk.size, totalSize);
 
 		offset += chunkSize;
-		partNumber += 1;
-
-		if (wifiErrorFetch) return;
-
-		if (offset < file.size) {
-			readNextChunk();
-		}
-	};
-
-	function readNextChunk() {
-		blob = file.slice(offset, offset + chunkSize);
-		reader.readAsText(blob, "ISO-8859-1");
+		partNumber++;
 	}
-
-	readNextChunk();
 };
 
 const createPartsExcel = async (file) => {
@@ -389,7 +376,25 @@ const uploadFileFinal = async () => {
 
 const uploadFile = async () => {
 	if (!fileToUpload.value) return;
-	await uploadFileFinal();
+
+	uploading.value = true;
+	uploadProgress.value = 0;
+	intUploadProgress.value = 0;
+
+	try {
+		// Inicia la carga dividida en "chunkys"
+		await createPartsTxt(fileToUpload.value);
+
+		if (uploadProgress.value === 100) {
+			uploadSuccess.value = true;
+			console.log("Archivo subido exitosamente.");
+		}
+	} catch (error) {
+		uploadError.value = true;
+		console.error("Error durante la carga del archivo:", error);
+	} finally {
+		uploading.value = false;
+	}
 };
 </script>
 
