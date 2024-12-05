@@ -191,6 +191,24 @@ async function handleDownloadReport() {
     }));
     worksheet.columns = headers;
 
+
+	data.forEach((item) => {
+	const row = worksheet.addRow(item);
+	row.eachCell((cell) => {
+		cell.alignment = { 
+		wrapText: true,        // Habilitar ajuste automático del texto
+		horizontal: "center",  // Centrar horizontalmente
+		vertical: "middle"     // Centrar verticalmente
+		};
+		cell.border = {          // Agregar borde a cada celda
+		top: { style: "thin", color: { argb: "77277A" } },
+		bottom: { style: "thin", color: { argb: "77277A" } },
+		left: { style: "thin", color: { argb: "77277A" } },
+		right: { style: "thin", color: { argb: "77277A" } },
+		};
+	});
+	});
+
     worksheet.getRow(1).eachCell((cell) => {
       cell.fill = {
         type: "pattern",
@@ -201,15 +219,13 @@ async function handleDownloadReport() {
       cell.alignment = { horizontal: "center", vertical: "middle" };
     });
 
-    data.forEach((item) => worksheet.addRow(item));
-
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `Reporte_${worksheetName.replace(/ /g, "_")}.xlsx`;
+    link.download = `Reporte ${worksheetName.replace(/ /g, " ")}.xlsx`;
     link.click();
 
     alert("Reporte generado exitosamente.");
@@ -221,8 +237,6 @@ async function handleDownloadReport() {
   }
 }
 </script>
-
-
 
 
 <style scoped>
