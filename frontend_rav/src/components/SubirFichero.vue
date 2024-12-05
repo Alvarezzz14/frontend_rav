@@ -76,9 +76,11 @@
 				</div>
 
 				<div v-if="fileToUpload" class="progress-container mt-4">
-					<div
-						class="progress-bar"
-						:style="{ width: `${uploadProgress}%` }"></div>
+					<!-- Etiqueta progress -->
+					<progress
+						class="w-full h-4 rounded"
+						:value="uploadProgress"
+						max="100"></progress>
 				</div>
 
 				<!-- Mensajes de error y éxito -->
@@ -86,7 +88,7 @@
 					Error al subir el archivo. Intenta nuevamente.
 				</p>
 				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
-					Parte subida exitosamente.
+					Archivo subido exitosamente.
 				</p>
 
 				<!-- Botón de carga -->
@@ -235,12 +237,8 @@ const ConnectionWifi = (callback) => {
 	window.addEventListener("online", async () => await callback());
 };
 
-async function sendFile(fetchOptions, chunkSize, totalSize) {
+async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	let { url, options } = fetchOptions;
-
-	loading.value = true;
-	uploadSuccess.value = false;
-	uploadError.value = false;
 
 	try {
 		const response = await fetch(url, options);
@@ -249,17 +247,20 @@ async function sendFile(fetchOptions, chunkSize, totalSize) {
 			throw new Error("Error al subir el archivo");
 		}
 
-		// Actualiza el progreso
-		uploadProgress.value += (chunkSize / totalSize) * 100;
+		// Actualiza el progreso basado en la parte actual
+		uploadProgress.value = Math.min(
+			((currentChunk * chunkSize) / totalSize) * 100,
+			100
+		);
 		intUploadProgress.value = Math.round(uploadProgress.value);
 
-		uploadSuccess.value = true;
+		console.log(
+			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
+		);
 	} catch (err) {
 		console.error("Error al enviar el archivo:", err);
 		uploadError.value = true;
 		throw err;
-	} finally {
-		loading.value = false;
 	}
 }
 
@@ -290,7 +291,7 @@ const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 		};
 
 		// Envía el "chunky" y actualiza el progreso
-		await sendFile(fetchOptionsChunk, chunk.size, totalSize);
+		await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
 
 		offset += chunkSize;
 		partNumber++;
@@ -351,10 +352,12 @@ const uploadFileFinal = async () => {
 
 	// Deshabilitar el botón al comenzar la carga
 	uploading.value = true;
+	uploadError.value = false; // Resetear el estado de error
+	uploadSuccess.value = false; // Resetear el estado de éxito
 
 	try {
 		// Lógica de división y envío del archivo
-		await createParts(fileToUpload.value);
+		await createPartsTxt(fileToUpload.value);
 
 		if (uploadProgress.value === 100) {
 			console.log("Carga completada al 100%.");
@@ -368,6 +371,7 @@ const uploadFileFinal = async () => {
 		intUploadProgress.value = 0;
 	} catch (error) {
 		console.error("Error durante la carga del archivo:", error);
+		uploadError.value = true; // Mostrar mensaje de error
 	} finally {
 		// Habilitar el botón al finalizar (con éxito o error)
 		uploading.value = false;
@@ -377,24 +381,8 @@ const uploadFileFinal = async () => {
 const uploadFile = async () => {
 	if (!fileToUpload.value) return;
 
-	uploading.value = true;
-	uploadProgress.value = 0;
-	intUploadProgress.value = 0;
-
-	try {
-		// Inicia la carga dividida en "chunkys"
-		await createPartsTxt(fileToUpload.value);
-
-		if (uploadProgress.value === 100) {
-			uploadSuccess.value = true;
-			console.log("Archivo subido exitosamente.");
-		}
-	} catch (error) {
-		uploadError.value = true;
-		console.error("Error durante la carga del archivo:", error);
-	} finally {
-		uploading.value = false;
-	}
+	console.log("Iniciando la subida...");
+	await uploadFileFinal();
 };
 </script>
 
