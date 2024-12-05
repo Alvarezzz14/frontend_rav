@@ -157,7 +157,7 @@
 
         <!-- Botón de Cerrar -->
         <button @click="closeRegisterModal"
-          class="absolute top-4 right-4 text-customPurple rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
+          class="absolute top-4 right-4 text-customPurple cursor-pointer rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
           ✕
         </button>
 
@@ -219,7 +219,7 @@
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required />
             <button type="submit"
-              class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300 ">
+              class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300 "  @click="handleRegister">
               Registrar
             </button>
           </form>
@@ -236,7 +236,9 @@
           <img :src="imagenRegistro" alt="Cultura Colombiana" class="w-full h-full object-cover lg:rounded-r-lg" />
         </div>
 
+
       </div>
+      <confirmacion-registro v-if="showConfirmation" @close="closeConfirmationModal" />
     </div>
 
 
@@ -263,7 +265,7 @@
 
           <!-- Close Button -->
           <button @click="closeViewModal"
-            class="text-customPurple hover:text-white hover:bg-customPurple rounded-full border-none text-2xl">
+            class="text-customPurple hover:text-white cursor-pointer hover:bg-customPurple rounded-full border-none text-2xl">
             ✕
           </button>
         </div>
@@ -350,7 +352,7 @@
             <h2 class="text-xl font-bold text-black">DATOS DE USUARIO</h2>
           </div>
           <button @click="closeEditModal"
-            class="absolute top-4 right-4 text-customPurple font-bold hover:text-white hover:bg-customPurple border-none rounded-full p-2">
+            class="absolute top-4 right-4 text-customPurple cursor-pointer font-bold hover:text-white hover:bg-customPurple border-none rounded-full p-2">
             ✕
           </button>
 
@@ -537,7 +539,7 @@
               <label for="lineaTiempo">Roles y Permisos</label>
             </div>
 
-            <button type="submit" class="w-full bg-customPurple text-amarillo border-none font-bold py-2 rounded-lg">
+            <button type="submit" class="w-full bg-customPurple cursor-pointer text-amarillo border-none font-bold py-2 rounded-lg">
               Guardar Cambios
             </button>
           </form>
@@ -560,7 +562,7 @@
           <h2 class="text-xl font-bold mb-4 mt-0 text-black">deseas eliminar este usuario?</h2>
           <div class="flex justify-center space-x-4">
             <button @click="openModal"
-              class="bg-amarillo text-customPurple border-none font-bold py-2 px-6 rounded-lg hover:bg-yellow-600">
+              class="bg-amarillo text-customPurple cursor-pointer border-none font-bold py-2 px-6 rounded-lg hover:bg-yellow-600">
               Aceptar
             </button>
             <!-- Modal de confirmación -->
@@ -569,7 +571,7 @@
             
 
             <button @click="closeDeleteModal"
-              class="bg-customPurple text-amarillo border-none font-bold py-2 px-6 rounded-lg hover:bg-gray-400">
+              class="bg-customPurple text-amarillo cursor-pointer border-none font-bold py-2 px-6 rounded-lg hover:bg-gray-400">
               Cancelar
             </button>
           </div>
@@ -595,6 +597,7 @@ import logoSena from '@/assets/images/logosenaverde.svg';
 import logoApe from '@/assets/images/logoape.svg';
 import Usuario from '@/assets/images/Usuario.svg';
 import FondoImagen from '@/assets/images/colombiaCollage1.webp';
+import ConfirmacionRegistro from '@/components/ConfirmacionRegistro.vue';
 import ModalConfirmacionEliminar from '@/components/ModalConfirmacionEliminar.vue'; // Importa tu componente
 
 // Estados para modales
@@ -603,6 +606,7 @@ const showEditModal = ref(false);
 const showDeleteModal = ref(false);
 const showSuccessModal = ref(false);
 const showViewModal = ref(false);
+const showConfirmation = ref(false); // Estado del modal de confirmación
 
 // Usuario seleccionado para ver, editar o eliminar
 const selectedUser = reactive({});
@@ -642,6 +646,20 @@ function closeRegisterModal() {
   formData.rol = "";
   showRegisterModal.value = false;
 }
+
+// Función para manejar el clic en "Registrar"
+const handleRegister = () => {
+  // Lógica para el registro (agregar los datos del formulario, etc.)
+  // Después de eso, mostrar el modal de confirmación
+  showConfirmation.value = true;
+  showRegisterModal.value = false; // Opcionalmente cerrar el modal de registro
+};
+
+// Función para cerrar el modal de confirmación
+const closeConfirmationModal = () => {
+  showConfirmation.value = false;
+  showRegisterModal.value = true; // Opcionalmente mostrar el modal de registro nuevamente
+};
 
 // Funciones para Ver Usuario
 function viewUser(user) {
