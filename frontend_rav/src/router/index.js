@@ -16,7 +16,8 @@ import ErrorPage from '@/pages/ErrorPage.vue';
 import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
 import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
-import RolesPermisosPage from '@/pages/RolesPermisos.vue'
+import RolesPermisosPage from '@/pages/RolesPermisos.vue';
+import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
 
 const routes = [
   {
@@ -113,6 +114,11 @@ const routes = [
         name: 'RolesPermisosPage',
         component: RolesPermisosPage
 
+      },
+      {
+        path: 'formbienvenida',
+        name: 'formbienvenidaPage',
+        component: formbienvenidaPage
       },
     ]
   },
