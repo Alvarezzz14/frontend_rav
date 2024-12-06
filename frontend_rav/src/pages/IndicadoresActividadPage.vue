@@ -1,7 +1,7 @@
 <template>
-	<IndicadoresActividad> </IndicadoresActividad>
+	<IndicadoresActividad />
 </template>
 
 <script setup>
-import IndicadoresActividad from "@/components/IndicadoresActividad.vue";
+import IndicadoresActividad from "@/components/metas/IndicadoresActividad.vue";
 </script>
