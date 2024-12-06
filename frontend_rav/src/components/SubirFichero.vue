@@ -78,7 +78,7 @@
 				<div v-if="fileToUpload" class="progress-container mt-4">
 					<!-- Etiqueta progress -->
 					<progress
-						class="w-full h-4 rounded"
+						class="w-full h-4 rounded progress-bar"
 						:value="uploadProgress"
 						max="100"></progress>
 				</div>
@@ -90,6 +90,13 @@
 				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
 					Archivo subido exitosamente.
 				</p>
+
+				<div v-if="reconnecting" class="reconnection-indicator">
+					<p>{{ retryMessage }}</p>
+				</div>
+				<div v-if="reconnecting" class="overlay">
+					<p>Intentando reconectar. Por favor, espera...</p>
+				</div>
 
 				<!-- Botón de carga -->
 				<Button
@@ -125,6 +132,8 @@ const loading = ref(false);
 const uploading = ref(false); // Controla el estado de carga
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
+const reconnecting = ref(false); // Indica si el sistema está intentando reconectar
+const retryMessage = ref(""); // Mensaje informativo para el usuario
 
 const acceptedFileTypes = [
 	"text/plain",
@@ -257,9 +266,30 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 		console.log(
 			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
 		);
+
+		uploadSuccess.value = true; // Actualiza el estado de éxito
 	} catch (err) {
-		console.error("Error al enviar el archivo:", err);
-		uploadError.value = true;
+		if (err instanceof TypeError) {
+			// Inicia el modo de reconexión
+			reconnecting.value = true;
+			retryMessage.value =
+				"Error de conexión detectado. Intentando reconectar...";
+
+			const formData = fetchOptions.options.body;
+			backupPartsFile.push(formData);
+			wifiErrorFetch = true;
+
+			// Manejo de reconexión
+			ConnectionWifi(async () => {
+				retryMessage.value = "Reconexión exitosa. Continuando carga...";
+				await ReuploadFile(); // Reenvía las partes en cola
+				reconnecting.value = false; // Finaliza el modo de reconexión
+				retryMessage.value = ""; // Limpia el mensaje
+			});
+		} else {
+			console.error("Error al enviar el archivo:", err);
+			uploadError.value = true;
+		}
 		throw err;
 	}
 }
@@ -290,12 +320,17 @@ const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 			},
 		};
 
-		// Envía el "chunky" y actualiza el progreso
-		await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
+		fileNotificationStore.setFileName(chunkFileName); // Notificación
+		fileNotificationStore.setFetchController(fetchController); // Controlador
+
+		// Envía el "chunk" y actualiza el progreso
+		await sendFile(fetchOptionsChunk, chunkSize, totalSize, partNumber);
 
 		offset += chunkSize;
 		partNumber++;
 	}
+
+	console.log("Todos los chunks enviados exitosamente.");
 };
 
 const createPartsExcel = async (file) => {
@@ -309,9 +344,9 @@ const createPartsExcel = async (file) => {
 			blankrows: false,
 		});
 		const blob = new Blob([txtData], { type: "text/plain" });
-		createPartsTxt(blob);
+		await createPartsTxt(blob);
 	}
-	alert("División y envío completados.");
+	console.log("División y envío desde Excel completados.");
 };
 
 const createParts = async (file) => {
@@ -321,7 +356,7 @@ const createParts = async (file) => {
 			await createPartsExcel(file);
 			break;
 		case "text/plain":
-			createPartsTxt(file);
+			await createPartsTxt(file);
 			break;
 		default:
 			alert("Tipo de archivo no soportado.");
@@ -344,11 +379,10 @@ onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
 });
 
-// Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
 	if (!fileToUpload.value) return;
 
-	console.log("Iniciando la carga del archivo."); // Log antes de empezar
+	console.log("Iniciando la carga del archivo.");
 
 	// Deshabilitar el botón al comenzar la carga
 	uploading.value = true;
@@ -356,8 +390,7 @@ const uploadFileFinal = async () => {
 	uploadSuccess.value = false; // Resetear el estado de éxito
 
 	try {
-		// Lógica de división y envío del archivo
-		await createPartsTxt(fileToUpload.value);
+		await createParts(fileToUpload.value);
 
 		if (uploadProgress.value === 100) {
 			console.log("Carga completada al 100%.");
@@ -371,10 +404,9 @@ const uploadFileFinal = async () => {
 		intUploadProgress.value = 0;
 	} catch (error) {
 		console.error("Error durante la carga del archivo:", error);
-		uploadError.value = true; // Mostrar mensaje de error
+		uploadError.value = true;
 	} finally {
-		// Habilitar el botón al finalizar (con éxito o error)
-		uploading.value = false;
+		uploading.value = false; // Rehabilitar el botón
 	}
 };
 
@@ -421,5 +453,29 @@ const uploadFile = async () => {
 }
 .progress-bar {
 	background-color: #7a1f7e;
+}
+.reconnection-indicator {
+	background-color: rgba(255, 223, 0, 0.8);
+	padding: 10px;
+	border-radius: 5px;
+	text-align: center;
+	font-weight: bold;
+	color: #000;
+	margin-top: 10px;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2rem;
+	z-index: 9999;
 }
 </style>
