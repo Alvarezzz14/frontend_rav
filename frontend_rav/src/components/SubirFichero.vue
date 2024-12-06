@@ -246,6 +246,45 @@ const ConnectionWifi = (callback) => {
 	window.addEventListener("online", async () => await callback());
 };
 
+// Función para esperar la confirmación del backend
+const waitForCompletion = async (fileName) => {
+	try {
+		const checkUrl = `http://localhost:8081/api/upload/status?fileName=${encodeURIComponent(
+			fileName
+		)}`;
+
+		let status = "processing";
+
+		while (status === "processing") {
+			// Esperar 2 segundos antes de volver a verificar
+			await new Promise((resolve) => setTimeout(resolve, 2000));
+
+			const response = await fetch(checkUrl);
+			if (!response.ok) throw new Error("Error al verificar el estado");
+
+			const data = await response.json();
+			status = data.status;
+
+			// Incrementar el progreso lentamente hasta 99%
+			if (status === "processing" && uploadProgress.value < 99) {
+				uploadProgress.value = Math.min(uploadProgress.value + 1, 99);
+				intUploadProgress.value = Math.round(uploadProgress.value);
+			}
+		}
+
+		// Cuando el backend confirme, completar al 100%
+		uploadProgress.value = 100;
+		intUploadProgress.value = 100;
+
+		console.log("Inserción completada en el backend.");
+	} catch (err) {
+		console.error("Error al esperar confirmación:", err);
+		uploadError.value = true;
+		throw err;
+	}
+};
+
+// Actualizar `sendFile` para que maneje 0%-40%
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	let { url, options } = fetchOptions;
 
@@ -256,21 +295,21 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			throw new Error("Error al subir el archivo");
 		}
 
-		// Actualiza el progreso basado en la parte actual
+		// Actualiza el progreso basado en los chunks enviados (máximo 40%)
 		uploadProgress.value = Math.min(
-			((currentChunk * chunkSize) / totalSize) * 100,
-			100
+			((currentChunk * chunkSize) / totalSize) * 40,
+			40
 		);
 		intUploadProgress.value = Math.round(uploadProgress.value);
 
 		console.log(
-			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
+			`Parte ${currentChunk} subida. Progreso actual: ${intUploadProgress.value}%`
 		);
 
-		uploadSuccess.value = true; // Actualiza el estado de éxito
+		uploadSuccess.value = true;
 	} catch (err) {
 		if (err instanceof TypeError) {
-			// Inicia el modo de reconexión
+			// Manejar reconexión en caso de error
 			reconnecting.value = true;
 			retryMessage.value =
 				"Error de conexión detectado. Intentando reconectar...";
@@ -279,12 +318,11 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			backupPartsFile.push(formData);
 			wifiErrorFetch = true;
 
-			// Manejo de reconexión
 			ConnectionWifi(async () => {
 				retryMessage.value = "Reconexión exitosa. Continuando carga...";
-				await ReuploadFile(); // Reenvía las partes en cola
-				reconnecting.value = false; // Finaliza el modo de reconexión
-				retryMessage.value = ""; // Limpia el mensaje
+				await ReuploadFile();
+				reconnecting.value = false;
+				retryMessage.value = "";
 			});
 		} else {
 			console.error("Error al enviar el archivo:", err);
@@ -293,6 +331,32 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 		throw err;
 	}
 }
+
+const uploadFileFinal = async () => {
+	// Reiniciar estados antes de comenzar
+	uploadProgress.value = 0;
+	intUploadProgress.value = 0;
+	uploadError.value = false;
+	uploadSuccess.value = false;
+	uploading.value = true;
+
+	try {
+		// Fase 1: Carga de chunks (0%-40%)
+		await createParts(fileToUpload.value);
+
+		// Fase 2: Confirmación del backend (40%-100%)
+		await waitForCompletion(fileName.value);
+
+		uploadSuccess.value = true; // Mostrar mensaje de éxito
+		console.log("Carga completada al 100%.");
+	} catch (error) {
+		console.error("Error durante la carga del archivo:", error);
+		uploadError.value = true;
+		alert("Hubo un error al subir el archivo. Inténtalo de nuevo.");
+	} finally {
+		uploading.value = false; // Rehabilitar el botón
+	}
+};
 
 const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 	let offset = 0;
@@ -379,41 +443,13 @@ onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
 });
 
-const uploadFileFinal = async () => {
-	if (!fileToUpload.value) return;
-
-	console.log("Iniciando la carga del archivo.");
-
-	// Deshabilitar el botón al comenzar la carga
-	uploading.value = true;
-	uploadError.value = false; // Resetear el estado de error
-	uploadSuccess.value = false; // Resetear el estado de éxito
-
-	try {
-		await createParts(fileToUpload.value);
-
-		if (uploadProgress.value === 100) {
-			console.log("Carga completada al 100%.");
-			uploadSuccess.value = true; // Mostrar mensaje de éxito
-		}
-
-		// Reiniciar el estado al terminar exitosamente
-		fileToUpload.value = null;
-		fileName.value = "";
-		uploadProgress.value = 0;
-		intUploadProgress.value = 0;
-	} catch (error) {
-		console.error("Error durante la carga del archivo:", error);
-		uploadError.value = true;
-	} finally {
-		uploading.value = false; // Rehabilitar el botón
-	}
-};
-
 const uploadFile = async () => {
-	if (!fileToUpload.value) return;
+	if (!fileToUpload.value) {
+		alert("Por favor, selecciona un archivo antes de subir.");
+		return;
+	}
 
-	console.log("Iniciando la subida...");
+	console.log("Iniciando la subida del archivo...");
 	await uploadFileFinal();
 };
 </script>
