@@ -76,11 +76,17 @@
 				</div>
 
 				<div v-if="fileToUpload" class="progress-container mt-4">
+<<<<<<< HEAD
 					<!-- Etiqueta progress -->
 					<progress
 						class="w-full h-4 rounded"
 						:value="uploadProgress"
 						max="100"></progress>
+=======
+					<div
+						class="progress-bar"
+						:style="{ width: `${uploadProgress}%` }"></div>
+>>>>>>> develop
 				</div>
 
 				<!-- Mensajes de error y éxito -->
@@ -88,7 +94,11 @@
 					Error al subir el archivo. Intenta nuevamente.
 				</p>
 				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
+<<<<<<< HEAD
 					Archivo subido exitosamente.
+=======
+					Parte subida exitosamente.
+>>>>>>> develop
 				</p>
 
 				<!-- Botón de carga -->
@@ -355,9 +365,9 @@ const uploadFileFinal = async () => {
 	uploadError.value = false; // Resetear el estado de error
 	uploadSuccess.value = false; // Resetear el estado de éxito
 
+	await createPartsTxt(fileToUpload.value);
 	try {
 		// Lógica de división y envío del archivo
-		await createPartsTxt(fileToUpload.value);
 
 		if (uploadProgress.value === 100) {
 			console.log("Carga completada al 100%.");
