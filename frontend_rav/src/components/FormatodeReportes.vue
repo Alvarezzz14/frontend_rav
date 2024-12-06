@@ -94,47 +94,49 @@ import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 
-const selectedReport = ref(""); // Inicialización de `selectedReport`
-const selectedDepartamento = ref("");
-const dateRange = ref({ from: "", to: "" });
+// Variables reactivas
+const selectedReport = ref(""); // Tipo de reporte seleccionado
+const selectedDepartamento = ref(""); // Departamento seleccionado
+const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 
-
+// Lista de departamentos
 const departamentos = ref([
-	{ name: "Amazonas", code: "91" },
-	{ name: "Antioquia", code: "05" },
-	{ name: "Arauca", code: "81" },
-	{ name: "Atlantico", code: "08" },
-	{ name: "Bolivar", code: "13" },
-	{ name: "Boyacá", code: "15" },
-	{ name: "Caldas", code: "17" },
-	{ name: "Caquetá", code: "18" },
-	{ name: "Casanare", code: "85" },
-	{ name: "Cauca", code: "19" },
-	{ name: "Cesar", code: "20" },
-	{ name: "Chocó", code: "27" },
-	{ name: "Cundinamarca", code: "25" },
-	{ name: "Cordoba", code: "23" },
-	{ name: "Guainia", code: "94" },
-	{ name: "Guaviare", code: "95" },
-	{ name: "Huila", code: "41" },
-	{ name: "La Guajira", code: "44" },
-	{ name: "Magdalena", code: "47" },
-	{ name: "Meta", code: "50" },
-	{ name: "Nariño", code: "52" },
-	{ name: "Norte de Santander", code: "54" },
-	{ name: "Putumayo", code: "86" },
-	{ name: "Quindio", code: "63" },
-	{ name: "Risaralda", code: "66" },
-	{ name: "San Andres, Providencia y Santa Catalina", code: "88" },
-	{ name: "Santander", code: "68" },
-	{ name: "Sucre", code: "70" },
-	{ name: "Tolima", code: "73" },
-	{ name: "Valle del Cauca", code: "76" },
-	{ name: "Vaupés", code: "97" },
-	{ name: "Vichada", code: "99" },
+  { name: "Amazonas", code: "91" },
+  { name: "Antioquia", code: "05" },
+  { name: "Arauca", code: "81" },
+  { name: "Atlantico", code: "08" },
+  { name: "Bolivar", code: "13" },
+  { name: "Boyacá", code: "15" },
+  { name: "Caldas", code: "17" },
+  { name: "Caquetá", code: "18" },
+  { name: "Casanare", code: "85" },
+  { name: "Cauca", code: "19" },
+  { name: "Cesar", code: "20" },
+  { name: "Chocó", code: "27" },
+  { name: "Cundinamarca", code: "25" },
+  { name: "Cordoba", code: "23" },
+  { name: "Guainia", code: "94" },
+  { name: "Guaviare", code: "95" },
+  { name: "Huila", code: "41" },
+  { name: "La Guajira", code: "44" },
+  { name: "Magdalena", code: "47" },
+  { name: "Meta", code: "50" },
+  { name: "Nariño", code: "52" },
+  { name: "Norte de Santander", code: "54" },
+  { name: "Putumayo", code: "86" },
+  { name: "Quindio", code: "63" },
+  { name: "Risaralda", code: "66" },
+  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
+  { name: "Santander", code: "68" },
+  { name: "Sucre", code: "70" },
+  { name: "Tolima", code: "73" },
+  { name: "Valle del Cauca", code: "76" },
+  { name: "Vaupés", code: "97" },
+  { name: "Vichada", code: "99" },
 ]);
 
+// Validación de los inputs
 function validateInputs() {
   if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
     alert("Por favor, complete todos los campos.");
@@ -143,6 +145,7 @@ function validateInputs() {
   return true;
 }
 
+// Función para manejar la descarga del reporte
 async function handleDownloadReport() {
   if (!validateInputs()) return;
 
@@ -152,6 +155,7 @@ async function handleDownloadReport() {
     let endpoint;
     let worksheetName;
 
+    // Configuración de los endpoints y nombres de los reportes
     if (selectedReport.value === "HistorialTickets") {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
@@ -166,9 +170,19 @@ async function handleDownloadReport() {
       return;
     }
 
+    // Buscar el nombre del departamento según el código seleccionado
+    const departamentoNombre = departamentos.value.find(
+      (d) => d.code === selectedDepartamento.value
+    )?.name || "";
+
+    // Verificar datos que se enviarán
+    console.log("Nombre del departamento enviado:", departamentoNombre);
+    console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
+
+    // Solicitud al endpoint
     const response = await axios.get(endpoint, {
       params: {
-        departamento: selectedDepartamento.value,
+        departamento: departamentoNombre,
         from: dateRange.value.from,
         to: dateRange.value.to,
       },
@@ -176,14 +190,17 @@ async function handleDownloadReport() {
 
     const data = response.data;
 
+    // Validación de datos recibidos
     if (!data || !Array.isArray(data) || data.length === 0) {
       alert("No se encontraron datos para el reporte seleccionado.");
       return;
     }
 
+    // Crear el archivo Excel
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(worksheetName);
 
+    // Configurar encabezados
     const headers = Object.keys(data[0]).map((key) => ({
       header: key.replace(/_/g, " ").toUpperCase(),
       key,
@@ -191,24 +208,21 @@ async function handleDownloadReport() {
     }));
     worksheet.columns = headers;
 
+    // Agregar datos al archivo
+    data.forEach((item) => {
+      const row = worksheet.addRow(item);
+      row.eachCell((cell) => {
+        cell.alignment = { horizontal: "center", vertical: "middle" };
+        cell.border = {
+          top: { style: "thin" },
+          bottom: { style: "thin" },
+          left: { style: "thin" },
+          right: { style: "thin" },
+        };
+      });
+    });
 
-	data.forEach((item) => {
-	const row = worksheet.addRow(item);
-	row.eachCell((cell) => {
-		cell.alignment = { 
-		wrapText: true,        // Habilitar ajuste automático del texto
-		horizontal: "center",  // Centrar horizontalmente
-		vertical: "middle"     // Centrar verticalmente
-		};
-		cell.border = {          // Agregar borde a cada celda
-		top: { style: "thin", color: { argb: "77277A" } },
-		bottom: { style: "thin", color: { argb: "77277A" } },
-		left: { style: "thin", color: { argb: "77277A" } },
-		right: { style: "thin", color: { argb: "77277A" } },
-		};
-	});
-	});
-
+    // Estilo del encabezado
     worksheet.getRow(1).eachCell((cell) => {
       cell.fill = {
         type: "pattern",
@@ -216,16 +230,16 @@ async function handleDownloadReport() {
         fgColor: { argb: "77277A" },
       };
       cell.font = { color: { argb: "FFFFFF" }, bold: true };
-      cell.alignment = { horizontal: "center", vertical: "middle" };
     });
 
+    // Descargar el archivo
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `Reporte ${worksheetName.replace(/ /g, " ")}.xlsx`;
+    link.download = `Reporte_${worksheetName.replace(/ /g, "_")}.xlsx`;
     link.click();
 
     alert("Reporte generado exitosamente.");
@@ -237,6 +251,8 @@ async function handleDownloadReport() {
   }
 }
 </script>
+
+
 
 
 <style scoped>
