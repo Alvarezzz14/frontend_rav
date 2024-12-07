@@ -245,6 +245,7 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			throw new Error("Error al subir el archivo");
 		}
 
+		updateEventFileUpload(options.body);
 		// Actualiza el progreso basado en la parte actual
 		uploadProgress.value = Math.min(
 			((currentChunk * chunkSize) / totalSize) * 100,
