@@ -106,7 +106,7 @@
 				<!-- Velocímetro -->
 				<div class="py-20 custom-bordered-div">
 					<vue-speedometer
-						:value="value"
+						:value="generateRandomProgress()"
 						:minValue="0"
 						:maxValue="100"
 						:segments="5"
@@ -115,8 +115,7 @@
 						:width="400"
 						:height="300"
 						:ringWidth="25"
-						:currentValueText="'Progreso Meta'"
-						:currentValuePlaceholderStyle="valueTextStyle"
+						:currentValueText="'Progreso Random'"
 						:animate="true"
 						:animationDuration="1.5" />
 				</div>
@@ -126,7 +125,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 import VueSpeedometer from "vue-speedometer";
 import Indicador from "@/assets/images/indicador.svg";
@@ -151,23 +150,20 @@ const customSegmentColors = [
 	"#D041D5",
 	"#E64CEB",
 ];
+// Progreso aleatorio
+const randomProgress = ref(generateRandomProgress());
 
-const value = ref(generateRandomValue(0, 100)); // Inicializa con un valor aleatorio entre 0 y 100
-
-// Función para generar un número aleatorio dentro de un rango
-function generateRandomValue(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+// Función para generar un progreso aleatorio
+function generateRandomProgress() {
+	return Math.floor(Math.random() * 101); // 0 a 100
 }
-// Función para cambiar el valor
-const changeValue = () => {
-	value.value = Math.floor(Math.random() * 150); // Genera un valor aleatorio entre 0 y 150
-};
 
-const valueTextStyle = "fontSize: 16px; font-weight: bold; fill: #333";
-
-const currentGoalProgress = computed(() =>
-	goal.value.limit ? (goal.value.current / goal.value.limit) * 100 : 0
-);
+// Actualizar el progreso aleatorio cada 5 segundos
+onMounted(() => {
+	setInterval(() => {
+		randomProgress.value = generateRandomProgress();
+	}, 5000);
+});
 
 const saveGoal = () => {
 	if (

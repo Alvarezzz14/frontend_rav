@@ -45,10 +45,10 @@
 							class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
 							:style="getGradientStyle(index)">
 							<vue-speedometer
-								:value="1"
+								:value="goal.progress"
 								:minValue="0"
-								:maxValue="goal.limit"
-								:segments="calculateSegments(goal.limit)"
+								:maxValue="100"
+								:segments="goal.segments"
 								:needleColor="'#474747'"
 								:segmentColors="[
 									'#71277A',
@@ -58,7 +58,10 @@
 									'#E64CEB',
 								]"
 								:width="200"
-								:height="150" />
+								:height="150"
+								:currentValueText="`Progreso: ${goal.progress}%`"
+								:animate="true"
+								:animationDuration="1.5" />
 
 							<!-- Texto a la derecha del indicador -->
 							<div class="flex flex-col justify-center items-start">
@@ -125,24 +128,7 @@ import VueSpeedometer from "vue-speedometer";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();
-const goals = computed(() => goalStore.goals);
-
-const processedGoals = computed(() =>
-	goalStore.goals.map((goal, index) => ({
-		...goal,
-		progress: Math.min((goal.current / goal.limit) * 100, 100),
-		gradientIndex: index,
-	}))
-);
-
-const calculateSegments = (limit) => {
-	if (limit <= 100) return 5; // Pequeñas metas
-	if (limit <= 500) return 7; // Metas medianas
-	if (limit <= 1000) return 10; // Metas grandes
-	else 12; // Metas muy grandes
-
-	return Math.floor(limit / 100);
-};
+const goals = computed(() => goalStore.processedGoals);
 
 // Función para aplicar gradiente dinámico al contenedor del velocímetro
 const getGradientStyle = (index) => {
