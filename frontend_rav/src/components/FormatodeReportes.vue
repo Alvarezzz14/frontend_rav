@@ -212,7 +212,7 @@ async function handleDownloadReport() {
     data.forEach((item) => {
       const row = worksheet.addRow(item);
       row.eachCell((cell) => {
-        cell.alignment = { horizontal: "center", vertical: "middle" };
+        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
         cell.border = {
           top: { style: "thin" },
           bottom: { style: "thin" },
@@ -230,6 +230,7 @@ async function handleDownloadReport() {
         fgColor: { argb: "77277A" },
       };
       cell.font = { color: { argb: "FFFFFF" }, bold: true };
+      cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
     });
 
     // Descargar el archivo
@@ -239,7 +240,7 @@ async function handleDownloadReport() {
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `Reporte_${worksheetName.replace(/ /g, "_")}.xlsx`;
+    link.download = `Reporte ${worksheetName.replace(/ /g, " ")}.xlsx`;
     link.click();
 
     alert("Reporte generado exitosamente.");
@@ -251,6 +252,7 @@ async function handleDownloadReport() {
   }
 }
 </script>
+
 
 
 
