@@ -40,12 +40,13 @@
 				</div>
 			</div>
 
-			<button
-				class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center"
+			<router-link
+				:to="{ name: 'PerfilCiudadanoPage' }"
+				class="bg-customPurple border-none no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center"
 				style="width: 120px; height: 110px">
 				<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
 				<span class="text-sm">Regresar a Perfil del Ciudadano</span>
-			</button>
+			</router-link>
 		</div>
 
 		<div class="mt-4 bg-white rounded-lg shadow p-4">
@@ -105,7 +106,7 @@
 					class="relative flex flex-col items-center w-full">
 					<!-- Botón de Categoría -->
 					<button
-						class="bg-gray-100 text-black py-2 w-full border-none rounded-md text-xs"
+						class="bg-gray-100 text-black py-2 w-full cursor-pointer border-none rounded-md text-xs"
 						@click="toggleCategory(index)">
 						{{ category.name }}
 					</button>
@@ -118,7 +119,7 @@
 							v-for="(keyword, keywordIndex) in category.keywords"
 							:key="keywordIndex"
 							:class="[
-								'py-2 w-full border-none rounded-md text-xs',
+								'py-2 w-full border-none rounded-md text-xs cursor-pointer',
 								selectedKeywords.includes(keyword)
 									? 'bg-customPurple text-white font-bold'
 									: 'bg-gray-100 text-black ',
