@@ -76,17 +76,9 @@
 				</div>
 
 				<div v-if="fileToUpload" class="progress-container mt-4">
-<<<<<<< HEAD
-					<!-- Etiqueta progress -->
-					<progress
-						class="w-full h-4 rounded"
-						:value="uploadProgress"
-						max="100"></progress>
-=======
 					<div
 						class="progress-bar"
 						:style="{ width: `${uploadProgress}%` }"></div>
->>>>>>> develop
 				</div>
 
 				<!-- Mensajes de error y éxito -->
@@ -94,11 +86,7 @@
 					Error al subir el archivo. Intenta nuevamente.
 				</p>
 				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
-<<<<<<< HEAD
 					Archivo subido exitosamente.
-=======
-					Parte subida exitosamente.
->>>>>>> develop
 				</p>
 
 				<!-- Botón de carga -->
