@@ -121,7 +121,7 @@
 							:key="index"
 							:class="[
 								'bg-gray-50 p-3 rounded-lg mx-4 mb-2 flex justify-between',
-								notification.isRead ? 'opacity-50' : 'opacity-100',
+								notification.isRead ? 'opacity-50 ' : 'opacity-100',
 							]">
 							<div>
 								<h3 class="font-semibold">{{ notification.title }}</h3>
