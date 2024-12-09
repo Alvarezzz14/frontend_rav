@@ -20,72 +20,102 @@
 					<h3>Seleccione el tipo de reporte</h3>
 				</div>
 
+				<!-- Selección de tipo de reporte -->
 				<div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
 					<input 
-					type="radio" 
-					id="tickets" 
-					name="reportType" 
-					value="HistorialTickets" 
-					class="custom-radio" 
-					v-model="selectedReport" 
+						type="radio" 
+						id="tickets" 
+						name="reportType" 
+						value="HistorialTickets" 
+						class="custom-radio" 
+						v-model="selectedReport" 
 					/>
 					<label for="tickets">Historial de Tickets</label>
 
 					<input 
-					type="radio" 
-					id="estadisticas" 
-					name="reportType" 
-					value="EstadisticasCiudadano" 
-					class="custom-radio" 
-					v-model="selectedReport" 
+						type="radio" 
+						id="estadisticas" 
+						name="reportType" 
+						value="EstadisticasCiudadano" 
+						class="custom-radio" 
+						v-model="selectedReport" 
 					/>
 					<label for="estadisticas">Estadísticas del Ciudadano</label>
 
 					<input 
-					type="radio" 
-					id="auditLogs" 
-					name="reportType" 
-					value="AuditLogs" 
-					class="custom-radio" 
-					v-model="selectedReport" 
+						type="radio" 
+						id="auditLogs" 
+						name="reportType" 
+						value="AuditLogs" 
+						class="custom-radio" 
+						v-model="selectedReport" 
 					/>
 					<label for="auditLogs">Logs de Auditoría</label>
 				</div>
 
-				
 				<!-- Selección de Departamento -->
-				<div class="mb-4">
+				<div v-if="selectedReport" class="mb-4">
 					<select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
-						<option disabled value="">Seleccione Departamento</option>
+						<option disabled value="">Buscar por regional</option>
 						<option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
 							{{ departamento.name }}
 						</option>
 					</select>
 				</div>
-				<!-- Selección de Fechas -->
-				<div class="mb-4">
-					<label>Seleccione el rango de fechas.</label>
+
+				<!-- Filtros dinámicos -->
+				<!-- Rango de Fechas (Historial de Tickets, Logs de Auditoría, Estadísticas del Ciudadano) -->
+				<div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+					<label>Seleccione el rango de fechas:</label>
 					<div class="flex items-center space-x-4">
 						<input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
 						<input type="date" v-model="dateRange.to" class="w-1/2 p-2 rounded-lg" />
 					</div>
 				</div>
+
+				<!-- Campo de búsqueda por correo (Logs de Auditoría) -->
+				<div v-if="selectedReport === 'AuditLogs'" class="mb-4">
+					<label for="emailSearch">Buscar por correo SENA:</label>
+					<input
+						type="email"
+						id="emailSearch"
+						v-model="searchEmail"
+						placeholder="Ingrese el correo"
+						class="block p-2 rounded-lg w-full"
+					/>
+				</div>
+
+				<!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
+				<div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+					<label for="ccSearch">Buscar por numero de identificación:</label>
+					<input
+						type="text"
+						id="ccSearch"
+						v-model="searchCC"
+						placeholder="Ingrese el número de C.C."
+						class="block p-2 rounded-lg w-full"
+					/>
+				</div>
+
 				<!-- Botón de Búsqueda -->
 				<button
 					:disabled="loading"
 					class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
 					@click="handleDownloadReport"
-					>
+				>
 					<span v-if="!loading">Generar Reporte</span>
 					<span v-else>Generando...</span>
 				</button>
 			</div>
+
+			<!-- Imagen lateral -->
 			<div class="flex-1 max-w-md lg:max-w-lg">
 				<img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto max-w-auto" />
 			</div>
 		</div>
 	</div>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
@@ -252,10 +282,6 @@ async function handleDownloadReport() {
   }
 }
 </script>
-
-
-
-
 
 <style scoped>
 /* Estilo para radio buttons personalizados */
