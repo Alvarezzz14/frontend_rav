@@ -3,12 +3,12 @@
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justiy-center">
-				<p class="text-customPurple font-bold mb-4">Cargando datos...</p>
+				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
 				<div class="spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
 			<div v-else class="w-full">
-				<Line :data="clonedChartData" :options="chartOptions" />
+				<Line ref="lineChart" :data="clonedChartData" :options="chartOptions" />
 			</div>
 		</transition>
 	</div>
@@ -22,6 +22,7 @@ import { reactive, onMounted, ref, computed } from "vue";
 Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
+const lineChart = ref(null);
 
 // Datos del gráfico
 const chartData = reactive({
@@ -139,8 +140,8 @@ onMounted(() => {
 
 <style scoped>
 .spinner {
-	border: 4px solid #f3f3f3;
-	border-top: 4px solid #7a1f7e;
+	border: 4px solid #7a1f7e;
+	border-top: 4px solid #f3f3f3;
 	border-radius: 50%;
 	width: 40px;
 	height: 40px;
