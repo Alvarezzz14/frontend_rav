@@ -1,91 +1,167 @@
 <template>
-	<Line :data="chartData" :options="chartOptions" />
+	<div class="flex flex-col items-center justify-center w-full">
+		<transition name="fade">
+			<!-- Mostrar spinner mientras carga -->
+			<div v-if="isLoading" class="flex flex-col items-center justiy-center">
+				<p class="text-customPurple font-bold mb-4">Cargando datos...</p>
+				<div class="spinner"></div>
+			</div>
+			<!-- Mostrar gráfico después de cargar los datos -->
+			<div v-else class="w-full">
+				<Line :data="clonedChartData" :options="chartOptions" />
+			</div>
+		</transition>
+	</div>
 </template>
 
 <script setup>
 import { Line } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
-import { reactive } from "vue";
+import { reactive, onMounted, ref, computed } from "vue";
 
-// Registrar los módulos necesarios de Chart.js
 Chart.register(...registerables);
 
-// Datos y opciones de la gráfica
+const isLoading = ref(true); // Estado para el spinner
+
+// Datos del gráfico
 const chartData = reactive({
-	labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo"],
+	labels: [], // Etiquetas del eje X
 	datasets: [
 		{
-			label: "Formación",
-			borderColor: "rgba(253, 195, 0, 1)", // Color amarillo
-			data: [3, 19, 8, 15, 20],
-			fill: false, // Opcional, dependiendo si deseas que la línea esté rellena o no
-			tension: 0.1,
+			label: "Cantidad de Víctimas por Pertenencia Étnica",
+			borderColor: "rgba(253, 195, 0, 1)", // Color de la línea
+			backgroundColor: "rgba(253, 195, 0, 0.3)", // Color de relleno (opcional)
+			data: [], // Datos del eje Y
+			fill: true,
+			tension: 0.4, // Suavidad de la línea
 		},
 	],
 });
 
+// Clonar los datos para evitar problemas de solo lectura
+const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
+
+// Opciones del gráfico
 const chartOptions = reactive({
 	responsive: true,
 	maintainAspectRatio: false,
 	scales: {
 		x: {
 			ticks: {
-				color: "white", // Color de los números en el eje X
+				color: "black", // Color de las etiquetas del eje X
 				font: {
-					size: 14, // Tamaño de la fuente
-					weight: "600", // Grosor de la fuente
+					size: 10, // Tamaño de fuente
+					weight: "bold",
 				},
 			},
 			title: {
-				display: true,
-				color: "white", // Color del texto del título en el eje X
+				display: false,
+				text: "Pertenencia Étnica",
+				color: "black",
 				font: {
-					size: 16,
-					weight: "600",
-				},
-			},
-			grid: {
-				display: false, // Eliminar las líneas de la cuadrícula
-			},
-		},
-		y: {
-			ticks: {
-				color: "white", // Color de los números en el eje Y
-				font: {
-					size: 14, // Tamaño de la fuente
-					weight: "600",
-				},
-				stepSize: 5, // Incremento de los números en el eje Y
-			},
-			title: {
-				display: true,
-				color: "white", // Color del texto del título en el eje Y
-				font: {
-					size: 16,
+					size: 12,
 					weight: "bold",
 				},
 			},
 			grid: {
-				display: false, // Eliminar las líneas de la cuadrícula
+				display: false,
 			},
-			min: 0, // Valor mínimo del eje Y
-			max: 25, // Valor máximo del eje Y
+		},
+		y: {
+			beginAtZero: true,
+			ticks: {
+				color: "black", // Color de las etiquetas del eje Y
+				font: {
+					size: 10,
+					weight: "bold",
+				},
+			},
+			title: {
+				display: false,
+				text: "Cantidad de Víctimas",
+				color: "black",
+				font: {
+					size: 12,
+					weight: "bold",
+				},
+			},
+			grid: {
+				display: true,
+				color: "rgba(0, 0, 0, 0.1)",
+			},
 		},
 	},
 	plugins: {
 		legend: {
 			labels: {
-				color: "white", // Color de las etiquetas de la leyenda
+				color: "black",
 				font: {
-					size: 14, // Tamaño de la fuente en la leyenda
+					size: 10,
 					weight: "bold",
 				},
 			},
 		},
 	},
 });
+
+// Obtener los datos desde la API
+const fetchPertEtnicaData = async () => {
+	try {
+		const response = await fetch(
+			"http://localhost:8082/api/v1/victimas/counter/pert-etnica"
+		);
+		if (!response.ok)
+			throw new Error("Error al obtener datos de Pertenencia Étnica");
+
+		const jsonResponse = await response.json();
+
+		// Mapear datos recibidos
+		const limitedData = jsonResponse.data.slice(0, 10);
+		chartData.labels = limitedData.map((item) =>
+			item.PERTENENCIAETNICA ? item.PERTENENCIAETNICA.trim() : "Desconocido"
+		);
+		chartData.datasets[0].data = limitedData.map((item) =>
+			Number(item.cantidad_repeticiones)
+		);
+
+		console.log("Datos cargados para el gráfico:", chartData);
+		isLoading.value = false; // Ocultar el spinner
+	} catch (error) {
+		console.error("Error al cargar los datos:", error);
+	}
+};
+
+// Llamar a la API al montar el componente
+onMounted(() => {
+	fetchPertEtnicaData();
+});
 </script>
 
 <style scoped>
-/* Añade estilos personalizados aquí si los necesitas */
+.spinner {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #7a1f7e;
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
 </style>
