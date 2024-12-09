@@ -97,10 +97,28 @@
 				</div>
 
 				<!-- Sección de Notificaciones -->
+				<!-- Sección de Notificaciones -->
 				<div class="w-full">
 					<h2
 						class="shadow-custom lg:shadow-none h-14 md:h-16 text-lg md:text-xl lg:text-2xl font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
 						Notificaciones
+						<button
+							v-if="extraNotifications > 0"
+							@click="toggleNotifications"
+							class="bg-amarillo text-customPurple w-6 h-6 cursor-copy rounded-full flex items-center justify-center text-xs">
+							+{{ extraNotifications }}
+						</button>
+						<svg
+							width="41"
+							height="40"
+							viewBox="0 0 41 40"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg">
+							<rect x="0.5" width="40" height="40" rx="20" fill="#FDC300" />
+							<path
+								d="M20.5 10C17.75 10 15.5 12.25 15.5 15C15.5 17.6 14.2 19.95 12.15 21.65C11.125 22.5 10.5 23.7 10.5 25H30.5C30.5 23.7 29.9 22.5 28.85 21.65C26.8 19.95 25.5 17.6 25.5 15C25.5 12.25 23.275 10 20.5 10ZM18 27.5C18 28.875 19.125 30 20.5 30C21.875 30 23 28.875 23 27.5H18Z"
+								fill="#7A1F7E" />
+						</svg>
 					</h2>
 
 					<!-- Mostrar solo la primera notificación -->
@@ -113,7 +131,49 @@
 						}}</span>
 						<p class="text-sm mt-1">
 							{{ notifications[0].message }}
+							<!-- Mostrar el progreso de carga -->
+							<span v-if="notifications[0].progress !== undefined">
+								<progress
+									:value="notifications[0].progress"
+									max="100"></progress>
+								<p>{{ notifications[0].progress }}%</p>
+							</span>
+							<!-- Mostrar la URL de redirección si está definida -->
+							<span v-if="notifications[0].redirectUrl">
+								<a
+									:href="notifications[0].redirectUrl"
+									class="text-blue-500 underline">
+									Ir a la página
+								</a>
+							</span>
 						</p>
+					</div>
+
+					<!-- Mostrar notificaciones adicionales si están desplegadas -->
+					<div v-if="showAllNotifications">
+						<div
+							v-for="(notification, index) in additionalNotifications"
+							:key="index"
+							class="bg-gray-50 p-3 rounded-lg mb-2 mx-4">
+							<h3 class="font-semibold">{{ notification.title }}</h3>
+							<span class="text-xs text-gray-500">{{ notification.date }}</span>
+							<p class="text-sm mt-1">
+								{{ notification.message }}
+								<!-- Mostrar el progreso de carga -->
+								<span v-if="notification.progress !== undefined">
+									<progress :value="notification.progress" max="100"></progress>
+									<p>{{ notification.progress }}%</p>
+								</span>
+								<!-- Mostrar la URL de redirección si está definida -->
+								<span v-if="notification.redirectUrl">
+									<a
+										:href="notification.redirectUrl"
+										class="text-blue-500 underline">
+										Ir a la página
+									</a>
+								</span>
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -157,10 +217,27 @@ const getGradientStyle = (index) => {
 const notifications = ref([
 	{
 		title: "Título de notificación",
-		date: "2024-12-05",
-		message: "Mensaje de prueba de notificación.",
+		date: "17/07/2024",
+		message: "Lorem ipsum dolor sit amet...",
+		redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
+	},
+	{
+		title: "Título de notificación",
+		date: "17/07/2024",
+		message: "Lorem ipsum dolor sit amet...",
+		redirectUrl: "http://localhost:5173/subirfichero", // Aquí se añade la URL de redirección
 	},
 ]);
+
+const additionalNotifications = computed(() => notifications.value.slice(1));
+const extraNotifications = computed(() =>
+	Math.max(0, notifications.value.length - 1)
+);
+
+const showAllNotifications = ref(false);
+const toggleNotifications = () => {
+	showAllNotifications.value = !showAllNotifications.value;
+};
 </script>
 
 <style scoped>
