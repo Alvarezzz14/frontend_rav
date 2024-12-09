@@ -86,7 +86,7 @@
 					Error al subir el archivo. Intenta nuevamente.
 				</p>
 				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
-					Parte subida exitosamente.
+					Archivo subido exitosamente.
 				</p>
 
 				<!-- Botón de carga -->
@@ -174,6 +174,7 @@ const handleFileUpload = (event) => {
 	if (acceptedFileTypes.includes(file.type)) {
 		fileToUpload.value = file;
 		fileName.value = file.name;
+		fileNotificationStore.setFileName(file.name);
 		uploadProgress.value = 0;
 	} else {
 		alert("Por favor, selecciona un archivo válido (.txt).");
@@ -235,58 +236,53 @@ const ConnectionWifi = (callback) => {
 	window.addEventListener("online", async () => await callback());
 };
 
-async function sendFile(fetchOptions) {
+async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	let { url, options } = fetchOptions;
-
-	loading.value = true;
-	uploadSuccess.value = false;
-	uploadError.value = false;
 
 	try {
 		const response = await fetch(url, options);
-		const json = await response.json();
 
-		if (!response.ok)
-			throw { error: true, msgErr: response.statusText ?? "Ocurrió un error" };
-
-		updateEventFileUpload(fetchOptions.options.body);
-
-		uploadSuccess.value = true;
-	} catch (err) {
-		if (!err.error) err.error = true;
-		uploadError.value = true;
-		if (err.name === "AbortError") {
-			console.log("La solicitud fue cancelada con éxito");
-		} else if (err instanceof TypeError) {
-			const formData = fetchOptions.options.body;
-			backupPartsFile.push(formData);
-			wifiErrorFetch = true;
-			ConnectionWifi(ReuploadFile);
-		} else {
-			console.error(err);
+		if (!response.ok) {
+			throw new Error("Error al subir el archivo");
 		}
-	} finally {
-		loading.value = false;
+
+		updateEventFileUpload(options.body);
+		// Actualiza el progreso basado en la parte actual
+		uploadProgress.value = Math.min(
+			((currentChunk * chunkSize) / totalSize) * 100,
+			100
+		);
+		intUploadProgress.value = Math.round(uploadProgress.value);
+
+		console.log(
+			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
+		);
+	} catch (err) {
+		console.error("Error al enviar el archivo:", err);
+		uploadError.value = true;
+		throw err;
 	}
 }
 
-const createPartsTxt = (file, chunkSize = 10 * 1024 * 1024) => {
+const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 	let offset = 0;
 	let partNumber = 1;
-	let blob;
-	const reader = new FileReader();
+	const totalSize = file.size;
 
-	reader.onload = async (e) => {
-		const chunkData = e.target.result;
-		const fileBlob = new Blob([blob], { type: "text/plain" });
-		const fileName = `${file.name}_parte${partNumber}.txt`;
+	while (offset < totalSize) {
+		const chunk = file.slice(offset, offset + chunkSize);
+
+		// Generar un nombre que incluya 'parte' y el número de la parte
+		const chunkFileName = `${
+			file.name.split(".")[0]
+		}_parte${partNumber}.${file.name.split(".").pop()}`;
+
 		const formData = new FormData();
+		formData.append("file", chunk, chunkFileName);
+		formData.append("sizeMainFile", totalSize);
+		formData.append("chunkNumber", partNumber);
 
-		formData.append("file", fileBlob, fileName);
-		formData.append("sizeMainFile", file.size);
-		fileNotificationStore.setFileName(`${file.name}_parte.txt`);
-
-		const copyFetchOptions = {
+		const fetchOptionsChunk = {
 			url: fetchOptions.url,
 			options: {
 				...fetchOptions.options,
@@ -294,26 +290,12 @@ const createPartsTxt = (file, chunkSize = 10 * 1024 * 1024) => {
 			},
 		};
 
-		fileNotificationStore.setFetchController(fetchController);
-
-		await sendFile(copyFetchOptions);
+		// Envía el "chunky" y actualiza el progreso
+		await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
 
 		offset += chunkSize;
-		partNumber += 1;
-
-		if (wifiErrorFetch) return;
-
-		if (offset < file.size) {
-			readNextChunk();
-		}
-	};
-
-	function readNextChunk() {
-		blob = file.slice(offset, offset + chunkSize);
-		reader.readAsText(blob, "ISO-8859-1");
+		partNumber++;
 	}
-
-	readNextChunk();
 };
 
 const createPartsExcel = async (file) => {
@@ -370,10 +352,12 @@ const uploadFileFinal = async () => {
 
 	// Deshabilitar el botón al comenzar la carga
 	uploading.value = true;
+	uploadError.value = false; // Resetear el estado de error
+	uploadSuccess.value = false; // Resetear el estado de éxito
 
+	await createPartsTxt(fileToUpload.value);
 	try {
 		// Lógica de división y envío del archivo
-		await createParts(fileToUpload.value);
 
 		if (uploadProgress.value === 100) {
 			console.log("Carga completada al 100%.");
@@ -387,6 +371,7 @@ const uploadFileFinal = async () => {
 		intUploadProgress.value = 0;
 	} catch (error) {
 		console.error("Error durante la carga del archivo:", error);
+		uploadError.value = true; // Mostrar mensaje de error
 	} finally {
 		// Habilitar el botón al finalizar (con éxito o error)
 		uploading.value = false;
@@ -395,6 +380,8 @@ const uploadFileFinal = async () => {
 
 const uploadFile = async () => {
 	if (!fileToUpload.value) return;
+
+	console.log("Iniciando la subida...");
 	await uploadFileFinal();
 };
 </script>
