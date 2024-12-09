@@ -118,8 +118,8 @@ const fetchPertEtnicaData = async () => {
 
 		// Mapear datos recibidos
 		const limitedData = jsonResponse.data.slice(0, 10);
-		chartData.labels = limitedData.map((item) =>
-			item.PERTENENCIAETNICA ? item.PERTENENCIAETNICA.trim() : "Desconocido"
+		chartData.labels = limitedData.map(
+			(item) => item.pertenencia_etnica || "Desconocido"
 		);
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)
