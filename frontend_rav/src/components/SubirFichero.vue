@@ -174,6 +174,7 @@ const handleFileUpload = (event) => {
 	if (acceptedFileTypes.includes(file.type)) {
 		fileToUpload.value = file;
 		fileName.value = file.name;
+		fileNotificationStore.setFileName(file.name);
 		uploadProgress.value = 0;
 	} else {
 		alert("Por favor, selecciona un archivo válido (.txt).");
