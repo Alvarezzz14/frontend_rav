@@ -96,7 +96,7 @@ const fetchCitiesData = async () => {
 
 		const jsonResponse = await response.json();
 
-		const limitedData = jsonResponse.data.slice(0, 8);
+		const limitedData = jsonResponse.data.slice(0, 10);
 		chartData.labels = limitedData.map((item) => item.ciudad || "Desconocido");
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)

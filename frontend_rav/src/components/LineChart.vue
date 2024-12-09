@@ -29,11 +29,12 @@ const chartData = reactive({
 	labels: [], // Etiquetas del eje X
 	datasets: [
 		{
-			label: "Cantidad de Víctimas por Pertenencia Étnica",
+			label: "",
 			borderColor: "rgba(253, 195, 0, 1)", // Color de la línea
+			borderWidth: 1,
 			backgroundColor: "rgba(253, 195, 0, 0.3)", // Color de relleno (opcional)
 			data: [], // Datos del eje Y
-			fill: true,
+			fill: false,
 			tension: 0.4, // Suavidad de la línea
 		},
 	],
@@ -45,14 +46,13 @@ const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
 // Opciones del gráfico
 const chartOptions = reactive({
 	responsive: true,
-	maintainAspectRatio: false,
+	maintainAspectRatio: true,
 	scales: {
 		x: {
 			ticks: {
 				color: "black", // Color de las etiquetas del eje X
 				font: {
-					size: 10, // Tamaño de fuente
-					weight: "bold",
+					size: 12, // Tamaño de fuente
 				},
 			},
 			title: {
@@ -60,8 +60,7 @@ const chartOptions = reactive({
 				text: "Pertenencia Étnica",
 				color: "black",
 				font: {
-					size: 12,
-					weight: "bold",
+					size: 16,
 				},
 			},
 			grid: {
@@ -72,9 +71,9 @@ const chartOptions = reactive({
 			beginAtZero: true,
 			ticks: {
 				color: "black", // Color de las etiquetas del eje Y
+
 				font: {
-					size: 10,
-					weight: "bold",
+					size: 14,
 				},
 			},
 			title: {
@@ -82,7 +81,7 @@ const chartOptions = reactive({
 				text: "Cantidad de Víctimas",
 				color: "black",
 				font: {
-					size: 12,
+					size: 8,
 					weight: "bold",
 				},
 			},
@@ -97,9 +96,22 @@ const chartOptions = reactive({
 			labels: {
 				color: "black",
 				font: {
-					size: 10,
+					size: 12,
 					weight: "bold",
 				},
+			},
+		},
+		title: {
+			display: true,
+			text: "Cantidad de Víctimas por Pertenencia Étnica",
+			color: "black",
+			font: {
+				size: 16, // Tamaño de la fuente
+				weight: "bold", // Grosor del texto
+			},
+			padding: {
+				top: 20, // Incrementa este valor para mover el título más arriba
+				bottom: 0,
 			},
 		},
 	},
