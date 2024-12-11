@@ -3,39 +3,47 @@
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justiy-center">
-				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
+				<p class="text-customPurple font-bold mb-4">Generando Gráfico...</p>
 				<div class="spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
 			<div v-else class="w-full">
-				<Line ref="lineChart" :data="clonedChartData" :options="chartOptions" />
+				<Pie ref="pieChart" :data="clonedChartData" :options="chartOptions" />
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script setup>
-import { Line } from "vue-chartjs";
+import { Pie } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
 import { reactive, onMounted, ref, computed } from "vue";
 
 Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
-const lineChart = ref(null);
+const pieChart = ref(null);
+
+// Función para truncar textos largos
+const truncateText = (text, maxLength) =>
+	text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
 // Datos del gráfico
 const chartData = reactive({
 	labels: [], // Etiquetas del eje X
 	datasets: [
 		{
-			label: "",
-			borderColor: "rgba(253, 195, 0, 1)", // Color de la línea
+			label: "Cantidad de Víctimas por Pertenencia Étnica",
+			backgroundColor: [
+				"rgba(128,0,128,0.6)",
+				"rgba(138,43,226,0.6)",
+				"rgba(148,0,211,0.6)",
+				"rgba(128,0,128,0.6)",
+				"rgba(138,43,226,0.6)",
+			],
+			borderColor: "rgba(255,255,255,1)", // Color de borde
 			borderWidth: 1,
-			backgroundColor: "rgba(253, 195, 0, 0.3)", // Color de relleno (opcional)
-			data: [], // Datos del eje Y
-			fill: false,
-			tension: 0.4, // Suavidad de la línea
+			data: [], // Datos
 		},
 	],
 });
@@ -46,72 +54,33 @@ const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
 // Opciones del gráfico
 const chartOptions = reactive({
 	responsive: true,
-	maintainAspectRatio: true,
-	scales: {
-		x: {
-			ticks: {
-				color: "white", // Color de las etiquetas del eje X
-				font: {
-					size: 8, // Tamaño de fuente
-				},
-			},
-			title: {
-				display: false,
-				text: "Pertenencia Étnica",
-				color: "black",
-				font: {
-					size: 16,
-				},
-			},
-			grid: {
-				display: false,
-			},
-		},
-		y: {
-			beginAtZero: true,
-			ticks: {
-				color: "white", // Color de las etiquetas del eje Y
-
-				font: {
-					size: 14,
-				},
-			},
-			title: {
-				display: false,
-				text: "Cantidad de Víctimas",
-				color: "white",
-				font: {
-					size: 8,
-					weight: "bold",
-				},
-			},
-			grid: {
-				display: true,
-				color: "rgba(0, 0, 0, 0.1)",
-			},
-		},
-	},
+	maintainAspectRatio: false,
 	plugins: {
+		title: {
+			display: true,
+			text: "Víctimas por Pertenencia Etnica",
+			font: {
+				size: 16,
+				weight: "bold",
+			},
+		},
 		legend: {
+			position: "right", // Leyenda a la derecha
 			labels: {
-				color: "black",
+				color: "black", // Color del texto de la leyenda
 				font: {
 					size: 12,
 					weight: "bold",
 				},
 			},
 		},
-		title: {
-			display: true,
-			text: "Cantidad de Víctimas por Pertenencia Étnica",
-			color: "white",
-			font: {
-				size: 16, // Tamaño de la fuente
-				weight: "bold", // Grosor del texto
-			},
-			padding: {
-				top: 20, // Incrementa este valor para mover el título más arriba
-				bottom: 0,
+		tooltip: {
+			callbacks: {
+				label: (context) => {
+					const label = context.label || "";
+					const value = context.raw || 0;
+					return `${label}: ${value.toLocaleString("es-ES")}`;
+				},
 			},
 		},
 	},
@@ -130,8 +99,8 @@ const fetchPertEtnicaData = async () => {
 
 		// Mapear datos recibidos
 		const limitedData = jsonResponse.data.slice(0, 5);
-		chartData.labels = limitedData.map(
-			(item) => item.pertenencia_etnica || "Desconocido"
+		chartData.labels = limitedData.map((item) =>
+			truncateText(item.pertenencia_etnica || "Desconocido", 20)
 		);
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)

@@ -95,6 +95,9 @@
 						</div>
 					</div>
 				</div>
+				<div>
+					<CircularChart />
+				</div>
 
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
@@ -170,6 +173,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 import VueSpeedometer from "vue-speedometer";
+import CircularChart from "../CircularChart.vue";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();

@@ -63,7 +63,7 @@ const chartOptions = reactive({
 		x: {
 			ticks: {
 				font: {
-					size: 14,
+					size: 8,
 				},
 				color: "black",
 			},
@@ -96,7 +96,7 @@ const fetchCitiesData = async () => {
 
 		const jsonResponse = await response.json();
 
-		const limitedData = jsonResponse.data.slice(0, 10);
+		const limitedData = jsonResponse.data.slice(0, 5);
 		chartData.labels = limitedData.map((item) => item.ciudad || "Desconocido");
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)

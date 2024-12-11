@@ -8,12 +8,20 @@
 				</p>
 				<h2
 					class="text-3xl md:text-7xl text-center md:text-left -mt-5 font-bold text-customPurple">
-					Ruta de Atención al Ciudadano.
+					Ruta de Orientación a las Víctimas.
 				</h2>
 				<div class="hidden lg:flex items-center">
 					<div
 						class="w-80 md:w-[28.75rem] md:h-52 bg-white flex py-12 justify-center rounded-2xl shadow-custom -mt-12">
 						<div class="flex flex-col items-center">
+							<!-- 	<select
+								id="documentType"
+								class="w-72 h-10 mb-3 border text-center text-black text-xs border-none bg-grisInput rounded-md"
+								name="documentType">
+								<option value="cc">Cédula de Ciudadanía</option>
+								<option value="passport">Pasaporte</option>
+								<option value="ti">Tarjeta de Identidad</option>
+							</select> -->
 							<input
 								v-model="searchCedula"
 								@keydown.enter="searchUser"
