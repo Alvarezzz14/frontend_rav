@@ -1,14 +1,14 @@
 <template>
 	<div class="min-h-screen p-4 flex flex-col -mt-20">
 		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
-		<div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+		<div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-6">
 			<!-- Icono y Título -->
 			<div class="flex items-center mb-4">
 				<div class="p-6 bg-customPurple rounded-full">
 					<!-- Icono SVG -->
 					<img :src="Reportes" alt="Icono de Reportes" class="w-16 h-16" />
 				</div>
-				<div class="ml-4 text-center md:text-left mt-14">
+				<div class="ml-4 text-center md:text-left mt-4">
 					<p class="text-black -mb-1 text-2xl md:text-[37px]">Generar</p>
 					<h2 class="text-customPurple text-5xl md:text-[94px] mt-0 font-bold">Reportes</h2>
 				</div>
@@ -17,55 +17,54 @@
 
 		<!-- Sección Central (Imagen y Formulario) -->
 		<div
-			class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-y-9 xl:space-x-20 sm:flex-col">
-			<!-- Imagen -->
-			<div class="flex-1 max-w-md lg:max-w-lg p-5 order-first sm:order-none">
-				<img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto max-w-auto -mt-64 sm:mt-0" />
-			</div>
+			class="flex flex-col-reverse lg:flex-row items-center lg:items-start w-full max-w-7xl space-y-6 lg:space-y-0 lg:space-x-6">
 			<!-- Formulario -->
-			<div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-auto p-3">
+			<div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-auto p-4">
 				<center>
-					<h3>Seleccione el tipo de reporte</h3>
+					<h3 class="text-xl font-semibold mb-4">Seleccione el tipo de reporte</h3>
 				</center>
 				<!-- Selección de Formato -->
 				<div class="mb-4">
-					<div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
-						<input type="radio" id="admin" name="role" value="Administrador" class="custom-radio"
-							v-model="selectedRole" />
-						<label for="admin">Historial de Tickets</label>
-						<input type="radio" id="funcionario" name="role" value="Funcionario" class="custom-radio"
-							v-model="selectedRole" />
-						<label for="funcionario">Estadísticas del Ciudadano</label>
-						<input type="radio" id="operario" name="role" value="Operario" class="custom-radio"
-							v-model="selectedRole" />
-						<label for="operario">Listar Usuarios</label>
+					<div class="radio-button text-base grid grid-cols-1 sm:grid-cols-3 gap-4">
+						<div>
+							<input type="radio" id="admin" name="role" value="Administrador" class="custom-radio"
+								v-model="selectedRole" />
+							<label for="admin">Historial de Tickets</label>
+						</div>
+						<div>
+							<input type="radio" id="funcionario" name="role" value="Funcionario" class="custom-radio"
+								v-model="selectedRole" />
+							<label for="funcionario">Estadísticas del Ciudadano</label>
+						</div>
+						<div>
+							<input type="radio" id="operario" name="role" value="Operario" class="custom-radio"
+								v-model="selectedRole" />
+							<label for="operario">Listar Usuarios</label>
+						</div>
 					</div>
 				</div>
 
 				<!-- Selección de Departamento -->
 				<div class="mb-4">
-					<div class="grid grid-wrap">
-						<select v-model="selectedDepartamento"
-							class="block p-4 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12 border-none bg-grisInput"
-							id="departamento">
-							<option disabled value="">Seleccione Departamento</option>
-							<option v-for="departamento in departamentos" :key="departamento.code"
-								:value="departamento.code" class="bg-white">
-								{{ departamento.name }}
-							</option>
-						</select>
-					</div>
+					<select v-model="selectedDepartamento"
+						class="block w-full p-3 rounded-lg focus:outline-none focus:ring-2 font-bold border cursor-pointer text-negro h-12 bg-grisInput">
+						<option disabled value="">Seleccione Departamento</option>
+						<option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code"
+							class="bg-white">
+							{{ departamento.name }}
+						</option>
+					</select>
 				</div>
 
 				<!-- Selección de Fechas -->
 				<div class="mb-4">
-					<label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas.</label>
-					<div class="flex items-center space-x-4">
+					<label class="block text-negro text-sm font-semibold mb-2">Seleccione el rango de fechas</label>
+					<div class="flex flex-col sm:flex-row gap-4">
 						<input type="date"
-							class="w-1/2 p-2 border rounded text-gray-700 bg-grisInput focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="flex-1 p-3 border rounded text-gray-700 bg-grisInput focus:outline-none focus:ring-2 focus:ring-customPurple"
 							placeholder="Desde" v-model="dateRange.from" />
 						<input type="date"
-							class="w-1/2 p-2 border rounded text-negro bg-grisInput focus:outline-none focus:ring-2 focus:ring-customPurple"
+							class="flex-1 p-3 border rounded text-negro bg-grisInput focus:outline-none focus:ring-2 focus:ring-customPurple"
 							placeholder="Hasta" v-model="dateRange.to" />
 					</div>
 				</div>
@@ -78,9 +77,15 @@
 					<span v-else>Generando...</span>
 				</button>
 			</div>
+
+			<!-- Imagen -->
+			<div class="flex-1 max-w-md lg:max-w-lg p-5 order-first lg:order-none">
+				<img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto w-full" />
+			</div>
 		</div>
 	</div>
 </template>
+
 
 
 <script setup>
