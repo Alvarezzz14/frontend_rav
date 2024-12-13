@@ -92,7 +92,7 @@
             type="text"
             id="ccSearch"
             v-model="searchCC"
-            placeholder="Ingrese el número de C.C."
+            placeholder="Ingrese el número de identificación"
             class="block p-2 rounded-lg w-full"
           />
         </div>
@@ -140,7 +140,7 @@
           <div class="mb-4">
             <label for="ethnicity">Seleccione la procedencia étnica:</label>
             <select v-model="selectedEthnicity" id="ethnicity" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione una opción</option>
+              <option disabled value="">Seleccione una étnia</option>
               <option value="indigena">Indígena</option>
               <option value="afrocolombiano">Afrocolombiano</option>
               <option value="rom">Rom</option>
