@@ -1,13 +1,14 @@
 <template>
-	<div class="flex flex-col items-center justify-center w-full">
+	<div
+		class="flex flex-col items-center justify-center w-full bg-customPurple p-4 rounded-lg">
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
-			<div v-if="isLoading" class="flex flex-col items-center justiy-center">
-				<p class="text-customPurple font-bold mb-4">Generando Gráfico...</p>
+			<div v-if="isLoading" class="flex flex-col items-center justify-center">
+				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
 				<div class="spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
-			<div v-else class="w-full">
+			<div v-else class="h-full">
 				<Pie ref="pieChart" :data="clonedChartData" :options="chartOptions" />
 			</div>
 		</transition>
@@ -28,19 +29,28 @@ const pieChart = ref(null);
 const truncateText = (text, maxLength) =>
 	text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
+// Generar colores personalizados en tonalidades de amarillo
+const generateYellowShades = (baseColor, count) => {
+	const shades = [];
+	for (let i = 0; i < count; i++) {
+		const opacity = 0.4 + (i * 0.6) / (count - 1); // Gradiente de opacidad
+		shades.push(
+			`rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, ${opacity})`
+		);
+	}
+	return shades;
+};
+
+// Colores base para amarillo
+const baseColor = { r: 253, g: 195, b: 0 }; // FDC300
+
 // Datos del gráfico
 const chartData = reactive({
 	labels: [], // Etiquetas del eje X
 	datasets: [
 		{
 			label: "Cantidad de Víctimas por Pertenencia Étnica",
-			backgroundColor: [
-				"rgba(128,0,128,0.6)",
-				"rgba(138,43,226,0.6)",
-				"rgba(148,0,211,0.6)",
-				"rgba(128,0,128,0.6)",
-				"rgba(138,43,226,0.6)",
-			],
+			backgroundColor: generateYellowShades(baseColor, 5), // Tonalidades de amarillo
 			borderColor: "rgba(255,255,255,1)", // Color de borde
 			borderWidth: 1,
 			data: [], // Datos
@@ -58,16 +68,17 @@ const chartOptions = reactive({
 	plugins: {
 		title: {
 			display: true,
-			text: "Víctimas por Pertenencia Etnica",
+			text: "Víctimas por Pertenencia Étnica",
 			font: {
 				size: 16,
 				weight: "bold",
 			},
+			color: "white", // Título en blanco
 		},
 		legend: {
 			position: "right", // Leyenda a la derecha
 			labels: {
-				color: "black", // Color del texto de la leyenda
+				color: "white", // Color del texto de la leyenda
 				font: {
 					size: 12,
 					weight: "bold",
@@ -145,5 +156,10 @@ onMounted(() => {
 .fade-enter,
 .fade-leave-to {
 	opacity: 0;
+}
+
+/* Fondo morado personalizado */
+.bg-customPurple {
+	background-color: linear-gradient(180deg, #d160de 0%, #71277a 100%);
 }
 </style>

@@ -1,81 +1,74 @@
 <template>
 	<div class="flex flex-col bg-white items-center gap-4">
-		<!-- Agrega un gap para separación -->
 		<div
 			v-for="(goal, index) in goals"
 			:key="index"
-			class="indicator-wrapper flex items-center gap-10 rounded-lg overflow-hidden"
+			class="relative flex items-center justify-center w-full max-w-md mx-auto"
 			:style="getGradientStyle(index)">
-			<div class="relative w-24 h-24 md:w-28 md:h-28">
-				<!-- Fondo del medidor vacío -->
-				<svg class="w-full h-full" viewBox="0 0 100 100">
-					<!-- Fondo del círculo completo -->
-					<circle
-						cx="50"
-						cy="50"
-						r="40"
-						stroke="lightgray"
-						stroke-width="8"
-						fill="none"
-						style="stroke-linecap: round" />
-					<!-- Círculo animado que muestra el progreso -->
-					<circle
-						cx="50"
-						cy="50"
-						r="40"
-						stroke="currentColor"
-						:stroke-dasharray="circumference"
-						:stroke-dashoffset="
-							circumference - (circumference * goal.value) / 100
-						"
-						stroke-width="8"
-						fill="none"
-						class="text-customPurple transition-all duration-1000 ease-out"
-						style="stroke-linecap: round" />
-				</svg>
-				<!-- Porcentaje en el centro -->
-				<div class="absolute inset-0 flex flex-col items-center justify-center">
-					<span class="text-2xl font-bold">{{ goal.value }}%</span>
-					<span class="text-sm font-semibold text-gray-500 mt-1">{{
-						goal.label
-					}}</span>
-				</div>
-				<!-- Texto a la derecha del indicador -->
-				<div class="flex flex-col justify-center items-start">
-					<div
-						:class="index === 2 ? 'text-white' : 'text-black'"
-						class="text-sm font-semibold">
-						{{ goal.label }}
-					</div>
-					<div
-						:class="
-							index === 2
-								? 'text-white text-2xl font-bold'
-								: 'text-black text-xl font-bold'
-						">
-						{{ goal.meta || 0 }}
-					</div>
-					<div
-						:class="index === 2 ? 'text-white' : 'text-black'"
-						class="mt-1 text-sm font-semibold">
-						Estado Actual
-					</div>
-					<div
-						:class="
-							index === 2
-								? 'text-white text-2xl font-bold'
-								: 'text-black text-xl font-bold'
-						">
-						{{ goal.current || 0 }}
-					</div>
-				</div>
+			<!-- SVG personalizado para la barra de carga -->
+			<svg
+				class="w-full progress-circle-svg p-12"
+				viewBox="0 0 120 120"
+				xmlns="http://www.w3.org/2000/svg">
+				<!-- Fondo del gradiente -->
+				<defs>
+					<linearGradient
+						:id="`gradient-${index}`"
+						x1="0%"
+						y1="0%"
+						x2="100%"
+						y2="100%">
+						<stop offset="0%" stop-color="#F2F3F3" />
+						<stop offset="100%" stop-color="#D9D9D9" />
+					</linearGradient>
+				</defs>
+				<circle cx="60" cy="60" r="57" fill="url(#paint0_linear)" />
+
+				<!-- Círculo de fondo con borde -->
+				<circle
+					cx="60"
+					cy="60"
+					r="52"
+					stroke="#7A1F7E"
+					stroke-width="10"
+					fill="none" />
+
+				<!-- Progreso dinámico -->
+				<circle
+					cx="60"
+					cy="60"
+					r="52"
+					fill="none"
+					:stroke="getProgressStrokeColor(goal.value)"
+					stroke-width="10"
+					stroke-linecap="round"
+					:stroke-dasharray="calculateStrokeDasharray(goal.value)"
+					stroke-dashoffset="0"
+					transform="rotate(-90 60 60)" />
+
+				<!-- Círculo inicial -->
+				<circle cx="60" cy="8" r="8" fill="#FDC300" />
+
+				<!-- Círculo final dinámico -->
+				<circle
+					:cx="getProgressPositionX(goal.value)"
+					:cy="getProgressPositionY(goal.value)"
+					r="10"
+					fill="#FDC300" />
+			</svg>
+
+			<!-- Texto de porcentaje en el centro -->
+			<div class="absolute inset-0 flex flex-col items-center justify-center">
+				<span class="text-2xl font-bold text-gray-800">
+					{{ goal.value }}%
+				</span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref } from "vue";
 
 // Ejemplo de datos
 const goals = ref([
@@ -84,7 +77,30 @@ const goals = ref([
 	{ value: 90, label: "Meta 3" },
 ]);
 
-const circumference = 2 * Math.PI * 40;
+// Color del progreso dinámico
+const getProgressStrokeColor = (value) => {
+	return value < 100 ? "#FDC300" : "#00C851";
+};
+
+// Cálculo de stroke-dasharray dinámico
+const calculateStrokeDasharray = (value) => {
+	const circumference = 2 * Math.PI * 52;
+	return `${(circumference * value) / 100} ${circumference}`;
+};
+
+// Función para calcular la posición X del círculo final
+const getProgressPositionX = (value) => {
+	const angle = (value / 100) * 360 - 90;
+	const radius = 52;
+	return 60 + radius * Math.cos((angle * Math.PI) / 180);
+};
+
+// Función para calcular la posición Y del círculo final
+const getProgressPositionY = (value) => {
+	const angle = (value / 100) * 360 - 90;
+	const radius = 52;
+	return 60 + radius * Math.sin((angle * Math.PI) / 180);
+};
 
 const getGradientStyle = (index) => {
 	switch (index) {
@@ -107,17 +123,10 @@ const getGradientStyle = (index) => {
 			return {};
 	}
 };
-
-// Simular valores de las metas (puedes eliminar esta parte si no es necesario)
-onMounted(() => {
-	setTimeout(() => {
-		goals.value[0].value = 80;
-		goals.value[1].value = 50;
-		goals.value[2].value = 30;
-	}, 500);
-});
 </script>
 
 <style scoped>
-/* Personalización adicional */
+.progress-circle-svg {
+	aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada del SVG */
+}
 </style>
