@@ -177,6 +177,7 @@ import axios from "axios";
 import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
+import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
@@ -231,6 +232,7 @@ function validateInputs() {
 }
 
 // Función para manejar la descarga del reporte
+// Función para manejar la descarga del reporte
 async function handleDownloadReport() {
   if (!validateInputs()) return;
 
@@ -252,6 +254,7 @@ async function handleDownloadReport() {
       worksheetName = "Logs de Auditoría";
     } else {
       alert("Tipo de reporte no válido.");
+      loading.value = false;
       return;
     }
 
@@ -278,64 +281,139 @@ async function handleDownloadReport() {
     // Validación de datos recibidos
     if (!data || !Array.isArray(data) || data.length === 0) {
       alert("No se encontraron datos para el reporte seleccionado.");
+      loading.value = false;
       return;
     }
 
-    // Crear el archivo Excel
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet(worksheetName);
-
-    // Configurar encabezados
-    const headers = Object.keys(data[0]).map((key) => ({
-      header: key.replace(/_/g, " ").toUpperCase(),
-      key,
-      width: 20,
-    }));
-    worksheet.columns = headers;
-
-    // Agregar datos al archivo
-    data.forEach((item) => {
-      const row = worksheet.addRow(item);
-      row.eachCell((cell) => {
-        cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
-        cell.border = {
-          top: { style: "thin" },
-          bottom: { style: "thin" },
-          left: { style: "thin" },
-          right: { style: "thin" },
-        };
-      });
+    // Generar el reporte
+    await generateReport(data, worksheetName, {
+      imageBase64: "LogoRavBlanco", // Reemplazar con la imagen en base64
+      regional: departamentoNombre,
+      responsable: "Nombre del usuario activo",
+      correo: "Correo del usuario activo",
     });
-
-    // Estilo del encabezado
-    worksheet.getRow(1).eachCell((cell) => {
-      cell.fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "77277A" },
-      };
-      cell.font = { color: { argb: "FFFFFF" }, bold: true };
-      cell.alignment = { horizontal: "center", vertical: "middle", wrapText: true };
-    });
-
-    // Descargar el archivo
-    const buffer = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([buffer], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `Reporte ${worksheetName.replace(/ /g, " ")}.xlsx`;
-    link.click();
-
-    alert("Reporte generado exitosamente.");
   } catch (error) {
-    console.error("Error al generar el reporte:", error);
-    alert("Ocurrió un error al generar el reporte. Por favor, intente nuevamente.");
+    console.error("Error al manejar la descarga del reporte:", error);
+    alert("Ocurrió un error al manejar la descarga del reporte.");
   } finally {
     loading.value = false;
   }
 }
+
+
+
+// Función para convertir imagen a Base64
+async function getBase64Image(imagePath) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL('image/png');
+      resolve(dataURL.replace(/^data:image\/png;base64,/, ''));
+    };
+    img.onerror = (error) => reject(error);
+    img.src = imagePath;
+  });
+}
+
+const generateReport = async (data, worksheetName, reportDetails) => {
+  try {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(worksheetName);
+
+    // Espacio para la sección superior
+    for (let i = 1; i <= 7; i++) {
+      worksheet.getRow(i).height = 20;
+    }
+    
+
+    // Convertir la imagen a Base64 y agregarla
+    const base64Image = await getBase64Image(logoRavBlanco);
+    const imageId = workbook.addImage({
+      base64: base64Image,
+      extension: 'png',
+    });
+    worksheet.addImage(imageId, 'A1:B7');
+
+    // Validar antes de combinar celdas
+    const mergeCellsSafely = (range) => {
+      const [startCell, endCell] = range.split(':');
+      const start = worksheet.getCell(startCell);
+      const end = worksheet.getCell(endCell);
+
+      // Verificar si ya están combinadas
+      if (!start.isMerged && !end.isMerged) {
+        worksheet.mergeCells(range);
+      }
+    };
+
+    // Título del reporte
+    mergeCellsSafely('C1:H3');
+    const titleCell = worksheet.getCell('C1');
+    titleCell.value = `Reporte: ${worksheetName}`;
+    titleCell.font = { size: 18, bold: true, color: { argb: 'FFFFFF' } };
+    titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+    titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Campo "Fecha de generación"
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    mergeCellsSafely('F6:H7');
+    const dateCell = worksheet.getCell('F6');
+    dateCell.value = `Fecha de generación: ${formattedDate}`;
+    dateCell.font = { size: 12, color: { argb: 'FFFFFF' } };
+    dateCell.alignment = { horizontal: 'center', vertical: 'middle' };
+    dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Otros detalles del reporte
+    mergeCellsSafely('C4:E5');
+    const regionalCell = worksheet.getCell('C4');
+    regionalCell.value = `Regional: ${reportDetails.regional}`;
+    regionalCell.font = { size: 12, color: { argb: 'FFFFFF' } };
+    regionalCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    mergeCellsSafely('C6:E7');
+    const responsableCell = worksheet.getCell('C6');
+    responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
+    responsableCell.font = { size: 12, color: { argb: 'FFFFFF' } };
+    responsableCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    mergeCellsSafely('F4:H5');
+    const correoCell = worksheet.getCell('F5');
+    correoCell.value = `Correo: ${reportDetails.correo}`;
+    correoCell.font = { size: 12, color: { argb: 'FFFFFF' } };
+    correoCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Descargar el reporte
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `Reporte_${worksheetName.replace(/ /g, '_')}.xlsx`;
+    link.click();
+
+    alert('Reporte generado exitosamente.');
+  } catch (error) {
+    console.error('Error al generar el reporte:', error);
+    alert('Ocurrió un error al generar el reporte. Por favor, intente nuevamente.');
+  }
+};
+
+
 </script>
 
 <style scoped>
