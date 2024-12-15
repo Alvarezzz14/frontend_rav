@@ -301,7 +301,6 @@ async function handleDownloadReport() {
 }
 
 
-
 // Función para convertir imagen a Base64
 async function getBase64Image(imagePath) {
   return new Promise((resolve, reject) => {
@@ -326,11 +325,10 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(worksheetName);
 
-    // Espacio para la sección superior
+    // Espacio para la sección superior (filas 1 a 7)
     for (let i = 1; i <= 7; i++) {
       worksheet.getRow(i).height = 20;
     }
-    
 
     // Convertir la imagen a Base64 y agregarla
     const base64Image = await getBase64Image(logoRavBlanco);
@@ -352,12 +350,24 @@ const generateReport = async (data, worksheetName, reportDetails) => {
       }
     };
 
+    // Fondo color para celdas combinadas de la imagen
+    mergeCellsSafely('A1:B7');
+    const imageCellsRange = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
+    imageCellsRange.forEach((cell) => {
+      worksheet.getCell(cell).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '71277A' }, // Fondo color #71277A
+      };
+      worksheet.getCell(cell).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    });
+
     // Título del reporte
     mergeCellsSafely('C1:H3');
     const titleCell = worksheet.getCell('C1');
-    titleCell.value = `Reporte: ${worksheetName}`;
-    titleCell.font = { size: 18, bold: true, color: { argb: 'FFFFFF' } };
-    titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+    titleCell.value = `Reporte ${worksheetName}`;
+    titleCell.font = { size: 35, bold: true, color: { argb: 'FFFFFF' } };
+    titleCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     // Campo "Fecha de generación"
@@ -370,31 +380,65 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     mergeCellsSafely('F6:H7');
     const dateCell = worksheet.getCell('F6');
     dateCell.value = `Fecha de generación: ${formattedDate}`;
-    dateCell.font = { size: 12, color: { argb: 'FFFFFF' } };
-    dateCell.alignment = { horizontal: 'center', vertical: 'middle' };
+    dateCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    dateCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     // Otros detalles del reporte
     mergeCellsSafely('C4:E5');
     const regionalCell = worksheet.getCell('C4');
     regionalCell.value = `Regional: ${reportDetails.regional}`;
-    regionalCell.font = { size: 12, color: { argb: 'FFFFFF' } };
-    regionalCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    regionalCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    regionalCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     mergeCellsSafely('C6:E7');
     const responsableCell = worksheet.getCell('C6');
     responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
-    responsableCell.font = { size: 12, color: { argb: 'FFFFFF' } };
-    responsableCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    responsableCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    responsableCell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     mergeCellsSafely('F4:H5');
-    const correoCell = worksheet.getCell('F5');
+    const correoCell = worksheet.getCell('F4');
     correoCell.value = `Correo: ${reportDetails.correo}`;
-    correoCell.font = { size: 12, color: { argb: 'FFFFFF' } };
-    correoCell.alignment = { horizontal: 'left', vertical: 'middle' };
+    correoCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    correoCell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Establecer los encabezados de la tabla comenzando en A9
+    const headers = Object.keys(data[0]).map((key) => ({
+      header: key.replace(/_/g, ' ').toUpperCase(),
+      key,
+      width: 20,
+    }));
+
+    // Filas para los encabezados de la tabla
+    worksheet.getRow(9).values = headers.map((h) => h.header);
+    worksheet.getRow(9).eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '77277A' },
+      };
+      cell.font = { color: { argb: 'FFFFFF' }, bold: true };
+      cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    });
+
+    // Agregar datos de la tabla a partir de la fila 10
+    data.forEach((item, index) => {
+      const row = worksheet.getRow(10 + index);
+      Object.values(item).forEach((value, colIndex) => {
+        row.getCell(colIndex + 1).value = value;
+        row.getCell(colIndex + 1).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+        row.getCell(colIndex + 1).border = {
+          top: { style: 'thin' },
+          bottom: { style: 'thin' },
+          left: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
 
     // Descargar el reporte
     const buffer = await workbook.xlsx.writeBuffer();
@@ -412,7 +456,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     alert('Ocurrió un error al generar el reporte. Por favor, intente nuevamente.');
   }
 };
-
 
 </script>
 
