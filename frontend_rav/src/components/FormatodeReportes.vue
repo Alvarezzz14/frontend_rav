@@ -232,7 +232,6 @@ function validateInputs() {
 }
 
 // Función para manejar la descarga del reporte
-// Función para manejar la descarga del reporte
 async function handleDownloadReport() {
   if (!validateInputs()) return;
 
@@ -299,7 +298,6 @@ async function handleDownloadReport() {
     loading.value = false;
   }
 }
-
 
 // Función para convertir imagen a Base64
 async function getBase64Image(imagePath) {
@@ -396,14 +394,14 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     const responsableCell = worksheet.getCell('C6');
     responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
     responsableCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-    responsableCell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    responsableCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     mergeCellsSafely('F4:H5');
     const correoCell = worksheet.getCell('F4');
     correoCell.value = `Correo: ${reportDetails.correo}`;
     correoCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-    correoCell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    correoCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
 
     // Establecer los encabezados de la tabla comenzando en A9
@@ -424,6 +422,26 @@ const generateReport = async (data, worksheetName, reportDetails) => {
       cell.font = { color: { argb: 'FFFFFF' }, bold: true };
       cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     });
+
+    // Ajustar el ancho de las celdas según el contenido
+    const setColumnWidths = (worksheet, data) => {
+      Object.keys(data[0]).forEach((key, colIndex) => {
+        const column = worksheet.getColumn(colIndex + 1);
+        let maxLength = 0;
+        // Buscar el contenido más largo en la columna
+        data.forEach((item) => {
+          const value = item[key];
+          if (value) {
+            maxLength = Math.max(maxLength, value.toString().length);
+          }
+        });
+        // Establecer un ancho mínimo si es necesario
+        column.width = Math.max(maxLength + 2, 15); // Un valor mínimo de 15 para no ser demasiado estrecho
+      });
+    };
+
+    // Llamar a la función después de agregar los datos de la tabla
+    setColumnWidths(worksheet, data);
 
     // Agregar datos de la tabla a partir de la fila 10
     data.forEach((item, index) => {
@@ -456,6 +474,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     alert('Ocurrió un error al generar el reporte. Por favor, intente nuevamente.');
   }
 };
+
 
 </script>
 
