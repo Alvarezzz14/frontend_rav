@@ -3,7 +3,7 @@
 		<div
 			v-for="(goal, index) in goals"
 			:key="index"
-			class="relative flex items-center justify-center w-full max-w-md mx-auto"
+			class="relative flex items-center justify-center w-72 p-8 h-40 max-w-md mx-auto"
 			:style="getGradientStyle(index)">
 			<!-- SVG personalizado para la barra de carga -->
 			<svg

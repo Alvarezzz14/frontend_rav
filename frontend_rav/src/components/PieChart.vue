@@ -33,7 +33,7 @@ const truncateText = (text, maxLength) =>
 const generateYellowShades = (baseColor, count) => {
 	const shades = [];
 	for (let i = 0; i < count; i++) {
-		const opacity = 0.4 + (i * 0.6) / (count - 1); // Gradiente de opacidad
+		const opacity = 0.7 + (i * 0.4) / (count - 1); // Gradiente de opacidad
 		shades.push(
 			`rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, ${opacity})`
 		);
@@ -64,7 +64,7 @@ const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
 // Opciones del gráfico
 const chartOptions = reactive({
 	responsive: true,
-	maintainAspectRatio: false,
+	maintainAspectRatio: true,
 	plugins: {
 		title: {
 			display: true,
