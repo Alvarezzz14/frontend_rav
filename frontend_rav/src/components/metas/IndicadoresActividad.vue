@@ -49,7 +49,7 @@
 							<select
 								v-model="goal.name"
 								id="name"
-								class="w-full bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-customPurple">
+								class="w-full block bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-customPurple">
 								<option value="" disabled>Seleccione un tipo de meta</option>
 								<option value="Mensual">Mensual</option>
 								<option value="Trimestral">Trimestral</option>
@@ -140,7 +140,6 @@ const goal = ref({
 	limit: null,
 	startDate: "",
 	endDate: "",
-	current: 0,
 });
 
 const customSegmentColors = [
@@ -189,7 +188,6 @@ const saveGoal = () => {
 		limit: null,
 		startDate: "",
 		endDate: "",
-		current: 0,
 	};
 };
 </script>
