@@ -33,11 +33,7 @@
             <!-- Contenedor de los campos input y select -->
             <div class="flex flex-wrap gap-4 text-right">
                 <!-- Campo de input -->
-                <input
-                    type="text"
-                    placeholder="Escribe un rol"
-                    class="border rounded-md p-2 w-full sm:w-96 lg:w-450 focus:outline-none focus:ring"
-                />
+               
 
                 <!-- Campo de select -->
                 <select
@@ -161,7 +157,7 @@
   import Rol4 from "@/assets/images/eliminarrol.svg";
   
   // Variables y datos ficticios
-  const roles = ref(["Administrador", "Usuario", "Supervisor"]);
+  const roles = ref(["Administrador", "Funcionario", ]);
   const selectedRole = ref("");
   
   // Datos de módulos y permisos
