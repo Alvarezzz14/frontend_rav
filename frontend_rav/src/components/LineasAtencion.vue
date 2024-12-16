@@ -154,7 +154,7 @@
 					label="Buscar"
 					icon="pi pi-search"
 					:loading="loading"
-					@click="searchDepartamentt(fetchOptions)" />
+					@click="validateAndSearch" />
 			</div>
 
 			<!-- Componente de PopUp -->
@@ -166,6 +166,25 @@
 				:departamento="selectedCountry?.name"
 				@close="isModalOpen = false" />
 		</div>
+
+		<Dialog
+			v-model:visible="noResultsModal"
+			modal
+			header="Búsqueda Fallida"
+			:style="{ width: '30rem' }"
+			:closable="true"
+			:draggable="true">
+			<p class="m-0 text-customPurple">
+				Por favor seleccione una entidad y un departamento para continuar con la
+				búsqueda.
+			</p>
+			<template #footer>
+				<Button
+					label="Entendido"
+					@click="noResultsModal = false"
+					class="p-button-text" />
+			</template>
+		</Dialog>
 	</div>
 </template>
 
@@ -190,6 +209,7 @@ const isModalOpen = ref(false);
 const fetchData = ref([]);
 const loading = ref(false);
 const selectedEntity = ref(null);
+const noResultsModal = ref(false);
 
 // const selectedDepart = ref (null);
 let entity;
@@ -236,14 +256,41 @@ const departamentos = ref([
 	{ name: "Vichada", code: "99" },
 ]);
 
-const fetchOptions = {
-	url: "http://localhost:8082/api/v1/victimas/lines",
-	options: {
-		method: "GET",
-		headers: {
-			Accept: "application/json",
+const validateAndSearch = async () => {
+	if (!selectedEntity.value || !selectedCountry.value) {
+		noResultsModal.value = true; // Mostrar modal si faltan datos
+		return;
+	}
+
+	// Construir la URL dinámica
+	const fetchOptions = {
+		url: `http://localhost:8082/api/v1/victimas/lines/${selectedEntity.value}/${selectedCountry.value.name}`,
+		options: {
+			method: "GET",
+			headers: {
+				Accept: "application/json",
+			},
 		},
-	},
+	};
+
+	console.log("Realizando búsqueda...");
+
+	loading.value = true; // Mostrar indicador de carga
+	try {
+		const response = await fetch(fetchOptions.url, fetchOptions.options);
+		if (!response.ok) throw new Error("Error en la solicitud");
+
+		const data = await response.json();
+		console.log("Datos obtenidos:", data);
+
+		// Aquí puedes actualizar el estado con los datos recibidos
+		fetchData.value = data;
+		isModalOpen.value = true; // Mostrar resultados en un modal
+	} catch (error) {
+		console.error("Error al realizar la búsqueda:", error);
+	} finally {
+		loading.value = false; // Ocultar indicador de carga
+	}
 };
 
 const updateSelectedInfo = () => {
