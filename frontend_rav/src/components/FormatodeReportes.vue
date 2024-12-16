@@ -36,7 +36,7 @@
             type="radio" 
             id="estadisticas" 
             name="reportType" 
-            value="EstadisticasCiudadano" 
+            value="EstadisticasVictima" 
             class="custom-radio" 
             v-model="selectedReport" 
           />
@@ -65,7 +65,7 @@
 
         <!-- Filtros dinámicos -->
         <!-- Rango de Fechas (Historial de Tickets, Logs de Auditoría, Estadísticas del Ciudadano) -->
-        <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+        <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label>Seleccione el rango de fechas:</label>
           <div class="flex items-center space-x-4">
             <input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
-        <div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label for="ccSearch">Buscar por numero de identificación:</label>
           <input
             type="text"
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4 flex items-center">
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
           <input 
             type="checkbox" 
             id="needsSearch" 
@@ -109,7 +109,7 @@
         </div>
 
         <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="needsSearch && selectedReport === 'EstadisticasCiudadano'" class="space-y-4">
+        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
           <!-- Filtro de Género -->
           <div class="mb-4">
             <label for="gender">Seleccione el género:</label>
@@ -245,9 +245,9 @@ async function handleDownloadReport() {
     if (selectedReport.value === "HistorialTickets") {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
-    } else if (selectedReport.value === "EstadisticasCiudadano") {
+    } else if (selectedReport.value === "EstadisticasVictima") {
       endpoint = "http://127.0.0.1:5000/estadistica_ciudadano";
-      worksheetName = "Estadísticas del Ciudadano";
+      worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
       worksheetName = "Logs de Auditoría";
