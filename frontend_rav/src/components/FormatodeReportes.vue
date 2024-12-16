@@ -299,164 +299,173 @@ async function handleDownloadReport() {
   }
 }
 
-
-// Función para obtener imagen en Base64
-const getBase64Image = (imagePath) => {
+// Función para convertir imagen a Base64
+async function getBase64Image(imagePath) {
   return new Promise((resolve, reject) => {
-    const fs = require('fs');
-    fs.readFile(imagePath, { encoding: 'base64' }, (err, data) => {
-      if (err) reject(err);
-      resolve(data);
-    });
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const dataURL = canvas.toDataURL('image/png');
+      resolve(dataURL.replace(/^data:image\/png;base64,/, ''));
+    };
+    img.onerror = (error) => reject(error);
+    img.src = imagePath;
   });
-};
+}
 
-// Función para aplicar estilos según el reporte seleccionado
-const applyStyles = (worksheet, reportType, reportDetails) => {
-  switch (reportType) {
-    case 'Historial de Tickets':
-      worksheet.mergeCells('A1:B7');
-      worksheet.getCell('A1').value = 'Historial de Tickets'; // Ejemplo
-      worksheet.getCell('A1').font = { size: 14, bold: true };
-      break;
-
-    case 'Logs de Auditoría':
-      worksheet.mergeCells('A1:B7');
-      const imageCellRange = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
-      imageCellRange.forEach((cell) => {
-        worksheet.getCell(cell).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: '71277A' },
-        };
-        worksheet.getCell(cell).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      });
-
-      worksheet.mergeCells('C1:T3');
-      const titleCell = worksheet.getCell('C1');
-      titleCell.value = 'Reporte Logs de Auditoría';
-      titleCell.font = { size: 35, bold: true, color: { argb: 'FFFFFF' } };
-      titleCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('C5:G6');
-      const responsableCell = worksheet.getCell('C5');
-      responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
-      responsableCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      responsableCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('H5:L5');
-      const regionalCell = worksheet.getCell('H5');
-      regionalCell.value = `Regional: ${reportDetails.regional}`;
-      regionalCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      regionalCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('M5:P5');
-      const correoCell = worksheet.getCell('M5');
-      correoCell.value = `Correo: ${reportDetails.correo}`;
-      correoCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      correoCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('Q5:T5');
-      const fechaCell = worksheet.getCell('Q5');
-      fechaCell.value = `Fecha de generación: ${new Date().toLocaleDateString('es-ES')}`;
-      fechaCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      fechaCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      fechaCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-      break;
-
-    case 'Estadísticas Víctima':
-      worksheet.mergeCells('A1:B7');
-      const imageCellRangeVictima = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
-      imageCellRangeVictima.forEach((cell) => {
-        worksheet.getCell(cell).fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: '71277A' },
-        };
-        worksheet.getCell(cell).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      });
-
-      worksheet.mergeCells('C1:L3');
-      const titleCellVictima = worksheet.getCell('C1');
-      titleCellVictima.value = 'Reporte Estadísticas Víctima';
-      titleCellVictima.font = { size: 35, bold: true, color: { argb: 'FFFFFF' } };
-      titleCellVictima.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      titleCellVictima.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('C4:G5');
-      const responsableCellVictima = worksheet.getCell('C4');
-      responsableCellVictima.value = `Responsable de generación: ${reportDetails.responsable}`;
-      responsableCellVictima.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      responsableCellVictima.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      responsableCellVictima.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('M6:L7');
-      const correoCellVictima = worksheet.getCell('M6');
-      correoCellVictima.value = `Correo: ${reportDetails.correo}`;
-      correoCellVictima.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      correoCellVictima.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      correoCellVictima.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-
-      worksheet.mergeCells('H4:L5');
-      const fechaCellVictima = worksheet.getCell('H4');
-      fechaCellVictima.value = `Fecha de generación: ${new Date().toLocaleDateString('es-ES')}`;
-      fechaCellVictima.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
-      fechaCellVictima.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
-      fechaCellVictima.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
-      break;
-
-    default:
-      console.error('Tipo de reporte no definido.');
-      break;
-  }
-};
-
-// Generar reporte en Excel
 const generateReport = async (data, worksheetName, reportDetails) => {
   try {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(worksheetName);
 
-    // Configurar alturas de las primeras filas
+    // Espacio para la sección superior (filas 1 a 7)
     for (let i = 1; i <= 7; i++) {
       worksheet.getRow(i).height = 20;
     }
 
-    // Obtener imagen Base64 y agregarla
-    const base64Image = await getBase64Image('ruta/a/logo.png'); // Cambia por la ruta real
+    // Convertir la imagen a Base64 y agregarla
+    const base64Image = await getBase64Image(logoRavBlanco);
     const imageId = workbook.addImage({
       base64: base64Image,
       extension: 'png',
     });
     worksheet.addImage(imageId, 'A1:B7');
 
-    // Aplicar estilos específicos
-    applyStyles(worksheet, worksheetName, reportDetails);
+    // Validar antes de combinar celdas
+    const mergeCellsSafely = (range) => {
+      const [startCell, endCell] = range.split(':');
+      const start = worksheet.getCell(startCell);
+      const end = worksheet.getCell(endCell);
 
-    // Configurar encabezados de la tabla
+      // Verificar si ya están combinadas
+      if (!start.isMerged && !end.isMerged) {
+        worksheet.mergeCells(range);
+      }
+    };
+
+    // Fondo color para celdas combinadas de la imagen
+    mergeCellsSafely('A1:B7');
+    const imageCellsRange = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'];
+    imageCellsRange.forEach((cell) => {
+      worksheet.getCell(cell).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '71277A' }, // Fondo color #71277A
+      };
+      worksheet.getCell(cell).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    });
+
+    // Título del reporte
+    mergeCellsSafely('C1:H3');
+    const titleCell = worksheet.getCell('C1');
+    titleCell.value = `Reporte ${worksheetName}`;
+    titleCell.font = { size: 35, bold: true, color: { argb: 'FFFFFF' } };
+    titleCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Campo "Fecha de generación"
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    mergeCellsSafely('F6:H7');
+    const dateCell = worksheet.getCell('F6');
+    dateCell.value = `Fecha de generación: ${formattedDate}`;
+    dateCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    dateCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Otros detalles del reporte
+    mergeCellsSafely('C4:E5');
+    const regionalCell = worksheet.getCell('C4');
+    regionalCell.value = `Regional: ${reportDetails.regional}`;
+    regionalCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    regionalCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    mergeCellsSafely('C6:E7');
+    const responsableCell = worksheet.getCell('C6');
+    responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
+    responsableCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    responsableCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    mergeCellsSafely('F4:H5');
+    const correoCell = worksheet.getCell('F4');
+    correoCell.value = `Correo: ${reportDetails.correo}`;
+    correoCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
+    correoCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+
+    // Establecer los encabezados de la tabla comenzando en A9
     const headers = Object.keys(data[0]).map((key) => ({
       header: key.replace(/_/g, ' ').toUpperCase(),
       key,
       width: 20,
     }));
-    worksheet.columns = headers;
 
-    // Agregar datos de la tabla
-    data.forEach((row) => worksheet.addRow(row));
+    // Filas para los encabezados de la tabla
+    worksheet.getRow(9).values = headers.map((h) => h.header);
+    worksheet.getRow(9).eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '77277A' },
+      };
+      cell.font = { color: { argb: 'FFFFFF' }, bold: true };
+      cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+    });
+
+    // Ajustar el ancho de las celdas según el contenido
+    const setColumnWidths = (worksheet, data) => {
+      Object.keys(data[0]).forEach((key, colIndex) => {
+        const column = worksheet.getColumn(colIndex + 1);
+        let maxLength = 0;
+        // Buscar el contenido más largo en la columna
+        data.forEach((item) => {
+          const value = item[key];
+          if (value) {
+            maxLength = Math.max(maxLength, value.toString().length);
+          }
+        });
+        // Establecer un ancho mínimo si es necesario
+        column.width = Math.max(maxLength + 2, 15); // Un valor mínimo de 15 para no ser demasiado estrecho
+      });
+    };
+
+    // Llamar a la función después de agregar los datos de la tabla
+    setColumnWidths(worksheet, data);
+
+    // Agregar datos de la tabla a partir de la fila 10
+    data.forEach((item, index) => {
+      const row = worksheet.getRow(10 + index);
+      Object.values(item).forEach((value, colIndex) => {
+        row.getCell(colIndex + 1).value = value;
+        row.getCell(colIndex + 1).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
+        row.getCell(colIndex + 1).border = {
+          top: { style: 'thin' },
+          bottom: { style: 'thin' },
+          left: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
 
     // Descargar el reporte
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `Reporte_${worksheetName.replace(/ /g, '_')}.xlsx`;
+    link.download = `Reporte ${worksheetName.replace(/ /g, ' ')}.xlsx`;
     link.click();
 
     alert('Reporte generado exitosamente.');
@@ -466,64 +475,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   }
 };
 
-try {
-  // Establecer los encabezados de la tabla comenzando en A9
-  const headers = Object.keys(data[0]).map((key) => ({
-    header: key.replace(/_/g, ' ').toUpperCase(),
-    key,
-    width: 20,
-  }));
-
-  // Filas para los encabezados de la tabla
-  worksheet.getRow(9).values = headers.map((h) => h.header);
-  worksheet.getRow(9).eachCell((cell) => {
-    cell.fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: '77277A' },
-    };
-    cell.font = { color: { argb: 'FFFFFF' }, bold: true };
-    cell.alignment = {
-      horizontal: 'center',
-      vertical: 'middle',
-      wrapText: true, // Alineación con ajuste de texto
-    };
-  });
-
-  // Agregar datos de la tabla a partir de la fila 10
-  data.forEach((item, index) => {
-    const row = worksheet.getRow(10 + index);
-    Object.values(item).forEach((value, colIndex) => {
-      row.getCell(colIndex + 1).value = value;
-      row.getCell(colIndex + 1).alignment = {
-        horizontal: 'center',
-        vertical: 'middle',
-        wrapText: true, // Alineación con ajuste de texto
-      };
-      row.getCell(colIndex + 1).border = {
-        top: { style: 'thin' },
-        bottom: { style: 'thin' },
-        left: { style: 'thin' },
-        right: { style: 'thin' },
-      };
-    });
-  });
-
-  // Descargar el reporte
-  const buffer = await workbook.xlsx.writeBuffer();
-  const blob = new Blob([buffer], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = `Reporte_${worksheetName.replace(/ /g, '_')}.xlsx`;
-  link.click();
-
-  alert('Reporte generado exitosamente.');
-} catch (error) {
-  console.error('Error al generar el reporte:', error);
-  alert('Ocurrió un error al generar el reporte. Por favor, intente nuevamente.');
-}
 
 </script>
 
