@@ -1,5 +1,5 @@
 <template>
-	<div class="min-h-screen p-4 flex flex-col  -mt-20">
+	<div class="min-h-screen p-5 flex flex-col  -mt-20">
 		<!-- Sección Superior (Título, Icono, Información del Ciudadano) -->
 		<div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
 			<!-- Icono y Título -->
