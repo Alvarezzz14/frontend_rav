@@ -6,14 +6,27 @@
 				<p class="text-2xl text-center md:text-4xl lg:text-left font-medium">
 					Aquí podrás visualizar información acerca de la
 				</p>
+
 				<h2 class="text-3xl md:text-7xl text-center md:text-left -mt-5 font-bold text-customPurple">
-					Ruta de Atención al Ciudadano.
+					Ruta de Orientación a las Víctimas.
 				</h2>
 				<div class="hidden lg:flex items-center">
 					<div
 						class="w-80 md:w-[28.75rem] md:h-52 bg-white flex py-12 justify-center rounded-2xl shadow-custom -mt-12">
 						<div class="flex flex-col items-center">
-							<input v-model="searchCedula" @keydown.enter="searchUser" type="text"
+
+							<!-- 	<select
+								id="documentType"
+								class="w-72 h-10 mb-3 border text-center text-black text-xs border-none bg-grisInput rounded-md"
+								name="documentType">
+								<option value="cc">Cédula de Ciudadanía</option>
+								<option value="passport">Pasaporte</option>
+								<option value="ti">Tarjeta de Identidad</option>
+							</select> -->
+							<input
+								v-model="searchCedula"
+								@keydown.enter="searchUser"
+								type="text"
 								placeholder="Digite el Documento de Identificación"
 								class="w-[25rem] h-12 border text-center text-black text-base border-none bg-grisInput rounded-md" />
 							<Button type="button" label="Buscar" :loading="loading"
