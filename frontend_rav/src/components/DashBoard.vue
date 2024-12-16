@@ -34,11 +34,12 @@
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
 			<div
-				class="p-4 border my-card rounded-lg bg-custom-gradient bg-opacity-20 w-full max-w-full sm:max-w-full">
-				<LineChart />
+				class="p-4 border my-card rounded-lg w-full max-w-full sm:max-w-full"
+				style="background-color: #71277a">
+				<PieChart />
 			</div>
 			<div
-				class="p-4 border my-card border-customPurple rounded-lg bg-white w-full max-w-full sm:max-w-full">
+				class="p-4 border my-card border-customPurple rounded-lg bg-white w-full !h-full max-w-full sm:max-w-full">
 				<BarChart />
 			</div>
 		</div>
@@ -77,7 +78,6 @@
 								</svg>
 
 								<span>Nombre Ciudadano</span>
-
 							</div>
 						</th>
 						<th class="p-3 text-left border-b bg-gray-200 font-bold">
@@ -121,6 +121,7 @@ import EnFormacion from "@/assets/images/EnFormacion.png";
 import Certificados from "@/assets/images/Certificados.png";
 import EnProceso from "@/assets/images/PorCertificar.png";
 import Cancelados from "@/assets/images/Cancelados.svg";
+import PieChart from "./PieChart.vue";
 
 // Datos de las imágenes estáticas y sus títulos
 const imagePaths = ref([
@@ -146,18 +147,25 @@ const imagePaths = ref([
 	},
 ]);
 
-// Datos de ejemplo para la tabla
 const tableData = ref([
-	{ Departamento: 1, Estado: "Jorge Raul", Fecha: 2004 },
-	{ Departamento: 2, Estado: "Pedronel Santa", Fecha: 2001 },
-	{ Departamento: 3, Estado: "Alfredo Quinquilla", Fecha: 1967 },
-	{ Departamento: 4, Estado: "Jorge Raul", Fecha: 2004 },
-	{ Departamento: 5, Estado: "Pedronel Santa", Fecha: 2001 },
-	{ Departamento: 6, Estado: "Alfredo Quinquilla", Fecha: 1967 },
-	{ Departamento: 7, Estado: "Jorge Raul", Fecha: 2004 },
-	{ Departamento: 8, Estado: "Pedronel Santa", Fecha: 2001 },
-	{ Departamento: 9, Estado: "Alfredo Quinquilla", Fecha: 1967 },
-	{ Departamento: 10, Estado: "Jorge Raul", Fecha: 2004 },
+	{ Departamento: "Risaralda", Estado: "Aura Perez", Fecha: "15-01-24" },
+	{ Departamento: "Antioquia", Estado: "Pedronel Santa", Fecha: "28-02-24" },
+	{
+		Departamento: "Santander",
+		Estado: "Alfredo Quinquilla",
+		Fecha: "10-03-24",
+	},
+	{ Departamento: "Cundinamarca", Estado: "Jorge Raul", Fecha: "25-04-24" },
+	{ Departamento: "Antioquia", Estado: "Nelly Santa", Fecha: "08-05-24" },
+	{
+		Departamento: "Atlantico",
+		Estado: "Angy Pamplona",
+		Fecha: "19-06-24",
+	},
+	{ Departamento: "Bolivar", Estado: "Jorge Sanchez", Fecha: "03-07-24" },
+	{ Departamento: "Boyaca", Estado: "Pedronel Santa", Fecha: "16-08-24" },
+	{ Departamento: "Putumayo", Estado: "Jam Sambony", Fecha: "29-09-24" },
+	{ Departamento: "Quindio", Estado: "Carla Tabares", Fecha: "11-10-24" },
 ]);
 </script>
 
