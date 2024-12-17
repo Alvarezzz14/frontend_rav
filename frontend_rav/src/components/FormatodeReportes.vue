@@ -112,8 +112,8 @@
         <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
           <!-- Filtro de Género -->
           <div class="mb-4">
-            <label for="gender">Seleccione el género:</label>
-            <select v-model="selectedGender" id="gender" class="block p-4 rounded-lg w-full">
+            <label for="genero">Seleccione el género:</label>
+            <select v-model="selectedGenero" id="genero" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
               <option value="Hombre">Hombre</option>
               <option value="Mujer">Mujer</option>
@@ -125,8 +125,8 @@
 
           <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
-            <label for="ageGroup">Seleccione el grupo etario:</label>
-            <select v-model="selectedAgeGroup" id="ageGroup" class="block p-4 rounded-lg w-full">
+            <label for="grupo_c">Seleccione el grupo etario:</label>
+            <select v-model="selectedEtario" id="grupo_etario" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
               <option value="0-14">Niños</option>
               <option value="15-17">Adolescentes</option>
@@ -138,8 +138,8 @@
 
           <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
-            <label for="ethnicity">Seleccione la procedencia étnica:</label>
-            <select v-model="selectedEthnicity" id="ethnicity" class="block p-4 rounded-lg w-full">
+            <label for="procedencia_etnica">Seleccione la procedencia étnica:</label>
+            <select v-model="selectedEtnica" id="procedencia_etnica" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
               <option value="Indígena">Indígena</option>
               <option value="Afrocolombiano">Afrocolombiano</option>
