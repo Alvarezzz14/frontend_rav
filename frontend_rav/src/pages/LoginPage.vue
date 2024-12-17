@@ -84,7 +84,7 @@
   async function submit() {
 	isLoading.value = true;
 	try {
-	  const response = await axios.post('http://localhost:8080/api/auth/signin', form);
+	  const response = await axios.post('http://localhost:8080/login', form);
 	  console.log(response.data);
 	  
 	  authStore.setAuthenticatedUser(response.data)

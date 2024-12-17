@@ -92,22 +92,19 @@
           />
         </div>
 
-        <div v-if="fileToUpload" class="progress-container mt-4">
-          <!-- Etiqueta progress -->
-          <progress
-            class="w-full h-4 rounded"
-            :value="uploadProgress"
-            max="100"
-          ></progress>
-        </div>
+				<div v-if="fileToUpload" class="progress-container mt-4">
+					<div
+						class="progress-bar"
+						:style="{ width: `${uploadProgress}%` }"></div>
+				</div>
 
-        <!-- Mensajes de error y éxito -->
-        <p v-if="uploadError" class="text-red-500 text-center mt-4">
-          Error al subir el archivo. Intenta nuevamente.
-        </p>
-        <p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
-          Archivo subido exitosamente.
-        </p>
+				<!-- Mensajes de error y éxito -->
+				<p v-if="uploadError" class="text-red-500 text-center mt-4">
+					Error al subir el archivo. Intenta nuevamente.
+				</p>
+				<p v-if="uploadSuccess" class="text-green-500 text-center mt-4">
+					Archivo subido exitosamente.
+				</p>
 
         <!-- Botón de carga -->
         <Button
@@ -192,13 +189,14 @@ const createBlob = (newWorkBook, typeFile) => {
 const handleFileUpload = (event) => {
   const file = event.target.files[0];
 
-  if (acceptedFileTypes.includes(file.type)) {
-    fileToUpload.value = file;
-    fileName.value = file.name;
-    uploadProgress.value = 0;
-  } else {
-    alert("Por favor, selecciona un archivo válido (.txt).");
-  }
+	if (acceptedFileTypes.includes(file.type)) {
+		fileToUpload.value = file;
+		fileName.value = file.name;
+		fileNotificationStore.setFileName(file.name);
+		uploadProgress.value = 0;
+	} else {
+		alert("Por favor, selecciona un archivo válido (.txt).");
+	}
 };
 
 const handleDrop = (event) => {
