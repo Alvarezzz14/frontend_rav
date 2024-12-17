@@ -115,11 +115,11 @@
             <label for="gender">Seleccione el género:</label>
             <select v-model="selectedGender" id="gender" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
-              <option value="masculino">Hombre</option>
-              <option value="femenino">Mujer</option>
-              <option value="femenino">LGBTI</option>
-              <option value="femenino">Intersexual</option>
-              <option value="otro">No informa</option>
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+              <option value="LGBTI">LGBTI</option>
+              <option value="Intersexual">Intersexual</option>
+              <option value="No informa">No informa</option>
             </select>
           </div>
 
@@ -141,13 +141,13 @@
             <label for="ethnicity">Seleccione la procedencia étnica:</label>
             <select v-model="selectedEthnicity" id="ethnicity" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
-              <option value="indigena">Indígena</option>
-              <option value="afrocolombiano">Afrocolombiano</option>
-              <option value="rom">Rom</option>
-              <option value="raizal">Raizal</option>
-              <option value="palenquero">Palenquero</option>
-              <option value="mestizo">Mestizo</option>
-              <option value="blanco">Blanco</option>
+              <option value="Indígena">Indígena</option>
+              <option value="Afrocolombiano">Afrocolombiano</option>
+              <option value="Rom">Rom</option>
+              <option value="Raizal">Raizal</option>
+              <option value="Palenquero">Palenquero</option>
+              <option value="Mestizo">Mestizo</option>
+              <option value="Blanco">Blanco</option>
             </select>
           </div>
         </div>
