@@ -142,13 +142,16 @@
             <select v-model="selectedEtnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
               <option value="INDIGENA">Indígena</option>
-              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>
+              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
               <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>
+              <option value="INDIGENA">Indigena</option>
+              <option value="INDIGENA (ACREDITADO RA)">Indigena RA</option>
+              <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
+              <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
               <option value="ROM">Rom</option>
-              <option value="RAIZAL">Raizal</option>
               <option value="PALENQUERO">Palenquero</option>
-              <option value="MESTIZO">Mestizo</option>
-              <option value="BLANCO">Blanco</option>
+              <option value="PALENQUERO (ACREDITADO RA)">Palenquero</option>
+              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
             </select>
           </div>
         </div>
@@ -247,7 +250,7 @@ async function handleDownloadReport() {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://localhost:8082/api/v1/victimas/reports?department_name=ANTIOQUIA&genere=HOMBRE&pertenencia_etnica=INDIGENA&etario_group=Juventud (19-26 años)&document=1010105912";
+      endpoint = "http://localhost:8082/api/v1/victimas/all?page=2&pageSize=500";
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
