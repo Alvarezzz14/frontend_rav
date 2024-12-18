@@ -51,6 +51,9 @@
 				</button>
 			</form>
 
+			<!-- Mensaje de error -->
+			<p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
+
 			<!-- Logos institucionales -->
 			<div class="flex justify-center space-x-8 mt-6">
 				<img :src="logoSena" alt="Logo SENA" class="w-24 md:w-36 h-auto" />
@@ -66,7 +69,7 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAuthStore } from '../stores/auth';
+import { useAuthStore } from '../stores/auth'; // Importar el store de autenticación
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import Logo from '@/assets/images/logorav.svg';
@@ -89,7 +92,12 @@ const backgroundUrl = ref(''); // Variable para almacenar la URL de fondo
 const router = useRouter();
 const toast = useToast();
 
+// Redirigir si ya está autenticado
 onMounted(() => {
+	if (authStore.isAuthenticated) {
+		router.push('/'); // Redirigir al dashboard si ya está autenticado
+	}
+
 	// Detecta el ancho de la pantalla después de que el componente ha sido montado
 	const screenWidth = window.innerWidth;
 	backgroundUrl.value =
@@ -106,13 +114,19 @@ onMounted(() => {
 async function submit() {
 	isLoading.value = true;
 	try {
+		// Realiza la solicitud al servidor para iniciar sesión
 		const response = await axios.post('http://localhost:8080/api/auth/signin', form);
-		console.log(response.data);
 
+		// Guardar el token y los datos del usuario en el store
 		authStore.setAuthenticatedUser(response.data);
+
+		// Muestra un mensaje de éxito
 		toast.success("Inicio de sesión exitoso.");
+
+		// Redirigir al dashboard
 		router.push('/');
 	} catch (error) {
+		// Muestra un mensaje de error
 		errorMessage.value = error.response?.data?.error || "Error en el inicio de sesión.";
 	} finally {
 		isLoading.value = false;
@@ -127,7 +141,6 @@ button {
 
 input {
 	border: none;
-	/* Quitar bordes visibles */
 }
 
 input:focus {
