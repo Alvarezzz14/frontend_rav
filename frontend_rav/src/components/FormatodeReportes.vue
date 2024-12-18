@@ -36,7 +36,7 @@
             type="radio" 
             id="estadisticas" 
             name="reportType" 
-            value="EstadisticasCiudadano" 
+            value="EstadisticasVictima" 
             class="custom-radio" 
             v-model="selectedReport" 
           />
@@ -65,7 +65,7 @@
 
         <!-- Filtros dinámicos -->
         <!-- Rango de Fechas (Historial de Tickets, Logs de Auditoría, Estadísticas del Ciudadano) -->
-        <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+        <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label>Seleccione el rango de fechas:</label>
           <div class="flex items-center space-x-4">
             <input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
@@ -86,7 +86,7 @@
         </div>
 
         <!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
-        <div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4">
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label for="ccSearch">Buscar por numero de identificación:</label>
           <input
             type="text"
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4 flex items-center">
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
           <input 
             type="checkbox" 
             id="needsSearch" 
@@ -109,24 +109,24 @@
         </div>
 
         <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="needsSearch && selectedReport === 'EstadisticasCiudadano'" class="space-y-4">
+        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
           <!-- Filtro de Género -->
           <div class="mb-4">
-            <label for="gender">Seleccione el género:</label>
-            <select v-model="selectedGender" id="gender" class="block p-4 rounded-lg w-full">
+            <label for="genero">Seleccione el género:</label>
+            <select v-model="selectedGenero" id="genero" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
-              <option value="masculino">Hombre</option>
-              <option value="femenino">Mujer</option>
-              <option value="femenino">LGBTI</option>
-              <option value="femenino">Intersexual</option>
-              <option value="otro">No informa</option>
+              <option value="Hombre">Hombre</option>
+              <option value="Mujer">Mujer</option>
+              <option value="LGBTI">LGBTI</option>
+              <option value="Intersexual">Intersexual</option>
+              <option value="No informa">No informa</option>
             </select>
           </div>
 
           <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
-            <label for="ageGroup">Seleccione el grupo etario:</label>
-            <select v-model="selectedAgeGroup" id="ageGroup" class="block p-4 rounded-lg w-full">
+            <label for="grupo_c">Seleccione el grupo etario:</label>
+            <select v-model="selectedEtario" id="grupo_etario" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
               <option value="0-14">Niños</option>
               <option value="15-17">Adolescentes</option>
@@ -138,16 +138,16 @@
 
           <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
-            <label for="ethnicity">Seleccione la procedencia étnica:</label>
-            <select v-model="selectedEthnicity" id="ethnicity" class="block p-4 rounded-lg w-full">
+            <label for="procedencia_etnica">Seleccione la procedencia étnica:</label>
+            <select v-model="selectedEtnica" id="procedencia_etnica" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
-              <option value="indigena">Indígena</option>
-              <option value="afrocolombiano">Afrocolombiano</option>
-              <option value="rom">Rom</option>
-              <option value="raizal">Raizal</option>
-              <option value="palenquero">Palenquero</option>
-              <option value="mestizo">Mestizo</option>
-              <option value="blanco">Blanco</option>
+              <option value="Indígena">Indígena</option>
+              <option value="Afrocolombiano">Afrocolombiano</option>
+              <option value="Rom">Rom</option>
+              <option value="Raizal">Raizal</option>
+              <option value="Palenquero">Palenquero</option>
+              <option value="Mestizo">Mestizo</option>
+              <option value="Blanco">Blanco</option>
             </select>
           </div>
         </div>
@@ -245,9 +245,9 @@ async function handleDownloadReport() {
     if (selectedReport.value === "HistorialTickets") {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
-    } else if (selectedReport.value === "EstadisticasCiudadano") {
+    } else if (selectedReport.value === "EstadisticasVictima") {
       endpoint = "http://127.0.0.1:5000/estadistica_ciudadano";
-      worksheetName = "Estadísticas del Ciudadano";
+      worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
       worksheetName = "Logs de Auditoría";
