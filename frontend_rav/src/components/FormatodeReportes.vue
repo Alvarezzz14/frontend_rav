@@ -128,11 +128,13 @@
             <label for="etario_group">Seleccione el grupo etario:</label>
             <select v-model="selectedEtario" id="etario_group" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
-              <option value="0-14">Niños</option>
-              <option value="15-17">Adolescentes</option>
-              <option value="18-25">Jóvenes</option>
-              <option value="26-59">Adultos</option>
-              <option value="60+">Adultos mayores</option>
+              <option value="0-14">Primera infancia (0-5 años)</option>
+              <option value="15-17">Infancia (6-11 años)</option>
+              <option value="18-25">Adolescencia temprana (12-13 años)</option>
+              <option value="26-59">Adolescencia (14-18 años)</option>
+              <option value="26-59">Juventud (19-26 años)</option>
+              <option value="26-59">dultez (27-59 años)</option>
+              <option value="60+">Persona mayor (60 años o más)</option>
             </select>
           </div>
 
@@ -150,8 +152,9 @@
               <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
               <option value="ROM">Rom</option>
               <option value="PALENQUERO">Palenquero</option>
-              <option value="PALENQUERO (ACREDITADO RA)">Palenquero</option>
+              <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
               <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
+              <option value="NINGUNA">Ninguna</option>     
             </select>
           </div>
         </div>
