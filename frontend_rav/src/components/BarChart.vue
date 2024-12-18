@@ -25,6 +25,9 @@ Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para mostrar el spinner
 const barChart = ref(null);
+const host = import.meta.env.VITE_HOSTHOST;
+
+
 
 // Datos y opciones del gráfico
 const chartData = reactive({
@@ -90,7 +93,7 @@ const chartOptions = reactive({
 const fetchCitiesData = async () => {
 	try {
 		const response = await fetch(
-			"http://localhost:8082/api/v1/victimas/counter/cities"
+			`${host}:8082/api/v1/victimas/counter/cities`
 		);
 		if (!response.ok) throw new Error("Error al obtener datos de ciudades");
 

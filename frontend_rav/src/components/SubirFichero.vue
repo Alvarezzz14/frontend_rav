@@ -123,6 +123,7 @@ const loading = ref(false);
 const uploading = ref(false); // Controla el estado de carga
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
+const host = import.meta.env.VITE_HOST;
 
 const acceptedFileTypes = [
 	"text/plain",
@@ -131,7 +132,7 @@ const acceptedFileTypes = [
 ]; // Tipos permitidos
 
 const fetchOptions = {
-	url: "http://localhost:8081/api/upload",
+	url: `${host}:8081/api/upload`,
 	options: {
 		method: "POST",
 		headers: { Accept: "application/json" },

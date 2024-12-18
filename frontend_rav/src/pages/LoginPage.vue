@@ -92,6 +92,7 @@ const isLoading = ref(false);
 const backgroundUrl = ref(''); // Variable para almacenar la URL de fondo
 const router = useRouter();
 const toast = useToast();
+const host = import.meta.env.VITE_HOST;
 
 // Redirigir si ya está autenticado
 onMounted(() => {
@@ -116,7 +117,7 @@ async function submit() {
 	isLoading.value = true;
 	try {
 		// Realiza la solicitud al servidor para iniciar sesión
-		const response = await axios.post('http://localhost:8080/api/auth/signin', form);
+		const response = await axios.post(`${host}:8080/api/auth/signin`, form);
 
 		// Guardar el token y los datos del usuario en el store
 		authStore.setAuthenticatedUser(response.data);

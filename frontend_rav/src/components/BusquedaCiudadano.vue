@@ -92,11 +92,12 @@ const modalMessage = ref("");
 const loading = ref(false);
 const router = useRouter();
 const eventStore = useEventStore();
+const host = import.meta.env.VITE_HOST;
 
 async function searchByCedula(cedula) {
 	try {
 		const response = await axios.get(
-			`http://localhost:8082/api/v1/victimas/${cedula}`
+			`${host}:8082/api/v1/victimas/${cedula}`
 		);
 		return response.data; // Aquí accedemos directamente a los datos JSON
 	} catch (error) {
