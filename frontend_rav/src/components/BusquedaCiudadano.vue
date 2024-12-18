@@ -6,24 +6,30 @@
 				<p class="text-2xl text-center md:text-4xl lg:text-left font-medium">
 					Aquí podrás visualizar información acerca de la
 				</p>
-				<h2
-					class="text-3xl md:text-7xl text-center md:text-left -mt-5 font-bold text-customPurple">
-					Ruta de Atención al Ciudadano.
+
+				<h2 class="text-3xl md:text-7xl text-center md:text-left -mt-5 font-bold text-customPurple">
+					Ruta de Orientación a las Víctimas.
 				</h2>
 				<div class="hidden lg:flex items-center">
 					<div
 						class="w-80 md:w-[28.75rem] md:h-52 bg-white flex py-12 justify-center rounded-2xl shadow-custom -mt-12">
 						<div class="flex flex-col items-center">
+
+							<!-- 	<select
+								id="documentType"
+								class="w-72 h-10 mb-3 border text-center text-black text-xs border-none bg-grisInput rounded-md"
+								name="documentType">
+								<option value="cc">Cédula de Ciudadanía</option>
+								<option value="passport">Pasaporte</option>
+								<option value="ti">Tarjeta de Identidad</option>
+							</select> -->
 							<input
 								v-model="searchCedula"
 								@keydown.enter="searchUser"
 								type="text"
 								placeholder="Digite el Documento de Identificación"
 								class="w-[25rem] h-12 border text-center text-black text-base border-none bg-grisInput rounded-md" />
-							<Button
-								type="button"
-								label="Buscar"
-								:loading="loading"
+							<Button type="button" label="Buscar" :loading="loading"
 								class="mt-3 w-[25rem] h-12 !text-2xl !font-semibold !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
 								@click="searchUser" />
 						</div>
@@ -33,25 +39,25 @@
 			<!-- Imagen Ciudadano-->
 			<div class="relative mt-4 flex justify-center">
 				<!-- Imagen -->
-				<img
-					:src="Ciudadano"
-					alt="Ciudadano"
-					class="object-cover w-5/6 lg:max-w-2xl lg:w-auto" />
+				<img :src="Ciudadano" alt="Ciudadano" class="object-cover w-5/6 lg:max-w-2xl lg:w-auto" />
 
 				<!-- Contenedor con el botón encima -->
 				<div class="absolute top-52 lg:hidden flex items-center justify-center">
+
+
 					<div class="w-80 bg-white p-4 rounded-2xl shadow-custom">
+						
+						<select id="documentType" class="w-72 h-10 mb-3 border text-center text-black text-xs border-none bg-grisInput rounded-md"
+						name="documentType">
+							<option value="cc">Cédula de Ciudadanía</option>
+							<option value="passport">Pasaporte</option>
+							<option value="ti">Tarjeta de Identidad</option>
+						</select>
 						<div class="flex flex-col items-center">
-							<input
-								v-model="searchCedula"
-								@keydown.enter="searchUser"
-								type="text"
+							<input v-model="searchCedula" @keydown.enter="searchUser" type="text"
 								placeholder="Digite el Documento de Identificación"
 								class="w-72 h-10 border text-center text-black text-xs border-none bg-grisInput rounded-md" />
-							<Button
-								type="button"
-								label="Buscar"
-								:loading="loading"
+							<Button type="button" label="Buscar" :loading="loading"
 								class="mt-3 w-72 h-10 text-base !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
 								@click="searchUser" />
 						</div>
@@ -59,20 +65,13 @@
 				</div>
 			</div>
 		</div>
-		<Dialog
-			v-model:visible="noResultsModal"
-			modal
-			header="Búsqueda Fallida"
-			:style="{ width: '30rem' }">
+		<Dialog v-model:visible="noResultsModal" modal header="Búsqueda Fallida" :style="{ width: '30rem' }">
 			<p class="m-0 text-customPurple">
 				{{ modalMessage }}
 				<strong>{{ searchCedula }}</strong>
 			</p>
 			<template #footer>
-				<Button
-					label="Cerrar"
-					@click="noResultsModal = false"
-					class="p-button-text" />
+				<Button label="Cerrar" @click="noResultsModal = false" class="p-button-text" />
 			</template>
 		</Dialog>
 	</div>
