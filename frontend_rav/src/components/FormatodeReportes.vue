@@ -112,21 +112,21 @@
         <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
           <!-- Filtro de Género -->
           <div class="mb-4">
-            <label for="genero">Seleccione el género:</label>
-            <select v-model="selectedGenero" id="genero" class="block p-4 rounded-lg w-full">
+            <label for="genere">Seleccione el género:</label>
+            <select v-model="selectedGenero" id="genere" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
-              <option value="Hombre">Hombre</option>
-              <option value="Mujer">Mujer</option>
+              <option value="HOMBRE">Hombre</option>
+              <option value="MUJER">Mujer</option>
               <option value="LGBTI">LGBTI</option>
-              <option value="Intersexual">Intersexual</option>
-              <option value="No informa">No informa</option>
+              <option value="INTERSEXUAL">Intersexual</option>
+              <option value="No informa ">No informa</option>
             </select>
           </div>
 
           <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
-            <label for="grupo_c">Seleccione el grupo etario:</label>
-            <select v-model="selectedEtario" id="grupo_etario" class="block p-4 rounded-lg w-full">
+            <label for="etario_group">Seleccione el grupo etario:</label>
+            <select v-model="selectedEtario" id="etario_group" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
               <option value="0-14">Niños</option>
               <option value="15-17">Adolescentes</option>
@@ -138,16 +138,17 @@
 
           <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
-            <label for="procedencia_etnica">Seleccione la procedencia étnica:</label>
-            <select v-model="selectedEtnica" id="procedencia_etnica" class="block p-4 rounded-lg w-full">
+            <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
+            <select v-model="selectedEtnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
-              <option value="Indígena">Indígena</option>
-              <option value="Afrocolombiano">Afrocolombiano</option>
-              <option value="Rom">Rom</option>
-              <option value="Raizal">Raizal</option>
-              <option value="Palenquero">Palenquero</option>
-              <option value="Mestizo">Mestizo</option>
-              <option value="Blanco">Blanco</option>
+              <option value="INDIGENA">Indígena</option>
+              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>
+              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>
+              <option value="ROM">Rom</option>
+              <option value="RAIZAL">Raizal</option>
+              <option value="PALENQUERO">Palenquero</option>
+              <option value="MESTIZO">Mestizo</option>
+              <option value="BLANCO">Blanco</option>
             </select>
           </div>
         </div>
@@ -246,7 +247,7 @@ async function handleDownloadReport() {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://127.0.0.1:5000/estadistica_ciudadano";
+      endpoint = "http://localhost:8082/api/v1/victimas/reports?department_name=ANTIOQUIA&genere=HOMBRE&pertenencia_etnica=INDIGENA&etario_group=Juventud (19-26 años)&document=1010105912";
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
