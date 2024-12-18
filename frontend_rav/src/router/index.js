@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { useAuthStore } from '@/stores/auth'; // Importar el store de autenticación
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import DepartamentosPage from '@/pages/DepartamentosPage.vue';
@@ -119,7 +119,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
+  history: createWebHashHistory(import.meta.env.BASE_URL), // Configura el historial web
   routes,
 });
 
