@@ -94,13 +94,11 @@ import { useGoalStore } from "@/stores/goalStore";
 
 const goalStore = useGoalStore();
 
-// Usamos el getter `processedGoals` del store para obtener las metas procesadas
-
 // Ejemplo de datos Quemados de 4 Metas  Configuradas
 const goals = ref([
-	{ value: 75, label: "Meta Anual" },
-	{ value: 50, label: "Meta 2" },
-	{ value: 90, label: "Meta 3" },
+	{ value: 75, label: "Meta Anual", fecha: "00/00/00" },
+	{ value: 50, label: "Meta 2", fecha: "00/00/00" },
+	{ value: 90, label: "Meta 3", fecha: "00/00/00" },
 ]);
 
 // Color del progreso dinámico
