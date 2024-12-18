@@ -87,10 +87,10 @@
 
         <!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
         <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
-          <label for="ccSearch">Buscar por numero de identificación:</label>
+          <label for="document">Buscar por numero de identificación:</label>
           <input
             type="text"
-            id="ccSearch"
+            id="document"
             v-model="searchCC"
             placeholder="Ingrese el número de identificación"
             class="block p-2 rounded-lg w-full"
