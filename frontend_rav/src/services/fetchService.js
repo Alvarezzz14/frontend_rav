@@ -16,7 +16,7 @@ export default class FetchService{
         try{
             const response = await fetch(url,fetchOptions)
 
-            if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+            if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}//
             
             const json = await response.json()
             return json
@@ -29,6 +29,7 @@ export default class FetchService{
     }
 
     async get(url,options){
+        //Destructuracion en javascript
         let {fetchOptions,success=null,error=null} = options
 //eliminar el content type
         fetchOptions = {
