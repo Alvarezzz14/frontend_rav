@@ -71,6 +71,7 @@ import { reactive, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth'; // Importar el store de autenticación
 import axios from 'axios';
+
 import { useToast } from 'vue-toastification';
 import Logo from '@/assets/images/logorav.svg';
 import logoSena from '@/assets/images/logosInstitucionales.svg';
@@ -132,6 +133,32 @@ async function submit() {
 		isLoading.value = false;
 	}
 }
+// Agregar un interceptor de solicitudes
+axios.interceptors.request.use(
+  (config) => {
+    const token = authStore.token;
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor de respuestas para manejar errores de autenticación
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      authStore.logout(); // Elimina el token si es inválido
+      window.location.href = '/login'; // Redirige al login
+    }
+    return Promise.reject(error);
+  }
+);
+
 </script>
 
 <style scoped>
