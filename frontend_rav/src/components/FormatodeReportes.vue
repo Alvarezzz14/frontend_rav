@@ -57,7 +57,7 @@
         <div v-if="selectedReport" class="mb-4">
           <select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
             <option disabled value="">Buscar por regional</option>
-            <option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
+            <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.code">
               {{ departamento.name }}
             </option>
           </select>
@@ -91,7 +91,7 @@
           <input
             type="text"
             id="document"
-            v-model="searchCC"
+            v-model="document"
             placeholder="Ingrese el número de identificación"
             class="block p-2 rounded-lg w-full"
           />
@@ -118,8 +118,7 @@
               <option value="HOMBRE">Hombre</option>
               <option value="MUJER">Mujer</option>
               <option value="LGBTI">LGBTI</option>
-              <option value="INTERSEXUAL">Intersexual</option>
-              <option value="No informa ">No informa</option>
+              <option value="INTERSEXUAL">Intersexual</option>              
             </select>
           </div>
 
@@ -193,8 +192,8 @@ const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
 
-// Lista de departamentos
-const departamentos = ref([
+// Lista de department_name
+const department_name = ref([
   { name: "Amazonas", code: "91" },
   { name: "Antioquia", code: "05" },
   { name: "Arauca", code: "81" },
@@ -257,7 +256,7 @@ async function handleDownloadReport() {
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
-      worksheetName = "Logs de Auditoría";
+      worksheetName = "Logs de Auditoría";  
     } else {
       alert("Tipo de reporte no válido.");
       loading.value = false;
@@ -265,7 +264,7 @@ async function handleDownloadReport() {
     }
 
     // Buscar el nombre del departamento según el código seleccionado
-    const departamentoNombre = departamentos.value.find(
+    const departamentoNombre = department_name.value.find(
       (d) => d.code === selectedDepartamento.value
     )?.name || "";
 
