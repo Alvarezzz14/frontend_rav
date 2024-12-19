@@ -7,14 +7,15 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Setter: Almacena el token y usuario autenticado en localStorage
   const setAuthenticatedUser = (newAuthenticatedUser) => {
-    const expiresAt = new Date().getTime() + newAuthenticatedUser.expiresIn * 1000; // Tiempo de expiración en ms
     token.value = newAuthenticatedUser.token;
     user.value = newAuthenticatedUser.user;
+
+    console.log('Token almacenado:', token.value);
+    console.log('User almacenado:', user.value);
   
     // Guarda en localStorage
     window.localStorage.setItem('auth', newAuthenticatedUser.token);
     window.localStorage.setItem('user', JSON.stringify(newAuthenticatedUser.user));
-    window.localStorage.setItem('expiresAt', expiresAt);
   };
 
   // Getter: Obtiene el usuario autenticado desde localStorage
@@ -27,8 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   // Verifica si el usuario está autenticado
   const isAuthenticated = computed(() => {
-    const expiresAt = parseInt(window.localStorage.getItem('expiresAt'), 10);
-    return !!token.value && new Date().getTime() < expiresAt;
+    return !!token.value;
   });
 
   // Logout: Elimina el token y usuario de localStorage y el estado

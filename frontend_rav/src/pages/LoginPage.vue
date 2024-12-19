@@ -95,9 +95,7 @@ const toast = useToast();
 
 // Redirigir si ya está autenticado
 onMounted(() => {
-	if (authStore.isAuthenticated) {
-		router.push('/'); // Redirigir al dashboard si ya está autenticado
-	}
+	
 
 	// Detecta el ancho de la pantalla después de que el componente ha sido montado
 	const screenWidth = window.innerWidth;
