@@ -42,9 +42,10 @@
 
 				<!-- Botón de iniciar sesión -->
 				<button
-					type="submit"
+					type="button"
 					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
 					:disabled="isLoading"
+					v-on:click="submit"
 				>
 					<span v-if="!isLoading">Iniciar</span>
 					<span v-else>Cargando...</span>
