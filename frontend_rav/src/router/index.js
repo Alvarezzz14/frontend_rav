@@ -1,5 +1,5 @@
-
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'; // Importar el store de autenticación
 import DefaultLayout from '@/layouts/DefaultLayout.vue';
 import DepartamentosPage from '@/pages/DepartamentosPage.vue';
 import LoginPage from '@/pages/LoginPage.vue';
@@ -9,8 +9,8 @@ import RegistroActividadPage from '@/pages/RegistroActividadPage.vue';
 import RegistroUsuarioPage from '@/pages/RegistroUsuarioPage.vue';
 import FormatodeReportesPage from '@/pages/FormatodeReportesPage.vue';
 import SubirFicheroPage from '@/pages/SubirFicheroPage.vue';
-import PerfilCiudadanoPage from '@/pages/PerfilCiudadanoPage.vue'
-import DashBoardPage from '@/pages/DashBoardPage.vue'
+import PerfilCiudadanoPage from '@/pages/PerfilCiudadanoPage.vue';
+import DashBoardPage from '@/pages/DashBoardPage.vue';
 import LineaTiempoNuevaPage from '@/pages/LineaTiempoNuevaPage.vue';
 import ErrorPage from '@/pages/ErrorPage.vue';
 import ListaUsuariosPage from '@/pages/ListaUsuariosPage.vue';
@@ -19,35 +19,41 @@ import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 import RolesPermisosPage from '@/pages/RolesPermisos.vue';
 import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
 
+
 const routes = [
   {
     path: '/login',
     name: 'LoginPage',
     component: LoginPage,
+    meta: { requiresAuth: false }, // Ruta pública
   },
   {
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
-    component: RegistroUsuarioPage
+    component: RegistroUsuarioPage,
+    meta: { requiresAuth: true }, // Ruta privada
+
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'ErrorPage',
-    component: ErrorPage
+    component: ErrorPage,
+    meta: { requiresAuth: false }, // Ruta pública
   },
   {
     path: "/",
     component: DefaultLayout, // Usa el layout como contenedor
+    meta: { requiresAuth: true }, // Todas las rutas hijas requieren autenticación
     children: [
       {
         path: '',
         name: 'HomePage',
-        component: DashBoardPage // Página que se renderiza dentro del layout
+        component: DashBoardPage,
       },
       {
         path: '/departamentos',
         name: 'DepartamentosPage',
-        component: DepartamentosPage // Página que muestra el mapa con los departamentos
+        component: DepartamentosPage,
       },
       {
         path: '/rutadeaccion',
@@ -55,81 +61,86 @@ const routes = [
         component: Rutaaccionpage,
         props: true,
       },
-
       {
         path: '/busquedaciudadano',
         name: 'BusquedaCiudadanoPage',
-        component: BusquedaCiudadanoPage
+        component: BusquedaCiudadanoPage,
       },
       {
         path: '/registroactividad',
         name: 'RegistroActividadPage',
-        component: RegistroActividadPage
+        component: RegistroActividadPage,
       },
       {
         path: '/formatodereportes',
         name: 'FormatodeReportesPage',
-        component: FormatodeReportesPage
+        component: FormatodeReportesPage,
       },
       {
         path: '/subirfichero',
         name: 'SubirFicheroPage',
-        component: SubirFicheroPage
+        component: SubirFicheroPage,
       },
-
       {
-
         path: '/PerfilCiudadano',
         name: 'PerfilCiudadanoPage',
-        component: PerfilCiudadanoPage
+        component: PerfilCiudadanoPage,
       },
-
       {
         path: '/LineaTiempoNueva',
         name: 'LineaTiempoNuevaPage',
-        component: LineaTiempoNuevaPage
+        component: LineaTiempoNuevaPage,
       },
       {
-
         path: '/ListaUsuarios',
         name: 'ListaUsuariosPage',
-        component: ListaUsuariosPage
+        component: ListaUsuariosPage,
       },
       {
         path: '/lineasatencion',
         name: 'LineasAtencionPage',
-        component: LineasAtencionPage
-
+        component: LineasAtencionPage,
       },
-
       {
         path: '/indicadoresactividad',
         name: 'IndicadoresActividadPage',
-        component: IndicadoresActividadPage
-
+        component: IndicadoresActividadPage,
       },
-
       {
         path: '/rolespermisos',
         name: 'RolesPermisosPage',
-        component: RolesPermisosPage
-
+        component: RolesPermisosPage,
       },
       {
         path: 'formbienvenida',
         name: 'formbienvenidaPage',
-        component: formbienvenidaPage
+        component: formbienvenidaPage,
       },
-    ]
+    ],
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
+  history: createWebHashHistory(import.meta.env.BASE_URL), // Configura el historial web
   routes,
 });
 
+// Guard global para proteger rutas privadas
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  // Si la ruta requiere autenticación y no está autenticado
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login'); // Redirige al login
+  } else if (to.path === '/login' && authStore.isAuthenticated) {
+    next('/'); // Si ya está autenticado y va al login, redirige al home
+  } else {
+    next(); // Permite el acceso a la ruta
+  }
+});
+
 export default router;
+
 
 
 

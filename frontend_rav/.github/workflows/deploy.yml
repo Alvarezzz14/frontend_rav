@@ -31,15 +31,24 @@ jobs:
     #  - name: Run tests
      #   run: npm test
 
-      # Paso 5: Despliegue en el servidor
-      - name: Deploy to Server
+      
+      # Paso 4: Configuración de la clave SSH
+      - name: Setup SSH key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@tu-servidor << 'EOF'
-          cd /ruta/a/tu/proyecto
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H tu-servidor >> ~/.ssh/known_hosts
+
+      # Paso 5: Despliegue en el servidor
+      - name: Deploy to Server
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@tu-servidor << 'EOF'
+          cd /var/www/RAV/Frontend/frontend_rav
           git pull origin main
           npm install
           npm run build
-          systemctl restart servicio-aplicacion
+          sudo systemctl restart servicio-aplicacion
           EOF

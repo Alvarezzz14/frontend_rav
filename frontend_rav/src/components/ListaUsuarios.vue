@@ -157,7 +157,7 @@
 
         <!-- Botón de Cerrar -->
         <button @click="closeRegisterModal"
-          class="absolute top-4 right-4 text-customPurple cursor-pointer rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
+          class="absolute top-4 right-4 text-customPurple  rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
           ✕
         </button>
 
@@ -192,15 +192,7 @@
                 Funcionario
               </span>
             </label>
-            <label class="flex items-center space-x-2 cursor-pointer">
-              <input type="radio" id="operario" name="rol" value="Operario" v-model="formData.rol"
-                class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
-              <span
-                :class="{ 'text-black font-semibold': formData.rol === 'Operario', 'text-gray-700': formData.rol !== 'Operario' }"
-                class="text-sm lg:text-lg">
-                Operario
-              </span>
-            </label>
+            
           </div>
 
           <!-- Campos del Formulario -->

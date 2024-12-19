@@ -1,96 +1,85 @@
 <template>
-  <div>
-    <div
-      class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1"
-    >
-      <!-- Icono y Título -->
-      <div class="flex items-center mb-4 md:mb-0">
-        <div class="p-6 bg-customPurple rounded-full">
-          <!-- Icono SVG -->
-          <img :src="download" alt="Icono download" width="50" height="50" />
-        </div>
-        <div class="ml-4 text-center md:text-left">
-          <p class="text-black mb-0 text-2xl md:text-3xl">Cargar</p>
-          <h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
-            Archivo
-          </h2>
-        </div>
-      </div>
-    </div>
-    <div
-      class="flex flex-col xl:flex-row xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8"
-    >
-      <!-- Imagen del ciudadano -->
-      <img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
+	<div>
+		<div
+			class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+			<!-- Icono y Título -->
+			<div class="flex items-center mb-4 md:mb-0">
+				<div class="p-6 bg-customPurple rounded-full">
+					<!-- Icono SVG -->
+					<img :src="download" alt="Icono download" width="50" height="50" />
+				</div>
+				<div class="ml-4 text-center md:text-left">
+					<p class="text-black mb-0 text-2xl md:text-3xl">Cargar</p>
+					<h2 class="text-customPurple text-5xl md:text-6xl mt-0 font-bold">
+						Archivo
+					</h2>
+				</div>
+			</div>
+		</div>
+		<div
+			class="flex flex-col xl:flex-row xl:items-start justify-center w-full max-w-7xl space-y-8 xl:space-y-0 xl:space-x-8">
+			<!-- Imagen del ciudadano -->
+			<img :src="Ciudadano" alt="Ciudadano" class="w-96 h-fit object-contain" />
 
-      <!-- Sección de carga de archivo -->
-      <div
-        class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg"
-      >
-        <h2 class="text-2xl font-bold text-center mb-4 text-customPurple">
-          Cargar Archivo
-        </h2>
-        <p class="text-center mb-2 text-customPurple">
-          Adjunta el archivo que deseas compartir
-        </p>
+			<!-- Sección de carga de archivo -->
+			<div
+				class="upload-section mt-8 w-full lg:w-1/2 p-6 bg-white rounded-2xl shadow-lg">
+				<h2 class="text-2xl font-bold text-center mb-4 text-customPurple">
+					Cargar Archivo
+				</h2>
+				<p class="text-center mb-2 text-customPurple">
+					Adjunta el archivo que deseas compartir
+				</p>
 
-        <!-- Área de arrastrar y soltar -->
-        <div
-          class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
-          @drop="handleDrop"
-          @dragover="handleDragOver"
-        >
-          <img
-            src="@/assets/images/txt.svg"
-            alt="TXT"
-            class="upload-icon mb-2 w-16 h-16 mx-auto"
-          />
-          <p class="text-customPurple mb-4">
-            Arrastra y suelta el archivo aquí <br />
-            o
-          </p>
-          <!-- Botón amarillo personalizado -->
-          <Button
-            label="Buscar"
-            class="yellow-button mt-4"
-            @click="selectFile"
-          />
-          <!-- Input oculto para selección de archivo -->
-          <input
-            type="file"
-            ref="fileInput"
-            class="hidden"
-            @change="handleFileUpload"
-            accept=".txt,.csv,.xlsx"
-          />
-        </div>
+				<!-- Área de arrastrar y soltar -->
+				<div
+					class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
+					@drop="handleDrop"
+					@dragover="handleDragOver">
+					<img
+						src="@/assets/images/txt.svg"
+						alt="TXT"
+						class="upload-icon mb-2 w-16 h-16 mx-auto" />
+					<p class="text-customPurple mb-4">
+						Arrastra y suelta el archivo aquí <br />
+						o
+					</p>
+					<!-- Botón amarillo personalizado -->
+					<Button
+						label="Buscar"
+						class="yellow-button mt-4"
+						@click="selectFile" />
+					<!-- Input oculto para selección de archivo -->
+					<input
+						type="file"
+						ref="fileInput"
+						class="hidden"
+						@change="handleFileUpload"
+						accept=".txt,.csv,.xlsx" />
+				</div>
 
-        <!-- Archivos cargados -->
-        <div
-          v-if="uploadProgress > 0"
-          class="uploaded-file mb-4 flex items-center p-2 bg-purple-100 rounded-lg w-2/4 ml-auto"
-        >
-          <img
-            src="@/assets/images/txt.svg"
-            alt="TXT Icon"
-            class="file-icon mr-2"
-          />
-          <div class="flex-1 text-customPurple">
-            <p>{{ fileName }}</p>
-            <div
-              class="progress-bar mt-1 rounded-full h-2"
-              :style="{ width: uploadProgress + '%' }"
-            ></div>
-          </div>
-          <span class="ml-4 font-semibold text-customPurple"
-            >{{ intUploadProgress }}%</span
-          >
-          <img
-            src="@/assets/images/CancelFile.svg"
-            alt="X Icon"
-            @click="cancelUploadFile"
-          />
-        </div>
+				<!-- Archivos cargados -->
+				<div
+					v-if="uploadProgress > 0"
+					class="uploaded-file mb-4 flex p-2 bg-purple-100 rounded-lg w-auto mx-1 my-2">
+					<img
+						src="@/assets/images/txt.svg"
+						alt="TXT Icon"
+						class="file-icon mr-2" />
+					<div class="flex-1 text-customPurple">
+						<p>{{ fileName }}</p>
+						<div
+							class="progress-bar mt-1 rounded-full h-2"
+							:style="{ width: uploadProgress + '%' }"></div>
+					</div>
+					<span class="ml-4 font-semibold text-customPurple"
+						>{{ intUploadProgress }}%</span
+					>
+					<img
+						src="@/assets/images/CancelFile.svg"
+						alt="X Icon"
+						@click="cancelUploadFile" />
+				</div>
 
 				<div v-if="fileToUpload" class="progress-container mt-4">
 					<div
@@ -106,16 +95,15 @@
 					Archivo subido exitosamente.
 				</p>
 
-        <!-- Botón de carga -->
-        <Button
-          label="Subir"
-          class="purple-button mt-4 w-full"
-          :disabled="!fileToUpload || uploading"
-          @click="uploadFile"
-        />
-      </div>
-    </div>
-  </div>
+				<!-- Botón de carga -->
+				<Button
+					label="Subir"
+					class="purple-button mt-4 w-full"
+					:disabled="!fileToUpload || uploading"
+					@click="uploadFile" />
+			</div>
+		</div>
+	</div>
 </template>
 <script setup>
 import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
@@ -141,53 +129,54 @@ const loading = ref(false);
 const uploading = ref(false); // Controla el estado de carga
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
+const host = import.meta.env.VITE_HOST;
 
 const acceptedFileTypes = [
-  "text/plain",
-  "text/csv",
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	"text/plain",
+	"text/csv",
+	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ]; // Tipos permitidos
 
 const fetchOptions = {
-  url: "http://localhost:8081/api/upload",
-  options: {
-    method: "POST",
-    headers: { Accept: "application/json" },
-    signal: fetchController.signal,
-  },
+	url: `${host}:8081/api/upload`,
+	options: {
+		method: "POST",
+		headers: { Accept: "application/json" },
+		signal: fetchController.signal,
+	},
 };
 
 // Crear FormData
 const createFormData = (archivoBlob, fileName) => {
-  const formData = new FormData();
-  formData.append("file", archivoBlob, fileName);
-  return formData;
+	const formData = new FormData();
+	formData.append("file", archivoBlob, fileName);
+	return formData;
 };
 
 // Crear Blob
 const createBlob = (newWorkBook, typeFile) => {
-  let blob;
+	let blob;
 
-  switch (typeFile) {
-    case "xlsx":
-      blob = XLSX.write(newWorkBook, {
-        bookType: typeFile,
-        type: "array",
-      });
-      break;
+	switch (typeFile) {
+		case "xlsx":
+			blob = XLSX.write(newWorkBook, {
+				bookType: typeFile,
+				type: "array",
+			});
+			break;
 
-    case "txt":
-      blob = newWorkBook;
-      break;
-  }
+		case "txt":
+			blob = newWorkBook;
+			break;
+	}
 
-  const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
-  return archivoBlob;
+	const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
+	return archivoBlob;
 };
 
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
-  const file = event.target.files[0];
+	const file = event.target.files[0];
 
 	if (acceptedFileTypes.includes(file.type)) {
 		fileToUpload.value = file;
@@ -200,245 +189,245 @@ const handleFileUpload = (event) => {
 };
 
 const handleDrop = (event) => {
-  const files = event.dataTransfer.files;
-  if (files.length > 0) {
-    const file = files[0];
-    if (acceptedFileTypes.includes(file.type)) {
-      fileToUpload.value = file;
-      fileName.value = file.name;
-      uploadProgress.value = 0;
-    } else {
-      alert("Por favor, selecciona un archivo válido (.txt).");
-    }
-  }
+	const files = event.dataTransfer.files;
+	if (files.length > 0) {
+		const file = files[0];
+		if (acceptedFileTypes.includes(file.type)) {
+			fileToUpload.value = file;
+			fileName.value = file.name;
+			uploadProgress.value = 0;
+		} else {
+			alert("Por favor, selecciona un archivo válido (.txt).");
+		}
+	}
 };
 
 const handleDragOver = (event) => {
-  event.preventDefault();
+	event.preventDefault();
 };
 
 const selectFile = () => {
-  document.querySelector('input[type="file"]').click();
+	document.querySelector('input[type="file"]').click();
 };
 
 const updateEventFileUpload = (bodyFetchOptions) => {
-  const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
-  const sizePartFile = bodyFetchOptions.get("file").size;
-  partsFile = window.Math.round(sizeMainFile / sizePartFile);
+	const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
+	const sizePartFile = bodyFetchOptions.get("file").size;
+	partsFile = window.Math.round(sizeMainFile / sizePartFile);
 
-  if (uploadProgress.value < sizeMainFile) {
-    uploadProgress.value = parseFloat(
-      (uploadProgress.value + 100 / partsFile).toFixed(2)
-    );
-    intUploadProgress.value = window.Math.round(uploadProgress.value);
-  }
+	if (uploadProgress.value < sizeMainFile) {
+		uploadProgress.value = parseFloat(
+			(uploadProgress.value + 100 / partsFile).toFixed(2)
+		);
+		intUploadProgress.value = window.Math.round(uploadProgress.value);
+	}
 
-  fileNotificationStore.setUploadProgress(uploadProgress.value);
+	fileNotificationStore.setUploadProgress(uploadProgress.value);
 };
 
 const ReuploadFile = async () => {
-  for (const formData of backupPartsFile) {
-    const copyFetchOptions = {
-      url: fetchOptions.url,
-      options: {
-        ...fetchOptions.options,
-        body: formData,
-      },
-    };
+	for (const formData of backupPartsFile) {
+		const copyFetchOptions = {
+			url: fetchOptions.url,
+			options: {
+				...fetchOptions.options,
+				body: formData,
+			},
+		};
 
-    await sendFile(copyFetchOptions);
-  }
+		await sendFile(copyFetchOptions);
+	}
 };
 
 const ConnectionWifi = (callback) => {
-  window.addEventListener("online", async () => await callback());
+	window.addEventListener("online", async () => await callback());
 };
 
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
-  let { url, options } = fetchOptions;
+	let { url, options } = fetchOptions;
 
-  try {
-    const response = await fetch(url, options);
+	try {
+		const response = await fetch(url, options);
 
-    if (!response.ok) {
-      throw new Error("Error al subir el archivo");
-    }
+		if (!response.ok) {
+			throw new Error("Error al subir el archivo");
+		}
 
-    // Actualiza el progreso basado en la parte actual
-    // uploadProgress.value = Math.min(
-    // 	((currentChunk * chunkSize) / totalSize) * 100,
-    // 	100
-    // );
-    // intUploadProgress.value = Math.round(uploadProgress.value);
+		// Actualiza el progreso basado en la parte actual
+		// uploadProgress.value = Math.min(
+		// 	((currentChunk * chunkSize) / totalSize) * 100,
+		// 	100
+		// );
+		// intUploadProgress.value = Math.round(uploadProgress.value);
 
-    updateEventFileUpload(options.body);
+		updateEventFileUpload(options.body);
 
-    console.log(
-      `Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
-    );
-  } catch (err) {
-    console.error("Error al enviar el archivo:", err);
-    uploadError.value = true;
-    throw err;
-  }
+		console.log(
+			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
+		);
+	} catch (err) {
+		console.error("Error al enviar el archivo:", err);
+		uploadError.value = true;
+		throw err;
+	}
 }
 
 const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
-  let offset = 0;
-  let partNumber = 1;
-  const totalSize = file.size;
+	let offset = 0;
+	let partNumber = 1;
+	const totalSize = file.size;
 
-  while (offset < totalSize) {
-    const chunk = file.slice(offset, offset + chunkSize);
+	while (offset < totalSize) {
+		const chunk = file.slice(offset, offset + chunkSize);
 
-    // Generar un nombre que incluya 'parte' y el número de la parte
-    const chunkFileName = `${
-      file.name.split(".")[0]
-    }_parte${partNumber}.${file.name.split(".").pop()}`;
+		// Generar un nombre que incluya 'parte' y el número de la parte
+		const chunkFileName = `${
+			file.name.split(".")[0]
+		}_parte${partNumber}.${file.name.split(".").pop()}`;
 
-    const formData = new FormData();
-    formData.append("file", chunk, chunkFileName);
-    formData.append("sizeMainFile", totalSize);
-    formData.append("chunkNumber", partNumber);
+		const formData = new FormData();
+		formData.append("file", chunk, chunkFileName);
+		formData.append("sizeMainFile", totalSize);
+		formData.append("chunkNumber", partNumber);
 
-    const fetchOptionsChunk = {
-      url: fetchOptions.url,
-      options: {
-        ...fetchOptions.options,
-        body: formData,
-      },
-    };
+		const fetchOptionsChunk = {
+			url: fetchOptions.url,
+			options: {
+				...fetchOptions.options,
+				body: formData,
+			},
+		};
 
-    // Envía el "chunky" y actualiza el progreso
-    await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
+		// Envía el "chunky" y actualiza el progreso
+		await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
 
-    offset += chunkSize;
-    partNumber++;
-  }
+		offset += chunkSize;
+		partNumber++;
+	}
 };
 
 const createPartsExcel = async (file) => {
-  const data = await file.arrayBuffer();
-  const workBook = XLSX.read(data);
+	const data = await file.arrayBuffer();
+	const workBook = XLSX.read(data);
 
-  for (const sheetName of workBook.SheetNames) {
-    const workSheet = workBook.Sheets[sheetName];
-    const txtData = XLSX.utils.sheet_to_csv(workSheet, {
-      FS: "»",
-      blankrows: false,
-    });
-    const blob = new Blob([txtData], { type: "text/plain" });
-    createPartsTxt(blob);
-  }
-  alert("División y envío completados.");
+	for (const sheetName of workBook.SheetNames) {
+		const workSheet = workBook.Sheets[sheetName];
+		const txtData = XLSX.utils.sheet_to_csv(workSheet, {
+			FS: "»",
+			blankrows: false,
+		});
+		const blob = new Blob([txtData], { type: "text/plain" });
+		createPartsTxt(blob);
+	}
+	alert("División y envío completados.");
 };
 
 const createParts = async (file) => {
-  switch (file.type) {
-    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-    case "application/vnd.ms-excel":
-      await createPartsExcel(file);
-      break;
-    case "text/plain":
-      createPartsTxt(file);
-      break;
-    default:
-      alert("Tipo de archivo no soportado.");
-      break;
-  }
+	switch (file.type) {
+		case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+		case "application/vnd.ms-excel":
+			await createPartsExcel(file);
+			break;
+		case "text/plain":
+			createPartsTxt(file);
+			break;
+		default:
+			alert("Tipo de archivo no soportado.");
+			break;
+	}
 };
 
 // Advertencia al intentar abandonar la página
 const showUnloadWarning = (event) => {
-  const message = "¿Estás seguro de que deseas salir de esta página?";
-  event.returnValue = message; // Para navegadores que usan `returnValue`
-  return message; // Para compatibilidad con otros navegadores
+	const message = "¿Estás seguro de que deseas salir de esta página?";
+	event.returnValue = message; // Para navegadores que usan `returnValue`
+	return message; // Para compatibilidad con otros navegadores
 };
 
 onMounted(() => {
-  window.addEventListener("beforeunload", showUnloadWarning);
+	window.addEventListener("beforeunload", showUnloadWarning);
 });
 
 onUnmounted(() => {
-  window.removeEventListener("beforeunload", showUnloadWarning);
+	window.removeEventListener("beforeunload", showUnloadWarning);
 });
 
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
-  if (!fileToUpload.value) return;
+	if (!fileToUpload.value) return;
 
-  console.log("Iniciando la carga del archivo."); // Log antes de empezar
+	console.log("Iniciando la carga del archivo."); // Log antes de empezar
 
-  // Deshabilitar el botón al comenzar la carga
-  uploading.value = true;
-  uploadError.value = false; // Resetear el estado de error
-  uploadSuccess.value = false; // Resetear el estado de éxito
+	// Deshabilitar el botón al comenzar la carga
+	uploading.value = true;
+	uploadError.value = false; // Resetear el estado de error
+	uploadSuccess.value = false; // Resetear el estado de éxito
 
-  await createPartsTxt(fileToUpload.value);
-  try {
-    // Lógica de división y envío del archivo
+	await createPartsTxt(fileToUpload.value);
+	try {
+		// Lógica de división y envío del archivo
 
-    if (uploadProgress.value === 100) {
-      console.log("Carga completada al 100%.");
-      uploadSuccess.value = true; // Mostrar mensaje de éxito
-    }
+		if (uploadProgress.value === 100) {
+			console.log("Carga completada al 100%.");
+			uploadSuccess.value = true; // Mostrar mensaje de éxito
+		}
 
-    // Reiniciar el estado al terminar exitosamente
-    fileToUpload.value = null;
-    fileName.value = "";
-    uploadProgress.value = 0;
-    intUploadProgress.value = 0;
-  } catch (error) {
-    console.error("Error durante la carga del archivo:", error);
-    uploadError.value = true; // Mostrar mensaje de error
-  } finally {
-    // Habilitar el botón al finalizar (con éxito o error)
-    uploading.value = false;
-  }
+		// Reiniciar el estado al terminar exitosamente
+		fileToUpload.value = null;
+		fileName.value = "";
+		uploadProgress.value = 0;
+		intUploadProgress.value = 0;
+	} catch (error) {
+		console.error("Error durante la carga del archivo:", error);
+		uploadError.value = true; // Mostrar mensaje de error
+	} finally {
+		// Habilitar el botón al finalizar (con éxito o error)
+		uploading.value = false;
+	}
 };
 
 const uploadFile = async () => {
-  if (!fileToUpload.value) return;
+	if (!fileToUpload.value) return;
 
-  console.log("Iniciando la subida...");
-  await uploadFileFinal();
+	console.log("Iniciando la subida...");
+	await uploadFileFinal();
 };
 </script>
 
 <style scoped>
 .text-customPurple {
-  color: #7a1f7e;
+	color: #7a1f7e;
 }
 .yellow-button {
-  background-color: #fdc300 !important;
-  color: #7a1f7e !important;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 12px 24px;
-  border: none;
-  font-size: 1.25rem;
+	background-color: #fdc300 !important;
+	color: #7a1f7e !important;
+	font-weight: bold;
+	border-radius: 12px;
+	padding: 12px 24px;
+	border: none;
+	font-size: 1.25rem;
 }
 .purple-button {
-  background-color: #7a1f7e !important;
-  color: #fdc300 !important;
-  font-weight: bold;
-  border-radius: 12px;
-  padding: 12px 24px;
-  border: none;
-  font-size: 1.25rem;
+	background-color: #7a1f7e !important;
+	color: #fdc300 !important;
+	font-weight: bold;
+	border-radius: 12px;
+	padding: 12px 24px;
+	border: none;
+	font-size: 1.25rem;
 }
 .upload-container {
-  background-color: #f8e6fb;
+	background-color: #f8e6fb;
 }
 .upload-icon {
-  width: 50px;
-  height: auto;
-  margin-bottom: 10px;
+	width: 50px;
+	height: auto;
+	margin-bottom: 10px;
 }
 .uploaded-file {
-  background-color: #e0c8e0;
+	background-color: #e0c8e0;
 }
 .progress-bar {
-  background-color: #7a1f7e;
+	background-color: #7a1f7e;
 }
 </style>

@@ -196,9 +196,10 @@ const personFullName = ref("");
 const authStore = useAuthStore();
 const eventStore = useEventStore();
 const selectedKeywords = ref([]);
+const host = import.meta.env.VITE_HOST;
 
 const fetchOptions = {
-	url: "http://localhost:8082/api/v1/victimas/ticket",
+	url: `${host}:8082/api/v1/victimas/ticket`,
 	options: {
 		method: "POST",
 		headers: {
