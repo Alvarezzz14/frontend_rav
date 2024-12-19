@@ -258,7 +258,7 @@ async function handleDownloadReport() {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://localhost:8082/api/v1/victimas/all?page=2&pageSize=500";
+      endpoint = "http://localhost:8082/api/v1/victimas/reports";
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
