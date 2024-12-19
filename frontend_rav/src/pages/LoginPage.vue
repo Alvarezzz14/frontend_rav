@@ -41,7 +41,9 @@
 				</div>
 
 				<!-- Botón de iniciar sesión -->
-				<button
+			
+			</form>
+			<button
 					type="button"
 					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
 					:disabled="isLoading"
@@ -50,7 +52,6 @@
 					<span v-if="!isLoading">Iniciar</span>
 					<span v-else>Cargando...</span>
 				</button>
-			</form>
 
 			<!-- Mensaje de error -->
 			<p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
@@ -116,16 +117,19 @@ async function submit() {
 	isLoading.value = true;
 	try {
 		// Realiza la solicitud al servidor para iniciar sesión
-		const response = await axios.post(`${host}:8080/login`, form);
+		axios.post(`http://149.130.160.235/login`, form).then((response) => {
+			// Si la respuesta es exitosa, se establece el token y los datos del usuario
+			// Guardar el token y los datos del usuario en el store
+			authStore.setAuthenticatedUser(response.data);
 
-		// Guardar el token y los datos del usuario en el store
-		authStore.setAuthenticatedUser(response.data);
+			// Muestra un mensaje de éxito
+			toast.success("Inicio de sesión exitoso.");
 
-		// Muestra un mensaje de éxito
-		toast.success("Inicio de sesión exitoso.");
+			// Redirigir al dashboard
+			router.push('/');
+		})
 
-		// Redirigir al dashboard
-		router.push('/');
+		
 	} catch (error) {
 		// Muestra un mensaje de error
 		errorMessage.value = error.response?.data?.error || "Error en el inicio de sesión.";
