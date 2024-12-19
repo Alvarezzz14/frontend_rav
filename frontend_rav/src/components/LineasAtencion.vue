@@ -210,6 +210,7 @@ const fetchData = ref([]);
 const loading = ref(false);
 const selectedEntity = ref(null);
 const noResultsModal = ref(false);
+const host = import.meta.env.VITE_HOST;
 
 // const selectedDepart = ref (null);
 let entity;
@@ -264,7 +265,7 @@ const validateAndSearch = async () => {
 
 	// Construir la URL dinámica
 	const fetchOptions = {
-		url: `http://localhost:8082/api/v1/victimas/lines/${selectedEntity.value}/${selectedCountry.value.name}`,
+		url: `${host}:8082/api/v1/victimas/lines/${selectedEntity.value}/${selectedCountry.value.name}`,
 		options: {
 			method: "GET",
 			headers: {

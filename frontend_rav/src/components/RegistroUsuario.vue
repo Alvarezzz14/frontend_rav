@@ -107,6 +107,7 @@ const formData = reactive({
   password: '',
   confirmPassword: ''
 });
+const host = import.meta.env.VITE_HOST;
 
 const selectedRole = ref(''); // Para gestionar el rol seleccionado
 
@@ -120,7 +121,7 @@ async function submitForm() {
   }
 
   try {
-    await axios.post('http://localhost:8080/api/auth/signup', {
+    await axios.post(`${host}:8080/api/auth/signup`, {
       name: formData.name,
       email: formData.email,
       password: formData.password,

@@ -43,14 +43,19 @@
 				</div>
 
 				<!-- Botón de iniciar sesión -->
-				<button
-					type="submit"
+			
+			</form>
+			<button
+					type="button"
 					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
 					:disabled="isLoading">
+
 					<span v-if="!isLoading">Iniciar</span>
 					<span v-else>Cargando...</span>
 				</button>
-			</form>
+
+			<!-- Mensaje de error -->
+			<p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
 
 			<!-- Logos institucionales -->
 			<div class="flex justify-center space-x-8 mt-6">
@@ -65,6 +70,7 @@
 </template>
 
 <script setup>
+
 import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/auth";
@@ -78,6 +84,7 @@ import smallScreenLogin from "@/assets/images/pantallaspequeñaslogin.png";
 import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 
+
 const form = reactive({
 	email: "",
 	password: "",
@@ -89,8 +96,12 @@ const isLoading = ref(false);
 const backgroundUrl = ref(""); // Variable para almacenar la URL de fondo
 const router = useRouter();
 const toast = useToast();
+const host = import.meta.env.VITE_HOST;
 
+// Redirigir si ya está autenticado
 onMounted(() => {
+	
+
 	// Detecta el ancho de la pantalla después de que el componente ha sido montado
 	const screenWidth = window.innerWidth;
 	backgroundUrl.value =
@@ -107,6 +118,7 @@ onMounted(() => {
 async function submit() {
 	isLoading.value = true;
 	try {
+
 		const response = await axios.post(
 			"http://localhost:8080/api/auth/signin",
 			form
@@ -119,10 +131,37 @@ async function submit() {
 	} catch (error) {
 		errorMessage.value =
 			error.response?.data?.error || "Error en el inicio de sesión.";
+
 	} finally {
 		isLoading.value = false;
 	}
 }
+// Agregar un interceptor de solicitudes
+axios.interceptors.request.use(
+  (config) => {
+    const token = authStore.token;
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor de respuestas para manejar errores de autenticación
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      authStore.logout(); // Elimina el token si es inválido
+      window.location.href = '/login'; // Redirige al login
+    }
+    return Promise.reject(error);
+  }
+);
+
 </script>
 
 <style scoped>
@@ -132,7 +171,6 @@ button {
 
 input {
 	border: none;
-	/* Quitar bordes visibles */
 }
 
 input:focus {

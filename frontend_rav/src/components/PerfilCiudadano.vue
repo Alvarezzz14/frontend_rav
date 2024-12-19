@@ -182,9 +182,10 @@ import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu e
 const eventStore = useEventStore();
 const userInfo = ref({});
 const fetchData = ref([]);
+const host = import.meta.env.VITE_HOST;
 
 const fetchOptions = {
-	url: "http://localhost:8083/api/v1/programa",
+	url: `${host}:8083/api/v1/programa`,
 	options: {
 		method: "GET",
 		headers: {
