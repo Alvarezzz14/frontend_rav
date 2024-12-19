@@ -46,7 +46,7 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@tu-servidor << 'EOF'
-          cd /var/www/RAV/Frontend
+          cd /var/www/RAV/Frontend/frontend_rav
           git pull origin main
           npm install
           npm run build

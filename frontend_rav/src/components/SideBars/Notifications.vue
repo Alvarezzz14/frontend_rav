@@ -93,7 +93,7 @@
 								<div v-if="notification.progress !== undefined">
 									<div class="w-full bg-gray-200 rounded-full h-2 mt-1">
 										<div
-											class="bg-blue-500 h-2 rounded-full"
+											class="bg-customPurple h-2 rounded-full"
 											:style="{ width: notification.progress + '%' }"></div>
 									</div>
 									<p class="text-xs text-gray-500">
@@ -105,7 +105,7 @@
 									v-if="notification.redirectUrl"
 									:href="notification.redirectUrl"
 									target="_blank"
-									class="text-blue-500 underline">
+									class="text-customPurple underline">
 									Ir a la página
 								</a>
 							</div>
