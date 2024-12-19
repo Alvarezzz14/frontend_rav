@@ -36,7 +36,7 @@
 				</div>
 
 				<!-- CircularCharts Dinámicos -->
-				<div class="flex flex-col items-center gap-4 mt-6">
+				<div class="flex flex-col items-center gap-4 mt-2">
 					<div
 						v-for="(goal, index) in goals"
 						:key="goal.id"
@@ -56,7 +56,7 @@
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
 					<h2
-						class="shadow-custom lg:shadow-none h-14 md:h-16 text-lg md:text-xl lg:text-2xl font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
+						class="shadow-custom lg:shadow-none h-14 md:h-16 text-lg md:text-xl lg:text-2xl font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between mx-1">
 						Notificaciones
 						<svg
 							width="41"

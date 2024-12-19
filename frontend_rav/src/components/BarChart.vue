@@ -67,6 +67,8 @@ const chartOptions = reactive({
 					size: 8,
 				},
 				color: "black",
+				maxRotation: 0, // Sin rotación
+				minRotation: 0, // Sin rotación
 			},
 			grid: {
 				display: false,
@@ -76,7 +78,7 @@ const chartOptions = reactive({
 			beginAtZero: true,
 			ticks: {
 				font: {
-					size: 14,
+					size: 8,
 				},
 				color: "black",
 			},

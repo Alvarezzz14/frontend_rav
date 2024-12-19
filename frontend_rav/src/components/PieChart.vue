@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col items-center justify-center w-full bg-customPurple p-4 rounded-lg">
+		class="flex flex-col items-center justify-center w-full bg-customPurple rounded-lg">
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
@@ -87,6 +87,7 @@ const chartOptions = reactive({
 					size: 10,
 				},
 				usePointStyle: true,
+				autoSkip: true,
 			},
 		},
 		tooltip: {

@@ -8,7 +8,7 @@
 			<!-- Contenedor del SVG personalizado para la barra de carga -->
 			<div class="relative w-48 h-48 -ml-2">
 				<svg
-					class="p-8 progress-circle-svg"
+					class="m-10 progress-circle-svg"
 					viewBox="0 0 120 120"
 					xmlns="http://www.w3.org/2000/svg">
 					<!-- Círculo de fondo con borde -->
