@@ -42,17 +42,7 @@
 
 		<!-- Tercera Sección: Tabla de Datos -->
 		<div class="p-4 border border-customPurple my-card rounded-lg bg-white overflow-x-auto">
-			<!-- Indicador de carga -->
-			<div v-if="loading" class="text-center py-4 text-gray-600">
-				Cargando datos, por favor espere...
-			</div>
-
-			<!-- Mensaje de error -->
-			<div v-if="errorMessage" class="text-center py-4 text-red-500">
-				{{ errorMessage }}
-			</div>
-
-			<table v-if="!loading && !errorMessage" class="w-full border-collapse">
+			<table class="w-full border-collapse">
 				<thead>
 					<tr>
 						<th class="p-3 text-left border-b bg-gray-200 font-bold">Departamento</th>
@@ -78,43 +68,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import LineChart from "@/components/LineChart.vue";
-import BarChart from "@/components/BarChart.vue";
-import EnFormacion from "@/assets/images/EnFormacion.png";
-import Certificados from "@/assets/images/Certificados.png";
-import EnProceso from "@/assets/images/PorCertificar.png";
-import Cancelados from "@/assets/images/Cancelados.svg";
-import PieChart from "./PieChart.vue";
-import axios from "axios";
+	// Importar componentes
+	import {ref, onMounted} from "vue";
+	import LineChart from "@/components/LineChart.vue";
+	import BarChart from "@/components/BarChart.vue";
+	import EnFormacion from "@/assets/images/EnFormacion.png";
+	import Certificados from "@/assets/images/Certificados.png";
+	import EnProceso from "@/assets/images/PorCertificar.png";
+	import Cancelados from "@/assets/images/Cancelados.svg";
+	import PieChart from "./PieChart.vue";
+	import axios from 'axios';
 
-// Datos de las imágenes estáticas y sus títulos
-const imagePaths = ref([
+	// Datos de las imágenes estáticas y sus títulos
+	const imagePaths = ref([
 	{
 		title: "EN FORMACIÓN",
-		count: "12883124",
-		path: EnFormacion,
-	},
+	count: "12883124",
+	path: EnFormacion,
+    },
 	{
 		title: "CERTIFICADOS",
-		count: "9888112",
-		path: Certificados,
-	},
+	count: "9888112",
+	path: Certificados,
+    },
 	{
 		title: "POR CERTIFICAR",
-		count: "85883161",
-		path: EnProceso,
-	},
+	count: "85883161",
+	path: EnProceso,
+    },
 	{
 		title: "CANCELADOS",
-		count: "99883151",
-		path: Cancelados,
-	},
-]);
+	count: "99883151",
+	path: Cancelados,
+    },
+	]);
 
-const tableData = ref([]); // Datos de la tabla inicializados vacíos
-const loading = ref(false); // Indicador de carga para mostrar durante la consulta
-const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
+	const tableData = ref([]); // Datos de la tabla inicializados vacíos
+	const loading = ref(false); // Indicador de carga para mostrar durante la consulta
+	const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
 
 // Función para obtener los datos de la API
 const fetchTableData = async () => {
@@ -122,28 +113,31 @@ const fetchTableData = async () => {
 	errorMessage.value = null;
 
 	try {
-		const response = await axios.get(
-			"http://localhost:8082/api/v1/victimas/ticket/all"
-		);
-
-		// Suponiendo que la respuesta contiene un array de datos
-		tableData.value = response.data.map((item) => ({
-			Departamento: item.departamento,
-			NombreCiudadano: item.nombreCiudadano, // Ajustar a la estructura real de la API
-			FechaAcercamiento: item.fechaAcercamiento, // Ajustar a la estructura real de la API
-		}));
-	} catch (error) {
+        const response = await axios.get('http://localhost:8082/api/v1/victimas/ticket/all');
+		console.log(response.data);
+        // Suponiendo que la respuesta contiene un array de datos
+        tableData.value = response.data.map(item => ({
+		Departamento: item.departamento,
+		Estado: item.estado, // Ajustar a la estructura real de la API
+		Fecha: item.fecha // Ajustar a la estructura real de la API
+		
+        }));
+		console.log(Departamento);
+    } catch (error) {
 		errorMessage.value = "Error al obtener los datos. Intente nuevamente.";
-		console.error("Error al obtener los datos de la API:", error);
-	} finally {
+	console.error("Error al obtener los datos de la API:", error);
+    } finally {
 		loading.value = false;
-	}
+    }
 };
 
 // Hook para realizar la consulta al montar el componente
 onMounted(() => {
-	fetchTableData();
+		fetchTableData();
 });
+
+
+
 </script>
 
 <style scoped>
@@ -151,6 +145,7 @@ onMounted(() => {
 
 .my-card {
 	transition: transform 0.3s ease-in-out;
+	/* Transición de la propiedad transform con duración de 300ms */
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
