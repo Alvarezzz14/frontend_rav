@@ -83,6 +83,8 @@ const form = reactive({
 	password: "",
 });
 
+const host = import.meta.env.VITE_HOST;
+
 const authStore = useAuthStore();
 const errorMessage = ref("");
 const isLoading = ref(false);
@@ -108,7 +110,7 @@ async function submit() {
 	isLoading.value = true;
 	try {
 		const response = await axios.post(
-			"http://localhost:8080/api/auth/signin",
+			`${host}:8080/login`,
 			form
 		);
 		console.log(response.data);
