@@ -18,26 +18,31 @@ import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 import RolesPermisosPage from '@/pages/RolesPermisos.vue';
 import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const routes = [
   {
     path: '/login',
     name: 'LoginPage',
     component: LoginPage,
+    meta: { requiresAuth: false }, // Ruta pública
   },
   {
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
-    component: RegistroUsuarioPage
+    component: RegistroUsuarioPage,
+    meta: { requiresAuth: true },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'ErrorPage',
-    component: ErrorPage
+    component: ErrorPage,
+    meta: { requiresAuth: false }, // Ruta pública
   },
   {
     path: "/",
     component: DefaultLayout, // Usa el layout como contenedor
+    meta: { requiresAuth: true },
     children: [
       {
         path: '',
@@ -127,6 +132,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL), // Configura el historial web
   routes,
+});
+
+// Guard global para proteger rutas privadas
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+
+  // Si la ruta requiere autenticación y no está autenticado
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login'); // Redirige al login
+  } else if (to.path === '/login' && authStore.isAuthenticated) {
+    next('/'); // Si ya está autenticado y va al login, redirige al home
+  } else {
+    next(); // Permite el acceso a la ruta
+  }
 });
 
 export default router;
