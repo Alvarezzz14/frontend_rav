@@ -108,6 +108,11 @@ import { departmentPaths } from "@/data/departamentosMapa/paths";
 const selectedInfo = ref(null);
 const selectedCountry = ref(null);
 
+
+const getMunicipitalitiesCodes = ()=>{
+	
+}
+
 // Methods
 const updateSelectedInfo = () => {
 	if (selectedCountry.value) {
