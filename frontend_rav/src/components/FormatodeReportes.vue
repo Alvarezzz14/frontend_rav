@@ -144,8 +144,7 @@
               <option disabled value="">Seleccione una étnia</option>
               <option value="INDIGENA">Indígena</option>
               <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
-              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>
-              <option value="INDIGENA">Indigena</option>
+              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
               <option value="INDIGENA (ACREDITADO RA)">Indigena RA</option>
               <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
               <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
@@ -191,41 +190,46 @@ const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
+const document =ref("");
+const selectedGenero =ref("");  
+const selectedEtario =ref("");  
+const selectedEtnica =ref("");  
+
 
 // Lista de department_name
 const department_name = ref([
-  { name: "Amazonas", code: "91" },
-  { name: "Antioquia", code: "05" },
-  { name: "Arauca", code: "81" },
-  { name: "Atlantico", code: "08" },
-  { name: "Bolivar", code: "13" },
-  { name: "Boyacá", code: "15" },
-  { name: "Caldas", code: "17" },
-  { name: "Caquetá", code: "18" },
-  { name: "Casanare", code: "85" },
-  { name: "Cauca", code: "19" },
-  { name: "Cesar", code: "20" },
-  { name: "Chocó", code: "27" },
-  { name: "Cundinamarca", code: "25" },
-  { name: "Cordoba", code: "23" },
-  { name: "Guainia", code: "94" },
-  { name: "Guaviare", code: "95" },
-  { name: "Huila", code: "41" },
-  { name: "La Guajira", code: "44" },
-  { name: "Magdalena", code: "47" },
-  { name: "Meta", code: "50" },
-  { name: "Nariño", code: "52" },
-  { name: "Norte de Santander", code: "54" },
-  { name: "Putumayo", code: "86" },
-  { name: "Quindio", code: "63" },
-  { name: "Risaralda", code: "66" },
-  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
-  { name: "Santander", code: "68" },
-  { name: "Sucre", code: "70" },
-  { name: "Tolima", code: "73" },
-  { name: "Valle del Cauca", code: "76" },
-  { name: "Vaupés", code: "97" },
-  { name: "Vichada", code: "99" },
+  { name: "AMAZONAS", code: "91" },
+  { name: "ANTIOQUIA", code: "05" },
+  { name: "ARAUCA", code: "81" },
+  { name: "ATLANTICO", code: "08" },
+  { name: "BOLIVAR", code: "13" },
+  { name: "BOYACÁ", code: "15" },
+  { name: "CALDAS", code: "17" },
+  { name: "CAQUETÁ", code: "18" },
+  { name: "CASANARE", code: "85" },
+  { name: "CAUCA", code: "19" },
+  { name: "CESAR", code: "20" },
+  { name: "CHOCÓ", code: "27" },
+  { name: "CUNDINAMARCA", code: "25" },
+  { name: "CORDOBA", code: "23" },
+  { name: "GUAINIA", code: "94" },
+  { name: "GUAVIARE", code: "95" },
+  { name: "HUILA", code: "41" },
+  { name: "LA GUAJIRA", code: "44" },
+  { name: "MAGDALENA", code: "47" },
+  { name: "META", code: "50" },
+  { name: "NARIÑO", code: "52" },
+  { name: "NORTE DE SANTANDER", code: "54" },
+  { name: "PUTUMAYO", code: "86" },
+  { name: "QUINDIO", code: "63" },
+  { name: "RISARALDA", code: "66" },
+  { name: "SAN ANDRES, PROVIDENCIA Y SANTA CATALINA", code: "88" },
+  { name: "SANTANDER", code: "68" },
+  { name: "SUCRE", code: "70" },
+  { name: "TOLIMA", code: "73" },
+  { name: "VALLE DEL CAUCA", code: "76" },
+  { name: "VAUPÉS", code: "97" },
+  { name: "VICHADA", code: "99" },
 ]);
 
 // Validación de los inputs
@@ -238,6 +242,8 @@ function validateInputs() {
 }
 
 // Función para manejar la descarga del reporte
+
+
 async function handleDownloadReport() {
   if (!validateInputs()) return;
 
@@ -256,7 +262,7 @@ async function handleDownloadReport() {
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
-      worksheetName = "Logs de Auditoría";  
+      worksheetName = "Logs de Auditoría";
     } else {
       alert("Tipo de reporte no válido.");
       loading.value = false;
@@ -269,7 +275,7 @@ async function handleDownloadReport() {
     )?.name || "";
 
     // Verificar datos que se enviarán
-    console.log("Nombre del departamento enviado:", departamentoNombre);
+    console.log("Nombre del departamento enviado:", selectedDepartamento.value);
     console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
 
     // Solicitud al endpoint
@@ -304,6 +310,7 @@ async function handleDownloadReport() {
     loading.value = false;
   }
 }
+
 
 // Función para convertir imagen a Base64
 async function getBase64Image(imagePath) {
