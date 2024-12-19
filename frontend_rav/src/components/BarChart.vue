@@ -25,7 +25,7 @@ Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para mostrar el spinner
 const barChart = ref(null);
-const host = import.meta.env.VITE_HOSTHOST;
+const host = import.meta.env.VITE_HOST;
 
 
 

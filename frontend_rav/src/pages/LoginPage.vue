@@ -117,7 +117,7 @@ async function submit() {
 	isLoading.value = true;
 	try {
 		// Realiza la solicitud al servidor para iniciar sesión
-		const response = await axios.post(`${host}:8080/api/auth/signin`, form);
+		const response = await axios.post(`${host}:8080/login`, form);
 
 		// Guardar el token y los datos del usuario en el store
 		authStore.setAuthenticatedUser(response.data);
