@@ -215,25 +215,32 @@ const fetchService = new FetchService();
 const modules = ref([]);
 const roles = ref([]);
 const authstore = useAuthStore();
-const selectedPermissions = {};
+let selectedPermissions = {};
 
 const selectCheckBoxAndModule = (event, permission_id, module_id) => {
   const checked = event.target.checked;
+  console.log("LInea 222")
+  
   if (checked) {
-    if (!selectedPermissions.hasOwnProperty(module_id)) {
-      selectedPermissions[module_id] = new Set([]);
+    if (!selectedPermissions[module_id]) {
+      selectedPermissions[module_id] = new Set();
     }
     selectedPermissions[module_id].add(permission_id);
   } else {
-    if (
-      selectedPermissions.hasOwnProperty(module_id) &&
-      selectedPermissions[module_id].has(permission_id)
-    ) {
+    if (selectedPermissions[module_id]?.has(permission_id)) {
       selectedPermissions[module_id].delete(permission_id);
+      
+      // Verificar inmediatamente después de eliminar
+      console.log("Size after delete:", selectedPermissions[module_id].size);
+      
+      if (selectedPermissions[module_id].size === 0) {
+        console.log("Deleting module", module_id);
+        delete selectedPermissions[module_id];
+      }
     }
   }
-
-  console.log(selectedPermissions);
+  
+  console.log("Current state:", selectedPermissions);
 };
 
 const selectedCheckBoxAndModule = (modules) => {
@@ -319,6 +326,7 @@ const getData = async () => {
 };
 
 onMounted(async () => {
+  console.log("ACA ESTA EL CONSOLE LOG")
   await getData();
   selectedCheckBoxAndModule(modules.value);
   console.log(selectedPermissions);
