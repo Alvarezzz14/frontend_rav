@@ -113,7 +113,7 @@ const fetchTableData = async () => {
 	errorMessage.value = null;
 
 	try {
-        const response = await axios.get('http://localhost:8082/api/v1/victimas/ticket/all');
+        const response = await axios.get('http://localhost:8082/api/v1/victimas/ticket/attended');
 		console.log(response.data);
         // Suponiendo que la respuesta contiene un array de datos
         tableData.value = response.data.map(item => ({
