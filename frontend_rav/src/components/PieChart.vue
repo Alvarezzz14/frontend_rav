@@ -102,7 +102,7 @@ const chartOptions = reactive({
 const fetchPertEtnicaData = async () => {
 	try {
 		const response = await fetch(
-			`host:8082/api/v1/victimas/counter/pert-etnica`
+			`${host}:8082/api/v1/victimas/counter/pert-etnica`
 		);
 		if (!response.ok)
 			throw new Error("Error al obtener datos de Pertenencia Étnica");
