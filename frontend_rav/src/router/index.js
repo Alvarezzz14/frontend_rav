@@ -18,6 +18,7 @@ import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 import RolesPermisosPage from '@/pages/RolesPermisos.vue';
 import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
+import { useAuthStore } from '@/stores/auth';
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
     name: 'RegistroUsuarioPage',
     component: RegistroUsuarioPage,
     meta: { requiresAuth: true }, // Ruta privada
+
   },
   {
     path: '/:pathMatch(.*)*',

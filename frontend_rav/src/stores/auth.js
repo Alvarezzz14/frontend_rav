@@ -1,52 +1,38 @@
-import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref(window.localStorage.getItem('auth') || null); // Estado reactivo del token
-  const user = ref(null); // Datos del usuario (puedes llenarlos si deseas más detalles)
+    // Estado reactivo para el usuario autenticado
+    const authenticatedUser = ref(null);
 
-  // Setter: Almacena el token y usuario autenticado en localStorage
-  const setAuthenticatedUser = (newAuthenticatedUser) => {
-    token.value = newAuthenticatedUser.token;
-    user.value = newAuthenticatedUser.user;
+    // Computado para determinar si el usuario está autenticado
+    const isAuthenticated = computed(() => authenticatedUser.value !== null);
 
-    console.log('Token almacenado:', token.value);
-    console.log('User almacenado:', user.value);
-  
-    // Guarda en localStorage
-    window.localStorage.setItem('auth', newAuthenticatedUser.token);
-    window.localStorage.setItem('user', JSON.stringify(newAuthenticatedUser.user));
-  };
-
-  // Getter: Obtiene el usuario autenticado desde localStorage
-  const getAuthenticatedUser = () => {
-    return {
-      token: window.localStorage.getItem('auth'),
-      user: JSON.parse(window.localStorage.getItem('user')),
+    // Configurar el usuario autenticado y guardarlo en localStorage
+    const setAuthenticatedUser = (newAuthenticatedUser) => {
+        authenticatedUser.value = newAuthenticatedUser;
+        window.localStorage.setItem('auth', JSON.stringify(newAuthenticatedUser));
     };
-  };
 
-  // Verifica si el usuario está autenticado
-  const isAuthenticated = computed(() => {
-    return !!token.value;
-  });
+    // Recuperar el usuario autenticado desde localStorage al cargar
+    const initializeAuth = () => {
+        const userFromStorage = window.localStorage.getItem('auth');
+        if (userFromStorage) {
+            authenticatedUser.value = JSON.parse(userFromStorage);
+        }
+    };
 
-  // Logout: Elimina el token y usuario de localStorage y el estado
-  const logout = () => {
-    token.value = null;
-    user.value = null;
-    window.localStorage.removeItem('auth');
-    window.localStorage.removeItem('user');
-  };
+    // Cerrar sesión
+    const logout = () => {
+        authenticatedUser.value = null;
+        window.localStorage.removeItem('auth');
+    };
 
-  return {
-    token,
-    user,
-    setAuthenticatedUser,
-    getAuthenticatedUser,
-    isAuthenticated,
-    logout,
-  };
+    return {
+        authenticatedUser,
+        isAuthenticated,
+        setAuthenticatedUser,
+        initializeAuth,
+        logout,
+    };
 });
-
-
