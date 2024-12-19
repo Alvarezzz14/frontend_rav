@@ -113,6 +113,7 @@ import { useFileNotificationStore } from "../stores/fileNotification";
 import { ref, onMounted, onUnmounted } from "vue";
 import Button from "primevue/button";
 import * as XLSX from "xlsx";
+import FetchService from "@/services/fetchService"
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
@@ -130,6 +131,7 @@ const uploading = ref(false); // Controla el estado de carga
 const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const host = import.meta.env.VITE_HOST;
+const fetchService = new FetchService();
 
 const acceptedFileTypes = [
 	"text/plain",
@@ -239,6 +241,14 @@ const ReuploadFile = async () => {
 	}
 };
 
+const deleteFile = async(options)=>{
+	const {url,fetchOptions} = options
+	const newUrl = url + `/${fileName}`
+
+	 await fetchService.post(newUrl,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
+	
+}
+
 const ConnectionWifi = (callback) => {
 	window.addEventListener("online", async () => await callback());
 };
@@ -266,9 +276,20 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
 		);
 	} catch (err) {
+		if (err instanceof TypeError && !navigator.onLine) {
+			const fileName = fetchOptions.options.body.get("file").name
+			deleteFile({url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
+				method: "POST",
+				headers: {
+                "Accept": "application/json",
+            },
+			}})
+
+      console.error('Error: No internet connection no se pudo subir el archivo');
+    } else {
 		console.error("Error al enviar el archivo:", err);
+    }
 		uploadError.value = true;
-		throw err;
 	}
 }
 
@@ -305,6 +326,8 @@ const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 		partNumber++;
 	}
 };
+
+
 
 const createPartsExcel = async (file) => {
 	const data = await file.arrayBuffer();
