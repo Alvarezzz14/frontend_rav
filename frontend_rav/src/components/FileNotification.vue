@@ -26,7 +26,7 @@
 </template>
 
 
-<<script setup>
+<script setup>
 import { computed, ref, watch } from "vue";
 import { useFileNotificationStore } from "@/stores/fileNotification";
 import { useToast } from "vue-toastification";
