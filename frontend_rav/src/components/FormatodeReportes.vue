@@ -1,123 +1,107 @@
 <template>
+  <div class="min-h-screen p-4 flex flex-col -mt-20">
+    <!-- Sección Superior -->
+    <div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
+      <div class="flex items-center">
+        <div class="p-6 bg-customPurple rounded-full">
+          <img :src="Reportes" alt="Icono de Reportes" class="w-16 h-16" />
+        </div>
+        <div class="ml-4 text-center md:text-left mt-14">
+          <p class="text-black -mb-1 text-2xl md:text-[37px]">Generar</p>
+          <h2 class="text-customPurple text-5xl md:text-[94px] mt-0 font-bold">Reportes</h2>
+        </div>
+      </div>
+    </div>
 
-	<div class="min-h-screen p-4 flex flex-col -mt-20">
-		<!-- Sección Superior -->
+    <!-- Sección Central -->
+    <div class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-x-20">
+      <div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-72 p-3">
+        <div class="text-center">
+          <h3>Seleccione el tipo de reporte</h3>
+        </div>
 
-		<div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
-			<div class="flex items-center">
-				<div class="p-6 bg-customPurple rounded-full">
-					<img :src="Reportes" alt="Icono de Reportes" class="w-16 h-16" />
-				</div>
-				<div class="ml-4 text-center md:text-left mt-14">
-					<p class="text-black -mb-1 text-2xl md:text-[37px]">Generar</p>
-					<h2 class="text-customPurple text-5xl md:text-[94px] mt-0 font-bold">Reportes</h2>
-				</div>
-			</div>
-		</div>
+        <!-- Selección de tipo de reporte -->
+        <div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
+          <input 
+            type="radio" 
+            id="tickets" 
+            name="reportType" 
+            value="HistorialTickets" 
+            class="custom-radio" 
+            v-model="selectedReport" 
+          />
+          <label for="tickets">Historial de Tickets</label>
 
-		<!-- Sección Central -->
-		<div class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-x-20">
-			<div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-72 p-3">
-				<div class="text-center">
-					<h3>Seleccione el tipo de reporte</h3>
-				</div>
+          <input 
+            type="radio" 
+            id="estadisticas" 
+            name="reportType" 
+            value="EstadisticasCiudadano" 
+            class="custom-radio" 
+            v-model="selectedReport" 
+          />
+          <label for="estadisticas">Estadísticas del Ciudadano</label>
 
-				<!-- Selección de tipo de reporte -->
-				<div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
-					<input 
-						type="radio" 
-						id="tickets" 
-						name="reportType" 
-						value="HistorialTickets" 
-						class="custom-radio" 
-						v-model="selectedReport" 
-					/>
-					<label for="tickets">Historial de Tickets</label>
+          <input 
+            type="radio" 
+            id="auditLogs" 
+            name="reportType" 
+            value="AuditLogs" 
+            class="custom-radio" 
+            v-model="selectedReport" 
+          />
+          <label for="auditLogs">Logs de Auditoría</label>
+        </div>
 
-					<input 
-						type="radio" 
-						id="estadisticas" 
-						name="reportType" 
-						value="EstadisticasCiudadano" 
-						class="custom-radio" 
-						v-model="selectedReport" 
-					/>
-					<label for="estadisticas">Estadísticas del Ciudadano</label>
+        <!-- Selección de Departamento -->
+        <div v-if="selectedReport" class="mb-4">
+          <select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
+            <option disabled value="">Buscar por regional</option>
+            <option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
+              {{ departamento.name }}
+            </option>
+          </select>
+        </div>
 
-					<input 
-						type="radio" 
-						id="auditLogs" 
-						name="reportType" 
-						value="AuditLogs" 
-						class="custom-radio" 
-						v-model="selectedReport" 
-					/>
-					<label for="auditLogs">Logs de Auditoría</label>
-				</div>
+        <!-- Rango de Fechas -->
+        <div v-if="selectedReport" class="mb-4">
+          <label>Seleccione el rango de fechas:</label>
+          <div class="flex items-center space-x-4">
+            <input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
+            <input type="date" v-model="dateRange.to" class="w-1/2 p-2 rounded-lg" />
+          </div>
+        </div>
 
-				<!-- Selección de Departamento -->
-				<div v-if="selectedReport" class="mb-4">
-					<select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
-						<option disabled value="">Buscar por regional</option>
-						<option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
-							{{ departamento.name }}
-						</option>
-					</select>
-				</div>
+        <!-- Campo de búsqueda por documento -->
+        <div class="mb-4">
+          <label for="document">Número de documento:</label>
+          <input
+            type="text"
+            id="document"
+            v-model="documentNumber"
+            placeholder="Ingrese el número de documento"
+            class="block p-2 rounded-lg w-full"
+          />
+        </div>
 
-				<!-- Filtros dinámicos -->
-				<!-- Rango de Fechas (Historial de Tickets, Logs de Auditoría, Estadísticas del Ciudadano) -->
-				<div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasCiudadano'" class="mb-4">
-					<label>Seleccione el rango de fechas:</label>
-					<div class="flex items-center space-x-4">
-						<input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
-						<input type="date" v-model="dateRange.to" class="w-1/2 p-2 rounded-lg" />
-					</div>
-				</div>
+        <!-- Botón de Búsqueda -->
+        <button
+          :disabled="loading"
+          class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
+          @click="handleDownloadReport"
+        >
+          <span v-if="!loading">Generar Reporte</span>
+          <span v-else>Generando...</span>
+        </button>
+      </div>
 
-				<!-- Campo de búsqueda por correo (Logs de Auditoría) -->
-				<div v-if="selectedReport === 'AuditLogs'" class="mb-4">
-					<label for="emailSearch">Buscar por correo SENA:</label>
-					<input
-						type="email"
-						id="emailSearch"
-						v-model="searchEmail"
-						placeholder="Ingrese el correo"
-						class="block p-2 rounded-lg w-full"
-					/>
-				</div>
-
-				<!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
-				<div v-if="selectedReport === 'EstadisticasCiudadano'" class="mb-4">
-					<label for="ccSearch">Buscar por numero de identificación:</label>
-					<input
-						type="text"
-						id="ccSearch"
-						v-model="searchCC"
-						placeholder="Ingrese el número de C.C."
-						class="block p-2 rounded-lg w-full"
-					/>
-				</div>
-
-				<!-- Botón de Búsqueda -->
-				<button
-					:disabled="loading"
-					class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
-					@click="handleDownloadReport"
-				>
-					<span v-if="!loading">Generar Reporte</span>
-					<span v-else>Generando...</span>
-				</button>
-			</div>
-
-			<!-- Imagen lateral -->
-			<div class="flex-1 max-w-md lg:max-w-lg">
-				<img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto max-w-auto" />
-			</div>
-		</div>
-	</div>
+      <!-- Imagen lateral -->
+      <div class="flex-1 max-w-md lg:max-w-lg">
+        <img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto max-w-auto" />
+      </div>
+    </div>
+  </div>
 </template>
-
 
 <script setup>
 import { ref } from "vue";
@@ -130,8 +114,8 @@ import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 const selectedReport = ref(""); // Tipo de reporte seleccionado
 const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
+const documentNumber = ref(""); // Número de documento
 const loading = ref(false);
-
 // Lista de departamentos
 const departamentos = ref([
   { name: "Amazonas", code: "91" },
@@ -168,9 +152,9 @@ const departamentos = ref([
   { name: "Vichada", code: "99" },
 ]);
 
-// Validación de los inputs
+/// Validación de los inputs
 function validateInputs() {
-  if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
+  if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to || !documentNumber.value) {
     alert("Por favor, complete todos los campos.");
     return false;
   }
@@ -207,18 +191,19 @@ async function handleDownloadReport() {
       (d) => d.code === selectedDepartamento.value
     )?.name || "";
 
-    // Verificar datos que se enviarán
-    console.log("Nombre del departamento enviado:", departamentoNombre);
-    console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
+    // Parámetros que se enviarán al backend
+    const queryParams = {
+      department_name: departamentoNombre,
+      genere: "HOMBRE", // Cambiar si es dinámico
+      pertenencia_etnica: "INDIGENA", // Cambiar si es dinámico
+      etario_group: "Juventud (19-26 años)", // Cambiar si es dinámico
+      document: documentNumber.value,
+      from: dateRange.value.from,
+      to: dateRange.value.to,
+    };
 
-    // Solicitud al endpoint
-    const response = await axios.get(endpoint, {
-      params: {
-        departamento: departamentoNombre,
-        from: dateRange.value.from,
-        to: dateRange.value.to,
-      },
-    });
+    // Solicitud al endpoint con parámetros
+    const response = await axios.get(endpoint, { params: queryParams });
 
     const data = response.data;
 
