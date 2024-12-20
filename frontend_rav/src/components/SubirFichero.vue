@@ -132,6 +132,9 @@ const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const host = import.meta.env.VITE_HOST;
 const fetchService = new FetchService();
+let listener;
+let canDeleteFile = false
+
 
 const acceptedFileTypes = [
 	"text/plain",
@@ -245,27 +248,17 @@ const ReuploadFile = async () => {
 
 const deleteFile = async(options)=>{
 	const {url,fetchOptions} = options
-	const newUrl = url + `/${fileName}`
 
-	 await fetchService.post(newUrl,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
+	 await fetchService.post(url,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
 
-	 window.removeEventListener("online", async () => await deleteFile(options));
+	 window.removeEventListener("online", listener);
 	
-}
-
-const handleOnline = async(fileName)=>{
-	const options = {url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
-				method: "POST",
-				headers: {
-                "Accept": "application/json",
-            },
-			}}
-	await deleteFile(options)
 }
 
 
 const ConnectionWifi = (callback,parameter) => {
-	window.addEventListener("online", async () => await callback(parameter));
+	listener =  async () => await callback(parameter);
+	window.addEventListener("online", listener);
 };
 
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
@@ -291,10 +284,16 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
 		);
 	} catch (err) {
-		if (err instanceof TypeError && !navigator.onLine) {
+		if (err instanceof TypeError && !navigator.onLine && canDeleteFile) {
 			const fileName = fetchOptions.options.body.get("file").name
-			ConnectionWifi(handleOnline,fileName)
+			ConnectionWifi(deleteFile,{url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
+				method: "POST",
+				headers: {
+                "Accept": "application/json",
+            },
+			}})
 			
+			canDeleteFile = false;
 
       console.error('Error: No internet connection no se pudo subir el archivo');
     } else {
@@ -305,6 +304,7 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 }
 
 const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
+	canDeleteFile = true;
 	let offset = 0;
 	let partNumber = 1;
 	const totalSize = file.size;
