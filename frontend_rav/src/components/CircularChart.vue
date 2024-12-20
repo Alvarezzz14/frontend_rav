@@ -53,14 +53,14 @@
 					<span
 						class="text-xl font-bold text-gray-800"
 						:style="{ color: getTextColor(index) }">
-						{{ goal.value }}%
+						{{ goal.animatedValue }}%
 					</span>
 				</div>
 			</div>
 			<!-- Texto a la derecha del indicador -->
 			<div class="flex flex-col justify-center items-start -ml-6">
 				<div :class="index === 2 ? 'text-white' : 'text-black'" class="text-xs">
-					{{ goal.label }}
+					Meta {{ goal.name }}
 				</div>
 				<div
 					:class="
@@ -68,13 +68,13 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.meta || 0 }}
+					{{ goal.limit || 0 }}
 				</div>
 
 				<div
 					:class="index === 2 ? 'text-white' : 'text-black'"
 					class="mt-1 text-xs">
-					Estado Actual
+					Progreso Actual
 				</div>
 				<div
 					:class="
@@ -82,7 +82,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.value || 0 }}
+					{{ goal.current || 0 }} Tickets
 				</div>
 				<!-- Mostrar la fecha -->
 				<div
@@ -93,7 +93,7 @@
 				<div
 					:class="index === 2 ? 'text-white font-bold' : 'text-black font-bold'"
 					class="text-xs mt-1">
-					{{ goal.fecha }}
+					{{ goal.endDate }}
 				</div>
 			</div>
 		</div>
@@ -106,8 +106,16 @@ import { useGoalStore } from "@/stores/goalStore";
 
 const goalStore = useGoalStore();
 
-// Ejemplo de datos Quemados de 4 Metas  Configuradas
-const goals = ref([
+// Procesar metas del store con animación inicializada
+const goals = computed(() =>
+	goalStore.processedGoals.map((goal) => ({
+		...goal,
+		animatedValue: 0,
+	}))
+);
+
+// Ejemplo de datos Quemados de 3 Metas  Configuradas
+/* const goals = ref([
 	{ value: 75, animatedValue: 0, label: "Meta Anual", fecha: "31/12/2025" },
 	{
 		value: 50,
@@ -116,22 +124,27 @@ const goals = ref([
 		fecha: "30/03/2025",
 	},
 	{ value: 90, animatedValue: 0, label: "Meta Mensual", fecha: "31/01/2025" },
-]);
+]); */
 
-// Función para animar el progreso
-const animateProgress = (goal) => {
-	const interval = setInterval(() => {
-		if (goal.animatedValue < goal.value) {
-			goal.animatedValue += 1; // Incrementa el progreso animado
-		} else {
-			clearInterval(interval); // Detiene la animación al alcanzar el valor
-		}
-	}, 10); // Velocidad de animación (ajusta según prefieras)
+// Animar el progreso dinámico
+const animateProgress = () => {
+	goals.value.forEach((goal) => {
+		let currentValue = 0;
+		const step = () => {
+			if (currentValue < goal.progress) {
+				currentValue += 1; // Incrementa el progreso animado
+				goal.animatedValue = currentValue;
+				requestAnimationFrame(step);
+			} else {
+				goal.animatedValue = goal.progress; // Asegura que el progreso final sea correcto
+			}
+		};
+		requestAnimationFrame(step);
+	});
 };
 
-// Disparar animación cuando el componente se monte
 onMounted(() => {
-	goals.value.forEach((goal) => animateProgress(goal));
+	animateProgress();
 });
 
 // Color del progreso dinámico

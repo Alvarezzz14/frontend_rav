@@ -171,12 +171,12 @@ const saveGoal = () => {
 		!goal.value.startDate ||
 		!goal.value.endDate
 	) {
-		alert("Todos los campos son obligatorios.");
+		toast.error("Todos los campos son obligatorios.");
 		return;
 	}
 
 	if (new Date(goal.value.startDate) > new Date(goal.value.endDate)) {
-		alert("La fecha de inicio no puede ser mayor que la fecha de fin.");
+		toast.error("La fecha de inicio no puede ser mayor que la fecha de fin.");
 		return;
 	}
 

@@ -49,9 +49,9 @@
 							:index="index" />
 					</div>
 				</div>
-				<div>
+				<!-- 		<div>
 					<CircularChart />
-				</div>
+				</div> -->
 
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
@@ -130,6 +130,7 @@ import CircularChart from "@/components/CircularChart.vue";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();
+
 const goals = computed(() => goalStore.processedGoals);
 
 const getGradientStyle = (index) => {
