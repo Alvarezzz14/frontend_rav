@@ -123,13 +123,13 @@
             <label for="etario_group">Seleccione el grupo etario:</label>
             <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
-              <option value="0-5">Primera infancia (0-5 años)</option>
-              <option value="6-11">Infancia (6-11 años)</option>
-              <option value="12-35">Adolescencia temprana (12-13 años)</option>
-              <option value="14-18">Adolescencia (14-18 años)</option>
-              <option value="19-26">Juventud (19-26 años)</option>
-              <option value="27-57">dultez (27-59 años)</option>
-              <option value="60+">Persona mayor (60 años o más)</option>
+              <option value="Primera infancia (0-5 años)">Primera infancia (0-5 años)</option>
+              <option value="Infancia (6-11 años)">Infancia (6-11 años)</option>
+              <option value="Adolescencia temprana (12-13 años)">Adolescencia temprana (12-13 años)</option>
+              <option value="Adolescencia (14-18 años)">Adolescencia (14-18 años)</option>
+              <option value="Juventud (19-26 años)">Juventud (19-26 años)</option>
+              <option value="Adultez (27-59 años)">Adultez (27-59 años)</option>
+              <option value="Persona mayor (60 años o más)">Persona mayor (60 años o más)</option>
             </select>
           </div>
           <!-- Filtro de Procedencia Étnica -->
@@ -143,6 +143,7 @@
               <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
               <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
               <option value="ROM">Rom</option>
+              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal de San Andres y Providencia</option>
               <option value="PALENQUERO">Palenquero</option>
               <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
               <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
@@ -207,13 +208,13 @@ const department_name = ref([
   { name: "ARAUCA", code: "81" },
   { name: "ATLANTICO", code: "08" },
   { name: "BOLIVAR", code: "13" },
-  { name: "BOYACÁ", code: "15" },
+  { name: "BOYACA", code: "15" },
   { name: "CALDAS", code: "17" },
-  { name: "CAQUETÁ", code: "18" },
+  { name: "CAQUETA", code: "18" },
   { name: "CASANARE", code: "85" },
   { name: "CAUCA", code: "19" },
   { name: "CESAR", code: "20" },
-  { name: "CHOCÓ", code: "27" },
+  { name: "CHOCO", code: "27" },
   { name: "CUNDINAMARCA", code: "25" },
   { name: "CORDOBA", code: "23" },
   { name: "GUAINIA", code: "94" },
@@ -262,22 +263,35 @@ function validateInputs() {
   return true;
 }
 
-async function handleDownloadReport() {
+const getData = async () => {
+  const url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) throw { error: true, errorStatus: response.status, errorMsg: response.statusText };
+
+    const json = await response.json();
+    console.log("Data received:", json);
+    return { data: json, url: url }; // Retornamos tanto los datos como la URL
+  } catch (error) {
+    if (!error.error) error.error = true;
+    console.log("Error fetching data:", error);
+    throw error;
+  }
+};
+
+async function handleDownloadReport(url) { // Agregamos url como parámetro
   loading.value = true;
 
   try {
-    let endpoint;
     let worksheetName;
 
-    // Configuración de los endpoints y nombres de los reportes
+    // Configuración de los nombres de los reportes
     if (selectedReport.value === "HistorialTickets") {
-      endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = `${host}:8082/api/v1/victimas/reports`;
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
-      endpoint = "http://127.0.0.1:5000/audit_logs";
       worksheetName = "Logs de Auditoría";
     } else {
       alert("Tipo de reporte no válido.");
@@ -294,15 +308,8 @@ async function handleDownloadReport() {
     console.log("Nombre del departamento enviado:", departamentoNombre);
     console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
 
-    // Solicitud al endpoint
-    const response = await axios.get(endpoint, {
-      params: {
-        department_name: departamentoNombre, // Cambiado para coincidir con el backend
-        from: dateRange.value.from,
-        to: dateRange.value.to,
-      },
-    });
-
+    // Usar la URL generada para la solicitud
+    const response = await axios.get(url);
     const data = response.data;
 
     // Validación actualizada para manejar la estructura correcta de datos
@@ -330,28 +337,11 @@ async function handleDownloadReport() {
   }
 }
 
-const getData = async () => {
-  const url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) throw { error: true, errorStatus: response.status, errorMsg: response.statusText };
-
-    const json = await response.json();
-    console.log("Data received:", json);
-    return json; // Retornar los datos para poder usarlos
-  } catch (error) {
-    if (!error.error) error.error = true;
-    console.log("Error fetching data:", error);
-    throw error; // Relanzar el error para manejarlo en handleSubmit
-  }
-};
-
 const handleSubmit = async () => {
   try {
-    const data = await getData();
+    const { data, url } = await getData(); // Desestructuramos para obtener tanto los datos como la URL
     if (data && data.data && data.data.length > 0) {
-      await handleDownloadReport();
+      await handleDownloadReport(url); // Pasamos la URL a handleDownloadReport
     } else {
       alert("No se encontraron datos para generar el reporte.");
     }
