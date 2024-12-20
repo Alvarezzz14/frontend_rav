@@ -23,17 +23,17 @@
 		<!-- Sección de Selección de Entidades -->
 		<div class="flex flex-col gap-5 p-4">
 			<!-- Subtítulo de Selección -->
-			<div class="flex items-center space-x-1 flex-auto -mb-5">
+			<div class="flex items-center space-x-1 flex-auto mb-3">
 				<img :src="select1" alt="Icono de Selección 1" width="25" height="25" />
 				<p class="font-sans">Seleccione la</p>
 				<h3 class="font-sans font-bold">Entidad</h3>
 			</div>
 
 			<!-- Contenedor de Imágenes de Entidades -->
-			<div class="flex gap-5 -mb-3">
+			<div class="flex gap-5 justify-evenly mb-3">
 				<!-- SENA -->
 				<div
-					class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
+					class="flex flex-col w-72 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
 					:class="{ 'ring ring-customPurple': selectedEntity === 'sena' }"
 					@click="
 						() =>
@@ -48,7 +48,7 @@
 
 				<!-- APE -->
 				<div
-					class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
+					class="flex flex-col w-72 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
 					:class="{ 'ring ring-customPurple': selectedEntity === 'ape' }"
 					@click="
 						() =>
@@ -66,7 +66,7 @@
 
 				<!-- Certificaciones -->
 				<div
-					class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
+					class="flex flex-col w-72 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
 					:class="{
 						'ring ring-customPurple': selectedEntity === 'certificaciones',
 					}"
@@ -86,7 +86,7 @@
 
 				<!-- Fondo Emprender -->
 				<div
-					class="flex flex-col w-48 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
+					class="flex flex-col w-72 h-32 items-center hover:bg-gray-200 rounded-lg cursor-pointer p-2 bg-white shadow-md"
 					:class="{
 						'ring ring-customPurple': selectedEntity === 'fondoEmprender',
 					}"
@@ -106,15 +106,10 @@
 			</div>
 
 			<!-- Títulos debajo de Entidades -->
-			<div class="flex gap-5 flex-auto -mb-8">
-				<h4 class="font-bold mt-1 ml-20 text-center">SENA</h4>
-				<h4 class="font-bold mt-1 ml-36 text-center">APE</h4>
-				<h4 class="font-bold mt-1 ml-24 text-center">Certificaciones</h4>
-				<h4 class="font-bold mt-1 ml-7 text-center">Fondo Emprender</h4>
-			</div>
+			
 
 			<!-- Sección de Selección de Regional -->
-			<div class="flex items-center space-x-1 flex-auto -mb-3">
+			<div class="flex items-center space-x-1 flex-auto mb-3">
 				<img :src="select2" alt="Icono de Selección 2" width="25" height="25" />
 				<p class="font-sans">Seleccione la</p>
 				<h3 class="font-sans font-bold">Regional</h3>
