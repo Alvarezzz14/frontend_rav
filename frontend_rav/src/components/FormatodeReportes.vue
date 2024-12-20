@@ -55,9 +55,9 @@
 
         <!-- Selección de Departamento -->
         <div v-if="selectedReport" class="mb-4">
-          <select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
+          <select v-model="form.department_name" class="block p-4 rounded-lg w-full">
             <option disabled value="">Buscar por regional</option>
-            <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.code">
+            <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.name">
               {{ departamento.name }}
             </option>
           </select>
@@ -91,7 +91,7 @@
           <input
             type="text"
             id="document"
-            v-model="document"
+            v-model="form.document"
             placeholder="Ingrese el número de identificación"
             class="block p-2 rounded-lg w-full"
           />
@@ -113,7 +113,7 @@
           <!-- Filtro de Género -->
           <div class="mb-4">
             <label for="genere">Seleccione el género:</label>
-            <select v-model="selectedGenero" id="genere" class="block p-4 rounded-lg w-full">
+            <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
               <option value="HOMBRE">Hombre</option>
               <option value="MUJER">Mujer</option>
@@ -125,7 +125,7 @@
           <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
             <label for="etario_group">Seleccione el grupo etario:</label>
-            <select v-model="selectedEtario" id="etario_group" class="block p-4 rounded-lg w-full">
+            <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
               <option value="0-5">Primera infancia (0-5 años)</option>
               <option value="6-11">Infancia (6-11 años)</option>
@@ -140,7 +140,7 @@
           <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
             <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
-            <select v-model="selectedEtnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
+            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione una étnia</option>
               <option value="INDIGENA">Indígena</option>
               <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
@@ -162,7 +162,7 @@
         <button
           :disabled="loading"
           class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
-          @click="handleDownloadReport"
+          @click="handleSubmit"
         >
           <span v-if="!loading">Generar Reporte</span>
           <span v-else>Generando...</span>
@@ -185,48 +185,74 @@ import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 
+
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
 const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
+const form = ref({
+  department_name:"",
+  document: "",
+  regional: "",
+  genere: "",
+  etario_group:"",
+  pertenencia_etnica: "",
+})
 
 // Lista de department_name
 const department_name = ref([
-  { name: "Amazonas", code: "91" },
-  { name: "Antioquia", code: "05" },
-  { name: "Arauca", code: "81" },
-  { name: "Atlantico", code: "08" },
-  { name: "Bolivar", code: "13" },
-  { name: "Boyacá", code: "15" },
-  { name: "Caldas", code: "17" },
-  { name: "Caquetá", code: "18" },
-  { name: "Casanare", code: "85" },
-  { name: "Cauca", code: "19" },
-  { name: "Cesar", code: "20" },
-  { name: "Chocó", code: "27" },
-  { name: "Cundinamarca", code: "25" },
-  { name: "Cordoba", code: "23" },
-  { name: "Guainia", code: "94" },
-  { name: "Guaviare", code: "95" },
-  { name: "Huila", code: "41" },
-  { name: "La Guajira", code: "44" },
-  { name: "Magdalena", code: "47" },
-  { name: "Meta", code: "50" },
-  { name: "Nariño", code: "52" },
-  { name: "Norte de Santander", code: "54" },
-  { name: "Putumayo", code: "86" },
-  { name: "Quindio", code: "63" },
-  { name: "Risaralda", code: "66" },
-  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
-  { name: "Santander", code: "68" },
-  { name: "Sucre", code: "70" },
-  { name: "Tolima", code: "73" },
-  { name: "Valle del Cauca", code: "76" },
-  { name: "Vaupés", code: "97" },
-  { name: "Vichada", code: "99" },
+  { name: "AMAZONAS", code: "91" },
+  { name: "ANTIOQUIA", code: "05" },
+  { name: "ARAUCA", code: "81" },
+  { name: "ATLANTICO", code: "08" },
+  { name: "BOLIVAR", code: "13" },
+  { name: "BOYACÁ", code: "15" },
+  { name: "CALDAS", code: "17" },
+  { name: "CAQUETÁ", code: "18" },
+  { name: "CASANARE", code: "85" },
+  { name: "CAUCA", code: "19" },
+  { name: "CESAR", code: "20" },
+  { name: "CHOCÓ", code: "27" },
+  { name: "CUNDINAMARCA", code: "25" },
+  { name: "CORDOBA", code: "23" },
+  { name: "GUAINIA", code: "94" },
+  { name: "GUAVIARE", code: "95" },
+  { name: "HUILA", code: "41" },
+  { name: "LA GUAJIRA", code: "44" },
+  { name: "MAGDALENA", code: "47" },
+  { name: "META", code: "50" },
+  { name: "NARIÑO", code: "52" },
+  { name: "NORTE DE SANTANDER", code: "54" },
+  { name: "PUTUMAYO", code: "86" },
+  { name: "QUINDIO", code: "63" },
+  { name: "RISARALDA", code: "66" },
+  { name: "SAN ANDRES, PROVIDENCIA Y SANTA CATALINA", code: "88" },
+  { name: "SANTANDER", code: "68" },
+  { name: "SUCRE", code: "70" },
+  { name: "TOLIMA", code: "73" },
+  { name: "VALLE DEL CAUCA", code: "76" },
+  { name: "VAUPÉS", code: "97" },
+  { name: "VICHADA", code: "99" },
 ]);
+
+
+
+
+const generarURL = (baseURL,form) => {
+
+      // Filtrar parámetros no vacíos
+      const params = Object.entries(form.value)
+        .filter(([_, value]) => value) // Solo incluir valores no vacíos
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join("&");
+
+      let urlGenerada= params ? `${baseURL}?${params}` : baseURL;
+
+      console.log("URL generada:", urlGenerada);
+      return urlGenerada
+    };
 
 // Validación de los inputs
 function validateInputs() {
@@ -237,9 +263,26 @@ function validateInputs() {
   return true;
 }
 
+const getData = async()=>{
+  const url = generarURL("http://localhost:8082/api/v1/victimas/reports",form)
+  try{
+    const response = await fetch(url);
+
+    if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
+
+    const json = await response.json();
+    console.log(json)
+  }catch(error){
+    if (!error.error) error.error = true;
+    console.log(error)
+  }
+}
+
 // Función para manejar la descarga del reporte
 async function handleDownloadReport() {
-  if (!validateInputs()) return;
+  // if (!validateInputs()) return;
+
+
 
   loading.value = true;
 
@@ -303,6 +346,11 @@ async function handleDownloadReport() {
   } finally {
     loading.value = false;
   }
+}
+
+const handleSubmit = async()=>{
+  await getData()
+  handleDownloadReport();
 }
 
 // Función para convertir imagen a Base64
