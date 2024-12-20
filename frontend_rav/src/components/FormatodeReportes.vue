@@ -55,7 +55,7 @@
 
         <!-- Selección de Departamento -->
         <div v-if="selectedReport" class="mb-4">
-          <select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
+          <select v-model="selectedDepartamento" class="block p-4  border-none mt-3 rounded-lg w-full">
             <option disabled value="">Buscar por regional</option>
             <option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
               {{ departamento.name }}
@@ -66,21 +66,21 @@
         <!-- Rango de Fechas -->
         <div v-if="selectedReport" class="mb-4">
           <label>Seleccione el rango de fechas:</label>
-          <div class="flex items-center space-x-4">
-            <input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
-            <input type="date" v-model="dateRange.to" class="w-1/2 p-2 rounded-lg" />
+          <div class="flex items-center mt-3  space-x-4">
+            <input type="date" v-model="dateRange.from"  class="w-1/2 p-2 h-12 rounded-lg border-none bg-gray-100 " />
+            <input type="date" v-model="dateRange.to" class="w-1/2 p-2 h-12 rounded-lg border-none bg-gray-100" />
           </div>
         </div>
 
         <!-- Campo de búsqueda por documento -->
         <div class="mb-4">
-          <label for="document">Número de documento:</label>
+          
           <input
             type="text"
             id="document"
             v-model="documentNumber"
             placeholder="Ingrese el número de documento"
-            class="block p-2 rounded-lg w-full"
+            class="block p-2 h-12 rounded-lg w-full border-none bg-gray-100"
           />
         </div>
 
