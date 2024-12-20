@@ -29,7 +29,7 @@
 						:stroke="getStrokeColors(index).progressStroke"
 						stroke-width="11"
 						stroke-linecap="round"
-						:stroke-dasharray="calculateStrokeDasharray(goal.value)"
+						:stroke-dasharray="calculateStrokeDasharray(goal.animatedValue)"
 						stroke-dashoffset="0"
 						transform="rotate(-90 60 60)" />
 
@@ -42,8 +42,8 @@
 
 					<!-- Círculo final dinámico -->
 					<circle
-						:cx="getProgressPositionX(goal.value)"
-						:cy="getProgressPositionY(goal.value)"
+						:cx="getProgressPositionX(goal.animatedValue)"
+						:cy="getProgressPositionY(goal.animatedValue)"
 						r="10"
 						:fill="getStrokeColors(index).progressStroke" />
 				</svg>
@@ -101,17 +101,38 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, onMounted } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 
 const goalStore = useGoalStore();
 
 // Ejemplo de datos Quemados de 4 Metas  Configuradas
 const goals = ref([
-	{ value: 75, label: "Meta Anual", fecha: "31/12/2025" },
-	{ value: 50, label: "Meta Trimestral", fecha: "30/03/2025" },
-	{ value: 90, label: "Meta Mensual", fecha: "31/01/2025" },
+	{ value: 75, animatedValue: 0, label: "Meta Anual", fecha: "31/12/2025" },
+	{
+		value: 50,
+		animatedValue: 0,
+		label: "Meta Trimestral",
+		fecha: "30/03/2025",
+	},
+	{ value: 90, animatedValue: 0, label: "Meta Mensual", fecha: "31/01/2025" },
 ]);
+
+// Función para animar el progreso
+const animateProgress = (goal) => {
+	const interval = setInterval(() => {
+		if (goal.animatedValue < goal.value) {
+			goal.animatedValue += 1; // Incrementa el progreso animado
+		} else {
+			clearInterval(interval); // Detiene la animación al alcanzar el valor
+		}
+	}, 10); // Velocidad de animación (ajusta según prefieras)
+};
+
+// Disparar animación cuando el componente se monte
+onMounted(() => {
+	goals.value.forEach((goal) => animateProgress(goal));
+});
 
 // Color del progreso dinámico
 const getProgressStrokeColor = (value) => {
