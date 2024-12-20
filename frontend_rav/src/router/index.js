@@ -22,26 +22,26 @@ import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
 
 const routes = [
   {
-    path: '/login',
+    path: '/rav/login',
     name: 'LoginPage',
     component: LoginPage,
     meta: { requiresAuth: false }, // Ruta pública
   },
   {
-    path: '/registrousuario',
+    path: '/rav/registrousuario',
     name: 'RegistroUsuarioPage',
     component: RegistroUsuarioPage,
     meta: { requiresAuth: true }, // Ruta privada
 
   },
   {
-    path: '/:pathMatch(.*)*',
+    path: '/rav/:pathMatch(.*)*',
     name: 'ErrorPage',
     component: ErrorPage,
     meta: { requiresAuth: false }, // Ruta pública
   },
   {
-    path: "/",
+    path: "/rav/",
     component: DefaultLayout, // Usa el layout como contenedor
     meta: { requiresAuth: true }, // Todas las rutas hijas requieren autenticación
     children: [
@@ -51,38 +51,38 @@ const routes = [
         component: DashBoardPage,
       },
       {
-        path: '/departamentos',
+        path: 'departamentos',
         name: 'DepartamentosPage',
         component: DepartamentosPage,
       },
       {
-        path: '/rutadeaccion',
+        path: 'rutadeaccion',
         name: 'RutaAtencionPage',
         component: Rutaaccionpage,
         props: true,
       },
       {
-        path: '/busquedaciudadano',
+        path: 'busquedaciudadano',
         name: 'BusquedaCiudadanoPage',
         component: BusquedaCiudadanoPage,
       },
       {
-        path: '/registroactividad',
+        path: 'registroactividad',
         name: 'RegistroActividadPage',
         component: RegistroActividadPage,
       },
       {
-        path: '/formatodereportes',
+        path: 'formatodereportes',
         name: 'FormatodeReportesPage',
         component: FormatodeReportesPage,
       },
       {
-        path: '/subirfichero',
+        path: 'subirfichero',
         name: 'SubirFicheroPage',
         component: SubirFicheroPage,
       },
       {
-        path: '/PerfilCiudadano',
+        path: 'PerfilCiudadano',
         name: 'PerfilCiudadanoPage',
         component: PerfilCiudadanoPage,
       },
@@ -92,22 +92,22 @@ const routes = [
         component: LineaTiempoNuevaPage,
       },
       {
-        path: '/ListaUsuarios',
+        path: 'ListaUsuarios',
         name: 'ListaUsuariosPage',
         component: ListaUsuariosPage,
       },
       {
-        path: '/lineasatencion',
+        path: 'lineasatencion',
         name: 'LineasAtencionPage',
         component: LineasAtencionPage,
       },
       {
-        path: '/indicadoresactividad',
+        path: 'indicadoresactividad',
         name: 'IndicadoresActividadPage',
         component: IndicadoresActividadPage,
       },
       {
-        path: '/rolespermisos',
+        path: 'rolespermisos',
         name: 'RolesPermisosPage',
         component: RolesPermisosPage,
       },
@@ -131,9 +131,9 @@ router.beforeEach((to, from, next) => {
 
   // Si la ruta requiere autenticación y no está autenticado
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-    next('/login'); // Redirige al login
-  } else if (to.path === '/login' && authStore.isAuthenticated) {
-    next('/'); // Si ya está autenticado y va al login, redirige al home
+    next('/rav/login'); // Redirige al login
+  } else if (to.path === '/rav/login' && authStore.isAuthenticated) {
+    next('/rav/'); // Si ya está autenticado y va al login, redirige al home
   } else {
     next(); // Permite el acceso a la ruta
   }
