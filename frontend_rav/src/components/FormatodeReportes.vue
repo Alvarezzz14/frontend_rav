@@ -116,6 +116,7 @@ const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const documentNumber = ref(""); // Número de documento
 const loading = ref(false);
+
 // Lista de departamentos
 const departamentos = ref([
   { name: "Amazonas", code: "91" },
@@ -152,7 +153,7 @@ const departamentos = ref([
   { name: "Vichada", code: "99" },
 ]);
 
-/// Validación de los inputs
+// Validación de los inputs
 function validateInputs() {
   if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to || !documentNumber.value) {
     alert("Por favor, complete todos los campos.");
@@ -191,19 +192,18 @@ async function handleDownloadReport() {
       (d) => d.code === selectedDepartamento.value
     )?.name || "";
 
-    // Parámetros que se enviarán al backend
-    const queryParams = {
-      department_name: departamentoNombre,
-      genere: "HOMBRE", // Cambiar si es dinámico
-      pertenencia_etnica: "INDIGENA", // Cambiar si es dinámico
-      etario_group: "Juventud (19-26 años)", // Cambiar si es dinámico
-      document: documentNumber.value,
-      from: dateRange.value.from,
-      to: dateRange.value.to,
-    };
+    // Crear la URL dinámica
+    const url = new URL(endpoint);
+    url.searchParams.append("department_name", departamentoNombre);
+    url.searchParams.append("genere", "HOMBRE"); // Cambiar si es dinámico
+    url.searchParams.append("pertenencia_etnica", "INDIGENA"); // Cambiar si es dinámico
+    url.searchParams.append("etario_group", "Juventud (19-26 años)"); // Cambiar si es dinámico
+    url.searchParams.append("document", documentNumber.value);
+    url.searchParams.append("from", dateRange.value.from);
+    url.searchParams.append("to", dateRange.value.to);
 
-    // Solicitud al endpoint con parámetros
-    const response = await axios.get(endpoint, { params: queryParams });
+    // Solicitud al endpoint
+    const response = await axios.get(url.toString());
 
     const data = response.data;
 
