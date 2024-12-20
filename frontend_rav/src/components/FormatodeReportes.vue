@@ -85,77 +85,7 @@
           />
         </div>
 
-        <!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
-        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
-          <label for="document">Buscar por numero de identificación:</label>
-          <input
-            type="text"
-            id="document"
-            v-model="form.document"
-            placeholder="Ingrese el número de identificación"
-            class="block p-2 rounded-lg w-full"
-          />
-        </div>
-
-        <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
-          <input 
-            type="checkbox" 
-            id="needsSearch" 
-            v-model="needsSearch" 
-            class="mr-2" 
-          />
-          <label for="needsSearch">¿Necesitas una búsqueda avanzada?</label>
-        </div>
-
-        <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
-        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
-          <!-- Filtro de Género -->
-          <div class="mb-4">
-            <label for="genere">Seleccione el género:</label>
-            <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione un género</option>
-              <option value="HOMBRE">Hombre</option>
-              <option value="MUJER">Mujer</option>
-              <option value="LGBTI">LGBTI</option>
-              <option value="INTERSEXUAL">Intersexual</option>              
-            </select>
-          </div>
-
-          <!-- Filtro de Grupos Etarios -->
-          <div class="mb-4">
-            <label for="etario_group">Seleccione el grupo etario:</label>
-            <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione un grupo etario</option>
-              <option value="0-5">Primera infancia (0-5 años)</option>
-              <option value="6-11">Infancia (6-11 años)</option>
-              <option value="12-35">Adolescencia temprana (12-13 años)</option>
-              <option value="14-18">Adolescencia (14-18 años)</option>
-              <option value="19-26">Juventud (19-26 años)</option>
-              <option value="27-57">dultez (27-59 años)</option>
-              <option value="60+">Persona mayor (60 años o más)</option>
-            </select>
-          </div>
-
-          <!-- Filtro de Procedencia Étnica -->
-          <div class="mb-4">
-            <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
-            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione una étnia</option>
-              <option value="INDIGENA">Indígena</option>
-              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
-              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
-              <option value="INDIGENA (ACREDITADO RA)">Indigena RA</option>
-              <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
-              <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
-              <option value="ROM">Rom</option>
-              <option value="PALENQUERO">Palenquero</option>
-              <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
-              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
-              <option value="NINGUNA">Ninguna</option>     
-            </select>
-          </div>
-        </div>
+    
 
         <!-- Botón de Búsqueda -->
         <button
@@ -262,29 +192,7 @@ function validateInputs() {
   return true;
 }
 
-const getData = async()=>{
-  const url = generarURL("http://localhost:8082/api/v1/victimas/reports",form)
-  try{
-    const response = await fetch(url);
-
-    if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
-
-    const json = await response.json();
-    console.log(json)
-  }catch(error){
-    if (!error.error) error.error = true;
-    console.log(error)
-  }
-}
-
-// Función para manejar la descarga del reporte
-
-
 async function handleDownloadReport() {
-  // if (!validateInputs()) return;
-
-
-
   loading.value = true;
 
   try {
@@ -313,13 +221,13 @@ async function handleDownloadReport() {
     )?.name || "";
 
     // Verificar datos que se enviarán
-    console.log("Nombre del departamento enviado:", selectedDepartamento.value);
+    console.log("Nombre del departamento enviado:", departamentoNombre);
     console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
 
     // Solicitud al endpoint
     const response = await axios.get(endpoint, {
       params: {
-        departamento: departamentoNombre,
+        department_name: departamentoNombre, // Cambiado para coincidir con el backend
         from: dateRange.value.from,
         to: dateRange.value.to,
       },
@@ -327,31 +235,60 @@ async function handleDownloadReport() {
 
     const data = response.data;
 
-    // Validación de datos recibidos
-    if (!data || !Array.isArray(data) || data.length === 0) {
+    // Validación actualizada para manejar la estructura correcta de datos
+    if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
       alert("No se encontraron datos para el reporte seleccionado.");
       loading.value = false;
       return;
     }
 
-    // Generar el reporte
-    await generateReport(data, worksheetName, {
-      imageBase64: "LogoRavBlanco", // Reemplazar con la imagen en base64
-      regional: departamentoNombre,
-      responsable: "Nombre del usuario activo",
-      correo: "Correo del usuario activo",
+    // Procesar los datos recibidos (usando data.data que contiene el array)
+    console.log("Datos recibidos:", data.data);
+    
+    // Generar el reporte con los datos procesados
+    await generateReport(data.data, worksheetName, {
+      regional: "Tu Regional",
+      responsable: "Nombre del Responsable",
+      correo: "correo@ejemplo.com"
     });
+
+    loading.value = false;
   } catch (error) {
-    console.error("Error al manejar la descarga del reporte:", error);
-    alert("Ocurrió un error al manejar la descarga del reporte.");
-  } finally {
+    console.error("Error al obtener el reporte:", error);
+    alert("Ocurrió un error al obtener el reporte. Por favor, inténtalo de nuevo.");
     loading.value = false;
   }
 }
 
-const handleSubmit = async()=>{
-  await getData()
-  handleDownloadReport();
+const getData = async () => {
+  const url = generarURL("http://localhost:8082/api/v1/victimas/reports", form);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) throw { error: true, errorStatus: response.status, errorMsg: response.statusText };
+
+    const json = await response.json();
+    console.log("Data received:", json);
+    return json; // Retornar los datos para poder usarlos
+  } catch (error) {
+    if (!error.error) error.error = true;
+    console.log("Error fetching data:", error);
+    throw error; // Relanzar el error para manejarlo en handleSubmit
+  }
+};
+
+const handleSubmit = async () => {
+  try {
+    const data = await getData();
+    if (data && data.data && data.data.length > 0) {
+      await handleDownloadReport();
+    } else {
+      alert("No se encontraron datos para generar el reporte.");
+    }
+  } catch (error) {
+    console.error("Error al procesar la solicitud:", error);
+    alert("Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo.");
+  }
 }
 
 // Función para convertir imagen a Base64
