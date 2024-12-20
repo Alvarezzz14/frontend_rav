@@ -241,16 +241,31 @@ const ReuploadFile = async () => {
 	}
 };
 
+
+
 const deleteFile = async(options)=>{
 	const {url,fetchOptions} = options
 	const newUrl = url + `/${fileName}`
 
 	 await fetchService.post(newUrl,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
+
+	 window.removeEventListener("online", async () => await deleteFile(options));
 	
 }
 
-const ConnectionWifi = (callback) => {
-	window.addEventListener("online", async () => await callback());
+const handleOnline = async(fileName)=>{
+	const options = {url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
+				method: "POST",
+				headers: {
+                "Accept": "application/json",
+            },
+			}}
+	await deleteFile(options)
+}
+
+
+const ConnectionWifi = (callback,parameter) => {
+	window.addEventListener("online", async () => await callback(parameter));
 };
 
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
@@ -278,12 +293,8 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	} catch (err) {
 		if (err instanceof TypeError && !navigator.onLine) {
 			const fileName = fetchOptions.options.body.get("file").name
-			deleteFile({url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
-				method: "POST",
-				headers: {
-                "Accept": "application/json",
-            },
-			}})
+			ConnectionWifi(handleOnline,fileName)
+			
 
       console.error('Error: No internet connection no se pudo subir el archivo');
     } else {
@@ -373,6 +384,7 @@ onMounted(() => {
 
 onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
+	window.addEventListener("online", async () => await callback());
 });
 
 // Funcion para deshabilitar el boton, una vez subido
