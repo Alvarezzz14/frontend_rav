@@ -68,7 +68,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.meta || 0 }}
+					{{ goal.value || 0 }}
 				</div>
 
 				<div
@@ -82,7 +82,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.value || 0 }}
+					{{ goal.current || 0 }}
 				</div>
 				<!-- Mostrar la fecha -->
 				<div
