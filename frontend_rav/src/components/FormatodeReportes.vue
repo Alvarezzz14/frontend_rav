@@ -85,6 +85,72 @@
           />
         </div>
 
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
+          <label for="document">Buscar por numero de identificación:</label>
+          <input
+            type="text"
+            id="document"
+            v-model="form.document"
+            placeholder="Ingrese el número de identificación"
+            class="block p-2 rounded-lg w-full"
+          />
+        </div>
+        <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
+          <input 
+            type="checkbox" 
+            id="needsSearch" 
+            v-model="needsSearch" 
+            class="mr-2" 
+          />
+          <label for="needsSearch">¿Necesitas una búsqueda avanzada?</label>
+        </div>
+        <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
+        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
+          <!-- Filtro de Género -->
+          <div class="mb-4">
+            <label for="genere">Seleccione el género:</label>
+            <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
+              <option disabled value="">Seleccione un género</option>
+              <option value="HOMBRE">Hombre</option>
+              <option value="MUJER">Mujer</option>
+              <option value="LGBTI">LGBTI</option>
+              <option value="INTERSEXUAL">Intersexual</option>              
+            </select>
+          </div>
+          <!-- Filtro de Grupos Etarios -->
+          <div class="mb-4">
+            <label for="etario_group">Seleccione el grupo etario:</label>
+            <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
+              <option disabled value="">Seleccione un grupo etario</option>
+              <option value="0-5">Primera infancia (0-5 años)</option>
+              <option value="6-11">Infancia (6-11 años)</option>
+              <option value="12-35">Adolescencia temprana (12-13 años)</option>
+              <option value="14-18">Adolescencia (14-18 años)</option>
+              <option value="19-26">Juventud (19-26 años)</option>
+              <option value="27-57">dultez (27-59 años)</option>
+              <option value="60+">Persona mayor (60 años o más)</option>
+            </select>
+          </div>
+          <!-- Filtro de Procedencia Étnica -->
+          <div class="mb-4">
+            <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
+            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
+              <option disabled value="">Seleccione una étnia</option>         
+              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
+              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
+              <option value="INDIGENA (ACREDITADO RA)">Indigena</option>
+              <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
+              <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
+              <option value="ROM">Rom</option>
+              <option value="PALENQUERO">Palenquero</option>
+              <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
+              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
+              <option value="NINGUNA">Ninguna</option>     
+            </select>
+          </div>
+        </div>
+
     
 
         <!-- Botón de Búsqueda -->
@@ -121,6 +187,10 @@ const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
+const host = import.meta.env.VITE_HOST;
+
+
+
 const form = ref({
   department_name:"",
   document: "",
@@ -204,7 +274,7 @@ async function handleDownloadReport() {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://localhost:8082/api/v1/victimas/reports";
+      endpoint = `${host}:8082/api/v1/victimas/reports`;
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
@@ -261,7 +331,7 @@ async function handleDownloadReport() {
 }
 
 const getData = async () => {
-  const url = generarURL("http://localhost:8082/api/v1/victimas/reports", form);
+  const url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
   try {
     const response = await fetch(url);
 
