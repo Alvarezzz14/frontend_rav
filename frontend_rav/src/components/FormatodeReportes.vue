@@ -144,8 +144,7 @@
               <option disabled value="">Seleccione una étnia</option>
               <option value="INDIGENA">Indígena</option>
               <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
-              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>
-              <option value="INDIGENA">Indigena</option>
+              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
               <option value="INDIGENA (ACREDITADO RA)">Indigena RA</option>
               <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
               <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
@@ -279,6 +278,8 @@ const getData = async()=>{
 }
 
 // Función para manejar la descarga del reporte
+
+
 async function handleDownloadReport() {
   // if (!validateInputs()) return;
 
@@ -295,11 +296,11 @@ async function handleDownloadReport() {
       endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://localhost:8082/api/v1/victimas/all?page=2&pageSize=500";
+      endpoint = "http://localhost:8082/api/v1/victimas/reports";
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
       endpoint = "http://127.0.0.1:5000/audit_logs";
-      worksheetName = "Logs de Auditoría";  
+      worksheetName = "Logs de Auditoría";
     } else {
       alert("Tipo de reporte no válido.");
       loading.value = false;
@@ -312,7 +313,7 @@ async function handleDownloadReport() {
     )?.name || "";
 
     // Verificar datos que se enviarán
-    console.log("Nombre del departamento enviado:", departamentoNombre);
+    console.log("Nombre del departamento enviado:", selectedDepartamento.value);
     console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
 
     // Solicitud al endpoint
