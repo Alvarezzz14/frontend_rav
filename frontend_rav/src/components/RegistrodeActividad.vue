@@ -33,8 +33,8 @@
 							</svg>
 						</div>
 						<div>
-							<h3>Ciudadano: {{ personFullName }}</h3>
-							<h3>Ciudadano: {{ documentNumber }}</h3>
+							<h3>Ciudadano: {{ user.nombre }} {{ user.nombre }}</h3>
+							<h3>documento: {{ user.documento }}</h3>
 						</div>
 					</div>
 				</div>
@@ -109,12 +109,27 @@
 						class="bg-gray-100 text-black py-2 w-full cursor-pointer border-none rounded-md text-xs"
 						@click="toggleCategory(index)">
 						{{ category.name }}
+
+						<!-- Flecha indicadora -->
+						<svg
+							class="w-4 h-4 arrow"
+							:class="{ rotate: activeCategory === index }"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor">
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M19 9l-7 7-7-7" />
+						</svg>
 					</button>
 
 					<!-- Opciones desplegables -->
 					<div
 						v-if="activeCategory === index"
-						class="absolute bottom-full mb-2 bg-white shadow-md rounded-md p-2 w-full z-10 grid gap-2">
+						class="absolute bottom-full mb-2 bg-white shadow-md rounded-md p-2 w-full z-10 grid gap-2 transition-all duration-300">
 						<button
 							v-for="(keyword, keywordIndex) in category.keywords"
 							:key="keywordIndex"
@@ -178,7 +193,7 @@
 <script setup>
 import Actividad from "@/assets/images/Actividad.png";
 import personwhite from "@/assets/images/UserWhite.svg";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { useEventStore } from "../stores/storedataOff";
 import { useAuthStore } from "../stores/auth";
 import { categories as staticCategories } from "@/data/palabrasClaves";
@@ -189,14 +204,12 @@ const content = ref("");
 const title = ref("");
 const keyWords = ref("");
 const categories = ref(staticCategories);
-let user_id;
-const documentNumber = ref("");
-const personFullName = ref("");
-
 const authStore = useAuthStore();
 const eventStore = useEventStore();
 const selectedKeywords = ref([]);
 const host = import.meta.env.VITE_HOST;
+
+const user = computed(() => authStore.authenticatedUser.user);
 
 const fetchOptions = {
 	url: `${host}:8082/api/v1/victimas/ticket`,
@@ -215,7 +228,6 @@ const activeCategory = ref(null);
 // Función para alternar el menú desplegable
 const toggleCategory = (index) => {
 	activeCategory.value = activeCategory.value === index ? null : index;
-	console.log("Categoría activa:", activeCategory.value);
 };
 
 const toggleKeyword = (keyword) => {
@@ -285,9 +297,15 @@ const resetForm = () => {
 	activeCategory.value = null;
 };
 
-onMounted(() => {
-	documentNumber.value = eventStore.getUserInfo().documento;
-	user_id = authStore.getAuthenticatedUser().user_id;
-	personFullName.value = eventStore.getUserInfo().nombrecompleto;
-});
+onMounted(() => {});
 </script>
+
+<style scoped>
+.arrow {
+	transition: transform 0.3s ease-in-out;
+}
+
+.arrow.rotate {
+	transform: rotate(180deg);
+}
+</style>

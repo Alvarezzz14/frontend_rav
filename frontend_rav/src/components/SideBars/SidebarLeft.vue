@@ -179,8 +179,6 @@ const authStore = useAuthStore();
 
 const user = computed(() => authStore.authenticatedUser.user);
 
-console.log("User data:", user.value);
-
 /* const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
