@@ -45,7 +45,7 @@
 				<!-- Botón de iniciar sesión -->
 				<button
 					type="submit"
-					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
+					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold cursor-pointer rounded-lg"
 					:disabled="isLoading">
 					<span v-if="!isLoading">Iniciar</span>
 					<span v-else>Cargando...</span>
@@ -109,10 +109,7 @@ onMounted(() => {
 async function submit() {
 	isLoading.value = true;
 	try {
-		const response = await axios.post(
-			`${host}:8080/login`,
-			form
-		);
+		const response = await axios.post(`${host}:8080/login`, form);
 		console.log(response.data);
 
 		authStore.setAuthenticatedUser(response.data);

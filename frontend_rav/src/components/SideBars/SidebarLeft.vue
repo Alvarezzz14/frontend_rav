@@ -319,6 +319,8 @@ const menuItems = ref([
 const activeItem = ref(null);
 const isResponsive = ref(false);
 
+const host = import.meta.env.VITE_HOST;
+
 const emit = defineEmits(["item-click"]);
 
 // Función para actualizar el estado responsive
@@ -409,7 +411,7 @@ const logout = async () => {
 			},
 		};
 		// Hacer la petición de logout
-		await axios.post("http://localhost:8080/api/auth/logout", {}, config);
+		await axios.post(`${host}:8080/api/auth/logout`, {}, config);
 		// Limpiar el token
 		localStorage.removeItem("token");
 		hasShownNoSessionToast.value = false; // Resetear el flag después de cerrar sesión

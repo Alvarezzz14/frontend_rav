@@ -68,7 +68,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.limit || 0 }}
+					{{ goal.value || 0 }}
 				</div>
 
 				<div

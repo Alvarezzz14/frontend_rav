@@ -55,9 +55,9 @@
 
         <!-- Selección de Departamento -->
         <div v-if="selectedReport" class="mb-4">
-          <select v-model="selectedDepartamento" class="block p-4 rounded-lg w-full">
+          <select v-model="form.department_name" class="block p-4 rounded-lg w-full">
             <option disabled value="">Buscar por regional</option>
-            <option v-for="departamento in departamentos" :key="departamento.code" :value="departamento.code">
+            <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.name">
               {{ departamento.name }}
             </option>
           </select>
@@ -85,18 +85,16 @@
           />
         </div>
 
-        <!-- Campo de búsqueda por C.C. (Estadísticas del Ciudadano) -->
         <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
-          <label for="ccSearch">Buscar por numero de identificación:</label>
+          <label for="document">Buscar por numero de identificación:</label>
           <input
             type="text"
-            id="ccSearch"
-            v-model="searchCC"
+            id="document"
+            v-model="form.document"
             placeholder="Ingrese el número de identificación"
             class="block p-2 rounded-lg w-full"
           />
         </div>
-
         <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
         <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
           <input 
@@ -107,56 +105,60 @@
           />
           <label for="needsSearch">¿Necesitas una búsqueda avanzada?</label>
         </div>
-
         <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
         <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
           <!-- Filtro de Género -->
           <div class="mb-4">
-            <label for="genero">Seleccione el género:</label>
-            <select v-model="selectedGenero" id="genero" class="block p-4 rounded-lg w-full">
+            <label for="genere">Seleccione el género:</label>
+            <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un género</option>
-              <option value="Hombre">Hombre</option>
-              <option value="Mujer">Mujer</option>
+              <option value="HOMBRE">Hombre</option>
+              <option value="MUJER">Mujer</option>
               <option value="LGBTI">LGBTI</option>
-              <option value="Intersexual">Intersexual</option>
-              <option value="No informa">No informa</option>
+              <option value="INTERSEXUAL">Intersexual</option>              
             </select>
           </div>
-
           <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
-            <label for="grupo_c">Seleccione el grupo etario:</label>
-            <select v-model="selectedEtario" id="grupo_etario" class="block p-4 rounded-lg w-full">
+            <label for="etario_group">Seleccione el grupo etario:</label>
+            <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
               <option disabled value="">Seleccione un grupo etario</option>
-              <option value="0-14">Niños</option>
-              <option value="15-17">Adolescentes</option>
-              <option value="18-25">Jóvenes</option>
-              <option value="26-59">Adultos</option>
-              <option value="60+">Adultos mayores</option>
+              <option value="Primera infancia (0-5 años)">Primera infancia (0-5 años)</option>
+              <option value="Infancia (6-11 años)">Infancia (6-11 años)</option>
+              <option value="Adolescencia temprana (12-13 años)">Adolescencia temprana (12-13 años)</option>
+              <option value="Adolescencia (14-18 años)">Adolescencia (14-18 años)</option>
+              <option value="Juventud (19-26 años)">Juventud (19-26 años)</option>
+              <option value="Adultez (27-59 años)">Adultez (27-59 años)</option>
+              <option value="Persona mayor (60 años o más)">Persona mayor (60 años o más)</option>
             </select>
           </div>
-
           <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
-            <label for="procedencia_etnica">Seleccione la procedencia étnica:</label>
-            <select v-model="selectedEtnica" id="procedencia_etnica" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione una étnia</option>
-              <option value="Indígena">Indígena</option>
-              <option value="Afrocolombiano">Afrocolombiano</option>
-              <option value="Rom">Rom</option>
-              <option value="Raizal">Raizal</option>
-              <option value="Palenquero">Palenquero</option>
-              <option value="Mestizo">Mestizo</option>
-              <option value="Blanco">Blanco</option>
+            <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
+            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
+              <option disabled value="">Seleccione una étnia</option>         
+              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
+              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
+              <option value="INDIGENA (ACREDITADO RA)">Indigena</option>
+              <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
+              <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
+              <option value="ROM">Rom</option>
+              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal de San Andres y Providencia</option>
+              <option value="PALENQUERO">Palenquero</option>
+              <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
+              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
+              <option value="NINGUNA">Ninguna</option>     
             </select>
           </div>
         </div>
+
+    
 
         <!-- Botón de Búsqueda -->
         <button
           :disabled="loading"
           class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
-          @click="handleDownloadReport"
+          @click="handleSubmit"
         >
           <span v-if="!loading">Generar Reporte</span>
           <span v-else>Generando...</span>
@@ -179,48 +181,78 @@ import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 
+
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
 const selectedDepartamento = ref(""); // Departamento seleccionado
 const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
+const host = import.meta.env.VITE_HOST;
 
-// Lista de departamentos
-const departamentos = ref([
-  { name: "Amazonas", code: "91" },
-  { name: "Antioquia", code: "05" },
-  { name: "Arauca", code: "81" },
-  { name: "Atlantico", code: "08" },
-  { name: "Bolivar", code: "13" },
-  { name: "Boyacá", code: "15" },
-  { name: "Caldas", code: "17" },
-  { name: "Caquetá", code: "18" },
-  { name: "Casanare", code: "85" },
-  { name: "Cauca", code: "19" },
-  { name: "Cesar", code: "20" },
-  { name: "Chocó", code: "27" },
-  { name: "Cundinamarca", code: "25" },
-  { name: "Cordoba", code: "23" },
-  { name: "Guainia", code: "94" },
-  { name: "Guaviare", code: "95" },
-  { name: "Huila", code: "41" },
-  { name: "La Guajira", code: "44" },
-  { name: "Magdalena", code: "47" },
-  { name: "Meta", code: "50" },
-  { name: "Nariño", code: "52" },
-  { name: "Norte de Santander", code: "54" },
-  { name: "Putumayo", code: "86" },
-  { name: "Quindio", code: "63" },
-  { name: "Risaralda", code: "66" },
-  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
-  { name: "Santander", code: "68" },
-  { name: "Sucre", code: "70" },
-  { name: "Tolima", code: "73" },
-  { name: "Valle del Cauca", code: "76" },
-  { name: "Vaupés", code: "97" },
-  { name: "Vichada", code: "99" },
+
+
+const form = ref({
+  department_name:"",
+  document: "",
+  regional: "",
+  genere: "",
+  etario_group:"",
+  pertenencia_etnica: "",
+})
+
+// Lista de department_name
+const department_name = ref([
+  { name: "AMAZONAS", code: "91" },
+  { name: "ANTIOQUIA", code: "05" },
+  { name: "ARAUCA", code: "81" },
+  { name: "ATLANTICO", code: "08" },
+  { name: "BOLIVAR", code: "13" },
+  { name: "BOYACA", code: "15" },
+  { name: "CALDAS", code: "17" },
+  { name: "CAQUETA", code: "18" },
+  { name: "CASANARE", code: "85" },
+  { name: "CAUCA", code: "19" },
+  { name: "CESAR", code: "20" },
+  { name: "CHOCO", code: "27" },
+  { name: "CUNDINAMARCA", code: "25" },
+  { name: "CORDOBA", code: "23" },
+  { name: "GUAINIA", code: "94" },
+  { name: "GUAVIARE", code: "95" },
+  { name: "HUILA", code: "41" },
+  { name: "LA GUAJIRA", code: "44" },
+  { name: "MAGDALENA", code: "47" },
+  { name: "META", code: "50" },
+  { name: "NARIÑO", code: "52" },
+  { name: "NORTE DE SANTANDER", code: "54" },
+  { name: "PUTUMAYO", code: "86" },
+  { name: "QUINDIO", code: "63" },
+  { name: "RISARALDA", code: "66" },
+  { name: "SAN ANDRES, PROVIDENCIA Y SANTA CATALINA", code: "88" },
+  { name: "SANTANDER", code: "68" },
+  { name: "SUCRE", code: "70" },
+  { name: "TOLIMA", code: "73" },
+  { name: "VALLE DEL CAUCA", code: "76" },
+  { name: "VAUPÉS", code: "97" },
+  { name: "VICHADA", code: "99" },
 ]);
+
+
+
+
+const generarURL = (baseURL,form) => {
+
+      // Filtrar parámetros no vacíos
+      const params = Object.entries(form.value)
+        .filter(([_, value]) => value) // Solo incluir valores no vacíos
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join("&");
+
+      let urlGenerada= params ? `${baseURL}?${params}` : baseURL;
+
+      console.log("URL generada:", urlGenerada);
+      return urlGenerada
+    };
 
 // Validación de los inputs
 function validateInputs() {
@@ -231,25 +263,35 @@ function validateInputs() {
   return true;
 }
 
-// Función para manejar la descarga del reporte
-async function handleDownloadReport() {
-  if (!validateInputs()) return;
+const getData = async () => {
+  const url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
+  try {
+    const response = await fetch(url);
 
+    if (!response.ok) throw { error: true, errorStatus: response.status, errorMsg: response.statusText };
+
+    const json = await response.json();
+    console.log("Data received:", json);
+    return { data: json, url: url }; // Retornamos tanto los datos como la URL
+  } catch (error) {
+    if (!error.error) error.error = true;
+    console.log("Error fetching data:", error);
+    throw error;
+  }
+};
+
+async function handleDownloadReport(url) { // Agregamos url como parámetro
   loading.value = true;
 
   try {
-    let endpoint;
     let worksheetName;
 
-    // Configuración de los endpoints y nombres de los reportes
+    // Configuración de los nombres de los reportes
     if (selectedReport.value === "HistorialTickets") {
-      endpoint = "http://127.0.0.1:5000/tickets";
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
-      endpoint = "http://127.0.0.1:5000/estadistica_ciudadano";
       worksheetName = "Estadísticas Victimas";
     } else if (selectedReport.value === "AuditLogs") {
-      endpoint = "http://127.0.0.1:5000/audit_logs";
       worksheetName = "Logs de Auditoría";
     } else {
       alert("Tipo de reporte no válido.");
@@ -258,7 +300,7 @@ async function handleDownloadReport() {
     }
 
     // Buscar el nombre del departamento según el código seleccionado
-    const departamentoNombre = departamentos.value.find(
+    const departamentoNombre = department_name.value.find(
       (d) => d.code === selectedDepartamento.value
     )?.name || "";
 
@@ -266,36 +308,46 @@ async function handleDownloadReport() {
     console.log("Nombre del departamento enviado:", departamentoNombre);
     console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
 
-    // Solicitud al endpoint
-    const response = await axios.get(endpoint, {
-      params: {
-        departamento: departamentoNombre,
-        from: dateRange.value.from,
-        to: dateRange.value.to,
-      },
-    });
-
+    // Usar la URL generada para la solicitud
+    const response = await axios.get(url);
     const data = response.data;
 
-    // Validación de datos recibidos
-    if (!data || !Array.isArray(data) || data.length === 0) {
+    // Validación actualizada para manejar la estructura correcta de datos
+    if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
       alert("No se encontraron datos para el reporte seleccionado.");
       loading.value = false;
       return;
     }
 
-    // Generar el reporte
-    await generateReport(data, worksheetName, {
-      imageBase64: "LogoRavBlanco", // Reemplazar con la imagen en base64
-      regional: departamentoNombre,
-      responsable: "Nombre del usuario activo",
-      correo: "Correo del usuario activo",
+    // Procesar los datos recibidos (usando data.data que contiene el array)
+    console.log("Datos recibidos:", data.data);
+    
+    // Generar el reporte con los datos procesados
+    await generateReport(data.data, worksheetName, {
+      regional: "Tu Regional",
+      responsable: "Nombre del Responsable",
+      correo: "correo@ejemplo.com"
     });
-  } catch (error) {
-    console.error("Error al manejar la descarga del reporte:", error);
-    alert("Ocurrió un error al manejar la descarga del reporte.");
-  } finally {
+
     loading.value = false;
+  } catch (error) {
+    console.error("Error al obtener el reporte:", error);
+    alert("Ocurrió un error al obtener el reporte. Por favor, inténtalo de nuevo.");
+    loading.value = false;
+  }
+}
+
+const handleSubmit = async () => {
+  try {
+    const { data, url } = await getData(); // Desestructuramos para obtener tanto los datos como la URL
+    if (data && data.data && data.data.length > 0) {
+      await handleDownloadReport(url); // Pasamos la URL a handleDownloadReport
+    } else {
+      alert("No se encontraron datos para generar el reporte.");
+    }
+  } catch (error) {
+    console.error("Error al procesar la solicitud:", error);
+    alert("Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo.");
   }
 }
 
