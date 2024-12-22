@@ -141,8 +141,12 @@
 						</svg>
 
 						<div class="text-xs text-center ml-3">
-							<p class="font-bold text-lg">{{ user.name }}</p>
-							<p class="text-gray-700 text-sm">{{ user.email }}</p>
+							<p class="font-bold text-lg">
+								{{ user.nombre }} {{ user.apellidos }}
+							</p>
+							<p class="text-gray-700 text-sm">
+								{{ user.email || email.eample.com }}
+							</p>
 						</div>
 					</div>
 
@@ -158,7 +162,7 @@
 	</div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import Avatar from "@/components/Buttons/Avatar.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
@@ -173,11 +177,15 @@ const route = useRoute();
 const toast = useToast();
 const authStore = useAuthStore();
 
-const user = ref({
+const user = computed(() => authStore.authenticatedUser.user);
+
+console.log("User data:", user.value);
+
+/* const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
 	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
-});
+}); */
 
 const menuItems = ref([
 	{

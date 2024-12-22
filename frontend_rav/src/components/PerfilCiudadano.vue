@@ -42,7 +42,7 @@
 						:src="Actividad"
 						alt="Icono registrar actividad"
 						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
+					<span class="text-sm">Registrar Actividad</span>
 				</router-link>
 			</div>
 		</div>
