@@ -236,22 +236,6 @@ const department_name = ref([
 ]);
 
 
-
-
-const generarURL = (baseURL,form) => {
-
-      // Filtrar parámetros no vacíos
-      const params = Object.entries(form.value)
-        .filter(([_, value]) => value) // Solo incluir valores no vacíos
-        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-        .join("&");
-
-      let urlGenerada= params ? `${baseURL}?${params}` : baseURL;
-
-      console.log("URL generada:", urlGenerada);
-      return urlGenerada
-    };
-
 // Validación de los inputs
 function validateInputs() {
   if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
@@ -261,23 +245,70 @@ function validateInputs() {
   return true;
 }
 
+
+const generarURL = (baseURL, form) => {
+  const params = Object.entries(form.value)
+    .filter(([_, value]) => value)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+    .join("&");
+
+  let urlGenerada = params ? `${baseURL}?${params}` : baseURL;
+  console.log("URL generada:", urlGenerada);
+  return urlGenerada;
+};
+
 const getData = async () => {
-  let urlestadistica = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
-  let urltickts = generarURL(`${host}:8082/api/v1/victimas/ticket/all`, form);
-  let urlogs = generarURL(`${host}:8080/audit/logs/filter?`, form);
+  let url;
+  
+  // Seleccionar el endpoint basado en el tipo de reporte
+  switch (selectedReport.value) {
+    case 'HistorialTickets':
+      url = generarURL(`${host}:8082/api/v1/victimas/ticket/all?`, form);
+      break;
+    case 'EstadisticasVictima':
+      url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
+      break;
+    case 'AuditLogs':
+      url = generarURL(`${host}:8080/audit/logs`, form);
+      break;
+    default:
+      throw new Error('Tipo de reporte no válido');
+  }
 
   try {
     const response = await fetch(url);
 
-    if (!response.ok) throw { error: true, errorStatus: response.status, errorMsg: response.statusText };
+    if (!response.ok) {
+      throw { 
+        error: true, 
+        errorStatus: response.status, 
+        errorMsg: response.statusText 
+      };
+    }
 
     const json = await response.json();
     console.log("Data received:", json);
-    return { data: json, url: url }; // Retornamos tanto los datos como la URL
+    return { data: json, url: url };
   } catch (error) {
-    if (!error.error) error.error = true;
     console.log("Error fetching data:", error);
     throw error;
+  }
+};
+
+const handleSubmit = async () => {
+  loading.value = true;
+  try {
+    const { data, url } = await getData();
+    if (data && data.data && data.data.length > 0) {
+      await handleDownloadReport(url);
+    } else {
+      alert("No se encontraron datos para generar el reporte.");
+    }
+  } catch (error) {
+    console.error("Error al procesar la solicitud:", error);
+    alert("Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo.");
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -338,19 +369,8 @@ async function handleDownloadReport(url) { // Agregamos url como parámetro
   }
 }
 
-const handleSubmit = async () => {
-  try {
-    const { data, url } = await getData(); // Desestructuramos para obtener tanto los datos como la URL
-    if (data && data.data && data.data.length > 0) {
-      await handleDownloadReport(url); // Pasamos la URL a handleDownloadReport
-    } else {
-      alert("No se encontraron datos para generar el reporte.");
-    }
-  } catch (error) {
-    console.error("Error al procesar la solicitud:", error);
-    alert("Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo.");
-  }
-}
+
+
 
 // Función para convertir imagen a Base64
 async function getBase64Image(imagePath) {
