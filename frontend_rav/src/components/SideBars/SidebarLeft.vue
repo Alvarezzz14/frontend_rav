@@ -352,32 +352,36 @@ const showToast = () => {
 const handleSubmenuClick = (event, submenuItem) => {
 	if (!canAccessSubmenu.value) {
 		event.preventDefault(); // Evitar la navegación
-		router.push({ to: "BusquedaCiudadanoPage" });
+		router.push({ name: "BusquedaCiudadanoPage" });
 		showToast(); // Mostrar mensaje
 	} else {
-		setActive(submenuItem); // Establecer como activo
+		setActive(submenuItem);
+		// Mantener abierto el submenú relacionado
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = menuItem.submenu.some(
+					(submenu) => submenu.title === submenuItem.title
+				);
+			}
+		});
 	}
 };
 
 // Método para manejar clics
 const handleItemClick = (item) => {
-	// Solo ejecuta el cierre en responsive
-	if (isResponsive.value) {
-		emit("item-click", item); // Cerrar barra desplegable
-	}
-
 	if (item.to) {
 		router.push(item.to);
 	}
-
 	activeItem.value = item.title;
 
-	// Cerrar otros submenús al seleccionar un elemento
-	menuItems.value.forEach((menuItem) => {
-		if (menuItem !== item && menuItem.submenu) {
-			menuItem.submenuOpen = false;
-		}
-	});
+	// Cerrar submenús sólo si el ítem seleccionado no pertenece a un submenú
+	if (!item.submenu) {
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = false;
+			}
+		});
+	}
 };
 
 // Método para alternar la apertura del submenú

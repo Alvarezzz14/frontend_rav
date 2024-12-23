@@ -233,8 +233,8 @@
 import Actividad from "@/assets/images/Actividad.png";
 import personwhite from "@/assets/images/UserWhite.svg";
 import { onMounted, ref, computed } from "vue";
-import { useEventStore } from "../stores/storedataOff";
-import { useAuthStore } from "../stores/auth";
+import { useEventStore } from "@/stores/storedataOff";
+import { useAuthStore } from "@/stores/auth";
 import { categories as staticCategories } from "@/data/palabrasClaves";
 
 // Variables reactivas

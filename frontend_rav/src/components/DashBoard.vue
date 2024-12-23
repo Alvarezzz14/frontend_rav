@@ -121,6 +121,12 @@ const loading = ref(false); // Indicador de carga para mostrar durante la consul
 const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
 const host = import.meta.env.VITE_HOST;
 
+// Hook para realizar la consulta al montar el componente
+onMounted(async () => {
+	tableData.value = await fetchTableData();
+	console.log(Object.keys(tableData.value).length === 0);
+});
+
 // Función para obtener los datos de la API
 const fetchTableData = async () => {
 	loading.value = true;
@@ -141,12 +147,6 @@ const fetchTableData = async () => {
 		loading.value = false;
 	}
 };
-
-// Hook para realizar la consulta al montar el componente
-onMounted(async () => {
-	tableData.value = await fetchTableData();
-	console.log(Object.keys(tableData.value).length === 0);
-});
 </script>
 
 <style scoped>
