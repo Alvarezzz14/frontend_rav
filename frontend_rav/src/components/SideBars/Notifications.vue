@@ -112,7 +112,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 import CircularChart from "@/components/CircularChart.vue";
 
@@ -148,19 +148,14 @@ const markAsRead = (index) => {
 	notifications.value[index].isRead = true;
 };
 
+watch(
+	() => goalStore.goals,
+	(newGoals) => {
+		console.log("Metas actualizadas:", newGoals);
+	},
+	{ deep: true } // Observar cambios profundos en las metas
+);
 onMounted(() => {
-	goalStore.fetchGoals(); // Carga metas desde localStorage
+	goalStore.fetchGoals(); // Cargar metas del localStorage
 });
 </script>
-
-<style scoped>
-.speedometer-wrapper {
-	text-align: center;
-}
-.overflow-y-auto {
-	max-height: 16rem; /* Limitar altura con scroll */
-}
-.opacity-50 {
-	opacity: 0.5; /* Visualización de notificaciones leídas */
-}
-</style>

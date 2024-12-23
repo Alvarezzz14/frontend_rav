@@ -29,7 +29,7 @@
 						:stroke="getStrokeColors(index).progressStroke"
 						stroke-width="11"
 						stroke-linecap="round"
-						:stroke-dasharray="calculateStrokeDasharray(goal.animatedValue)"
+						:stroke-dasharray="calculateStrokeDasharray(goal.progress)"
 						stroke-dashoffset="0"
 						transform="rotate(-90 60 60)" />
 
@@ -42,8 +42,8 @@
 
 					<!-- Círculo final dinámico -->
 					<circle
-						:cx="getProgressPositionX(goal.animatedValue)"
-						:cy="getProgressPositionY(goal.animatedValue)"
+						:cx="getProgressPositionX(goal.progress)"
+						:cy="getProgressPositionY(goal.progress)"
 						r="10"
 						:fill="getStrokeColors(index).progressStroke" />
 				</svg>
@@ -53,7 +53,7 @@
 					<span
 						class="text-xl font-bold text-gray-800"
 						:style="{ color: getTextColor(index) }">
-						{{ goal.animatedValue }}%
+						{{ goal.progress }}%
 					</span>
 				</div>
 			</div>
@@ -68,7 +68,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.meta || 0 }}
+					{{ goal.limit || 0 }} Tickets
 				</div>
 
 				<div
@@ -82,7 +82,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.value || 0 }}
+					{{ goal.current || 0 }} Tickets
 				</div>
 				<!-- Mostrar la fecha -->
 				<div
@@ -101,7 +101,7 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, onMounted } from "vue";
+import { ref, computed, reactive, onMounted, nextTick, watch } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 
 // Prop para recibir una meta individual
@@ -131,23 +131,35 @@ const goals = computed(() =>
 // Animar el progreso dinámico
 const animateProgress = () => {
 	goals.value.forEach((goal) => {
+		const targetValue = goal.progress || 0;
 		let currentValue = 0;
+
 		const step = () => {
-			if (currentValue < goal.progress) {
-				currentValue += 1; // Incrementa el progreso animado
+			if (currentValue < targetValue) {
+				currentValue += 1;
 				goal.animatedValue = currentValue;
 				requestAnimationFrame(step);
 			} else {
-				goal.animatedValue = goal.progress; // Asegura que el progreso final sea correcto
+				goal.animatedValue = targetValue;
+				goalStore.saveGoalsToLocal(); // Guarda el estado actualizado
+				console.log(`Animación completada para: ${goal.name}`);
 			}
 		};
 		requestAnimationFrame(step);
 	});
 };
 
-onMounted(() => {
-	animateProgress();
-});
+// Watch para observar cambios en las metas procesadas
+watch(
+	() => goalStore.goals, // Observa cambios en las metas del store
+	(newGoals) => {
+		console.log("Metas actualizadas:", newGoals);
+		nextTick(() => {
+			animateProgress(); // Reactiva la animación tras los cambios
+		});
+	},
+	{ deep: true } // Observar cambios profundos en el array de metas
+);
 
 // Color del progreso dinámico
 const getProgressStrokeColor = (value) => {
@@ -238,6 +250,13 @@ const getTextColor = (index) => {
 			return "#000000"; // Color predeterminado
 	}
 };
+
+onMounted(() => {
+	goalStore.fetchGoals(); // Cargar metas del localStorage
+	nextTick(() => {
+		animateProgress(); // Asegúrate de que las metas estén procesadas antes de animar
+	});
+});
 </script>
 
 <style scoped></style>
