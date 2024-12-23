@@ -73,14 +73,16 @@
 								<router-link
 									v-if="submenuItem.to"
 									:to="submenuItem.to"
-									@click="setActive(item.submenu)"
-									class="flex flex-row items-center px-4 h-10 text-base font-light text-amarillo"
 									:class="[
-										'flex flex-row  items-center transform text-amarillo transition-colors duration-200 ',
-										isActive(item.submenu)
+										'flex flex-row items-center px-4 h-10 text-base font-light transition-colors duration-200',
+										isActive(submenuItem)
 											? 'bg-amarillo text-customPurple'
 											: '',
-									]">
+										canAccessSubmenu
+											? 'text-amarillo cursor-pointer'
+											: 'text-gray-400 cursor-not-allowed',
+									]"
+									@click="handleSubmenuClick($event, submenuItem)">
 									<span
 										v-if="submenuItem.icon"
 										v-html="submenuItem.icon"
@@ -141,8 +143,12 @@
 						</svg>
 
 						<div class="text-xs text-center ml-3">
-							<p class="font-bold text-lg">{{ user.name }}</p>
-							<p class="text-gray-700 text-sm">{{ user.email }}</p>
+							<p class="font-bold text-lg">
+								{{ user.nombre }} {{ user.apellidos }}
+							</p>
+							<p class="text-gray-700 text-sm">
+								{{ user.email || "email.eample.com" }}
+							</p>
 						</div>
 					</div>
 
@@ -158,7 +164,7 @@
 	</div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import Avatar from "@/components/Buttons/Avatar.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
@@ -167,17 +173,21 @@ import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
 import Notifications from "./Notifications.vue";
+import { useEventStore } from "@/stores/storedataOff";
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
 const authStore = useAuthStore();
+const eventStore = useEventStore();
 
-const user = ref({
+const user = computed(() => authStore.authenticatedUser.user);
+
+/* const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
 	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
-});
+}); */
 
 const menuItems = ref([
 	{
@@ -328,37 +338,51 @@ const updateResponsive = () => {
 	isResponsive.value = window.innerWidth < 1024; // Evaluar si es menor a 1024px
 };
 
+// Computed para verificar si hay un ciudadano
+const canAccessSubmenu = computed(() => !!eventStore.getUserInfo());
+
+// Mostrar mensaje de advertencia
+const showToast = () => {
+	toast.warning(
+		"Por favor, ingrese un ciudadano para acceder a esta funcionalidad."
+	);
+};
+
+// Manejo del clic en el submenú
+const handleSubmenuClick = (event, submenuItem) => {
+	if (!canAccessSubmenu.value) {
+		event.preventDefault(); // Evitar la navegación
+		router.push({ name: "BusquedaCiudadanoPage" });
+		showToast(); // Mostrar mensaje
+	} else {
+		setActive(submenuItem);
+		// Mantener abierto el submenú relacionado
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = menuItem.submenu.some(
+					(submenu) => submenu.title === submenuItem.title
+				);
+			}
+		});
+	}
+};
+
 // Método para manejar clics
 const handleItemClick = (item) => {
-	// Solo ejecuta el cierre en responsive
-	if (isResponsive.value) {
-		emit("item-click", item); // Cerrar barra desplegable
-	}
-
 	if (item.to) {
 		router.push(item.to);
 	}
-
 	activeItem.value = item.title;
 
-	// Cerrar otros submenús al seleccionar un elemento
-	menuItems.value.forEach((menuItem) => {
-		if (menuItem !== item && menuItem.submenu) {
-			menuItem.submenuOpen = false;
-		}
-	});
+	// Cerrar submenús sólo si el ítem seleccionado no pertenece a un submenú
+	if (!item.submenu) {
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = false;
+			}
+		});
+	}
 };
-
-// Configuración inicial
-onMounted(() => {
-	updateResponsive(); // Actualizar el estado al cargar la página
-	window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
-});
-
-// Limpieza del event listener
-onUnmounted(() => {
-	window.removeEventListener("resize", updateResponsive);
-});
 
 // Método para alternar la apertura del submenú
 const toggleSubmenu = (item) => {
@@ -367,19 +391,6 @@ const toggleSubmenu = (item) => {
 	}
 };
 
-//observar cambios en la ruta actual
-watch(
-	() => route.name,
-	(newRoute) => {
-		const currentItem = menuItems.value.find(
-			(item) => item.to?.name === newRoute
-		);
-		if (currentItem) {
-			activeItem.value = currentItem.title;
-		}
-	},
-	{ immediate: true } //ejecuta al inicia rpara que el item activo se ajuste
-);
 //Metodos par estabelecer el elemento activo del Dashboard
 const setActive = (item) => {
 	if (item.to) {
@@ -426,6 +437,17 @@ const logout = async () => {
 		router.push({ name: "LoginPage" });
 	}
 };
+
+// Configuración inicial
+onMounted(() => {
+	updateResponsive(); // Actualizar el estado al cargar la página
+	window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
+});
+
+// Limpieza del event listener
+onUnmounted(() => {
+	window.removeEventListener("resize", updateResponsive);
+});
 </script>
 <style scoped>
 a {

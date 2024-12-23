@@ -36,19 +36,7 @@
 				</div>
 
 				<!-- CircularCharts Dinámicos -->
-				<div class="flex flex-col items-center gap-4 mt-2">
-					<div
-						v-for="(goal, index) in goals"
-						:key="goal.id"
-						class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden">
-						<CircularChart
-							:value="goal.progress"
-							:label="goal.name"
-							:current="goal.current || 0"
-							:meta="goal.limit || 0"
-							:index="index" />
-					</div>
-				</div>
+
 				<div>
 					<CircularChart />
 				</div>
@@ -124,29 +112,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 import CircularChart from "@/components/CircularChart.vue";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();
-const goals = computed(() => goalStore.processedGoals);
 
-const getGradientStyle = (index) => {
-	switch (index % 3) {
-		case 0:
-			return { background: "linear-gradient(to right, #f2f3f3, #d9d9d9)" };
-		case 1:
-			return {
-				background:
-					"linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))",
-			};
-		case 2:
-			return { background: "linear-gradient(to right, #cf5fdd, #71277a)" };
-		default:
-			return {};
-	}
-};
+const goals = computed(() => goalStore.processedGoals);
 
 // Notificaciones
 const notifications = ref([
@@ -174,16 +147,15 @@ const toggleNotifications = () => {
 const markAsRead = (index) => {
 	notifications.value[index].isRead = true;
 };
-</script>
 
-<style scoped>
-.speedometer-wrapper {
-	text-align: center;
-}
-.overflow-y-auto {
-	max-height: 16rem; /* Limitar altura con scroll */
-}
-.opacity-50 {
-	opacity: 0.5; /* Visualización de notificaciones leídas */
-}
-</style>
+watch(
+	() => goalStore.goals,
+	(newGoals) => {
+		console.log("Metas actualizadas:", newGoals);
+	},
+	{ deep: true } // Observar cambios profundos en las metas
+);
+onMounted(() => {
+	goalStore.fetchGoals(); // Cargar metas del localStorage
+});
+</script>
