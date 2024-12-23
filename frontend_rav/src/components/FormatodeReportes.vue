@@ -53,8 +53,8 @@
           <label for="auditLogs">Logs de Auditoría</label>
         </div>
 
-        <!-- Selección de Departamento -->
-        <div v-if="selectedReport" class="mb-4">
+        <!-- Selección de Departamento - Ahora solo se muestra para EstadisticasVictima y AuditLogs -->
+        <div v-if="selectedReport && selectedReport !== 'HistorialTickets'" class="mb-4">
           <select v-model="form.department_name" class="block p-4 rounded-lg w-full">
             <option disabled value="">Buscar por regional</option>
             <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.name">
@@ -63,8 +63,8 @@
           </select>
         </div>
 
+        <!-- El resto del código permanece igual -->
         <!-- Filtros dinámicos -->
-        <!-- Rango de Fechas (Historial de Tickets, Logs de Auditoría, Estadísticas del Ciudadano) -->
         <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label>Seleccione el rango de fechas:</label>
           <div class="flex items-center space-x-4">
@@ -95,7 +95,8 @@
             class="block p-2 rounded-lg w-full"
           />
         </div>
-        <!-- Checkbox para desplegar filtros adicionales solo si el reporte es 'Estadísticas del Ciudadano' -->
+
+        <!-- Checkbox para desplegar filtros adicionales -->
         <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
           <input 
             type="checkbox" 
@@ -105,9 +106,10 @@
           />
           <label for="needsSearch">¿Necesitas una búsqueda avanzada?</label>
         </div>
-        <!-- Filtros adicionales solo se muestran si 'needsSearch' es verdadero y el reporte es 'Estadísticas del Ciudadano' -->
+
+        <!-- Filtros adicionales -->
         <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
-          <!-- Filtro de Género -->
+          <!-- Filtros existentes permanecen igual -->
           <div class="mb-4">
             <label for="genere">Seleccione el género:</label>
             <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
@@ -118,7 +120,6 @@
               <option value="INTERSEXUAL">Intersexual</option>              
             </select>
           </div>
-          <!-- Filtro de Grupos Etarios -->
           <div class="mb-4">
             <label for="etario_group">Seleccione el grupo etario:</label>
             <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
@@ -132,7 +133,6 @@
               <option value="Persona mayor (60 años o más)">Persona mayor (60 años o más)</option>
             </select>
           </div>
-          <!-- Filtro de Procedencia Étnica -->
           <div class="mb-4">
             <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
             <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
@@ -151,9 +151,7 @@
             </select>
           </div>
         </div>
-
-    
-
+        
         <!-- Botón de Búsqueda -->
         <button
           :disabled="loading"
