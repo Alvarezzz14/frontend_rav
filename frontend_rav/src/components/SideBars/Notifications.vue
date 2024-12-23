@@ -36,22 +36,10 @@
 				</div>
 
 				<!-- CircularCharts Dinámicos -->
-				<div class="flex flex-col items-center gap-4 mt-2">
-					<div
-						v-for="(goal, index) in goals"
-						:key="goal.id"
-						class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden">
-						<CircularChart
-							:value="goal.progress"
-							:label="goal.name"
-							:current="goal.current || 0"
-							:meta="goal.limit || 0"
-							:index="index" />
-					</div>
-				</div>
-				<!-- 		<div>
+
+				<div>
 					<CircularChart />
-				</div> -->
+				</div>
 
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
@@ -133,22 +121,6 @@ const goalStore = useGoalStore();
 
 const goals = computed(() => goalStore.processedGoals);
 
-const getGradientStyle = (index) => {
-	switch (index % 3) {
-		case 0:
-			return { background: "linear-gradient(to right, #f2f3f3, #d9d9d9)" };
-		case 1:
-			return {
-				background:
-					"linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))",
-			};
-		case 2:
-			return { background: "linear-gradient(to right, #cf5fdd, #71277a)" };
-		default:
-			return {};
-	}
-};
-
 // Notificaciones
 const notifications = ref([
 	{
@@ -175,6 +147,10 @@ const toggleNotifications = () => {
 const markAsRead = (index) => {
 	notifications.value[index].isRead = true;
 };
+
+onMounted(() => {
+	goalStore.fetchGoals(); // Carga metas desde localStorage
+});
 </script>
 
 <style scoped>

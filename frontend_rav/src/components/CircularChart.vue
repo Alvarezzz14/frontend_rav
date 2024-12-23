@@ -68,7 +68,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.value || 0 }}
+					{{ goal.meta || 0 }}
 				</div>
 
 				<div
@@ -82,7 +82,7 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.current || 0 }} Tickets
+					{{ goal.value || 0 }}
 				</div>
 				<!-- Mostrar la fecha -->
 				<div
@@ -104,6 +104,8 @@
 import { ref, computed, reactive, onMounted } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 
+// Prop para recibir una meta individual
+defineProps(["goal", "index"]);
 const goalStore = useGoalStore();
 
 // Procesar metas del store con animación inicializada
