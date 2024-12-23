@@ -243,51 +243,57 @@
 						Registrar Usuario
 					</h2>
 
-					<!-- Selección de Rols -->
-					<div class="flex justify-between mb-6">
-						<label class="flex items-center space-x-2 cursor-pointer">
-							<input
-								type="radio"
-								id="admin"
-								name="rol"
-								value="Administrador"
-								v-model="formData.rol"
-								class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
-							<span
-								:class="{
-									'text-black font-semibold': formData.rol === 'Administrador',
-									'text-gray-700': formData.rol !== 'Administrador',
-								}"
-								class="text-sm lg:text-lg">
-								Administrador
-							</span>
-						</label>
-						<label class="flex items-center space-x-2 cursor-pointer">
-							<input
-								type="radio"
-								id="funcionario"
-								name="rol"
-								value="Funcionario"
-								v-model="formData.rol"
-								class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
-							<span
-								:class="{
-									'text-black font-semibold': formData.rol === 'Funcionario',
-									'text-gray-700': formData.rol !== 'Funcionario',
-								}"
-								class="text-sm lg:text-lg">
-								Funcionario
-							</span>
-						</label>
-					</div>
-
 					<!-- Campos del Formulario -->
 					<form @submit.prevent="submitForm" class="space-y-4">
+						<!-- Selección de Rols -->
+						<div class="flex justify-between mb-6">
+							<label class="flex items-center space-x-2 cursor-pointer">
+								<input
+									type="radio"
+									id="admin"
+									name="rol"
+									value="Administrador"
+									v-model="formData.rol"
+									class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
+								<span
+									:class="{
+										'text-black font-semibold':
+											formData.rol === 'Administrador',
+										'text-gray-700': formData.rol !== 'Administrador',
+									}"
+									class="text-sm lg:text-lg">
+									Administrador
+								</span>
+							</label>
+							<label class="flex items-center space-x-2 cursor-pointer">
+								<input
+									type="radio"
+									id="funcionario"
+									name="rol"
+									value="Funcionario"
+									v-model="formData.rol"
+									class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
+								<span
+									:class="{
+										'text-black font-semibold': formData.rol === 'Funcionario',
+										'text-gray-700': formData.rol !== 'Funcionario',
+									}"
+									class="text-sm lg:text-lg">
+									Funcionario
+								</span>
+							</label>
+						</div>
 						<input
 							v-model="formData.name"
 							type="text"
 							placeholder="Nombre"
 							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
+							required />
+						<input
+							v-model="formData.documento"
+							type="documento"
+							placeholder="Digite Documento Identidad"
+							class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
 						<input
 							v-model="formData.email"
@@ -311,8 +317,7 @@
 							required />
 						<button
 							type="submit"
-							class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300"
-							@click="handleRegister">
+							class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300">
 							Registrar
 						</button>
 					</form>
@@ -824,6 +829,9 @@ import Usuario from "@/assets/images/Usuario.svg";
 import FondoImagen from "@/assets/images/colombiaCollage1.webp";
 import ConfirmacionRegistro from "@/components/ConfirmacionRegistro.vue";
 import ModalConfirmacionEliminar from "@/components/ModalConfirmacionEliminar.vue"; // Importa tu componente
+import axios from "axios";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 
 // Estados para modales
 const showRegisterModal = ref(false);
@@ -832,13 +840,23 @@ const showDeleteModal = ref(false);
 const showSuccessModal = ref(false);
 const showViewModal = ref(false);
 const showConfirmation = ref(false); // Estado del modal de confirmación
+const toast = useToast();
+const router = useRouter();
 
 // Usuario seleccionado para ver, editar o eliminar
 const selectedUser = reactive({});
-const formData = reactive({ name: "", email: "", document: "", rol: "" });
+const formData = reactive({
+	name: "",
+	email: "",
+	password: "",
+	confirmPassword: "",
+	rol: "",
+});
 
-// Lista de usuarios
-const users = reactive([
+const host = import.meta.env.VITE_HOST;
+
+// Lista de usuarios Con datos Quemados
+/* const users = reactive([
 	{
 		nombre: "Juan ",
 		apellido: "Perez",
@@ -861,7 +879,10 @@ const users = reactive([
 		telefono: "123-456-7890",
 		celular: "321-654-9870",
 	},
-]);
+]); */
+
+const users = reactive([]);
+const loading = ref(false); // Indicador de carga
 
 const permisos = ref({
 	inicio: false,
@@ -874,10 +895,55 @@ const permisos = ref({
 });
 
 // Funciones para Registrar Usuario
-function submitForm() {
-	// Agregar el nuevo usuario a la lista
-	users.push({ ...formData });
-	closeRegisterModal(); // Cerrar la modal después de registrar
+async function submitForm() {
+	if (formData.password !== formData.confirmPassword) {
+		toast.error("Las contraseñas no coinciden");
+		return;
+	}
+
+	try {
+		// Obtener el token del localStorage
+		const auth = JSON.parse(localStorage.getItem("auth"));
+		const token = auth?.token;
+
+		if (!token) {
+			toast.error("Token no encontrado. Inicia sesión nuevamente.");
+			return;
+		}
+
+		// Cuerpo de la solicitud con datos predeterminados
+		const payload = {
+			nombre: formData.name,
+			apellidos: "Santa", // Valor quemado
+			tipo_documento: "CC", // Valor quemado
+			numero_documento: formData.documento,
+			sede: "Secundaria", // Valor quemado
+			id_rol: roleMap[formData.rol],
+			regional: "antioquia", // Valor quemado
+			correo: formData.email,
+			telefono: "2356477868", // Valor quemado
+			contraseña: formData.password,
+		};
+
+		// Realizar la solicitud con el token en los headers
+		await axios.post(`${host}:8080/users`, payload, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		toast.success("Registro exitoso. Ahora puedes iniciar sesión.");
+
+		setTimeout(() => {
+			router.push("/login");
+		}, 1550);
+	} catch (error) {
+		console.error(
+			"Error en el registro:",
+			error.response?.data || error.message
+		);
+		toast.error(error.response?.data?.error || "Error en el registro");
+	}
 }
 
 function closeRegisterModal() {
@@ -962,6 +1028,12 @@ const openModal = () => {
 // Función para cerrar el modal
 const closeModal = () => {
 	isModalOpen.value = false;
+};
+
+//Mapeo Roles
+const roleMap = {
+	Administrador: 1,
+	Funcionario: 2,
 };
 </script>
 
