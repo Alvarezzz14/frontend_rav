@@ -344,7 +344,7 @@ const canAccessSubmenu = computed(() => !!eventStore.getUserInfo());
 // Mostrar mensaje de advertencia
 const showToast = () => {
 	toast.warning(
-		"Por favor, ingrese un ciudadano para acceder a esta funcionalidad."
+		"Por favor, ingrese un Numero de Documento Válido para acceder a esta funcionalidad."
 	);
 };
 

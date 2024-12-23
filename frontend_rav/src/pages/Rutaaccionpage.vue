@@ -32,7 +32,7 @@ const searchResults = ref([]);
 const selectedEvent = ref(null);
 const dialogVisible = ref(false);
 
-const nombre = computed(() => searchResults.value[0]?.profile || "Ciudadano");
+const nombre = computed(() => searchResults.value[0]?.profile || "Víctima");
 
 const groupedEvents = computed(() => {
 	return searchResults.value.reduce((groups, event) => {

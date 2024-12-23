@@ -54,7 +54,7 @@
 							Departamento
 						</th>
 						<th class="p-3 text-left border-b bg-gray-200 font-bold">
-							Nombre Ciudadano
+							Nombre Víctima
 						</th>
 						<th class="p-3 text-left border-b bg-gray-200 font-bold">
 							Fecha de Acercamiento

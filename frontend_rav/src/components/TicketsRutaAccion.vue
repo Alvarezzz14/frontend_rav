@@ -45,7 +45,7 @@
 				<div class="">
 					<span class="text-black text-4xl">Ruta de Atención al</span>
 					<br />
-					<span class="text-customPurple text-7xl font-bold">Ciudadano</span>
+					<span class="text-customPurple text-7xl font-bold">Víctima</span>
 				</div>
 			</div>
 
@@ -71,7 +71,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Ciudadano: </span>
+							<span class="text-gray-800 font-semibold">Víctima: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
@@ -100,7 +100,7 @@
 							fill="white" />
 					</svg>
 					<span class="text-white font-bold text-sm text-center"
-						>Regresar a Perfil del Ciudadano</span
+						>Regresar a Perfil de la Víctima</span
 					>
 				</router-link>
 			</div>
