@@ -20,33 +20,72 @@
 
 			<!-- Contenedor de la información del ciudadano y el botón Crear Ticket en una misma fila -->
 			<div class="flex items-center space-x-4">
-				<div class="bg-white p-4 rounded-lg shadow flex items-center space-x-4">
-					<div class="flex items-center gap-2">
-						<div>
-							<svg
-								width="40"
-								height="50"
-								viewBox="0 0 50 60"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg">
-								<!-- Ícono SVG -->
-							</svg>
+				<div>
+					<svg
+						width="40"
+						height="50"
+						viewBox="0 0 50 60"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg">
+						<!-- Ícono SVG -->
+					</svg>
+				</div>
+			</div>
+			<div class="flex gap-3">
+				<!-- Recuadro Blanco (Información del ciudadano) -->
+				<div class="bg-white p-4 rounded-lg shadow-custom flex items-center">
+					<svg
+						width="50"
+						height="60"
+						viewBox="0 0 50 60"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M24.0939 0.027541C11.1836 0.766707 4.40665 15.6399 12.4454 25.7735C19.4536 34.6085 33.3544 33.4898 38.9046 23.7258C45.1034 12.8181 36.6423 -0.691648 24.0939 0.027541ZM0.329441 59.9949H49.623C49.8945 59.7252 49.6682 59.2757 49.6582 58.9461C49.5777 56.334 49.7436 54.1815 49.2308 51.5594C47.6171 43.2838 41.554 36.2267 33.5856 33.3699C28.1661 35.967 21.8064 35.962 16.3819 33.3799C8.53917 36.1668 2.51133 43.059 0.802015 51.1699C0.36966 53.2126 0.304304 54.9206 0.294249 56.9883C0.294249 57.9372 0.238948 58.8962 0.243975 59.8401C0.243975 59.93 0.249003 59.94 0.329441 59.9999V59.9949Z"
+							fill="#7A1F7E" />
+						<path
+							d="M0.329118 59.9945C0.24868 59.9345 0.243652 59.9246 0.243652 59.8347C0.243652 58.8907 0.288899 57.9318 0.293926 56.9829C0.303981 54.9152 0.369337 53.2071 0.801692 51.1644C2.511 43.0536 8.53884 36.1663 16.3816 33.3745C21.8061 35.9566 28.1658 35.9616 33.5853 33.3645C41.5537 36.2263 47.6167 43.2783 49.2305 51.554C49.7433 54.176 49.5774 56.3286 49.6579 58.9407C49.6679 59.2753 49.8941 59.7198 49.6227 59.9895H0.329118V59.9945Z"
+							fill="#7A1F7E" />
+						<path
+							d="M24.094 0.027541C36.6423 -0.691648 45.0984 12.8181 38.9046 23.7258C33.3544 33.4898 19.4537 34.6086 12.4455 25.7735C4.40671 15.6399 11.1887 0.766707 24.094 0.027541Z"
+							fill="#7A1F7E" />
+					</svg>
+
+					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
+						<div class="">
+							<span class="text-gray-800 font-semibold">Ciudadano: </span>
+							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
-						<div>
-							<h3>Ciudadano: {{ user.nombre }} {{ user.nombre }}</h3>
-							<h3>documento: {{ user.documento }}</h3>
+						<div class="">
+							<span class="text-gray-600 font-semibold"> Cédula: </span>
+							<span>{{ userInfo.documento }}</span>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<router-link
-				:to="{ name: 'PerfilCiudadanoPage' }"
-				class="bg-customPurple border-none no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center"
-				style="width: 120px; height: 110px">
-				<img :src="personwhite" alt="Persona" class="w-15 h-15 mb-2" />
-				<span class="text-sm">Regresar a Perfil del Ciudadano</span>
-			</router-link>
+				<!-- Sección Derecha (Botón) -->
+
+				<router-link
+					:to="{ name: 'PerfilCiudadanoPage' }"
+					class="flex flex-col justify-center w-32 h-28 bg-customPurple items-center rounded-md shadow-custom">
+					<svg
+						width="20"
+						height="26"
+						viewBox="0 0 20 26"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M9.63126 13.8217C14.859 14.1235 18.3818 8.45451 15.8015 3.87741C13.4892 -0.21976 7.6981 -0.689206 4.77847 3.01816C1.42947 7.27041 4.25486 13.5115 9.63126 13.8217Z"
+							fill="white" />
+						<path
+							d="M19.9655 25.4999C19.998 25.4737 20 25.4693 20 25.4299C20 25.0164 19.9817 24.5963 19.9797 24.1805C19.9756 23.2747 19.9492 22.5264 19.7746 21.6315C19.0841 18.0781 16.6492 15.0607 13.4812 13.8376C11.29 14.9688 8.7211 14.971 6.53193 13.8333C3.31315 15.087 0.864044 18.1765 0.212165 21.8021C0.00502697 22.9508 0.0720416 23.8939 0.0395479 25.0382C0.0354871 25.1848 -0.0558978 25.3796 0.0537633 25.4977L19.9655 25.4977L19.9655 25.4999Z"
+							fill="white" />
+					</svg>
+					<span class="text-white font-bold text-sm text-center"
+						>Regresar a Perfil del Ciudadano</span
+					>
+				</router-link>
+			</div>
 		</div>
 
 		<div class="mt-4 bg-white rounded-lg shadow p-4">
@@ -211,6 +250,8 @@ const host = import.meta.env.VITE_HOST;
 
 const user = computed(() => authStore.authenticatedUser.user);
 
+const userInfo = computed(() => eventStore.getUserInfo());
+
 const fetchOptions = {
 	url: `${host}:8082/api/v1/victimas/ticket`,
 	options: {
@@ -222,6 +263,7 @@ const fetchOptions = {
 	},
 };
 
+console.log("Contenido de userInfo:", userInfo);
 // Estado para manejar la categoría activa
 const activeCategory = ref(null);
 
@@ -296,8 +338,6 @@ const resetForm = () => {
 	content.value = "";
 	activeCategory.value = null;
 };
-
-onMounted(() => {});
 </script>
 
 <style scoped>
