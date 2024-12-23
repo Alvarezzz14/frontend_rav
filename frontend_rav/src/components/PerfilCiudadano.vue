@@ -20,7 +20,7 @@
 			<div class="flex flex-wrap gap-4 mt-4 justify-center">
 				<router-link
 					:to="{ name: 'RutaAtencionPage' }"
-					class="cursor-pointer bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+					class="cursor-pointer no-underline bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img
 						:src="RutaAtencion"
 						alt="Icono de Atención"
@@ -30,14 +30,14 @@
 
 				<router-link
 					:to="{ name: 'LineaTiempoNuevaPage' }"
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+					class="bg-customPurple no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
 					<span class="text-sm">Ver Línea de Tiempo</span>
 				</router-link>
 
 				<router-link
 					:to="{ name: 'RegistroActividadPage' }"
-					class="bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
+					class="bg-customPurple no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
 					<img
 						:src="Actividad"
 						alt="Icono registrar actividad"
@@ -136,7 +136,6 @@
 			</div>
 			<!-- Contenedor de la tabla con scroll horizontal -->
 			<div class="overflow-x-auto">
-
 				<table class="min-w-full bg-white text-gray-900">
 					<thead>
 						<tr class="bg-gray-200">
@@ -156,12 +155,15 @@
 							<td class="px-4 py-2 border">{{ course.RGA_ESTADO }}</td>
 							<td class="px-4 py-2 border">{{ course.PRF_TIPO_PROGRAMA }}</td>
 							<td class="px-4 py-2 border">{{ course.modalidad || "null" }}</td>
-							<td class="px-4 py-2 border">{{ course.FIC_FCH_INICIALIZACION }}</td>
-							<td class="px-4 py-2 border">{{ course.FIC_FCH_FINALIZACION }}</td>
-
+							<td class="px-4 py-2 border">
+								{{ course.FIC_FCH_INICIALIZACION }}
+							</td>
+							<td class="px-4 py-2 border">
+								{{ course.FIC_FCH_FINALIZACION }}
+							</td>
 						</tr>
-				</tbody>
-			</table>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -177,49 +179,50 @@ import Actividad from "@/assets/images/Actividad.png";
 import Historial from "@/assets/images/Historial.svg";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
 
-
 const eventStore = useEventStore();
-const userInfo = ref({})
-const fetchData = ref([])
+const userInfo = ref({});
+const fetchData = ref([]);
+const host = import.meta.env.VITE_HOST;
 
 const fetchOptions = {
-    url: "http://localhost:8083/api/v1/programa",
-    options: {
-        method: "GET",
-        headers: {
-            "Accept": "application/json",
-        },
-    }
-}
+	url: `${host}:8083/api/v1/programa`,
+	options: {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+		},
+	},
+};
 
-const getFetchData = async(fetchOptions)=>{
-	const{url,options} = fetchOptions
-	let newUrl = url+`/${userInfo.value.documento}`
+const getFetchData = async (fetchOptions) => {
+	const { url, options } = fetchOptions;
+	let newUrl = url + `/${userInfo.value.documento}`;
 	console.log(newUrl);
-	
-	try{
-        const response = await fetch(newUrl,options);
-        const json = await response.json();
-        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
-        console.log(json)
-        fetchData.value = json;
-        
-    }catch(error){
-        if (!error.error) error.error = true
-        console.log(error)
-    }finally{
-      newUrl = ''
-    }
-}
 
-onMounted( () => {  
-  userInfo.value = eventStore.getUserInfo()
-  getFetchData(fetchOptions)
-  console.log(fetchData.value);
-  
+	try {
+		const response = await fetch(newUrl, options);
+		const json = await response.json();
+		if (!response.ok)
+			throw {
+				error: true,
+				errorStatus: response.status,
+				errorMsg: response.statusText,
+			};
+		console.log(json);
+		fetchData.value = json;
+	} catch (error) {
+		if (!error.error) error.error = true;
+		console.log(error);
+	} finally {
+		newUrl = "";
+	}
+};
+
+onMounted(() => {
+	userInfo.value = eventStore.getUserInfo();
+	getFetchData(fetchOptions);
+	console.log(fetchData.value);
 });
-
-
 </script>
 
 <style scoped>
@@ -253,5 +256,4 @@ tbody tr:hover td {
 tbody td {
 	padding: 10px; /* Espaciado interno en las celdas */
 }
-
 </style>

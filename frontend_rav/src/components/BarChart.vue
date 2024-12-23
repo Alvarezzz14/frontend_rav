@@ -1,120 +1,150 @@
 <template>
-	<div class="flex flex-row items-center justify-center w-full">
-	  <!-- Contenedor con más espacio -->
-	  <div class="w-full md:w-3/4 xl:w-2/3">
-		<Bar :data="chartData" :options="chartOptions" />
-	  </div>
+	<div class="flex flex-col w-full h-full">
+		<!-- Transición suave para manejar tanto el spinner como el gráfico -->
+		<transition name="fade">
+			<div v-if="isLoading" class="flex flex-col items-center justify-center">
+				<!-- Spinner visible mientras se cargan los datos -->
+				<p class="text-customPurple font-bold mb-4">Generando Gráfico...</p>
+				<div class="spinner"></div>
+			</div>
+			<div v-else class="h-full flex items-center justify-between">
+				<!-- Gráfico mostrado después de cargar los datos -->
+				<Bar ref="barChart" :data="clonedChartData" :options="chartOptions" />
+			</div>
+		</transition>
 	</div>
-  </template>
-  
-  <script setup>
-  import { Bar } from "vue-chartjs";
-  import { Chart, registerables } from "chart.js";
-  import { reactive } from "vue";
-  
-  // Registrar los módulos necesarios de Chart.js
-  Chart.register(...registerables);
-  
-  // Datos y opciones de la gráfica de barras
-  const chartData = reactive({
-	labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"],
+</template>
+
+<script setup>
+import { Bar } from "vue-chartjs";
+import { Chart, registerables } from "chart.js";
+import { reactive, onMounted, ref, computed } from "vue";
+
+// Registrar los módulos necesarios de Chart.js
+Chart.register(...registerables);
+
+const isLoading = ref(true); // Estado para mostrar el spinner
+const barChart = ref(null);
+const host = import.meta.env.VITE_HOST;
+
+// Datos y opciones del gráfico
+const chartData = reactive({
+	labels: [],
 	datasets: [
-	  {
-		label: "Usuarios",
-		backgroundColor: [
-		  'rgba(128,0,128,0.6)', // Morado
-		  'rgba(138,43,226,0.6)', // Azul violeta
-		  'rgba(148,0,211,0.6)', // Violeta
-		  'rgba(128,0,128,0.6)', // Morado
-		  'rgba(138,43,226,0.6)', // Azul violeta
-		  'rgba(148,0,211,0.6)', // Violeta
-		  'rgba(128,0,128,0.6)', // Morado
-		  'rgba(138,43,226,0.6)', // Azul violeta
-		],
-		borderColor: 'rgba(0,0,0,0.1)',
-		borderWidth: 1,
-		data: [30, 70, 50, 90, 60, 75, 45, 85], // Datos para los nuevos meses
-	  },
+		{
+			label: "Cantidad de Víctimas por Ciudad",
+			backgroundColor: [],
+			borderColor: "rgba(0,0,0,0.1)",
+			borderWidth: 1,
+			data: [],
+		},
 	],
-  });
-  
-  const chartOptions = reactive({
+});
+
+// Clonar datos para evitar problemas de solo lectura
+const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
+
+const chartOptions = reactive({
 	responsive: true,
-	maintainAspectRatio: false,
+	maintainAspectRatio: true,
 	plugins: {
-	  legend: {
-		display: false, // Ocultar la leyenda
-	  },
+		title: {
+			display: true,
+			text: "Ciudades con Mayor Número de Víctimas Registradas",
+			font: {
+				size: 16,
+				weight: "bold",
+			},
+		},
+		legend: {
+			display: false,
+		},
 	},
 	scales: {
-	  x: {
-		ticks: {
-		  font: {
-			size: 14,
-			weight: 'bold',
-		  },
-		  color: 'black', // Color de los números del eje X
+		x: {
+			ticks: {
+				font: {
+					size: 8,
+				},
+				color: "black",
+				maxRotation: 0, // Sin rotación
+				minRotation: 0, // Sin rotación
+			},
+			grid: {
+				display: false,
+			},
 		},
-		title: {
-		  display: true,
-		  text: 'Certificados', // Título del eje X
-		  color: 'black', // Color del título del eje X
-		  font: {
-			size: 16,
-			weight: 'bold',
-		  },
+		y: {
+			beginAtZero: true,
+			ticks: {
+				font: {
+					size: 8,
+				},
+				color: "black",
+			},
+			grid: {
+				display: false,
+			},
 		},
-		grid: {
-		  display: false, // Eliminar las líneas de la cuadrícula
-		},
-		// Ajustar el espacio entre las barras para que quepan más
-		barPercentage: 0.3, // Reducir el grosor de las barras
-		categoryPercentage: 0.5, // Ajustar la categoría para abarcar más espacio
-		// Eliminar la línea del eje X
-		ticks: {
-		  display: true,  // Eliminar los números del eje X
-		},
-		borderWidth: 0,  // Eliminar la línea del borde del eje X
-	  },
-	  y: {
-		ticks: {
-		  font: {
-			size: 14,
-			weight: 'bold',
-		  },
-		  color: 'black', // Color de los números del eje Y
-		  stepSize: 25, // Establecer el intervalo de las marcas en el eje Y (cada 25 unidades)
-		},
-		title: {
-		  display: false,  //cambiar a true si se requiere mostrar un titulo en el eje Y
-		  text: 'Usuarios',
-		  color: 'black', // Color del título del eje Y
-		  font: {
-			size: 16,
-			weight: 'bold',
-		  },
-		},
-		// Desactivar las líneas de la cuadrícula
-		grid: {
-		  display: false, // Eliminar las líneas de la cuadrícula
-		},
-		ticks: {
-		  display: false,  // Eliminar los números del eje X
-		},
-		// Eliminar la línea del eje Y
-		borderWidth: 0,  // Eliminar la línea del borde del eje Y
-	  },
 	},
-  });
-  </script>
-  
-  <style scoped>
-  .chart-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
-  }
-  </style>
-  
+});
+
+// Obtener datos de la API
+const fetchCitiesData = async () => {
+	try {
+		const response = await fetch(`${host}:8082/api/v1/victimas/counter/cities`);
+		if (!response.ok) throw new Error("Error al obtener datos de ciudades");
+
+		const jsonResponse = await response.json();
+
+		const limitedData = jsonResponse.data.slice(0, 5);
+		chartData.labels = limitedData.map((item) => item.ciudad || "Desconocido");
+		chartData.datasets[0].data = limitedData.map((item) =>
+			Number(item.cantidad_repeticiones)
+		);
+		chartData.datasets[0].backgroundColor = limitedData.map((_, index) =>
+			index % 2 === 0 ? "rgba(128,0,128,0.6)" : "rgba(138,43,226,0.6)"
+		);
+
+		console.log("Datos cargados:", chartData);
+		isLoading.value = false; // Ocultar el spinner
+	} catch (error) {
+		console.error("Error al cargar los datos:", error);
+	}
+};
+
+// Llamar a fetchCitiesData al montar el componente
+onMounted(() => {
+	fetchCitiesData();
+});
+</script>
+
+<style scoped>
+.spinner {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #7a1f7e; /* Morado */
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* Transiciones suaves */
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>

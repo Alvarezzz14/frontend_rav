@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Despliega solo cuando hay cambios en `main`
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configuración de Node.js (opcional, para proyectos de front)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Paso 3: Instalación de dependencias y build (opcional, si tienes un front)
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      # Paso 4: Ejecutar pruebas
+    #  - name: Run tests
+     #   run: npm test
+
+      
+      # Paso 4: Configuración de la clave SSH
+      - name: Setup SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H tu-servidor >> ~/.ssh/known_hosts
+
+      # Paso 5: Despliegue en el servidor
+      - name: Deploy to Server
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@tu-servidor << 'EOF'
+          cd /var/www/RAV/Frontend/frontend_rav
+          git pull origin main
+          npm install
+          npm run build
+          sudo systemctl restart servicio-aplicacion
+          EOF
