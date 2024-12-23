@@ -264,7 +264,10 @@ function validateInputs() {
 }
 
 const getData = async () => {
-  const url = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
+  let urlestadistica = generarURL(`${host}:8082/api/v1/victimas/reports`, form);
+  let urltickts = generarURL(`${host}:8082/api/v1/victimas/ticket/all`, form);
+  let urlogs = generarURL(`${host}:8080/audit/logs/filter?`, form);
+
   try {
     const response = await fetch(url);
 
