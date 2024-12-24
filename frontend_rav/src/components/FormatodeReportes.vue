@@ -15,13 +15,13 @@
 
     <!-- Sección Central -->
     <div class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-x-20">
-      <div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md w-72 p-3">
+      <div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md sm:w-auto md:w-auto  w-auto p-3">
         <div class="text-center">
           <h3>Seleccione el tipo de reporte</h3>
         </div>
 
         <!-- Selección de tipo de reporte -->
-        <div class="radio-button text-base grid grid-flow-col items-center mx-9 mr-3">
+        <div class="radio-button text-base grid grid-flow-col  w-auto items-center mx-9 mr-3">
           <input 
             type="radio" 
             id="tickets" 
@@ -30,7 +30,7 @@
             class="custom-radio" 
             v-model="selectedReport" 
           />
-          <label for="tickets">Historial de Tickets</label>
+          <label class="w-auto" for="tickets">Historial de Tickets</label>
 
           <input 
             type="radio" 
@@ -40,7 +40,7 @@
             class="custom-radio" 
             v-model="selectedReport" 
           />
-          <label for="estadisticas">Estadísticas de victima</label>
+          <label class="w-auto" for="estadisticas">Estadísticas de victima</label>
 
           <input 
             type="radio" 
@@ -50,7 +50,7 @@
             class="custom-radio" 
             v-model="selectedReport" 
           />
-          <label for="auditLogs">Logs de Auditoría</label>
+          <label class="w-auto" for="auditLogs">Logs de Auditoría</label>
         </div>
 
         <!-- Selección de Departamento - Ahora solo se muestra para EstadisticasVictima y AuditLogs -->
@@ -152,7 +152,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from 'vue'; 
 import axios from "axios";
 import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
@@ -162,12 +162,11 @@ import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
+
 const selectedDepartamento = ref(""); // Departamento seleccionado
 const loading = ref(false);
 const needsSearch = ref(false);
 const host = import.meta.env.VITE_HOST;
-
-
 
 const form = ref({
   department_name:"",
@@ -177,6 +176,21 @@ const form = ref({
   etario_group:"",
   pertenencia_etnica: "",
 })
+
+// Vigilar cambios en selectedReport
+watch(selectedReport, (newValue) => {
+  // Resetear el formulario
+  form.value = {
+    department_name: '',
+    document: '',
+    genere: '',
+    etario_group: '',
+    pertenencia_etnica: ''
+  };
+  
+  // Resetear checkbox de búsqueda avanzada
+  needsSearch.value = false;
+});
 
 // Lista de department_name
 const department_name = ref([
