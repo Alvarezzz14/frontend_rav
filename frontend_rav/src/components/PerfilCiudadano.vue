@@ -12,7 +12,7 @@
 						height="50" />
 				</div>
 				<div class="ml-4 text-center lg:text-left">
-					<p class="text-black mb-0 text-2xl">Perfil del</p>
+					<p class="text-black mb-0 text-2xl">Perfil de la</p>
 					<h2 class="text-customPurple text-5xl mt-0 font-bold">Víctima</h2>
 				</div>
 			</div>

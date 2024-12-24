@@ -43,7 +43,7 @@
 					</svg>
 				</div>
 				<div class="">
-					<span class="text-black text-4xl">Ruta de Atención al</span>
+					<span class="text-black text-4xl">Ruta de Atención de la</span>
 					<br />
 					<span class="text-customPurple text-7xl font-bold">Víctima</span>
 				</div>
@@ -71,7 +71,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Víctima: </span>
+							<span class="text-gray-800 font-semibold">Nombre: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
