@@ -7,9 +7,13 @@
 				<p class="text-customPurple font-bold mb-4">Generando Gráfico...</p>
 				<div class="spinner"></div>
 			</div>
-			<div v-else class="h-full flex items-center justify-between">
+			<div v-else-if="hasData" class="h-full flex items-center justify-between">
 				<!-- Gráfico mostrado después de cargar los datos -->
 				<Bar ref="barChart" :data="clonedChartData" :options="chartOptions" />
+			</div>
+			<!-- Mostrar mensaje si no hay datos -->
+			<div v-else class="flex flex-col items-center justify-center text-white">
+				<p class="text-lg font-bold">No hay información para mostrar</p>
 			</div>
 		</transition>
 	</div>
@@ -26,6 +30,7 @@ Chart.register(...registerables);
 const isLoading = ref(true); // Estado para mostrar el spinner
 const barChart = ref(null);
 const host = import.meta.env.VITE_HOST;
+const hasData = ref(false);
 
 // Datos y opciones del gráfico
 const chartData = reactive({
@@ -102,6 +107,9 @@ const fetchCitiesData = async () => {
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)
 		);
+		//Verifica si hay Datos
+		hasData.value = chartData.datasets[0].data.length > 0;
+
 		chartData.datasets[0].backgroundColor = limitedData.map((_, index) =>
 			index % 2 === 0 ? "rgba(128,0,128,0.6)" : "rgba(138,43,226,0.6)"
 		);

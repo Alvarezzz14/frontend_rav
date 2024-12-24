@@ -34,8 +34,7 @@
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
 			<div
-				class="p-4 border my-card rounded-lg w-full max-w-full sm:max-w-full"
-				style="background-color: #71277a">
+				class="p-4 border my-card bg-customPurple rounded-lg w-full max-w-full sm:max-w-full">
 				<PieChart />
 			</div>
 			<div
