@@ -63,27 +63,7 @@
           </select>
         </div>
 
-        <!-- El resto del código permanece igual -->
-        <!-- Filtros dinámicos -->
-        <div v-if="selectedReport === 'HistorialTickets' || selectedReport === 'AuditLogs' || selectedReport === 'EstadisticasVictima'" class="mb-4">
-          <label>Seleccione el rango de fechas:</label>
-          <div class="flex items-center space-x-4">
-            <input type="date" v-model="dateRange.from" class="w-1/2 p-2 rounded-lg" />
-            <input type="date" v-model="dateRange.to" class="w-1/2 p-2 rounded-lg" />
-          </div>
-        </div>
-
-        <!-- Campo de búsqueda por correo (Logs de Auditoría) -->
-        <div v-if="selectedReport === 'AuditLogs'" class="mb-4">
-          <label for="emailSearch">Buscar por correo SENA:</label>
-          <input
-            type="email"
-            id="emailSearch"
-            v-model="searchEmail"
-            placeholder="Ingrese el correo"
-            class="block p-2 rounded-lg w-full"
-          />
-        </div>
+ 
 
         <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
           <label for="document">Buscar por numero de identificación:</label>
@@ -183,7 +163,6 @@ import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
 const selectedDepartamento = ref(""); // Departamento seleccionado
-const dateRange = ref({ from: "", to: "" }); // Rango de fechas
 const loading = ref(false);
 const needsSearch = ref(false);
 const host = import.meta.env.VITE_HOST;
@@ -238,7 +217,7 @@ const department_name = ref([
 
 // Validación de los inputs
 function validateInputs() {
-  if (!selectedReport.value || !selectedDepartamento.value || !dateRange.value.from || !dateRange.value.to) {
+  if (!selectedReport.value || !selectedDepartamento.value) {
     alert("Por favor, complete todos los campos.");
     return false;
   }
