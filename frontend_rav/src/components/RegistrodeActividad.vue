@@ -199,7 +199,7 @@
 				placeholder="Descripción:"></textarea>
 
 			<button
-				class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
+				class="bg-customPurple border-none w-full h-12 text-amarillo cursor-pointer font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
 				@click="() => sendTicker(fetchOptions)">
 				Enviar
 			</button>
@@ -212,7 +212,7 @@
 			<div class="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 relative">
 				<button
 					@click="closeSuccessModal"
-					class="absolute top-4 right-4 text-customPurple border-none rounded-full p-2 font-bold hover:bg-customPurple hover:text-white">
+					class="absolute top-4 right-4 cursor-pointer text-customPurple border-none rounded-full p-2 font-bold hover:bg-customPurple hover:text-white">
 					✕
 				</button>
 				<div class="text-center">
@@ -221,7 +221,7 @@
 					</h2>
 					<button
 						@click="closeSuccessModal"
-						class="bg-customPurple text-white py-2 px-4 rounded-lg">
+						class="bg-customPurple text-white py-2 px-4 rounded-lg cursor-pointer">
 						Aceptar
 					</button>
 				</div>
@@ -295,8 +295,8 @@ const createBodyFetch = () => {
 		titulo: title.value,
 		contenido: content.value,
 		palabras_clave: selectedKeywords.value.join(", "),
-		numero_documento: parseInt(documentNumber.value),
-		id_usuario: user_id,
+		numero_documento: parseInt(userInfo.documento),
+		id_usuario: userInfo.id,
 	};
 };
 
