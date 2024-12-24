@@ -168,7 +168,7 @@
 										fill="white" />
 								</svg>
 
-								<span class="ml-2">PERMISOS </span>
+								<span class="ml-2">ACCIONES </span>
 							</div>
 						</th>
 					</tr>
@@ -180,7 +180,9 @@
 						:key="index"
 						class="text-center border-t border-gray-200">
 						<td class="p-4 border-b border-gray-300">{{ user.nombre }}</td>
-						<td class="p-4 border-b border-gray-300">{{ user.rol }}</td>
+						<td class="p-4 border-b border-gray-300">
+							{{ user.rol || "Desconocida" }}
+						</td>
 						<td class="p-4 border-b border-gray-300">{{ user.correo }}</td>
 						<td class="p-4 border-b border-gray-300">
 							{{ user.numero_documento }}
@@ -195,7 +197,7 @@
 							</button>
 							<!-- Botón Editar -->
 							<button
-								@click="editUser(user)"
+								@click="updateUser(user)"
 								class="bg-white cursor-pointer mx-2 border-none shadow-md p-2 rounded-full">
 								<img :src="IconoEditar" alt="Editar" class="w-5 h-5" />
 							</button>
@@ -581,7 +583,7 @@
 						</div>
 
 						<!--permisos de usuario-->
-						<h3 class="font-semibold text-black text-sm">
+						<!-- <h3 class="font-semibold text-black text-sm">
 							PERMISOS DE USUARIO
 						</h3>
 						<div class="flex flex-row">
@@ -763,8 +765,7 @@
 								id="rolespermisos"
 								name="rolespermisos" />
 							<label for="lineaTiempo">Roles y Permisos</label>
-						</div>
-
+						</div>-->
 						<button
 							type="submit"
 							class="w-full bg-customPurple cursor-pointer text-amarillo border-none font-bold py-2 rounded-lg">
@@ -814,7 +815,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import ListaUsuarios from "@/assets/images/ListaUsuarios.svg";
 import IconoEditar from "@/assets/images/IconoEditar.svg";
 import IconoEliminar from "@/assets/images/IconoEliminar.svg";
@@ -946,6 +947,42 @@ async function submitForm() {
 	}
 }
 
+// Función para listar usuarios
+const fetchUsers = async () => {
+	loading.value = true; // Activar indicador de carga
+	try {
+		const auth = JSON.parse(localStorage.getItem("auth"));
+		const token = auth?.token;
+
+		if (!token) {
+			toast.error("Token no encontrado. Inicia sesión nuevamente.");
+			return;
+		}
+
+		const response = await axios.get(`${host}:8080/users`, {
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		// Mapea los roles numéricos a etiquetas
+		const mappedUsers = response.data.map((user) => ({
+			...user,
+			rol: roleMap[user.id_rol] || "Desconocido",
+		}));
+
+		// Actualiza la lista local
+		users.splice(0, users.length, ...mappedUsers);
+
+		toast.success("Usuarios cargados correctamente.");
+	} catch (error) {
+		console.error(
+			"Error al listar usuarios:",
+			error.response?.data || error.message
+		);
+		toast.error("Error al listar usuarios.");
+	} finally {
+		loading.value = false; // Desactivar indicador de carga
+	}
+};
 function closeRegisterModal() {
 	// Limpiar los campos del formulario
 	formData.name = "";
@@ -979,24 +1016,67 @@ function closeViewModal() {
 	showViewModal.value = false;
 }
 
-// Funciones para Editar Usuario
-function editUser(user) {
-	Object.assign(selectedUser, user); // Copiar datos del usuario seleccionado
-	showEditModal.value = true;
+function updateUser(user) {
+	Object.assign(selectedUser, user); // Asigna los datos del usuario seleccionado
+
+	showEditModal.value = true; // Abre el modal de edición
 }
 
 function closeEditModal() {
 	showEditModal.value = false;
 }
 
-function saveUser() {
-	// Buscar al usuario y actualizar sus datos
-	const index = users.findIndex((u) => u.document === selectedUser.document);
-	if (index !== -1) {
-		users[index] = { ...selectedUser };
+const saveUser = async () => {
+	try {
+		const auth = JSON.parse(localStorage.getItem("auth"));
+		const token = auth?.token;
+
+		if (!token) {
+			toast.error("Token no encontrado. Inicia sesión nuevamente.");
+			return;
+		}
+
+		if (!selectedUser.id) {
+			toast.error("ID del usuario no encontrado. Verifica los datos.");
+			return;
+		}
+
+		// Realiza la solicitud de actualización
+		await axios.patch(
+			`http://localhost:8080/users/${selectedUser.id}`,
+			{
+				nombre: selectedUser.nombre,
+				apellidos: selectedUser.apellido,
+				tipo_documento: "CC", // Reemplaza según sea necesario
+				numero_documento: selectedUser.numero_documento,
+				sede: selectedUser.sed_nombre,
+				id_rol: roleReverseMap[selectedUser.rol], // Mapeo de roles
+				regional: selectedUser.regional,
+				correo: selectedUser.correo,
+				telefono: selectedUser.telefono,
+				celular: selectedUser.celular,
+			},
+			{
+				headers: { Authorization: `Bearer ${token}` },
+			}
+		);
+
+		// Actualizar la lista local
+		const index = users.findIndex((u) => u.id === selectedUser.id);
+		if (index !== -1) {
+			users[index] = { ...selectedUser };
+		}
+
+		toast.success("Usuario actualizado correctamente.");
+		closeEditModal(); // Cerrar el modal de edición
+	} catch (error) {
+		console.error(
+			"Error al actualizar usuario:",
+			error.response?.data || error.message
+		);
+		toast.error("Error al actualizar usuario.");
 	}
-	closeEditModal(); // Cerrar la modal después de guardar
-}
+};
 
 // Funciones para Eliminar Usuario
 function confirmDeleteUser(user) {
@@ -1008,14 +1088,34 @@ function closeDeleteModal() {
 	showDeleteModal.value = false;
 }
 
-function deleteUser() {
-	// Eliminar al usuario de la lista
-	const index = users.findIndex((u) => u.document === selectedUser.document);
-	if (index !== -1) users.splice(index, 1);
+const deleteUser = async () => {
+	try {
+		const auth = JSON.parse(localStorage.getItem("auth"));
+		const token = auth?.token;
 
-	closeDeleteModal(); // Cerrar la modal de confirmación
-	showSuccessModal.value = true; // Mostrar la modal de éxito
-}
+		if (!token) {
+			toast.error("Token no encontrado. Inicia sesión nuevamente.");
+			return;
+		}
+
+		await axios.delete(`${host}:8080/users/${selectedUser.id}`, {
+			headers: { Authorization: `Bearer ${token}` },
+		});
+
+		// Eliminar usuario de la lista local
+		const index = users.findIndex((u) => u.id === selectedUser.id);
+		if (index !== -1) users.splice(index, 1);
+
+		toast.success("Usuario eliminado correctamente.");
+		closeDeleteModal(); // Cerrar modal de eliminación
+	} catch (error) {
+		console.error(
+			"Error al eliminar usuario:",
+			error.response?.data || error.message
+		);
+		toast.error("Error al eliminar usuario.");
+	}
+};
 
 // Estado para controlar la visibilidad del modal
 const isModalOpen = ref(false);
@@ -1030,11 +1130,18 @@ const closeModal = () => {
 	isModalOpen.value = false;
 };
 
-//Mapeo Roles
+//Mapeo de Roles Bidireccionales
 const roleMap = {
+	1: "Administrador",
+	2: "Funcionario",
+};
+
+const roleReverseMap = {
 	Administrador: 1,
 	Funcionario: 2,
 };
+
+onMounted(fetchUsers);
 </script>
 
 <style scoped>
