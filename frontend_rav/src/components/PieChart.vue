@@ -8,11 +8,17 @@
 				<div class=" spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
-			<div v-else class="h-full ">
+
+			<div v-else-if="hasData" class="h-full">
+
 				<Doughnut
 					ref="doughnutChart"
 					:data="clonedChartData"
 					:options="chartOptions" />
+			</div>
+			<!-- Mostrar mensaje si no hay datos -->
+			<div v-else class="flex flex-col items-center justify-center text-white">
+				<p class="text-lg font-bold">No hay información para mostrar</p>
 			</div>
 		</transition>
 	</div>
@@ -28,6 +34,7 @@ Chart.register(...registerables);
 const isLoading = ref(true); // Estado para el spinner
 const doughnutChart = ref(null);
 const host = import.meta.env.VITE_HOST;
+const hasData = ref(false); //Estado para verificar si hay datos
 
 // Función para truncar textos largos
 const truncateText = (text, maxLength) =>
@@ -121,6 +128,9 @@ const fetchPertEtnicaData = async () => {
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)
 		);
+
+		//Verifica si hay Datos
+		hasData.value = chartData.datasets[0].data.length > 0;
 
 		console.log("Datos cargados para el gráfico:", chartData);
 		isLoading.value = false; // Ocultar el spinner

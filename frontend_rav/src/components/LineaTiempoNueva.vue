@@ -36,7 +36,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Ciudadano: </span>
+							<span class="text-gray-800 font-semibold">Víctima: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
