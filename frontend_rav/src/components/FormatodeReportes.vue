@@ -278,15 +278,15 @@ const handleSubmit = async () => {
   loading.value = true;
   try {
     const { data, url } = await getData();
-    // Manejo específico para AuditLogs
     if (selectedReport.value === 'AuditLogs') {
-      if (data && Array.isArray(data)) {
+      // Check for logs array specifically for AuditLogs
+      if (data && data.logs && data.logs.length > 0) {
         await handleDownloadReport(url);
       } else {
-        alert("No se encontraron datos para generar el reporte.");
+        alert("No se encontraron datos para generar el reporte - Logs");
       }
     } else {
-      // Manejo para otros tipos de reportes
+      // Original check for other reports
       if (data && data.data && data.data.length > 0) {
         await handleDownloadReport(url);
       } else {
@@ -305,44 +305,39 @@ async function handleDownloadReport(url) {
   loading.value = true;
 
   try {
-    let worksheetName;
-    if (selectedReport.value === "HistorialTickets") {
-      worksheetName = "Historial de Tickets";
-    } else if (selectedReport.value === "EstadisticasVictima") {
-      worksheetName = "Estadísticas Victimas";
-    } else if (selectedReport.value === "AuditLogs") {
-      worksheetName = "Logs de Auditoría";
-    } else {
-      alert("Tipo de reporte no válido.");
-      loading.value = false;
-      return;
-    }
-
     const response = await axios.get(url);
     let processedData;
 
     if (selectedReport.value === 'AuditLogs') {
-      processedData = response.data?.logs || [];
-      console.log("Datos de auditoría procesados:", processedData);
+      // Extract logs array and ensure it's properly formatted
+      processedData = response.data?.logs?.map(log => ({
+        ID: log.id,
+        Usuario_ID: log.id_usuario,
+        Correo: log.correo || '',
+        Regional: log.regional || '',
+        Modulo: log.nombre_modulo || '',
+        // Add any other fields you need
+      })) || [];
     } else {
       processedData = response.data?.data || [];
     }
 
     if (processedData.length === 0) {
-      alert("No se encontraron datos para el reporte seleccionado.");
-      loading.value = false;
-      return;
+      throw new Error("No hay datos para procesar");
     }
+
+    const worksheetName = selectedReport.value === "AuditLogs" ? "Logs de Auditoría" :
+                         selectedReport.value === "HistorialTickets" ? "Historial de Tickets" :
+                         "Estadísticas Victimas";
 
     await generateReport(processedData, worksheetName, {
       regional: "Tu Regional",
       responsable: "Nombre del Responsable",
       correo: "correo@ejemplo.com"
     });
-
   } catch (error) {
     console.error("Error al obtener el reporte:", error);
-    alert("Ocurrió un error al obtener el reporte. Por favor, inténtalo de nuevo.");
+    alert("Ocurrió un error al obtener el reporte. Por favor, intente nuevamente.");
   } finally {
     loading.value = false;
   }
