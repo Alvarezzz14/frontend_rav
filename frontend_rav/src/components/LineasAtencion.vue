@@ -105,13 +105,7 @@
 				</div>
 			</div>
 
-			<!-- Títulos debajo de Entidades -->
-			<div class="flex gap-5 flex-auto -mb-8">
-				<h4 class="font-bold mt-1 ml-20 text-center">SENA</h4>
-				<h4 class="font-bold mt-1 ml-36 text-center">APE</h4>
-				<h4 class="font-bold mt-1 ml-24 text-center">Certificaciones</h4>
-				<h4 class="font-bold mt-1 ml-7 text-center">Fondo Emprender</h4>
-			</div>
+			
 
 			<!-- Sección de Selección de Regional -->
 			<div class="flex items-center space-x-1 flex-auto -mb-3">

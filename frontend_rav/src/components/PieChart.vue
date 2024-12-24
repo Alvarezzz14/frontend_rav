@@ -4,11 +4,11 @@
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
-				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
-				<div class="spinner"></div>
+				<p class="text-white  font-bold mb-4">Generando Gráfico...</p>
+				<div class=" spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
-			<div v-else class="h-full">
+			<div v-else class="h-full ">
 				<Doughnut
 					ref="doughnutChart"
 					:data="clonedChartData"

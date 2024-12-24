@@ -24,7 +24,7 @@
 		</div>
 
 		<!-- Contenedores principales -->
-		<div class="mt-4 bg-white rounded-lg shadow p-4 space-y-6">
+		<div class="mt-4 bg-white rounded-lg md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto shadow p-4 space-y-6">
 			<!-- Primer contenedor -->
 			<div class="flex flex-wrap items-center gap-4">
 				<!-- Icono y texto de Roles -->
@@ -41,17 +41,17 @@
 					</div>
 
 					<!-- Contenedor de los campos input y select -->
-					<div class="flex flex-wrap gap-4 text-right">
+					<div class="flex flex-wrap gap-4 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto text-right">
 						<!-- Campo de input -->
 						<input
 							type="text"
 							placeholder="Escribe un rol"
-							class="border rounded-md p-2 w-full sm:w-96 lg:w-450 focus:outline-none focus:ring" />
+							class="border rounded-md p-2 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto focus:outline-none focus:ring" />
 
 						<!-- Campo de select -->
 						<select
 							v-model="selectedRole"
-							class="border rounded-md p-2 w-full sm:w-96 lg:w-450 focus:outline-none focus:ring">
+							class="border rounded-md p-2 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto focus:outline-none focus:ring">
 							<option value="" disabled>Seleccione el Rol</option>
 							<option v-for="role in roles" :key="role.id" :value="role.id">
 								{{ role.nombre }}
@@ -65,7 +65,7 @@
 			<div class="flex flex-wrap items-center gap-4">
 				<!-- Icono y texto de Módulos -->
 				<div class="flex items-center gap-2">
-					<div class="p-2 bg-customPurple rounded-full">
+					<div class="p-2 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto bg-customPurple rounded-full">
 						<img
 							src="@/assets/images/rol.svg"
 							alt="Modules Icon"
