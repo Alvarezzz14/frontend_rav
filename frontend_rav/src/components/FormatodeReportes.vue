@@ -321,9 +321,9 @@ async function handleDownloadReport(url) {
     const response = await axios.get(url);
     let processedData;
 
-    // Procesamiento específico según el tipo de reporte
     if (selectedReport.value === 'AuditLogs') {
-      processedData = Array.isArray(response.data) ? response.data : [];
+      processedData = response.data?.logs || [];
+      console.log("Datos de auditoría procesados:", processedData);
     } else {
       processedData = response.data?.data || [];
     }
@@ -334,8 +334,6 @@ async function handleDownloadReport(url) {
       return;
     }
 
-    console.log("Datos procesados:", processedData);
-    
     await generateReport(processedData, worksheetName, {
       regional: "Tu Regional",
       responsable: "Nombre del Responsable",
