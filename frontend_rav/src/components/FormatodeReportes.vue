@@ -278,10 +278,20 @@ const handleSubmit = async () => {
   loading.value = true;
   try {
     const { data, url } = await getData();
-    if (data && data.data && data.data.length > 0) {
-      await handleDownloadReport(url);
+    // Manejo específico para AuditLogs
+    if (selectedReport.value === 'AuditLogs') {
+      if (data && Array.isArray(data)) {
+        await handleDownloadReport(url);
+      } else {
+        alert("No se encontraron datos para generar el reporte.");
+      }
     } else {
-      alert("No se encontraron datos para generar el reporte.");
+      // Manejo para otros tipos de reportes
+      if (data && data.data && data.data.length > 0) {
+        await handleDownloadReport(url);
+      } else {
+        alert("No se encontraron datos para generar el reporte.");
+      }
     }
   } catch (error) {
     console.error("Error al procesar la solicitud:", error);
@@ -291,13 +301,11 @@ const handleSubmit = async () => {
   }
 };
 
-async function handleDownloadReport(url) { // Agregamos url como parámetro
+async function handleDownloadReport(url) {
   loading.value = true;
 
   try {
     let worksheetName;
-
-    // Configuración de los nombres de los reportes
     if (selectedReport.value === "HistorialTickets") {
       worksheetName = "Historial de Tickets";
     } else if (selectedReport.value === "EstadisticasVictima") {
@@ -310,44 +318,37 @@ async function handleDownloadReport(url) { // Agregamos url como parámetro
       return;
     }
 
-    // Buscar el nombre del departamento según el código seleccionado
-    const departamentoNombre = department_name.value.find(
-      (d) => d.code === selectedDepartamento.value
-    )?.name || "";
-
-    // Verificar datos que se enviarán
-    console.log("Nombre del departamento enviado:", departamentoNombre);
-    console.log("Fechas enviadas:", dateRange.value.from, dateRange.value.to);
-
-    // Usar la URL generada para la solicitud
     const response = await axios.get(url);
-    const data = response.data;
+    let processedData;
 
-    // Validación actualizada para manejar la estructura correcta de datos
-    if (!data || !data.data || !Array.isArray(data.data) || data.data.length === 0) {
+    // Procesamiento específico según el tipo de reporte
+    if (selectedReport.value === 'AuditLogs') {
+      processedData = Array.isArray(response.data) ? response.data : [];
+    } else {
+      processedData = response.data?.data || [];
+    }
+
+    if (processedData.length === 0) {
       alert("No se encontraron datos para el reporte seleccionado.");
       loading.value = false;
       return;
     }
 
-    // Procesar los datos recibidos (usando data.data que contiene el array)
-    console.log("Datos recibidos:", data.data);
+    console.log("Datos procesados:", processedData);
     
-    // Generar el reporte con los datos procesados
-    await generateReport(data.data, worksheetName, {
+    await generateReport(processedData, worksheetName, {
       regional: "Tu Regional",
       responsable: "Nombre del Responsable",
       correo: "correo@ejemplo.com"
     });
 
-    loading.value = false;
   } catch (error) {
     console.error("Error al obtener el reporte:", error);
     alert("Ocurrió un error al obtener el reporte. Por favor, inténtalo de nuevo.");
+  } finally {
     loading.value = false;
   }
 }
-
 
 
 
