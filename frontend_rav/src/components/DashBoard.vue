@@ -2,8 +2,11 @@
 	<div class="flex flex-col gap-5 p-4">
 		<!-- Primera Sección: Contenedores con contenido e imagen -->
 		<div class="flex gap-5 justify-between">
-			<div v-for="(image, index) in imagePaths" :key="index"
-				class="rounded-lg text-center shadow-lg w-full sm:w-1/4 md:w-1/5 my-card" :style="{
+			<div
+				v-for="(image, index) in imagePaths"
+				:key="index"
+				class="rounded-lg text-center shadow-lg w-full sm:w-1/4 md:w-1/5 my-card"
+				:style="{
 					backgroundImage:
 						'url(' +
 						image.path +
@@ -30,7 +33,8 @@
 
 		<!-- Segunda Sección: Gráficos -->
 		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-			<div class="p-4 border my-card rounded-lg w-full max-w-full sm:max-w-full"
+			<div
+				class="p-4 border my-card rounded-lg w-full max-w-full sm:max-w-full"
 				style="background-color: #71277a">
 				<PieChart />
 			</div>
@@ -41,7 +45,8 @@
 		</div>
 
 		<!-- Tercera Sección: Tabla de Datos -->
-		<div class="p-4 border border-customPurple my-card rounded-lg bg-white overflow-x-auto">
+		<div
+			class="p-4 border border-customPurple my-card rounded-lg bg-white overflow-x-auto">
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
@@ -87,64 +92,29 @@ import Cancelados from "@/assets/images/Cancelados.svg";
 import PieChart from "./PieChart.vue";
 import axios from "axios";
 
-	// Datos de las imágenes estáticas y sus títulos
-	const imagePaths = ref([
+// Datos de las imágenes estáticas y sus títulos
+const imagePaths = ref([
 	{
 		title: "EN FORMACIÓN",
-	count: "12883124",
-	path: EnFormacion,
-    },
+		count: "12883124",
+		path: EnFormacion,
+	},
 	{
 		title: "CERTIFICADOS",
-	count: "9888112",
-	path: Certificados,
-    },
+		count: "9888112",
+		path: Certificados,
+	},
 	{
 		title: "POR CERTIFICAR",
-	count: "85883161",
-	path: EnProceso,
-    },
+		count: "85883161",
+		path: EnProceso,
+	},
 	{
 		title: "CANCELADOS",
-	count: "99883151",
-	path: Cancelados,
-    },
-	]);
-
-	const tableData = ref([]); // Datos de la tabla inicializados vacíos
-	const loading = ref(false); // Indicador de carga para mostrar durante la consulta
-	const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
-
-// Función para obtener los datos de la API
-const fetchTableData = async () => {
-	loading.value = true;
-	errorMessage.value = null;
-
-	try {
-        const response = await axios.get('http://localhost:8082/api/v1/victimas/ticket/attended');
-		console.log(response.data);
-        // Suponiendo que la respuesta contiene un array de datos
-        tableData.value = response.data.map(item => ({
-		Departamento: item.departamento,
-		Estado: item.estado, // Ajustar a la estructura real de la API
-		Fecha: item.fecha // Ajustar a la estructura real de la API
-		
-        }));
-		console.log(Departamento);
-    } catch (error) {
-		errorMessage.value = "Error al obtener los datos. Intente nuevamente.";
-	console.error("Error al obtener los datos de la API:", error);
-    } finally {
-		loading.value = false;
-    }
-};
-
-// Hook para realizar la consulta al montar el componente
-onMounted(() => {
-		fetchTableData();
-});
-
-
+		count: "99883151",
+		path: Cancelados,
+	},
+]);
 
 const tableData = ref([]); // Datos de la tabla inicializados vacíos
 const loading = ref(false); // Indicador de carga para mostrar durante la consulta

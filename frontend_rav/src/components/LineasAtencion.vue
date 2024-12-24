@@ -105,10 +105,6 @@
 				</div>
 			</div>
 
-<<<<<<< HEAD
-			<!-- Títulos debajo de Entidades -->
-=======
->>>>>>> develop
 			
 
 			<!-- Sección de Selección de Regional -->
