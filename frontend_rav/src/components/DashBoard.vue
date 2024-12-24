@@ -45,21 +45,29 @@
 			<table class="w-full border-collapse">
 				<thead>
 					<tr>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">Departamento</th>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">Nombre Ciudadano</th>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">Fecha de Acercamiento</th>
+						<th class="p-3 text-left border-b bg-gray-200 font-bold">
+							Departamento
+						</th>
+						<th class="p-3 text-left border-b bg-gray-200 font-bold">
+							Nombre Ciudadano
+						</th>
+						<th class="p-3 text-left border-b bg-gray-200 font-bold">
+							Fecha de Acercamiento
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!-- Muestra un mensaje si no hay datos -->
-					<tr v-if="tableData.length === 0">
-						<td colspan="3" class="p-3 text-center text-gray-500">No hay datos disponibles.</td>
+					<tr v-if="!tableData && Object.keys(tableData).length === 0">
+						<td colspan="3" class="p-3 text-center text-gray-500">
+							No hay datos disponibles.
+						</td>
 					</tr>
 					<!-- Rellena la tabla con los datos -->
-					<tr v-for="(row, index) in tableData" :key="index">
-						<td class="p-3 border-b">{{ row.Departamento }}</td>
-						<td class="p-3 border-b">{{ row.NombreCiudadano }}</td>
-						<td class="p-3 border-b">{{ row.FechaAcercamiento }}</td>
+					<tr v-for="(row, index) in tableData.data" :key="index">
+						<td class="p-3 border-b">{{ row.nombre_departamento }}</td>
+						<td class="p-3 border-b">{{ row.nombre_completo }}</td>
+						<td class="p-3 border-b">{{ row.fecha_hora }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -68,16 +76,16 @@
 </template>
 
 <script setup>
-	// Importar componentes
-	import {ref, onMounted} from "vue";
-	import LineChart from "@/components/LineChart.vue";
-	import BarChart from "@/components/BarChart.vue";
-	import EnFormacion from "@/assets/images/EnFormacion.png";
-	import Certificados from "@/assets/images/Certificados.png";
-	import EnProceso from "@/assets/images/PorCertificar.png";
-	import Cancelados from "@/assets/images/Cancelados.svg";
-	import PieChart from "./PieChart.vue";
-	import axios from 'axios';
+// Importar componentes
+import { ref, onMounted } from "vue";
+import LineChart from "@/components/LineChart.vue";
+import BarChart from "@/components/BarChart.vue";
+import EnFormacion from "@/assets/images/EnFormacion.png";
+import Certificados from "@/assets/images/Certificados.png";
+import EnProceso from "@/assets/images/PorCertificar.png";
+import Cancelados from "@/assets/images/Cancelados.svg";
+import PieChart from "./PieChart.vue";
+import axios from "axios";
 
 	// Datos de las imágenes estáticas y sus títulos
 	const imagePaths = ref([
@@ -138,6 +146,37 @@ onMounted(() => {
 
 
 
+const tableData = ref([]); // Datos de la tabla inicializados vacíos
+const loading = ref(false); // Indicador de carga para mostrar durante la consulta
+const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
+const host = import.meta.env.VITE_HOST;
+
+// Hook para realizar la consulta al montar el componente
+onMounted(async () => {
+	tableData.value = await fetchTableData();
+	console.log(Object.keys(tableData.value).length === 0);
+});
+
+// Función para obtener los datos de la API
+const fetchTableData = async () => {
+	loading.value = true;
+	errorMessage.value = null;
+
+	try {
+		const response = await axios.get(
+			`${host}:8082/api/v1/victimas/ticket/attended`
+		);
+		console.log(response.data);
+		// Suponiendo que la respuesta contiene un array de datos
+
+		return response.data;
+	} catch (error) {
+		errorMessage.value = "Error al obtener los datos. Intente nuevamente.";
+		console.error("Error al obtener los datos de la API:", error);
+	} finally {
+		loading.value = false;
+	}
+};
 </script>
 
 <style scoped>

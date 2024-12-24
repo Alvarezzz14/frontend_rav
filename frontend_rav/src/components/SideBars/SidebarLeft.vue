@@ -73,14 +73,16 @@
 								<router-link
 									v-if="submenuItem.to"
 									:to="submenuItem.to"
-									@click="setActive(item.submenu)"
-									class="flex flex-row items-center px-4 h-10 text-base font-light text-amarillo"
 									:class="[
-										'flex flex-row  items-center transform text-amarillo transition-colors duration-200 ',
-										isActive(item.submenu)
+										'flex flex-row items-center px-4 h-10 text-base font-light transition-colors duration-200',
+										isActive(submenuItem)
 											? 'bg-amarillo text-customPurple'
 											: '',
-									]">
+										canAccessSubmenu
+											? 'text-amarillo cursor-pointer'
+											: 'text-gray-400 cursor-not-allowed',
+									]"
+									@click="handleSubmenuClick($event, submenuItem)">
 									<span
 										v-if="submenuItem.icon"
 										v-html="submenuItem.icon"
@@ -141,8 +143,12 @@
 						</svg>
 
 						<div class="text-xs text-center ml-3">
-							<p class="font-bold text-lg">{{ user.name }}</p>
-							<p class="text-gray-700 text-sm">{{ user.email }}</p>
+							<p class="font-bold text-lg">
+								{{ user.nombre }} {{ user.apellidos }}
+							</p>
+							<p class="text-gray-700 text-sm">
+								{{ user.email || "email.eample.com" }}
+							</p>
 						</div>
 					</div>
 
@@ -158,7 +164,7 @@
 	</div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import Avatar from "@/components/Buttons/Avatar.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
@@ -167,17 +173,21 @@ import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
 import Notifications from "./Notifications.vue";
+import { useEventStore } from "@/stores/storedataOff";
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
 const authStore = useAuthStore();
+const eventStore = useEventStore();
 
-const user = ref({
+const user = computed(() => authStore.authenticatedUser.user);
+
+/* const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
 	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
-});
+}); */
 
 const menuItems = ref([
 	{
@@ -250,7 +260,7 @@ const menuItems = ref([
 		],
 	},
 	{
-		title: "Mapa",
+		title: "Mapa de Víctimas",
 		to: { name: "DepartamentosPage" },
 		icon: `<svg width="36" height="34" viewBox="0 0 36 34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <path d="M26.7985 15.1382L30.9386 13.1449C32.4915 12.8222 32.4844 14.5829 32.7069 15.6578C33.5638 19.8199 34.3213 24.0293 35.0457 28.208C35.0362 28.5948 34.7521 28.8273 34.4775 29.0527L24.0076 33.5256L23.2501 33.4805L11.3789 29.2924L1.41319 33.5161C0.677005 33.6561 0.194106 33.3761 0 32.6595C0.733816 27.8497 1.81324 23.0636 2.69382 18.268C2.79324 17.9809 3.02285 17.746 3.27377 17.5822L8.30396 15.1382C7.76425 14.0609 7.34527 12.8744 7.1985 11.6666C6.49073 5.83883 10.9717 0.40019 16.8115 0.0229018C24.8574 -0.496759 30.4794 7.92697 26.8032 15.1382H26.7985ZM17.4317 6.49138C13.1708 6.49138 13.4075 10.5253 14.5911 13.8473L17.6684 14.3219L20.2723 13.61C21.2191 11.2371 22.8974 6.49138 17.4317 6.49138ZM29.5042 16.9321L24.4716 18.7236L23.2501 20.3324L24.2964 29.9829L25.0066 29.7456L31.3979 27.1354L29.5042 16.9321ZM3.22879 30.4575L9.85681 27.3727L10.8037 18.8304L9.41652 17.0341L4.69879 19.3856L3.22879 30.4575ZM21.9695 22.1382L18.5158 26.7558C18.0803 27.368 17.3062 27.4771 16.7405 26.9693L13.1708 21.9127L12.9341 26.8958L22.8761 30.2178L21.9695 22.1358V22.1382Z" />
@@ -291,16 +301,7 @@ const menuItems = ref([
 
 `,
 	},
-	{
-		title: "Lineas de Atención",
-		to: { name: "LineasAtencionPage" },
-		icon: `<svg width="34" height="32" viewBox="0 0 34 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
- <path d="M31.5812 11.9827C31.6204 12.0333 32.4149 12.4531 32.6439 12.6582C34.4686 14.2913 34.4502 17.3829 32.5989 18.9845C32.3682 19.1844 31.7011 19.5327 31.6062 19.6898C31.373 20.0721 31.0441 21.5655 30.7992 22.1608C29.0711 26.3661 25.4126 29.7745 21.2144 31.0558C20.1476 31.3813 19.1657 31.4258 18.1322 31.6659C17.3777 31.8413 17.2786 32.1983 16.3225 31.8588C14.4529 31.1945 15.4131 28.8824 17.4243 29.2202C17.8016 29.2839 18.1156 29.6043 18.442 29.6383C20.5149 29.8591 24.3841 27.5557 25.8981 26.1016C36.862 15.5674 25.2427 -3.31018 11.409 3.14789C5.33783 5.98197 2.2731 13.2884 4.16024 19.9464C0.591663 20.1672 -1.37459 15.591 1.11716 12.8738C1.35368 12.6155 2.04324 12.2463 2.16483 12.0516C2.34888 11.7584 2.52461 10.7572 2.68201 10.3243C7.52311 -3.03437 25.4043 -3.5668 30.7992 9.52915C30.9674 9.93851 31.5046 11.8814 31.5812 11.9827Z"/>
- <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9116 20.2701C27.1636 13.9883 22.3947 6.55345 15.6746 7.15084C9.89716 7.66454 6.2817 14.3856 8.9079 19.9724C11.9202 26.3809 20.6574 26.5563 23.9116 20.2701ZM25.7072 21.2721C29.7251 13.5108 23.8361 4.30101 15.5007 5.04199C8.23304 5.6882 3.84993 14.0381 7.07592 20.9008C10.8181 28.8621 21.6679 29.0749 25.7072 21.2721Z"/>
- <path d="M21 19.0709C20.1662 23.0052 12.773 22.9708 12 19C14.9 20.0052 18.0874 20.069 21 19.0709Z"/>
-</svg>
-`,
-	},
+
 	{
 		title: "Roles y Permisos",
 		to: { name: "RolesPermisosPage" },
@@ -313,10 +314,22 @@ const menuItems = ref([
 </svg>
 `,
 	},
+	{
+		title: "Lineas de Atención",
+		to: { name: "LineasAtencionPage" },
+		icon: `<svg width="34" height="32" viewBox="0 0 34 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+ <path d="M31.5812 11.9827C31.6204 12.0333 32.4149 12.4531 32.6439 12.6582C34.4686 14.2913 34.4502 17.3829 32.5989 18.9845C32.3682 19.1844 31.7011 19.5327 31.6062 19.6898C31.373 20.0721 31.0441 21.5655 30.7992 22.1608C29.0711 26.3661 25.4126 29.7745 21.2144 31.0558C20.1476 31.3813 19.1657 31.4258 18.1322 31.6659C17.3777 31.8413 17.2786 32.1983 16.3225 31.8588C14.4529 31.1945 15.4131 28.8824 17.4243 29.2202C17.8016 29.2839 18.1156 29.6043 18.442 29.6383C20.5149 29.8591 24.3841 27.5557 25.8981 26.1016C36.862 15.5674 25.2427 -3.31018 11.409 3.14789C5.33783 5.98197 2.2731 13.2884 4.16024 19.9464C0.591663 20.1672 -1.37459 15.591 1.11716 12.8738C1.35368 12.6155 2.04324 12.2463 2.16483 12.0516C2.34888 11.7584 2.52461 10.7572 2.68201 10.3243C7.52311 -3.03437 25.4043 -3.5668 30.7992 9.52915C30.9674 9.93851 31.5046 11.8814 31.5812 11.9827Z"/>
+ <path fill-rule="evenodd" clip-rule="evenodd" d="M23.9116 20.2701C27.1636 13.9883 22.3947 6.55345 15.6746 7.15084C9.89716 7.66454 6.2817 14.3856 8.9079 19.9724C11.9202 26.3809 20.6574 26.5563 23.9116 20.2701ZM25.7072 21.2721C29.7251 13.5108 23.8361 4.30101 15.5007 5.04199C8.23304 5.6882 3.84993 14.0381 7.07592 20.9008C10.8181 28.8621 21.6679 29.0749 25.7072 21.2721Z"/>
+ <path d="M21 19.0709C20.1662 23.0052 12.773 22.9708 12 19C14.9 20.0052 18.0874 20.069 21 19.0709Z"/>
+</svg>
+`,
+	},
 ]);
 
 const activeItem = ref(null);
 const isResponsive = ref(false);
+
+const host = import.meta.env.VITE_HOST;
 
 const emit = defineEmits(["item-click"]);
 
@@ -325,37 +338,51 @@ const updateResponsive = () => {
 	isResponsive.value = window.innerWidth < 1024; // Evaluar si es menor a 1024px
 };
 
+// Computed para verificar si hay un ciudadano
+const canAccessSubmenu = computed(() => !!eventStore.getUserInfo());
+
+// Mostrar mensaje de advertencia
+const showToast = () => {
+	toast.warning(
+		"Por favor, ingrese un ciudadano para acceder a esta funcionalidad."
+	);
+};
+
+// Manejo del clic en el submenú
+const handleSubmenuClick = (event, submenuItem) => {
+	if (!canAccessSubmenu.value) {
+		event.preventDefault(); // Evitar la navegación
+		router.push({ name: "BusquedaCiudadanoPage" });
+		showToast(); // Mostrar mensaje
+	} else {
+		setActive(submenuItem);
+		// Mantener abierto el submenú relacionado
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = menuItem.submenu.some(
+					(submenu) => submenu.title === submenuItem.title
+				);
+			}
+		});
+	}
+};
+
 // Método para manejar clics
 const handleItemClick = (item) => {
-	// Solo ejecuta el cierre en responsive
-	if (isResponsive.value) {
-		emit("item-click", item); // Cerrar barra desplegable
-	}
-
 	if (item.to) {
 		router.push(item.to);
 	}
-
 	activeItem.value = item.title;
 
-	// Cerrar otros submenús al seleccionar un elemento
-	menuItems.value.forEach((menuItem) => {
-		if (menuItem !== item && menuItem.submenu) {
-			menuItem.submenuOpen = false;
-		}
-	});
+	// Cerrar submenús sólo si el ítem seleccionado no pertenece a un submenú
+	if (!item.submenu) {
+		menuItems.value.forEach((menuItem) => {
+			if (menuItem.submenu) {
+				menuItem.submenuOpen = false;
+			}
+		});
+	}
 };
-
-// Configuración inicial
-onMounted(() => {
-	updateResponsive(); // Actualizar el estado al cargar la página
-	window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
-});
-
-// Limpieza del event listener
-onUnmounted(() => {
-	window.removeEventListener("resize", updateResponsive);
-});
 
 // Método para alternar la apertura del submenú
 const toggleSubmenu = (item) => {
@@ -364,19 +391,6 @@ const toggleSubmenu = (item) => {
 	}
 };
 
-//observar cambios en la ruta actual
-watch(
-	() => route.name,
-	(newRoute) => {
-		const currentItem = menuItems.value.find(
-			(item) => item.to?.name === newRoute
-		);
-		if (currentItem) {
-			activeItem.value = currentItem.title;
-		}
-	},
-	{ immediate: true } //ejecuta al inicia rpara que el item activo se ajuste
-);
 //Metodos par estabelecer el elemento activo del Dashboard
 const setActive = (item) => {
 	if (item.to) {
@@ -408,7 +422,7 @@ const logout = async () => {
 			},
 		};
 		// Hacer la petición de logout
-		await axios.post("http://localhost:8080/api/auth/logout", {}, config);
+		await axios.post(`${host}:8080/api/auth/logout`, {}, config);
 		// Limpiar el token
 		localStorage.removeItem("token");
 		hasShownNoSessionToast.value = false; // Resetear el flag después de cerrar sesión
@@ -423,6 +437,17 @@ const logout = async () => {
 		router.push({ name: "LoginPage" });
 	}
 };
+
+// Configuración inicial
+onMounted(() => {
+	updateResponsive(); // Actualizar el estado al cargar la página
+	window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
+});
+
+// Limpieza del event listener
+onUnmounted(() => {
+	window.removeEventListener("resize", updateResponsive);
+});
 </script>
 <style scoped>
 a {

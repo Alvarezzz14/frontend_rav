@@ -72,11 +72,11 @@
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
 							<span class="text-gray-800 font-semibold">Ciudadano: </span>
-							<span>{{ personFullName }}</span>
+							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
 							<span class="text-gray-600 font-semibold"> Cédula: </span>
-							<span>{{ documentNumber }}</span>
+							<span>{{ userInfo.documento }}</span>
 						</div>
 					</div>
 				</div>
@@ -191,18 +191,23 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td v-if="!fetchData.data || fetchData.data?.lenght == 0" colspan="3">No hay tickets disponibles</td>
+						<td
+							v-if="!fetchData.data || fetchData.data?.lenght == 0"
+							colspan="3">
+							No hay tickets disponibles
+						</td>
 					</tr>
 					<tr v-for="(events, date) in fetchData.data" :key="date">
 						<!-- Columna de Fecha -->
 						<td class="py-4 px-2">
-							<time class="text-lg font-bold text-gray-700">{{ events.fecha_hora }}</time>
+							<time class="text-lg font-bold text-gray-700">{{
+								formatDate(events.fecha_hora)
+							}}</time>
 						</td>
 
 						<!-- Columna de Información del Evento (Título e Imagen) -->
 						<td class="py-4 px-2">
-							<div
-								class="flex items-center space-y-2 justify-between">
+							<div class="flex items-center space-y-2 justify-between">
 								<div>
 									<p class="font-semibold text-black">
 										{{ events.titulo }}
@@ -271,15 +276,15 @@
 </template>
 
 <script setup>
-import { ref,onMounted } from "vue";
-import { useEventStore } from "../stores/storedataOff";
+import { ref, onMounted, computed } from "vue";
+import { useEventStore } from "@/stores/storedataOff";
 
 const openedGroups = ref({});
-const fetchData = ref([])
+const fetchData = ref([]);
 const eventStore = useEventStore();
-const userInfo = ref({})
-const personFullName = ref("")
-const documentNumber = ref(0)
+const userInfo = computed(() => eventStore.getUserInfo());
+
+const host = import.meta.env.VITE_HOST;
 
 const groupedEvents = ref({
 	"2024-11-20": [
@@ -303,54 +308,56 @@ const groupedEvents = ref({
 	],
 });
 
-
-
-
 const fetchOptions = {
-    url: "http://localhost:8082/api/v1/victimas/ticket",
-    options: {
-        method: "GET",
-        headers: {
-            "Accept": "application/json",
-        },
-    }
-}
+	url: `${host}:8082/api/v1/victimas/ticket`,
+	options: {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+		},
+	},
+};
 
-const getFetchData = async(fetchOptions)=>{
-	const{url,options} = fetchOptions
-	let newUrl = url+`/${userInfo.value.documento}`
+const getFetchData = async (fetchOptions) => {
+	const { url, options } = fetchOptions;
+	let newUrl = url + `/${userInfo.value.documento}`;
 	console.log(newUrl);
-	
-	try{
-        const response = await fetch(newUrl,options);
-        const json = await response.json();
-        if (!response.ok) throw{error:true,errorStatus:response.status,errorMsg:response.statusText}
-        console.log(json)
-        fetchData.value = json;
-        
-    }catch(error){
-        if (!error.error) error.error = true
-        console.log(error)
-    }finally{
-      newUrl = ''
-    }
-}
 
+	try {
+		const response = await fetch(newUrl, options);
+		const json = await response.json();
+		if (!response.ok)
+			throw {
+				error: true,
+				errorStatus: response.status,
+				errorMsg: response.statusText,
+			};
+		console.log(json);
+		fetchData.value = json;
+	} catch (error) {
+		if (!error.error) error.error = true;
+		console.log(error);
+	} finally {
+		newUrl = "";
+	}
+};
 
+const formatDate = (isoDate) => {
+	const date = new Date(isoDate);
+	return new Intl.DateTimeFormat("es-ES", {
+		dateStyle: "medium",
+		timeStyle: "short",
+	}).format(date);
+};
 
 // Función para alternar la visibilidad de los detalles del evento
 const toggleEventDetails = (date) => {
 	openedGroups.value[date] = !openedGroups.value[date];
 };
 
-onMounted(()=>{
-	userInfo.value = eventStore.getUserInfo()
-	documentNumber.value = eventStore.getUserInfo().documento;
-	personFullName.value = eventStore.getUserInfo().nombrecompleto;
-	console.log(userInfo.value);
-	
-	getFetchData(fetchOptions)
-})
+onMounted(() => {
+	getFetchData(fetchOptions);
+});
 </script>
 
 <style scoped>

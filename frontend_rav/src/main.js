@@ -16,12 +16,17 @@ import 'primeicons/primeicons.css';
 import 'flowbite';
 import '@/styles/style.css';
 import TimeLine from 'primevue/timeline';
-const pinia = createPinia();
+import { useAuthStore } from './stores/auth';
 
+
+const pinia = createPinia();
 const app = createApp(App);
+app.use(pinia);
+const authStore = useAuthStore();
+authStore.initializeAuth(); // Inicializa la autenticación desde localStorage
+
 
 app.use(router)
-    .use(pinia)
     .use(PrimeVue, {
         theme: {
             preset: Aura,

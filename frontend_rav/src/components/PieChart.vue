@@ -1,29 +1,33 @@
 <template>
 	<div
-		class="flex flex-col items-center justify-center w-full bg-customPurple p-4 rounded-lg">
+		class="flex flex-col items-center justify-center w-full bg-customPurple rounded-lg">
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
-				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
-				<div class="spinner"></div>
+				<p class="text-white  font-bold mb-4">Generando Gráfico...</p>
+				<div class=" spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
-			<div v-else class="h-full">
-				<Pie ref="pieChart" :data="clonedChartData" :options="chartOptions" />
+			<div v-else class="h-full ">
+				<Doughnut
+					ref="doughnutChart"
+					:data="clonedChartData"
+					:options="chartOptions" />
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script setup>
-import { Pie } from "vue-chartjs";
+import { Doughnut } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
 import { reactive, onMounted, ref, computed } from "vue";
 
 Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
-const pieChart = ref(null);
+const doughnutChart = ref(null);
+const host = import.meta.env.VITE_HOST;
 
 // Función para truncar textos largos
 const truncateText = (text, maxLength) =>
@@ -33,7 +37,7 @@ const truncateText = (text, maxLength) =>
 const generateYellowShades = (baseColor, count) => {
 	const shades = [];
 	for (let i = 0; i < count; i++) {
-		const opacity = 0.4 + (i * 0.6) / (count - 1); // Gradiente de opacidad
+		const opacity = 0.7 + (i * 0.4) / (count - 1); // Gradiente de opacidad
 		shades.push(
 			`rgba(${baseColor.r}, ${baseColor.g}, ${baseColor.b}, ${opacity})`
 		);
@@ -64,7 +68,7 @@ const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
 // Opciones del gráfico
 const chartOptions = reactive({
 	responsive: true,
-	maintainAspectRatio: false,
+	maintainAspectRatio: true,
 	plugins: {
 		title: {
 			display: true,
@@ -76,13 +80,14 @@ const chartOptions = reactive({
 			color: "white", // Título en blanco
 		},
 		legend: {
-			position: "right", // Leyenda a la derecha
+			position: "left", // Leyenda a la derecha
 			labels: {
 				color: "white", // Color del texto de la leyenda
 				font: {
-					size: 12,
-					weight: "bold",
+					size: 10,
 				},
+				usePointStyle: true,
+				autoSkip: true,
 			},
 		},
 		tooltip: {
@@ -101,7 +106,7 @@ const chartOptions = reactive({
 const fetchPertEtnicaData = async () => {
 	try {
 		const response = await fetch(
-			"http://localhost:8082/api/v1/victimas/counter/pert-etnica"
+			`${host}:8082/api/v1/victimas/counter/pert-etnica`
 		);
 		if (!response.ok)
 			throw new Error("Error al obtener datos de Pertenencia Étnica");

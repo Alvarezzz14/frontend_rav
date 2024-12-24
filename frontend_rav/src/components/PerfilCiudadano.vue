@@ -42,7 +42,7 @@
 						:src="Actividad"
 						alt="Icono registrar actividad"
 						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
+					<span class="text-sm">Registrar Actividad</span>
 				</router-link>
 			</div>
 		</div>
@@ -182,9 +182,10 @@ import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu e
 const eventStore = useEventStore();
 const userInfo = ref({});
 const fetchData = ref([]);
+const host = import.meta.env.VITE_HOST;
 
 const fetchOptions = {
-	url: "http://localhost:8083/api/v1/programa",
+	url: `${host}:8083/api/v1/programa`,
 	options: {
 		method: "GET",
 		headers: {

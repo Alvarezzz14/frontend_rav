@@ -49,7 +49,7 @@
 							<select
 								v-model="goal.name"
 								id="name"
-								class="w-full bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-customPurple">
+								class="w-full block bg-white border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-customPurple">
 								<option value="" disabled>Seleccione un tipo de meta</option>
 								<option value="Mensual">Mensual</option>
 								<option value="Trimestral">Trimestral</option>
@@ -140,7 +140,6 @@ const goal = ref({
 	limit: null,
 	startDate: "",
 	endDate: "",
-	current: 0,
 });
 
 const customSegmentColors = [
@@ -172,12 +171,12 @@ const saveGoal = () => {
 		!goal.value.startDate ||
 		!goal.value.endDate
 	) {
-		alert("Todos los campos son obligatorios.");
+		toast.error("Todos los campos son obligatorios.");
 		return;
 	}
 
 	if (new Date(goal.value.startDate) > new Date(goal.value.endDate)) {
-		alert("La fecha de inicio no puede ser mayor que la fecha de fin.");
+		toast.error("La fecha de inicio no puede ser mayor que la fecha de fin.");
 		return;
 	}
 
@@ -189,7 +188,6 @@ const saveGoal = () => {
 		limit: null,
 		startDate: "",
 		endDate: "",
-		current: 0,
 	};
 };
 </script>

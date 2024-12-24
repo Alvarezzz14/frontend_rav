@@ -35,66 +35,8 @@
 					</div>
 				</div>
 
-				<!-- Velocímetros Dinámicos -->
-				<div>
-					<div
-						class="right-content flex flex-col bg-white items-center gap-6 mt-6">
-						<div
-							v-for="(goal, index) in goals"
-							:key="goal.id"
-							class="indicator-wrapper flex items-center space-x-4 rounded-lg overflow-hidden"
-							:style="getGradientStyle(index)">
-							<vue-speedometer
-								:value="goal.progress"
-								:minValue="0"
-								:maxValue="100"
-								:segments="goal.segments"
-								:needleColor="'#474747'"
-								:segmentColors="[
-									'#71277A',
-									'#A032A4',
-									'#A032A4',
-									'#D041D5',
-									'#E64CEB',
-								]"
-								:width="200"
-								:height="150"
-								:currentValueText="`Progreso: ${goal.progress}%`"
-								:animate="true"
-								:animationDuration="1.5" />
+				<!-- CircularCharts Dinámicos -->
 
-							<!-- Texto a la derecha del indicador -->
-							<div class="flex flex-col justify-center items-start">
-								<div
-									:class="index === 2 ? 'text-white' : 'text-black'"
-									class="text-sm font-semibold">
-									Meta {{ goal.name }}
-								</div>
-								<div
-									:class="
-										index === 2
-											? 'text-white text-2xl font-bold'
-											: 'text-black text-xl font-bold'
-									">
-									{{ goal.limit || 0 }}
-								</div>
-								<div
-									:class="index === 2 ? 'text-white' : 'text-black'"
-									class="mt-1 text-sm font-semibold">
-									Estado Actual
-								</div>
-								<div
-									:class="
-										index === 2
-											? 'text-white text-2xl font-bold'
-											: 'text-black text-xl font-bold'
-									">
-									{{ goal.current || 1 }}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div>
 					<CircularChart />
 				</div>
@@ -102,7 +44,7 @@
 				<!-- Sección de Notificaciones -->
 				<div class="w-full">
 					<h2
-						class="shadow-custom lg:shadow-none h-14 md:h-16 text-lg md:text-xl lg:text-2xl font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between">
+						class="shadow-custom lg:shadow-none h-14 md:h-16 text-lg md:text-xl lg:text-2xl font-semibold bg-customPurple mb-2 p-2 flex items-center text-amarillo justify-between mx-1">
 						Notificaciones
 						<svg
 							width="41"
@@ -139,7 +81,7 @@
 								<div v-if="notification.progress !== undefined">
 									<div class="w-full bg-gray-200 rounded-full h-2 mt-1">
 										<div
-											class="bg-blue-500 h-2 rounded-full"
+											class="bg-customPurple h-2 rounded-full"
 											:style="{ width: notification.progress + '%' }"></div>
 									</div>
 									<p class="text-xs text-gray-500">
@@ -151,7 +93,7 @@
 									v-if="notification.redirectUrl"
 									:href="notification.redirectUrl"
 									target="_blank"
-									class="text-blue-500 underline">
+									class="text-customPurple underline">
 									Ir a la página
 								</a>
 							</div>
@@ -170,37 +112,14 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
-import VueSpeedometer from "vue-speedometer";
-import CircularChart from "../CircularChart.vue";
+import CircularChart from "@/components/CircularChart.vue";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();
-const goals = computed(() => goalStore.processedGoals);
 
-// Función para aplicar gradiente dinámico al contenedor del velocímetro
-const getGradientStyle = (index) => {
-	switch (index % 3) {
-		case 0:
-			return {
-				background:
-					"linear-gradient(to right, rgba(242, 243, 243, 1), rgba(217, 217, 217, 1))",
-			};
-		case 1:
-			return {
-				background:
-					"linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))",
-			};
-		case 2:
-			return {
-				background:
-					"linear-gradient(to right, rgba(207, 95, 221, 1), rgba(113, 39, 122, 1))",
-			};
-		default:
-			return {};
-	}
-};
+const goals = computed(() => goalStore.processedGoals);
 
 // Notificaciones
 const notifications = ref([
@@ -228,16 +147,15 @@ const toggleNotifications = () => {
 const markAsRead = (index) => {
 	notifications.value[index].isRead = true;
 };
-</script>
 
-<style scoped>
-.speedometer-wrapper {
-	text-align: center;
-}
-.overflow-y-auto {
-	max-height: 16rem; /* Limitar altura con scroll */
-}
-.opacity-50 {
-	opacity: 0.5; /* Visualización de notificaciones leídas */
-}
-</style>
+watch(
+	() => goalStore.goals,
+	(newGoals) => {
+		console.log("Metas actualizadas:", newGoals);
+	},
+	{ deep: true } // Observar cambios profundos en las metas
+);
+onMounted(() => {
+	goalStore.fetchGoals(); // Cargar metas del localStorage
+});
+</script>

@@ -23,6 +23,7 @@ Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
 const lineChart = ref(null);
+const host = import.meta.env.VITE_HOST;
 
 // Datos del gráfico
 const chartData = reactive({
@@ -121,7 +122,7 @@ const chartOptions = reactive({
 const fetchPertEtnicaData = async () => {
 	try {
 		const response = await fetch(
-			"http://localhost:8082/api/v1/victimas/counter/pert-etnica"
+			`${host}:8082/api/v1/victimas/counter/pert-etnica`
 		);
 		if (!response.ok)
 			throw new Error("Error al obtener datos de Pertenencia Étnica");
