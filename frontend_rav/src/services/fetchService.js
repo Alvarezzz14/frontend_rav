@@ -4,7 +4,7 @@ export default class FetchService{
         this.fetchOptions = {
             method: "GET",
             headers: {
-                "Accept": "aplicattion/json",
+                "Accept": "application/json",
                 "Content-type": "application/json"
             },
             signal: this.fetchController.signal

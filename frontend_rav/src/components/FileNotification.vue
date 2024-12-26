@@ -37,6 +37,7 @@ const intUploadProgress = computed(
 );
 const fetchController = computed(() => fileNotificationStore.fetchController);
 const fileName = computed(() => fileNotificationStore.fileName);
+const host = import.meta.env.VITE_HOST;
 
 // Estado adicional para manejar el mensaje de éxito
 const isUploadComplete = ref(false);
@@ -66,12 +67,14 @@ const cancelUploadFile = async () => {
 		setTimeout(async () => {
 			try {
 				const response = await fetch(
-					`http://localhost:8081/api/delete/${fileName.value}`,
+					`${host}:8081/api/delete/${fileName.value}`,
 					{
 						method: "POST",
 					}
 				);
 				const json = await response.json();
+				console.log(json);
+				
 
 				if (!response.ok) throw new Error(`Error: ${response.statusText}`);
 

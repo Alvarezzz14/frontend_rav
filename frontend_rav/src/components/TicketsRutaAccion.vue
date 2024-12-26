@@ -280,6 +280,7 @@ const eventStore = useEventStore();
 const userInfo = ref({})
 const personFullName = ref("")
 const documentNumber = ref(0)
+const host = import.meta.env.VITE_HOST;
 
 const groupedEvents = ref({
 	"2024-11-20": [
@@ -307,7 +308,7 @@ const groupedEvents = ref({
 
 
 const fetchOptions = {
-    url: "http://localhost:8082/api/v1/victimas/ticket",
+    url: `${host}:8082/api/v1/victimas/ticket`,
     options: {
         method: "GET",
         headers: {
