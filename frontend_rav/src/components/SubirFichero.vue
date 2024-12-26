@@ -60,25 +60,19 @@
 
 				<!-- Archivos cargados -->
 				<div
-					v-if="uploadProgress > 0"
-					class="uploaded-file mb-4 flex p-2 bg-purple-100 rounded-lg w-auto mx-1 my-2">
+					v-if="fileToUpload"
+					class="uploaded-file mt-4 flex items-center p-2 bg-purple-100 rounded-lg shadow-md">
+					<!-- Icono de archivo (cambiar según tipo de archivo si es necesario) -->
 					<img
 						src="@/assets/images/txt.svg"
-						alt="TXT Icon"
-						class="file-icon mr-2" />
+						alt="Archivo"
+						class="file-icon w-10 h-10 mr-4" />
 					<div class="flex-1 text-customPurple">
-						<p>{{ fileName }}</p>
-						<div
-							class="progress-bar mt-1 rounded-full h-2"
-							:style="{ width: uploadProgress + '%' }"></div>
+						<p class="truncate font-medium">{{ fileName }}</p>
 					</div>
-					<span class="ml-4 font-semibold text-customPurple"
-						>{{ intUploadProgress }}%</span
-					>
-					<img
-						src="@/assets/images/CancelFile.svg"
-						alt="X Icon"
-						@click="cancelUploadFile" />
+					<span class="ml-4 font-semibold text-customPurple">
+						{{ intUploadProgress }}%
+					</span>
 				</div>
 
 				<div v-if="fileToUpload" class="progress-container mt-4">
@@ -86,7 +80,6 @@
 						class="progress-bar"
 						:style="{ width: `${uploadProgress}%` }"></div>
 				</div>
-
 				<!-- Mensajes de error y éxito -->
 				<p v-if="uploadError" class="text-red-500 text-center mt-4">
 					Error al subir el archivo. Intenta nuevamente.
@@ -113,7 +106,7 @@ import { useFileNotificationStore } from "../stores/fileNotification";
 import { ref, onMounted, onUnmounted } from "vue";
 import Button from "primevue/button";
 import * as XLSX from "xlsx";
-import FetchService from "@/services/fetchService"
+import FetchService from "@/services/fetchService";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
@@ -141,7 +134,6 @@ const acceptedFileTypes = [
 	"text/csv",
 	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ]; // Tipos permitidos
-
 const fetchOptions = {
 	url: `${host}:8081/api/upload`,
 	options: {
@@ -150,18 +142,15 @@ const fetchOptions = {
 		signal: fetchController.signal,
 	},
 };
-
 // Crear FormData
 const createFormData = (archivoBlob, fileName) => {
 	const formData = new FormData();
 	formData.append("file", archivoBlob, fileName);
 	return formData;
 };
-
 // Crear Blob
 const createBlob = (newWorkBook, typeFile) => {
 	let blob;
-
 	switch (typeFile) {
 		case "xlsx":
 			blob = XLSX.write(newWorkBook, {
@@ -169,20 +158,16 @@ const createBlob = (newWorkBook, typeFile) => {
 				type: "array",
 			});
 			break;
-
 		case "txt":
 			blob = newWorkBook;
 			break;
 	}
-
 	const archivoBlob = new Blob([blob], { type: "application/octet-stream" });
 	return archivoBlob;
 };
-
 // Métodos para manejar la carga de archivos
 const handleFileUpload = (event) => {
 	const file = event.target.files[0];
-
 	if (acceptedFileTypes.includes(file.type)) {
 		fileToUpload.value = file;
 		fileName.value = file.name;
@@ -192,7 +177,6 @@ const handleFileUpload = (event) => {
 		alert("Por favor, selecciona un archivo válido (.txt).");
 	}
 };
-
 const handleDrop = (event) => {
 	const files = event.dataTransfer.files;
 	if (files.length > 0) {
@@ -206,30 +190,24 @@ const handleDrop = (event) => {
 		}
 	}
 };
-
 const handleDragOver = (event) => {
 	event.preventDefault();
 };
-
 const selectFile = () => {
 	document.querySelector('input[type="file"]').click();
 };
-
 const updateEventFileUpload = (bodyFetchOptions) => {
 	const sizeMainFile = bodyFetchOptions.get("sizeMainFile");
 	const sizePartFile = bodyFetchOptions.get("file").size;
 	partsFile = window.Math.round(sizeMainFile / sizePartFile);
-
 	if (uploadProgress.value < sizeMainFile) {
 		uploadProgress.value = parseFloat(
 			(uploadProgress.value + 100 / partsFile).toFixed(2)
 		);
 		intUploadProgress.value = window.Math.round(uploadProgress.value);
 	}
-
 	fileNotificationStore.setUploadProgress(uploadProgress.value);
 };
-
 const ReuploadFile = async () => {
 	for (const formData of backupPartsFile) {
 		const copyFetchOptions = {
@@ -239,7 +217,6 @@ const ReuploadFile = async () => {
 				body: formData,
 			},
 		};
-
 		await sendFile(copyFetchOptions);
 	}
 };
@@ -260,26 +237,20 @@ const ConnectionWifi = (callback,parameter) => {
 	listener =  async () => await callback(parameter);
 	window.addEventListener("online", listener);
 };
-
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	let { url, options } = fetchOptions;
-
 	try {
 		const response = await fetch(url, options);
-
 		if (!response.ok) {
 			throw new Error("Error al subir el archivo");
 		}
-
-		// Actualiza el progreso basado en la parte actual
-		// uploadProgress.value = Math.min(
-		// 	((currentChunk * chunkSize) / totalSize) * 100,
-		// 	100
-		// );
-		// intUploadProgress.value = Math.round(uploadProgress.value);
-
 		updateEventFileUpload(options.body);
-
+		// Actualiza el progreso basado en la parte actual
+		uploadProgress.value = Math.min(
+			((currentChunk * chunkSize) / totalSize) * 100,
+			100
+		);
+		intUploadProgress.value = Math.round(uploadProgress.value);
 		console.log(
 			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
 		);
@@ -302,26 +273,21 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 		uploadError.value = true;
 	}
 }
-
 const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 	canDeleteFile = true;
 	let offset = 0;
 	let partNumber = 1;
 	const totalSize = file.size;
-
 	while (offset < totalSize) {
 		const chunk = file.slice(offset, offset + chunkSize);
-
 		// Generar un nombre que incluya 'parte' y el número de la parte
 		const chunkFileName = `${
 			file.name.split(".")[0]
 		}_parte${partNumber}.${file.name.split(".").pop()}`;
-
 		const formData = new FormData();
 		formData.append("file", chunk, chunkFileName);
 		formData.append("sizeMainFile", totalSize);
 		formData.append("chunkNumber", partNumber);
-
 		const fetchOptionsChunk = {
 			url: fetchOptions.url,
 			options: {
@@ -329,21 +295,15 @@ const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
 				body: formData,
 			},
 		};
-
 		// Envía el "chunky" y actualiza el progreso
 		await sendFile(fetchOptionsChunk, chunk.size, totalSize, partNumber);
-
 		offset += chunkSize;
 		partNumber++;
 	}
 };
-
-
-
 const createPartsExcel = async (file) => {
 	const data = await file.arrayBuffer();
 	const workBook = XLSX.read(data);
-
 	for (const sheetName of workBook.SheetNames) {
 		const workSheet = workBook.Sheets[sheetName];
 		const txtData = XLSX.utils.sheet_to_csv(workSheet, {
@@ -355,7 +315,6 @@ const createPartsExcel = async (file) => {
 	}
 	alert("División y envío completados.");
 };
-
 const createParts = async (file) => {
 	switch (file.type) {
 		case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
@@ -370,43 +329,34 @@ const createParts = async (file) => {
 			break;
 	}
 };
-
 // Advertencia al intentar abandonar la página
 const showUnloadWarning = (event) => {
 	const message = "¿Estás seguro de que deseas salir de esta página?";
 	event.returnValue = message; // Para navegadores que usan `returnValue`
 	return message; // Para compatibilidad con otros navegadores
 };
-
 onMounted(() => {
 	window.addEventListener("beforeunload", showUnloadWarning);
 });
-
 onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
 	window.addEventListener("online", async () => await callback());
 });
-
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
 	if (!fileToUpload.value) return;
-
 	console.log("Iniciando la carga del archivo."); // Log antes de empezar
-
 	// Deshabilitar el botón al comenzar la carga
 	uploading.value = true;
 	uploadError.value = false; // Resetear el estado de error
 	uploadSuccess.value = false; // Resetear el estado de éxito
-
 	await createPartsTxt(fileToUpload.value);
 	try {
 		// Lógica de división y envío del archivo
-
 		if (uploadProgress.value === 100) {
 			console.log("Carga completada al 100%.");
 			uploadSuccess.value = true; // Mostrar mensaje de éxito
 		}
-
 		// Reiniciar el estado al terminar exitosamente
 		fileToUpload.value = null;
 		fileName.value = "";
@@ -420,10 +370,8 @@ const uploadFileFinal = async () => {
 		uploading.value = false;
 	}
 };
-
 const uploadFile = async () => {
 	if (!fileToUpload.value) return;
-
 	console.log("Iniciando la subida...");
 	await uploadFileFinal();
 };

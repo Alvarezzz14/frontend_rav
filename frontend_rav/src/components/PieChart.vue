@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex flex-col items-center justify-center w-full bg-customPurple p-4 rounded-lg">
+		class="flex flex-col items-center justify-center w-full bg-customPurple rounded-lg">
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
@@ -9,21 +9,24 @@
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
 			<div v-else class="h-full">
-				<Pie ref="pieChart" :data="clonedChartData" :options="chartOptions" />
+				<Doughnut
+					ref="doughnutChart"
+					:data="clonedChartData"
+					:options="chartOptions" />
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script setup>
-import { Pie } from "vue-chartjs";
+import { Doughnut } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
 import { reactive, onMounted, ref, computed } from "vue";
 
 Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
-const pieChart = ref(null);
+const doughnutChart = ref(null);
 const host = import.meta.env.VITE_HOST;
 
 // Función para truncar textos largos
@@ -77,13 +80,14 @@ const chartOptions = reactive({
 			color: "white", // Título en blanco
 		},
 		legend: {
-			position: "right", // Leyenda a la derecha
+			position: "left", // Leyenda a la derecha
 			labels: {
 				color: "white", // Color del texto de la leyenda
 				font: {
-					size: 12,
-					weight: "bold",
+					size: 10,
 				},
+				usePointStyle: true,
+				autoSkip: true,
 			},
 		},
 		tooltip: {
