@@ -1,67 +1,69 @@
 <template>
-	<Header />
-	<div
-		class="min-h-screen bg-customPurple flex"
-		:style="{
-			backgroundImage: backgroundUrl,
-			backgroundSize: 'cover',
-			backgroundPosition: 'center',
-		}">
-		<!-- Columna izquierda con el formulario de login -->
+	<div>
+		<Header />
 		<div
-			class="md:w-1/2 w-full flex flex-col justify-center items-center p-6 bg-black/70 md:bg-transparent">
-			<!-- Logo -->
-			<img :src="Logo" alt="Logo RAV" class="w-40 md:w-64 h-auto mb-6" />
+			class="min-h-screen bg-customPurple flex"
+			:style="{
+				backgroundImage: backgroundUrl,
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+			}">
+			<!-- Columna izquierda con el formulario de login -->
+			<div
+				class="md:w-1/2 w-full flex flex-col justify-center items-center p-6 bg-black/70 md:bg-transparent">
+				<!-- Logo -->
+				<img :src="Logo" alt="Logo RAV" class="w-40 md:w-64 h-auto mb-6" />
 
-			<!-- Título de inicio de sesión -->
-			<h2 class="text-xl md:text-3xl font-semibold text-white text-center">
-				Iniciar Sesión
-			</h2>
+				<!-- Título de inicio de sesión -->
+				<h2 class="text-xl md:text-3xl font-semibold text-white text-center">
+					Iniciar Sesión
+				</h2>
 
-			<!-- Formulario de login -->
-			<form
-				@submit.prevent="submit"
-				class="space-y-4 w-full max-w-sm mx-auto mt-6">
-				<div>
-					<input
-						type="email"
-						id="correo"
-						placeholder="Correo"
-						v-model="form.email"
-						class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
-						required />
+				<!-- Formulario de login -->
+				<form
+					@submit.prevent="submit"
+					class="space-y-4 w-full max-w-sm mx-auto mt-6">
+					<div>
+						<input
+							type="email"
+							id="correo"
+							placeholder="Correo"
+							v-model="form.email"
+							class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							required />
+					</div>
+
+					<div>
+						<input
+							type="password"
+							id="password"
+							placeholder="Contraseña"
+							v-model="form.password"
+							class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
+							required />
+					</div>
+
+					<!-- Botón de iniciar sesión -->
+					<button
+						type="submit"
+						class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold cursor-pointer rounded-lg"
+						:disabled="isLoading">
+						<span v-if="!isLoading">Iniciar</span>
+						<span v-else>Cargando...</span>
+					</button>
+				</form>
+
+				<!-- Logos institucionales -->
+				<div class="flex justify-center space-x-8 mt-6">
+					<img :src="logoSena" alt="Logo SENA" class="w-24 md:w-36 h-auto" />
 				</div>
-
-				<div>
-					<input
-						type="password"
-						id="password"
-						placeholder="Contraseña"
-						v-model="form.password"
-						class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
-						required />
-				</div>
-
-				<!-- Botón de iniciar sesión -->
-				<button
-					type="submit"
-					class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold rounded-lg"
-					:disabled="isLoading">
-					<span v-if="!isLoading">Iniciar</span>
-					<span v-else>Cargando...</span>
-				</button>
-			</form>
-
-			<!-- Logos institucionales -->
-			<div class="flex justify-center space-x-8 mt-6">
-				<img :src="logoSena" alt="Logo SENA" class="w-24 md:w-36 h-auto" />
 			</div>
-		</div>
 
-		<!-- Right column with background image -->
-		<div class="hidden md:block md:w-1/2"></div>
+			<!-- Right column with background image -->
+			<div class="hidden md:block md:w-1/2"></div>
+		</div>
+		<Footer />
 	</div>
-	<Footer />
 </template>
 
 <script setup>
@@ -109,10 +111,7 @@ onMounted(() => {
 async function submit() {
 	isLoading.value = true;
 	try {
-		const response = await axios.post(
-			`${host}:8080/login`,
-			form
-		);
+		const response = await axios.post(`${host}:8080/login`, form);
 		console.log(response.data);
 
 		authStore.setAuthenticatedUser(response.data);
