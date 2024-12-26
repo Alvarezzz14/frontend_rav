@@ -165,5 +165,5 @@ const updateSelectedInfo = () => {
 	} else {
 		selectedInfo.value = null;
 	}
-};
-</script>
+  };
+  </script>
