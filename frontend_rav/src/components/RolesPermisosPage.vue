@@ -155,26 +155,28 @@
   <div class="flex items-center gap-2">
     <input
       type="checkbox"
-      class="mr-2 w-4 h-4 rounded cursor-default"
+      class="mr-2 w-4 h-4 rounded cursor-pointer"
       :class="{
         'bg-emerald-500 border-emerald-500': isModuleSelected(module.id),
         'bg-white border-gray-300': !isModuleSelected(module.id)
       }"
       :checked="isModuleSelected(module.id)"
-      disabled
+      @change="toggleAllModulePermissions(module, $event)"
     />
     <span>{{ module.nombre }}</span>
   </div>
 </td>
 							<!-- Columnas de permisos -->
 							<td v-for="permiso in permisosTipos" :key="permiso.id" class="border border-gray-300 text-center">
-							<input
-								v-if="moduleHasPermission(module, permiso.id)"
-								type="checkbox"
-								@change="(event) => selectCheckBoxAndModule(event, permiso.id, module.id)"
-								class="w-4 h-4 rounded accent-customPurple cursor-pointer"
-							/>
-							</td>
+  <input
+    v-if="moduleHasPermission(module, permiso.id)"
+    type="checkbox"
+    :data-module-id="module.id"
+    @change="(event) => selectCheckBoxAndModule(event, permiso.id, module.id)"
+    class="w-4 h-4 rounded accent-customPurple cursor-pointer"
+    :checked="selectedPermissions[module.id]?.includes(permiso.id)"
+  />
+</td>
 						</tr>
 					</tbody>
 				</table>
@@ -361,9 +363,41 @@ const cancelAction = () => {
 const hasPermission = (modulo, codigoPermiso) => {
   return modulo.permisos.some(permiso => permiso.codigo === codigoPermiso);
 };
+// Añade esta función junto a las otras funciones
+const toggleAllModulePermissions = (module, event) => {
+  if (!selectedPermissions.value[module.id]) {
+    selectedPermissions.value[module.id] = [];
+  }
+
+  // Obtener todos los permisos disponibles para este módulo
+  const availablePermissions = permisosTipos
+    .filter(permiso => moduleHasPermission(module, permiso.id))
+    .map(permiso => permiso.id);
+
+  // Si el checkbox está marcado, seleccionar todos los permisos disponibles
+  // Si no, deseleccionar todos
+  if (event.target.checked) {
+    selectedPermissions.value[module.id] = [...availablePermissions];
+  } else {
+    selectedPermissions.value[module.id] = [];
+  }
+
+  // Actualizar los checkboxes visuales de los permisos
+  const checkboxes = document.querySelectorAll(`input[type="checkbox"]`);
+  checkboxes.forEach(checkbox => {
+    if (checkbox.hasAttribute('data-module-id') && 
+        checkbox.getAttribute('data-module-id') === module.id.toString()) {
+      checkbox.checked = event.target.checked;
+    }
+  });
+
+  // Forzar actualización reactiva
+  selectedPermissions.value = { ...selectedPermissions.value };
+};
 </script>
 
 <style scoped>
+/* Variables de colores */
 .bg-customPurple {
   background-color: #71277a;
 }
@@ -372,7 +406,7 @@ const hasPermission = (modulo, codigoPermiso) => {
   accent-color: #71277a;
 }
 
-/* Estilos específicos para los checkboxes */
+/* Estilos base para todos los checkboxes */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -385,20 +419,25 @@ input[type="checkbox"] {
   position: relative;
 }
 
-/* Estilo para los checkboxes de permisos cuando están marcados */
-input[type="checkbox"]:not(:disabled):checked {
+/* Efectos hover para checkboxes interactivos */
+input[type="checkbox"]:hover {
+  border-color: #71277a;
+  background-color: rgba(113, 39, 122, 0.1);
+}
+
+/* Estilos específicos para los checkboxes de permisos cuando están marcados */
+td:not(:first-child) input[type="checkbox"]:checked {
   background-color: #71277a;
   border-color: #71277a;
 }
 
-/* Estilo para el checkbox del módulo cuando está marcado y deshabilitado */
-input[type="checkbox"]:disabled:checked {
-  background-color: #10b981 !important; /* Verde esmeralda */
-  border-color: #10b981 !important;
-  opacity: 1 !important;
+/* Estilos específicos para los checkboxes de módulos (primera columna) cuando están marcados */
+td:first-child input[type="checkbox"]:checked {
+  background-color: #10b981;
+  border-color: #10b981;
 }
 
-/* Agregar marca de verificación */
+/* Marca de verificación (✓) para todos los checkboxes marcados */
 input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
@@ -409,5 +448,10 @@ input[type="checkbox"]:checked::after {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+/* Asegurar opacidad correcta */
+input[type="checkbox"]:checked {
+  opacity: 1 !important;
 }
 </style>
