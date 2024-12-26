@@ -6,53 +6,73 @@ export const useGoalStore = defineStore("goalStore", {
     }),
 
     getters: {
-        // Procesar metas con el progreso calculado
         processedGoals: (state) => {
             return state.goals.map((goal) => {
-                const progress = calculateProgress(goal.startDate, goal.endDate, goal.limit);
+                const current = goal.current || 100; // Tickets actuales (simulados o reales)
+                const limit = goal.limit || 1; // Evita división por cero
+                const progress = Math.min(100, Math.round((current / limit) * 100)); // Progreso calculado
+                console.log(`Meta: ${goal.name}, Current: ${current}, Limit: ${limit}, Progress: ${progress}`);
                 return {
                     ...goal,
-                    progress, // Porcentaje del progreso (0 a 100)
-                    current: Math.round((progress / 100) * goal.limit), // Estado actual basado en el progreso
+                    progress,
+                    current,
                 };
             });
         },
     },
 
     actions: {
-        // Obtener metas desde localStorage
         fetchGoals() {
             const savedGoals = JSON.parse(localStorage.getItem("goals") || "[]");
-            this.goals = savedGoals;
+            const uniqueGoals = Array.from(
+                new Map(savedGoals.map((goal) => [goal.id, goal])).values()
+            );
+            this.goals = uniqueGoals.map((goal) => ({
+                ...goal,
+                animatedValue: goal.animatedValue || goal.progress || 0, // Inicializa `animatedValue`
+            }));
+
         },
 
-        // Agregar una nueva meta
         addGoal(goal) {
-            if (!goal.id) goal.id = Date.now(); // Generar un ID único
-            this.goals.push(goal);
+            if (!goal.id) goal.id = Date.now(); // Generar ID único si no existe
+            const exists = this.goals.some((g) => g.id === goal.id);
+            if (!exists) {
+                this.goals.push({ ...goal, animatedValue: goal.progress || 0 });
+                this.saveGoalsToLocal();
+            }
+        },
+
+        saveGoalsToLocal() {
+            const goalsToSave = this.goals.map((goal) => ({
+                ...goal,
+                animatedValue: goal.animatedValue || 0,
+            }));
+            localStorage.setItem("goals", JSON.stringify(goalsToSave));
+        },
+
+        async fetchRealDataForGoals() {
+            for (const goal of this.goals) {
+                try {
+                    const response = await fetch(
+                        `/api/tickets/count?startDate=${goal.startDate}&endDate=${goal.endDate}`
+                    );
+                    if (!response.ok) continue;
+
+                    const data = await response.json();
+                    goal.current = data.count || 0; // Actualiza los tickets reales
+                } catch (error) {
+                    console.error(`Error al obtener los datos para ${goal.name}:`, error);
+                }
+            }
             this.saveGoalsToLocal();
         },
-
-        // Guardar metas en localStorage
-        saveGoalsToLocal() {
-            localStorage.setItem("goals", JSON.stringify(this.goals));
-        },
+        resetAnimatedValues() {
+            this.goals = this.goals.map((goal) => ({
+                ...goal,
+                animatedValue: 0, // Reinicia el valor de la animación
+            }));
+            this.saveGoalsToLocal(); // Guarda los cambios en localStorage
+        }
     },
 });
-
-// Función para calcular el progreso basado en las fechas de inicio y fin
-function calculateProgress(startDate, endDate, limit) {
-    if (!startDate || !endDate || !limit) return 0;
-
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const today = new Date();
-
-    if (today < start) return 0; // Antes de la fecha de inicio
-    if (today > end) return 100; // Después de la fecha de fin
-
-    const totalDays = (end - start) / (1000 * 60 * 60 * 24);
-    const elapsedDays = (today - start) / (1000 * 60 * 60 * 24);
-
-    return Math.min(100, Math.round((elapsedDays / totalDays) * 100));
-}

@@ -6,9 +6,9 @@
 			class="flex flex-row items-center rounded-md w-[279px] h-[150px] max-w-md"
 			:style="getGradientStyle(index)">
 			<!-- Contenedor del SVG personalizado para la barra de carga -->
-			<div class="relative w-48 h-48">
+			<div class="relative w-48 h-48 -ml-2">
 				<svg
-					class="p-8 progress-circle-svg"
+					class="m-10 progress-circle-svg"
 					viewBox="0 0 120 120"
 					xmlns="http://www.w3.org/2000/svg">
 					<!-- Círculo de fondo con borde -->
@@ -27,9 +27,9 @@
 						r="52"
 						fill="none"
 						:stroke="getStrokeColors(index).progressStroke"
-						stroke-width="10"
+						stroke-width="11"
 						stroke-linecap="round"
-						:stroke-dasharray="calculateStrokeDasharray(goal.value)"
+						:stroke-dasharray="calculateStrokeDasharray(goal.progress)"
 						stroke-dashoffset="0"
 						transform="rotate(-90 60 60)" />
 
@@ -42,8 +42,8 @@
 
 					<!-- Círculo final dinámico -->
 					<circle
-						:cx="getProgressPositionX(goal.value)"
-						:cy="getProgressPositionY(goal.value)"
+						:cx="getProgressPositionX(goal.progress)"
+						:cy="getProgressPositionY(goal.progress)"
 						r="10"
 						:fill="getStrokeColors(index).progressStroke" />
 				</svg>
@@ -53,14 +53,14 @@
 					<span
 						class="text-xl font-bold text-gray-800"
 						:style="{ color: getTextColor(index) }">
-						{{ goal.value }}%
+						{{ goal.progress }}%
 					</span>
 				</div>
 			</div>
 			<!-- Texto a la derecha del indicador -->
-			<div class="flex flex-col justify-center items-start -ml-4">
+			<div class="flex flex-col justify-center items-start -ml-6">
 				<div :class="index === 2 ? 'text-white' : 'text-black'" class="text-xs">
-					{{ goal.label }}
+					Meta {{ goal.name }}
 				</div>
 				<div
 					:class="
@@ -68,12 +68,13 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.meta || 0 }}
+					{{ goal.limit || 0 }} Tickets
 				</div>
+
 				<div
 					:class="index === 2 ? 'text-white' : 'text-black'"
 					class="mt-1 text-xs">
-					Estado Actual
+					Progreso Actual
 				</div>
 				<div
 					:class="
@@ -81,7 +82,18 @@
 							? 'text-white text-base font-bold'
 							: 'text-black text-base font-bold'
 					">
-					{{ goal.value || 0 }}
+					{{ goal.current || 0 }} Tickets
+				</div>
+				<!-- Mostrar la fecha -->
+				<div
+					:class="index === 2 ? 'text-white' : 'text-black'"
+					class="mt-1 text-xs">
+					Fecha limite:
+				</div>
+				<div
+					:class="index === 2 ? 'text-white font-bold' : 'text-black font-bold'"
+					class="text-xs mt-1">
+					{{ goal.endDate }}
 				</div>
 			</div>
 		</div>
@@ -89,19 +101,65 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, onMounted, nextTick, watch } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
 
+// Prop para recibir una meta individual
+defineProps(["goal", "index"]);
 const goalStore = useGoalStore();
 
-// Usamos el getter `processedGoals` del store para obtener las metas procesadas
+// Procesar metas del store con animación inicializada
+const goals = computed(() =>
+	goalStore.processedGoals.map((goal) => ({
+		...goal,
+		animatedValue: 0,
+	}))
+);
 
-// Ejemplo de datos Quemados de 4 Metas  Configuradas
-const goals = ref([
-	{ value: 75, label: "Meta Anual" },
-	{ value: 50, label: "Meta 2" },
-	{ value: 90, label: "Meta 3" },
-]);
+// Ejemplo de datos Quemados de 3 Metas  Configuradas
+/* const goals = ref([
+	{ value: 75, animatedValue: 0, label: "Meta Anual", fecha: "31/12/2025" },
+	{
+		value: 50,
+		animatedValue: 0,
+		label: "Meta Trimestral",
+		fecha: "30/03/2025",
+	},
+	{ value: 90, animatedValue: 0, label: "Meta Mensual", fecha: "31/01/2025" },
+]); */
+
+// Animar el progreso dinámico
+const animateProgress = () => {
+	goals.value.forEach((goal) => {
+		const targetValue = goal.progress || 0;
+		let currentValue = 0;
+
+		const step = () => {
+			if (currentValue < targetValue) {
+				currentValue += 1;
+				goal.animatedValue = currentValue;
+				requestAnimationFrame(step);
+			} else {
+				goal.animatedValue = targetValue;
+				goalStore.saveGoalsToLocal(); // Guarda el estado actualizado
+				console.log(`Animación completada para: ${goal.name}`);
+			}
+		};
+		requestAnimationFrame(step);
+	});
+};
+
+// Watch para observar cambios en las metas procesadas
+watch(
+	() => goalStore.goals, // Observa cambios en las metas del store
+	(newGoals) => {
+		console.log("Metas actualizadas:", newGoals);
+		nextTick(() => {
+			animateProgress(); // Reactiva la animación tras los cambios
+		});
+	},
+	{ deep: true } // Observar cambios profundos en el array de metas
+);
 
 // Color del progreso dinámico
 const getProgressStrokeColor = (value) => {
@@ -192,6 +250,13 @@ const getTextColor = (index) => {
 			return "#000000"; // Color predeterminado
 	}
 };
+
+onMounted(() => {
+	goalStore.fetchGoals(); // Cargar metas del localStorage
+	nextTick(() => {
+		animateProgress(); // Asegúrate de que las metas estén procesadas antes de animar
+	});
+});
 </script>
 
 <style scoped></style>

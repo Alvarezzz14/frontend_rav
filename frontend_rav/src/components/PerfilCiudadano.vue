@@ -12,8 +12,8 @@
 						height="50" />
 				</div>
 				<div class="ml-4 text-center lg:text-left">
-					<p class="text-black mb-0 text-2xl">Perfil del</p>
-					<h2 class="text-customPurple text-5xl mt-0 font-bold">Ciudadano</h2>
+					<p class="text-black mb-0 text-2xl">Perfil de la</p>
+					<h2 class="text-customPurple text-5xl mt-0 font-bold">Víctima</h2>
 				</div>
 			</div>
 			<!-- Botones de Acción -->
@@ -42,7 +42,7 @@
 						:src="Actividad"
 						alt="Icono registrar actividad"
 						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar de Actividad</span>
+					<span class="text-sm">Registrar Actividad</span>
 				</router-link>
 			</div>
 		</div>
@@ -132,7 +132,7 @@
 			<!-- Título del historial -->
 			<div class="flex items-center bg-customPurple p-px">
 				<img :src="Historial" alt="Icono de Historial" class="w-8 h-8 mr-2" />
-				<h3 class="text-xl font-bold">HISTORIAL DEL CIUDADANO</h3>
+				<h3 class="text-xl font-bold">HISTORIAL DE LA VICTIMA</h3>
 			</div>
 			<!-- Contenedor de la tabla con scroll horizontal -->
 			<div class="overflow-x-auto">
@@ -182,9 +182,10 @@ import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu e
 const eventStore = useEventStore();
 const userInfo = ref({});
 const fetchData = ref([]);
+const host = import.meta.env.VITE_HOST;
 
 const fetchOptions = {
-	url: "http://localhost:8083/api/v1/programa",
+	url: `${host}:8083/api/v1/programa`,
 	options: {
 		method: "GET",
 		headers: {

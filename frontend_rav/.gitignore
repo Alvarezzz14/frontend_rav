@@ -17,9 +17,7 @@ dist-ssr/
 .vite/
 
 # Local environment files
-.env
-.env.local
-.env.*.local
+
 
 # TailwindCSS
 .tailwind-cache/

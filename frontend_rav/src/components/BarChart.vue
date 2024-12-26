@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col items-center justify-center w-full">
+	<div class="flex flex-col w-full h-full">
 		<!-- Transición suave para manejar tanto el spinner como el gráfico -->
 		<transition name="fade">
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
@@ -7,9 +7,13 @@
 				<p class="text-customPurple font-bold mb-4">Generando Gráfico...</p>
 				<div class="spinner"></div>
 			</div>
-			<div v-else class="w-full">
+			<div v-else-if="hasData" class="h-full flex items-center justify-between">
 				<!-- Gráfico mostrado después de cargar los datos -->
 				<Bar ref="barChart" :data="clonedChartData" :options="chartOptions" />
+			</div>
+			<!-- Mostrar mensaje si no hay datos -->
+			<div v-else class="flex flex-col items-center justify-center text-white">
+				<p class="text-lg font-bold">No hay información para mostrar</p>
 			</div>
 		</transition>
 	</div>
@@ -25,6 +29,8 @@ Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para mostrar el spinner
 const barChart = ref(null);
+const host = import.meta.env.VITE_HOST;
+const hasData = ref(false);
 
 // Datos y opciones del gráfico
 const chartData = reactive({
@@ -66,6 +72,8 @@ const chartOptions = reactive({
 					size: 8,
 				},
 				color: "black",
+				maxRotation: 0, // Sin rotación
+				minRotation: 0, // Sin rotación
 			},
 			grid: {
 				display: false,
@@ -75,7 +83,7 @@ const chartOptions = reactive({
 			beginAtZero: true,
 			ticks: {
 				font: {
-					size: 14,
+					size: 8,
 				},
 				color: "black",
 			},
@@ -89,9 +97,7 @@ const chartOptions = reactive({
 // Obtener datos de la API
 const fetchCitiesData = async () => {
 	try {
-		const response = await fetch(
-			"http://localhost:8082/api/v1/victimas/counter/cities"
-		);
+		const response = await fetch(`${host}:8082/api/v1/victimas/counter/cities`);
 		if (!response.ok) throw new Error("Error al obtener datos de ciudades");
 
 		const jsonResponse = await response.json();
@@ -101,6 +107,9 @@ const fetchCitiesData = async () => {
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)
 		);
+		//Verifica si hay Datos
+		hasData.value = chartData.datasets[0].data.length > 0;
+
 		chartData.datasets[0].backgroundColor = limitedData.map((_, index) =>
 			index % 2 === 0 ? "rgba(128,0,128,0.6)" : "rgba(138,43,226,0.6)"
 		);

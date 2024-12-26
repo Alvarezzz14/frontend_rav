@@ -36,7 +36,10 @@
 								:src="Signointe"
 								alt="Indicador"
 								class="inline-block mr-2 icon-with-tooltip" />
-							<span class="tooltip-text">Este es el mensaje flotante</span>
+							<span class="tooltip-text"
+								>Configura Tus Metas Eligiendo el Nombre, El limite para que la
+								meta se cumpla y el rango de fecha para alcanzar la meta</span
+							>
 						</span>
 					</p>
 					<form @submit.prevent="saveGoal">
@@ -171,12 +174,12 @@ const saveGoal = () => {
 		!goal.value.startDate ||
 		!goal.value.endDate
 	) {
-		alert("Todos los campos son obligatorios.");
+		toast.error("Todos los campos son obligatorios.");
 		return;
 	}
 
 	if (new Date(goal.value.startDate) > new Date(goal.value.endDate)) {
-		alert("La fecha de inicio no puede ser mayor que la fecha de fin.");
+		toast.error("La fecha de inicio no puede ser mayor que la fecha de fin.");
 		return;
 	}
 

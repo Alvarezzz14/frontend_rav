@@ -105,13 +105,7 @@
 				</div>
 			</div>
 
-			<!-- Títulos debajo de Entidades -->
-			<div class="flex gap-5 flex-auto -mb-8">
-				<h4 class="font-bold mt-1 ml-20 text-center">SENA</h4>
-				<h4 class="font-bold mt-1 ml-36 text-center">APE</h4>
-				<h4 class="font-bold mt-1 ml-24 text-center">Certificaciones</h4>
-				<h4 class="font-bold mt-1 ml-7 text-center">Fondo Emprender</h4>
-			</div>
+			
 
 			<!-- Sección de Selección de Regional -->
 			<div class="flex items-center space-x-1 flex-auto -mb-3">
@@ -210,6 +204,7 @@ const fetchData = ref([]);
 const loading = ref(false);
 const selectedEntity = ref(null);
 const noResultsModal = ref(false);
+const host = import.meta.env.VITE_HOST;
 
 // const selectedDepart = ref (null);
 let entity;
@@ -264,7 +259,7 @@ const validateAndSearch = async () => {
 
 	// Construir la URL dinámica
 	const fetchOptions = {
-		url: `http://localhost:8082/api/v1/victimas/lines/${selectedEntity.value}/${selectedCountry.value.name}`,
+		url: `${host}:8082/api/v1/victimas/lines/${selectedEntity.value}/${selectedCountry.value.name}`,
 		options: {
 			method: "GET",
 			headers: {
