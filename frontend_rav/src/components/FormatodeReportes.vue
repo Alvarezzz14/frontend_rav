@@ -319,39 +319,51 @@ async function handleDownloadReport(url) {
   loading.value = true;
 
   try {
+    let worksheetName = selectedReport.value === "AuditLogs" ? "Logs de Auditoría" : 
+                       selectedReport.value === "HistorialTickets" ? "Historial de Tickets" : 
+                       "Estadísticas Victimas";
+
     const response = await axios.get(url);
     let processedData;
 
     if (selectedReport.value === 'AuditLogs') {
-      // Extract logs array and ensure it's properly formatted
-      processedData = response.data?.logs?.map(log => ({
-        ID: log.id,
-        Usuario_ID: log.id_usuario,
-        Correo: log.correo || '',
-        Regional: log.regional || '',
-        Modulo: log.nombre_modulo || '',
-        // Add any other fields you need
+      processedData = response.data?.logs.map(log => ({
+        id: log.id,
+        id_usuario: log.id_usuario,
+        correo: log.correo,
+        regional: log.regional,
+        nombre_modulo: log.nombre_modulo,
+        accion: log.accion,
+        permiso_usado: log.permiso_usado,
+        rol: log.rol,
+        id_rol: log.id_rol,
+        valor_anterior_mensaje: log.valor_anterior?.mensaje || '',
+        valor_nuevo_error: log.valor_nuevo?.error || '',
+        direccion_ip: log.direccion_ip,
+        codigo_estado: log.codigo_estado,
+        ruta_solicitud: log.ruta_solicitud,
+        metodo_solicitud: log.metodo_solicitud,
+        fecha_creacion: log.fecha_creacion
       })) || [];
     } else {
       processedData = response.data?.data || [];
     }
 
     if (processedData.length === 0) {
-      throw new Error("No hay datos para procesar");
+      alert("No se encontraron datos para el reporte seleccionado.");
+      loading.value = false;
+      return;
     }
-
-    const worksheetName = selectedReport.value === "AuditLogs" ? "Logs de Auditoría" :
-                         selectedReport.value === "HistorialTickets" ? "Historial de Tickets" :
-                         "Estadísticas Victimas";
 
     await generateReport(processedData, worksheetName, {
       regional: "Tu Regional",
       responsable: "Nombre del Responsable",
       correo: "correo@ejemplo.com"
     });
+
   } catch (error) {
     console.error("Error al obtener el reporte:", error);
-    alert("Ocurrió un error al obtener el reporte. Por favor, intente nuevamente.");
+    alert("Ocurrió un error al obtener el reporte. Por favor, inténtalo de nuevo.");
   } finally {
     loading.value = false;
   }
