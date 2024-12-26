@@ -180,6 +180,9 @@ const route = useRoute();
 const toast = useToast();
 const authStore = useAuthStore();
 const eventStore = useEventStore();
+const modulesAndPermissions = ref([])
+const modules = ref([])
+
 
 const user = computed(() => authStore.authenticatedUser.user);
 
@@ -189,7 +192,9 @@ const user = computed(() => authStore.authenticatedUser.user);
 	avatar: "https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png",
 }); */
 
-const menuItems = ref([
+
+
+const menuItems = computed(()=>{[
 	{
 		title: "Inicio",
 		to: { name: "HomePage" },
@@ -324,7 +329,7 @@ const menuItems = ref([
 </svg>
 `,
 	},
-]);
+]});
 
 const activeItem = ref(null);
 const isResponsive = ref(false);
@@ -366,6 +371,12 @@ const handleSubmenuClick = (event, submenuItem) => {
 		});
 	}
 };
+
+const getData = async()=>{
+	modulesAndPermissions = await fetchService.get(`${host}:8080/modules`)
+}
+
+
 
 // Método para manejar clics
 const handleItemClick = (item) => {
@@ -444,10 +455,26 @@ onMounted(() => {
 	window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
 });
 
+
+
+onBeforeMount(async()=>{
+	await getData()
+	modulesAndPermissions.Foreach(item=>{
+		if(item)
+	})
+	menuItems.value = menuItems.value.map(item=>{
+		item.title = modulesAndPermissions.nombre
+		item.id = modulesAndPermissions
+	})
+})
+
 // Limpieza del event listener
 onUnmounted(() => {
 	window.removeEventListener("resize", updateResponsive);
+	
 });
+
+
 </script>
 <style scoped>
 a {

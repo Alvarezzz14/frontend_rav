@@ -103,7 +103,7 @@ import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
 import TXT from "@/assets/images/txt.svg";
 import download from "@/assets/images/download.svg";
 import { useFileNotificationStore } from "../stores/fileNotification";
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, onBeforeMount } from "vue";
 import Button from "primevue/button";
 import * as XLSX from "xlsx";
 import FetchService from "@/services/fetchService";
@@ -190,6 +190,9 @@ const handleDrop = (event) => {
 		}
 	}
 };
+
+
+
 const handleDragOver = (event) => {
 	event.preventDefault();
 };
@@ -342,6 +345,8 @@ onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
 	window.addEventListener("online", async () => await callback());
 });
+
+
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {
 	if (!fileToUpload.value) return;
