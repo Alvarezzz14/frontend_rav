@@ -42,12 +42,6 @@
 
 					<!-- Contenedor de los campos input y select -->
 					<div class="flex flex-wrap gap-4 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto text-right">
-						<!-- Campo de input -->
-						<input
-							type="text"
-							placeholder="Escribe un rol"
-							class="border rounded-md p-2 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto focus:outline-none focus:ring" />
-
 						<!-- Campo de select -->
 						<select
 							v-model="selectedRole"
@@ -62,7 +56,7 @@
 			</div>
 
 			<!-- Segundo contenedor -->
-			<div class="flex flex-wrap items-center gap-4">
+			<div class="flex flex-wrap items-center gap-4 relative">
 				<!-- Icono y texto de Módulos -->
 				<div class="flex items-center gap-2">
 					<div class="p-2 md:w-auto sm:w-auto lg:w-auto xl:w-auto xxl:w-auto bg-customPurple rounded-full">
@@ -73,8 +67,9 @@
 					</div>
 					<span class="font-bold text-black">MODULOS</span>
 				</div>
-				<!-- Icono y texto de Permisos -->
-				<div class="flex items-center gap-2">
+				
+				<!-- Icono y texto de Permisos reposicionado -->
+				<div class="flex items-center gap-2 absolute" style="left: 35%;">
 					<div class="p-2 bg-customPurple rounded-full">
 						<img
 							src="@/assets/images/rol1.svg"
@@ -83,6 +78,7 @@
 					</div>
 					<span class="font-bold text-black">PERMISOS</span>
 				</div>
+				
 				<!-- Botones -->
 				<div class="flex gap-4 ml-auto">
 					<Button
