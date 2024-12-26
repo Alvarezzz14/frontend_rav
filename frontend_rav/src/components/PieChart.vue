@@ -1,30 +1,40 @@
 <template>
 	<div
-		class="flex flex-col items-center justify-center w-full bg-customPurple p-4 rounded-lg">
+		class="flex flex-col items-center justify-center w-full bg-customPurple rounded-lg">
 		<transition name="fade">
 			<!-- Mostrar spinner mientras carga -->
 			<div v-if="isLoading" class="flex flex-col items-center justify-center">
-				<p class="text-white font-bold mb-4">Generando Gráfico...</p>
-				<div class="spinner"></div>
+				<p class="text-white  font-bold mb-4">Generando Gráfico...</p>
+				<div class=" spinner"></div>
 			</div>
 			<!-- Mostrar gráfico después de cargar los datos -->
-			<div v-else class="h-full">
-				<Pie ref="pieChart" :data="clonedChartData" :options="chartOptions" />
+
+			<div v-else-if="hasData" class="h-full">
+
+				<Doughnut
+					ref="doughnutChart"
+					:data="clonedChartData"
+					:options="chartOptions" />
+			</div>
+			<!-- Mostrar mensaje si no hay datos -->
+			<div v-else class="flex flex-col items-center justify-center text-white">
+				<p class="text-lg font-bold">No hay información para mostrar</p>
 			</div>
 		</transition>
 	</div>
 </template>
 
 <script setup>
-import { Pie } from "vue-chartjs";
+import { Doughnut } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
 import { reactive, onMounted, ref, computed } from "vue";
 
 Chart.register(...registerables);
 
 const isLoading = ref(true); // Estado para el spinner
-const pieChart = ref(null);
+const doughnutChart = ref(null);
 const host = import.meta.env.VITE_HOST;
+const hasData = ref(false); //Estado para verificar si hay datos
 
 // Función para truncar textos largos
 const truncateText = (text, maxLength) =>
@@ -77,13 +87,14 @@ const chartOptions = reactive({
 			color: "white", // Título en blanco
 		},
 		legend: {
-			position: "right", // Leyenda a la derecha
+			position: "left", // Leyenda a la derecha
 			labels: {
 				color: "white", // Color del texto de la leyenda
 				font: {
-					size: 12,
-					weight: "bold",
+					size: 10,
 				},
+				usePointStyle: true,
+				autoSkip: true,
 			},
 		},
 		tooltip: {
@@ -102,7 +113,7 @@ const chartOptions = reactive({
 const fetchPertEtnicaData = async () => {
 	try {
 		const response = await fetch(
-			`host:8082/api/v1/victimas/counter/pert-etnica`
+			`${host}:8082/api/v1/victimas/counter/pert-etnica`
 		);
 		if (!response.ok)
 			throw new Error("Error al obtener datos de Pertenencia Étnica");
@@ -117,6 +128,9 @@ const fetchPertEtnicaData = async () => {
 		chartData.datasets[0].data = limitedData.map((item) =>
 			Number(item.cantidad_repeticiones)
 		);
+
+		//Verifica si hay Datos
+		hasData.value = chartData.datasets[0].data.length > 0;
 
 		console.log("Datos cargados para el gráfico:", chartData);
 		isLoading.value = false; // Ocultar el spinner

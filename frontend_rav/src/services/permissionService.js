@@ -5,36 +5,44 @@ export default class PermissionService {
     constructor() {
         this.fetchService = new FetchService();
         this.authStore = useAuthStore();
+        const rol_id = this.authStore.getAuthenticatedUser().user.id_rol;
+        const host = import.meta.env.VITE_HOST;
+        this.urlFetch = `${host}:8080/${rol_id}/permissions`
+        this.modulesAndPermissions
+        this.gotData = false
     }
 
-    async validate(url, modules) {
-        const rol_id = this.authStore.getAuthenticatedUser().user.id_rol;
-        const newUrl = url + rol_id + "permissions";
+    async validate(module_id,keyPermissions) {
+        if(this.gotData) return
      
-        const response = await this.fetchService.get(newUrl, {
+        await this.fetchService.get(this.urlFetch, {
             fetchOptions: {
 
             },
             success: (response) => {
-                for (let i = 0; i<response.length; i++){
-                    
-                }
-                for (let module of modules){
-                    if (response[i].id_modulo == module.module_id){
-                        if (module.permisos.includes(response[i].id_permiso_tipo)){
-                            module.show = true
-                        }
-                        else{
-                            module.show = false
-                        }
-                    }
-                }
-                console.log(response)
+                this.gotData = true
+                this.modulesAndPermissions = response
+                
               
             },
             error: (response) => console.log(response),
         })
-        return modules
+
+
+        for (let i = 0; i<this.modulesAndPermissions.length; i++){
+            if (module_id == module.module_id){
+                for(let index in module.permission){
+                    if(module.permission[index].codigo == keyPermissions){
+                        return true
+                    }
+                    else{
+                        return false
+                    }
+                }
+            }
+        }
+      
+        console.log(modulesAndPermissions)
 
     }
 }

@@ -11,7 +11,7 @@
 					:options="departamentos"
 					placeholder="Seleccione departamento"
 					class="w-full rounded-lg shadow-sm text-customPurple !border !border-customPurple"
-					@change="updateSelectedInfo">
+					@change="handleChange">
 					<template #value="slotProps">
 						<div
 							v-if="slotProps.value"
@@ -61,7 +61,14 @@
 
 				<!-- Descripción del departamento -->
 				<div class="p-4 text-gray-700">
-					<p>{{ getDepartmentDescription(selectedInfo.name) }}</p>
+					<!-- <p>{{ getDepartmentDescription(selectedInfo.name) }}</p> -->
+					<p>
+						La cantidad de victimas en el departamento es de:
+						<strong class="font-bold">{{
+							formatNumber(department.total_victimas)
+						}}</strong>
+						personas
+					</p>
 				</div>
 			</div>
 		</div>
@@ -103,15 +110,42 @@ import Select from "primevue/select";
 import { departamentos } from "@/data/departamentosMapa/departamentos";
 import { getDepartmentDescription } from "@/data/departamentosMapa/descripciones";
 import { departmentPaths } from "@/data/departamentosMapa/paths";
+import FetchService from "@/services/fetchService";
 
 // Reactive data
 const selectedInfo = ref(null);
-const selectedCountry = ref(null);
+const selectedCountry = ref("");
+let department = ref([]);
+const fetchService = new FetchService();
+const host = import.meta.env.VITE_HOST;
 
+//Formatear numeros
+const formatNumber = (num) => {
+	return new Intl.NumberFormat("es-ES").format(num); // Formato español con separadores de miles
+};
 
-const getMunicipitalitiesCodes = ()=>{
-	
-}
+const handleChange = () => {
+	getDepartment();
+	updateSelectedInfo();
+};
+
+const getDepartment = async () => {
+	const nameDeparment = selectedCountry.value.name.toUpperCase();
+	console.log(nameDeparment);
+	const url = `${host}:8082/api/v1/victimas/department/${nameDeparment}`;
+	await fetchService.get(url, {
+		fetchOptions: {
+			method: "GET",
+			headers: {
+				Accept: "aplicattion/json",
+			},
+		},
+		success: (response) => (department.value = response),
+		error: (response) => console.log(response),
+	});
+
+	console.log(department.value);
+};
 
 // Methods
 const updateSelectedInfo = () => {
@@ -133,5 +167,3 @@ const updateSelectedInfo = () => {
 	}
 };
 </script>
-
-<!-- SI -->

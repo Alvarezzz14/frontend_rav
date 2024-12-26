@@ -20,9 +20,11 @@
 		<img
 			src="@/assets/images/CancelFile.svg"
 			alt="X Icon"
-			@click="cancelUploadFile" />
+			@click="cancelUploadFile"
+			class="cursor-pointer w-6 h-6 ml-2" />
 	</div>
 </template>
+
 
 <script setup>
 import { computed, ref, watch } from "vue";
@@ -55,37 +57,26 @@ watch(uploadProgress, (newProgress) => {
 // Función para cancelar la subida del archivo
 const cancelUploadFile = async () => {
 	try {
-		fetchController.value.abort();
-		toast.warning("La subida del archivo fue cancelada.", {
-			timeout: 3000,
-		});
+		// Abortar la subida si hay un controlador activo
+		if (fetchController.value) {
+			fetchController.value.abort();
+			toast.warning("La subida del archivo fue cancelada.", {
+				timeout: 3000,
+			});
+		}
 
+		// Reiniciar los valores en el store
 		fileNotificationStore.setUploadProgress(0);
 		fileNotificationStore.setFileName(null);
 		fileNotificationStore.setFetchController(null);
 
-		setTimeout(async () => {
-			try {
-				const response = await fetch(
-					`${host}:8081/api/delete/${fileName.value}`,
-					{
-						method: "POST",
-					}
-				);
-				const json = await response.json();
+		// Eliminar visualmente la barra de progreso
+		isUploadComplete.value = false;
 
-				if (!response.ok) throw new Error(`Error: ${response.statusText}`);
-
-				toast.success("El archivo fue subido Exitosamente.", {
-					timeout: 3000,
-				});
-			} catch (error) {
-				toast.error("Hubo un problema al subir el archivo del servidor.", {
-					timeout: 3000,
-				});
-				console.error(error);
-			}
-		}, 7000);
+		// Intentar eliminar el archivo del servidor
+		if (fileName.value) {
+			await deleteFileFromServer();
+		}
 	} catch (error) {
 		toast.error("No se pudo cancelar la subida.", {
 			timeout: 3000,
@@ -93,7 +84,24 @@ const cancelUploadFile = async () => {
 		console.error(error);
 	}
 };
+
+// Función para eliminar el archivo del servidor
+const deleteFileFromServer = async () => {
+	try {
+		const response = await fetch(`${host}:8081/api/delete/${fileName.value}`, {
+			method: "POST",
+		});
+		if (!response.ok) {
+			throw new Error(`Error al eliminar el archivo: ${response.statusText}`);
+		}
+		toast.success("El archivo fue eliminado del servidor.", { timeout: 3000 });
+	} catch (error) {
+		toast.error("No se pudo eliminar el archivo del servidor.", { timeout: 3000 });
+		console.error(error);
+	}
+};
 </script>
+
 
 <style scoped>
 .progress-bar {
