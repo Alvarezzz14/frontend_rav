@@ -216,133 +216,215 @@
 		<!-- Modal para Registrar Usuario -->
 
 		<div
-			v-if="showRegisterModal"
-			class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
-			<!-- Modal -->
+		v-if="showRegisterModal"
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur">
+		<!-- Modal -->
+		<div
+			class="relative bg-white shadow-lg rounded-lg w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden">
+			<!-- Botón de Cerrar -->
+			<button
+				@click="closeRegisterModal"
+				class="absolute top-4 right-4 text-customPurple rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
+				✕
+			</button>
+
+			<!-- Formulario -->
 			<div
-				class="relative bg-white shadow-lg rounded-lg w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden">
-				<!-- Botón de Cerrar -->
-				<button
-					@click="closeRegisterModal"
-					class="absolute top-4 right-4 text-customPurple rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10">
-					✕
-				</button>
+				class="relative z-10 bg-white p-8 lg:p-16 w-full lg:w-1/2 mx-auto rounded-lg lg:rounded-none">
+				<!-- Logo de RAV -->
+				<div class="text-center mb-4">
+					<img
+						:src="logoRav"
+						alt="Logo RAV"
+						class="w-36 h-auto mx-auto mb-4 lg:w-48" />
+				</div>
 
-				<!-- Formulario -->
-				<div
-					class="relative z-10 bg-white p-8 lg:p-16 w-full lg:w-1/2 mx-auto rounded-lg lg:rounded-none">
-					<!-- Logo de RAV -->
-					<div class="text-center mb-4">
-						<img
-							:src="logoRav"
-							alt="Logo RAV"
-							class="w-36 h-auto mx-auto mb-4 lg:w-48" />
+				<!-- Título del Formulario -->
+				<h2
+					class="text-2xl lg:text-3xl font-semibold text-black mb-6 text-center">
+					Registrar Usuario
+				</h2>
+
+				<!-- Campos del Formulario -->
+				<form @submit.prevent="submitForm" class="space-y-4">
+					<!-- Selección de Rols -->
+					<div class="flex justify-between mb-6">
+						<label class="flex items-center space-x-2 cursor-pointer">
+							<input
+								type="radio"
+								id="admin"
+								name="rol"
+								value="Administrador"
+								v-model="formData.rol"
+								class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
+							<span
+								:class="{
+									'text-black font-semibold':
+										formData.rol === 'Administrador',
+									'text-gray-700': formData.rol !== 'Administrador',
+								}"
+								class="text-sm lg:text-lg">
+								Administrador
+							</span>
+						</label>
+						<label class="flex items-center space-x-2 cursor-pointer">
+							<input
+								type="radio"
+								id="funcionario"
+								name="rol"
+								value="Funcionario"
+								v-model="formData.rol"
+								class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
+							<span
+								:class="{
+									'text-black font-semibold':
+										formData.rol === 'Funcionario',
+									'text-gray-700': formData.rol !== 'Funcionario',
+								}"
+								class="text-sm lg:text-lg">
+								Funcionario
+							</span>
+						</label>
 					</div>
+					<input
+						v-model="formData.name"
+						type="text"
+						placeholder="Nombre"
+						class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
+						required />
+					<input
+						v-model="formData.documento"
+						type="text"
+						placeholder="Digite Documento Identidad"
+						class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
+						required />
+					<input
+						v-model="formData.email"
+						type="email"
+						placeholder="Correo SENA"
+						class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
+						required />
 
-					<!-- Título del Formulario -->
-					<h2
-						class="text-2xl lg:text-3xl font-semibold text-black mb-6 text-center">
-						Registrar Usuario
-					</h2>
-
-					<!-- Campos del Formulario -->
-					<form @submit.prevent="submitForm" class="space-y-4">
-						<!-- Selección de Rols -->
-						<div class="flex justify-between mb-6">
-							<label class="flex items-center space-x-2 cursor-pointer">
-								<input
-									type="radio"
-									id="admin"
-									name="rol"
-									value="Administrador"
-									v-model="formData.rol"
-									class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
-								<span
-									:class="{
-										'text-black font-semibold':
-											formData.rol === 'Administrador',
-										'text-gray-700': formData.rol !== 'Administrador',
-									}"
-									class="text-sm lg:text-lg">
-									Administrador
-								</span>
-							</label>
-							<label class="flex items-center space-x-2 cursor-pointer">
-								<input
-									type="radio"
-									id="funcionario"
-									name="rol"
-									value="Funcionario"
-									v-model="formData.rol"
-									class="form-radio h-5 w-5 text-customPurple focus:ring-customPurple" />
-								<span
-									:class="{
-										'text-black font-semibold': formData.rol === 'Funcionario',
-										'text-gray-700': formData.rol !== 'Funcionario',
-									}"
-									class="text-sm lg:text-lg">
-									Funcionario
-								</span>
-							</label>
-						</div>
-						<input
-							v-model="formData.name"
-							type="text"
-							placeholder="Nombre"
-							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
-							required />
-						<input
-							v-model="formData.documento"
-							type="documento"
-							placeholder="Digite Documento Identidad"
-							class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-							required />
-						<input
-							v-model="formData.email"
-							type="email"
-							placeholder="Correo SENA"
-							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
-							required />
+					<!-- Contraseña -->
+					<div class="relative">
 						<input
 							v-model="formData.password"
-							type="password"
+							:type="showPassword ? 'text' : 'password'"
 							placeholder="Crear Contraseña"
 							id="password"
 							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
+						<button
+							type="button"
+							@click="togglePassword"
+							class="absolute top-1/4 bg-gray-100 border-none right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none">
+							<svg
+								v-if="showPassword"
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18" />
+							</svg>
+							<svg
+								v-else
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+							</svg>
+						</button>
+					</div>
+
+					<!-- Confirmar Contraseña -->
+					<div class="relative">
 						<input
 							v-model="formData.confirmPassword"
-							type="password"
+							:type="showConfirmPassword ? 'text' : 'password'"
 							placeholder="Confirmar Contraseña"
 							id="confirmPassword"
 							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
 						<button
-							type="submit"
-							class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300">
-							Registrar
+							type="button"
+							@click="toggleConfirmPassword"
+							class="absolute top-1/4 bg-gray-100 border-none right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none">
+							<svg
+								v-if="showConfirmPassword"
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18" />
+							</svg>
+							<svg
+								v-else
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-5 w-5"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+							</svg>
 						</button>
-					</form>
-
-					<!-- Logos Inferiores -->
-					<div class="flex justify-center items-center space-x-6 mt-6">
-						<img :src="logoSena" alt="Logo SENA" class="w-12 h-auto" />
-						<img :src="logoApe" alt="Logo APE" class="w-12 h-auto" />
 					</div>
-				</div>
 
-				<!-- Imagen de Fondo -->
-				<div class="relative hidden lg:block w-1/2 overflow-hidden z-0">
-					<img
-						:src="imagenRegistro"
-						alt="Cultura Colombiana"
-						class="w-full h-full object-cover lg:rounded-r-lg" />
+					<button
+						type="submit"
+						class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300">
+						Registrar
+					</button>
+				</form>
+
+				<!-- Logos Inferiores -->
+				<div class="flex justify-center items-center space-x-6 mt-6">
+					<img :src="logoSena" alt="Logo SENA" class="w-12 h-auto" />
+					<img :src="logoApe" alt="Logo APE" class="w-12 h-auto" />
 				</div>
 			</div>
-			<confirmacion-registro
-				v-if="showConfirmation"
-				@close="closeConfirmationModal" />
+
+			<!-- Imagen de Fondo -->
+			<div class="relative hidden lg:block w-1/2 overflow-hidden z-0">
+				<img
+					:src="imagenRegistro"
+					alt="Cultura Colombiana"
+					class="w-full h-full object-cover lg:rounded-r-lg" />
+			</div>
 		</div>
+		<confirmacion-registro
+			v-if="showConfirmation"
+			@close="closeConfirmationModal" />
+	</div>
 
 		<!-- Modal para Ver Usuario -->
 		<div
@@ -1140,6 +1222,19 @@ const roleReverseMap = {
 	Administrador: 1,
 	Funcionario: 2,
 };
+// Mostrar/ocultar contraseñas
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
+// Métodos para alternar las contraseñas
+const togglePassword = () => {
+	showPassword.value = !showPassword.value;
+};
+const toggleConfirmPassword = () => {
+	showConfirmPassword.value = !showConfirmPassword.value;
+};
+
+
 
 onMounted(fetchUsers);
 </script>
