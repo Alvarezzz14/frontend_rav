@@ -147,7 +147,7 @@
 								{{ user.nombre }} {{ user.apellidos }}
 							</p>
 							<p class="text-gray-700 text-sm">
-								{{ user.email || "email.eample.com" }}
+								{{ user.email || "email@example.com" }}
 							</p>
 						</div>
 					</div>
