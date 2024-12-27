@@ -44,8 +44,7 @@
 						<button
 							type="button"
 							@click="togglePassword"
-							class="absolute top-1/4  bg-white right-2.5 border-none transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none"
-						>
+							class="absolute top-1/4 bg-white right-2.5 border-none transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none">
 							<!-- Íconos de mostrar/ocultar -->
 							<svg
 								v-if="showPassword"
@@ -53,14 +52,12 @@
 								class="h-5 w-5"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
+								stroke="currentColor">
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									stroke-width="2"
-									d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18"
-								/>
+									d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18" />
 							</svg>
 							<svg
 								v-else
@@ -68,20 +65,17 @@
 								class="h-5 w-5"
 								fill="none"
 								viewBox="0 0 24 24"
-								stroke="currentColor"
-							>
+								stroke="currentColor">
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									stroke-width="2"
-									d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-								/>
+									d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 								<path
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									stroke-width="2"
-									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-								/>
+									d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 							</svg>
 						</button>
 					</div>
@@ -159,7 +153,7 @@ async function submit() {
 	errorMessage.value = "";
 
 	try {
-		const response = await axios.post(`${host}:8080/login`, form.value);
+		const response = await axios.post(`${host}:8080/login`, form);
 		console.log(response.data);
 
 		authStore.setAuthenticatedUser(response.data);
@@ -175,8 +169,6 @@ async function submit() {
 	}
 }
 </script>
-
-
 
 <style scoped>
 button {
