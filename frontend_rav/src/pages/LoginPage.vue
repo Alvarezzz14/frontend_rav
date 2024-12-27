@@ -156,16 +156,20 @@ onMounted(() => {
 
 async function submit() {
 	isLoading.value = true;
+	errorMessage.value = "";
+
 	try {
-		const response = await axios.post(`${host}:8080/login`, form);
+		const response = await axios.post(`${host}:8080/login`, form.value);
 		console.log(response.data);
 
 		authStore.setAuthenticatedUser(response.data);
 		toast.success("Inicio de sesión exitoso.");
 		router.push("/");
 	} catch (error) {
-		errorMessage.value =
+		/* errorMessage.value =
 			error.response?.data?.error || "Error en el inicio de sesión.";
+		toast.error(errorMessage.value); */
+		toast.error("Correo o Contraseña Inválidas");
 	} finally {
 		isLoading.value = false;
 	}
