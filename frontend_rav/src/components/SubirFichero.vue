@@ -33,29 +33,51 @@
 
 				<!-- Área de arrastrar y soltar -->
 				<div
+					v-if="isDesktop"
 					class="upload-container p-8 border-dashed border-2 border-customPurple text-center rounded-lg"
 					@drop="handleDrop"
 					@dragover="handleDragOver">
-					<img
-						src="@/assets/images/txt.svg"
-						alt="TXT"
-						class="upload-icon mb-2 w-16 h-16 mx-auto" />
-					<p class="text-customPurple mb-4">
-						Arrastra y suelta el archivo aquí <br />
-						o
+					<!-- Estados de carga -->
+					<div v-if="uploading">
+						<img
+							:src="loadingGif"
+							alt="Cargando..."
+							class="mx-auto w-20 h-20" />
+						<p class="text-customPurple mt-4">Subiendo archivo...</p>
+					</div>
+					<div v-else-if="uploadSuccess">
+						<img :src="successImage" alt="Éxito" class="mx-auto w-20 h-20" />
+					</div>
+					<div v-else>
+						<img
+							src="@/assets/images/txt.svg"
+							alt="TXT"
+							class="upload-icon mb-2 w-16 h-16 mx-auto" />
+						<p class="text-customPurple mb-4">
+							Arrastra y suelta el archivo aquí <br />
+							o
+						</p>
+						<!-- Botón amarillo personalizado -->
+						<Button
+							label="Buscar"
+							class="yellow-button mt-4"
+							@click="selectFile" />
+						<!-- Input oculto para selección de archivo -->
+						<input
+							type="file"
+							ref="fileInput"
+							class="hidden"
+							@change="handleFileUpload"
+							accept=".txt,.csv,.xlsx" />
+					</div>
+				</div>
+
+				<!-- Mensaje para dispositivos no compatibles -->
+				<div v-else class="text-center text-red-500">
+					<p>
+						Esta función solo está disponible desde un PC. Por favor, intenta
+						desde un ordenador.
 					</p>
-					<!-- Botón amarillo personalizado -->
-					<Button
-						label="Buscar"
-						class="yellow-button mt-4"
-						@click="selectFile" />
-					<!-- Input oculto para selección de archivo -->
-					<input
-						type="file"
-						ref="fileInput"
-						class="hidden"
-						@change="handleFileUpload"
-						accept=".txt,.csv,.xlsx" />
 				</div>
 
 				<!-- Archivos cargados -->
@@ -107,6 +129,8 @@ import { ref, onMounted, onUnmounted } from "vue";
 import Button from "primevue/button";
 import * as XLSX from "xlsx";
 import FetchService from "@/services/fetchService";
+import loadingGif from "@/assets/images/subirFichero/EstadosCarga/gifjeep1.gif";
+import successImage from "@/assets/images/subirFichero/EstadosCarga/SuccesedImg.svg";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
@@ -126,14 +150,24 @@ const uploadError = ref(false);
 const host = import.meta.env.VITE_HOST;
 const fetchService = new FetchService();
 let listener;
-let canDeleteFile = false
-
+let canDeleteFile = false;
+const isDesktop = ref(false); // Detecta si el dispositivo es un escrito
 
 const acceptedFileTypes = [
 	"text/plain",
 	"text/csv",
 	"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
 ]; // Tipos permitidos
+
+// Detectar si el dispositivo es un PC
+const detectDevice = () => {
+	const userAgent = navigator.userAgent.toLowerCase();
+	isDesktop.value =
+		!/(android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini)/i.test(
+			userAgent
+		);
+};
+
 const fetchOptions = {
 	url: `${host}:8081/api/upload`,
 	options: {
@@ -221,20 +255,20 @@ const ReuploadFile = async () => {
 	}
 };
 
+const deleteFile = async (options) => {
+	const { url, fetchOptions } = options;
 
+	await fetchService.post(url, {
+		fetchOptions,
+		success: (response) => console.log(response),
+		error: (response) => console.log(response),
+	});
 
-const deleteFile = async(options)=>{
-	const {url,fetchOptions} = options
+	window.removeEventListener("online", listener);
+};
 
-	 await fetchService.post(url,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
-
-	 window.removeEventListener("online", listener);
-	
-}
-
-
-const ConnectionWifi = (callback,parameter) => {
-	listener =  async () => await callback(parameter);
+const ConnectionWifi = (callback, parameter) => {
+	listener = async () => await callback(parameter);
 	window.addEventListener("online", listener);
 };
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
@@ -256,20 +290,25 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 		);
 	} catch (err) {
 		if (err instanceof TypeError && !navigator.onLine && canDeleteFile) {
-			const fileName = fetchOptions.options.body.get("file").name
-			ConnectionWifi(deleteFile,{url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
-				method: "POST",
-				headers: {
-                "Accept": "application/json",
-            },
-			}})
-			
+			const fileName = fetchOptions.options.body.get("file").name;
+			ConnectionWifi(deleteFile, {
+				url: `${host}:8081/api/delete/${fileName}`,
+				fetchOptions: {
+					method: "POST",
+					headers: {
+						Accept: "application/json",
+					},
+				},
+			});
+
 			canDeleteFile = false;
 
-      console.error('Error: No internet connection no se pudo subir el archivo');
-    } else {
-		console.error("Error al enviar el archivo:", err);
-    }
+			console.error(
+				"Error: No internet connection no se pudo subir el archivo"
+			);
+		} else {
+			console.error("Error al enviar el archivo:", err);
+		}
 		uploadError.value = true;
 	}
 }
@@ -336,6 +375,7 @@ const showUnloadWarning = (event) => {
 	return message; // Para compatibilidad con otros navegadores
 };
 onMounted(() => {
+	detectDevice();
 	window.addEventListener("beforeunload", showUnloadWarning);
 });
 onUnmounted(() => {
