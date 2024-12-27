@@ -71,7 +71,7 @@
 					<tr v-for="(row, index) in tableData.data" :key="index">
 						<td class="p-3 border-b">{{ row.nombre_departamento }}</td>
 						<td class="p-3 border-b">{{ row.nombre_completo }}</td>
-						<td class="p-3 border-b">{{ row.fecha_hora }}</td>
+						<td class="p-3 border-b">{{ formatDate(row.fecha_hora) }}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -119,6 +119,14 @@ const tableData = ref([]); // Datos de la tabla inicializados vacíos
 const loading = ref(false); // Indicador de carga para mostrar durante la consulta
 const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
 const host = import.meta.env.VITE_HOST;
+
+const formatDate = (isoDate) => {
+	const date = new Date(isoDate);
+	return new Intl.DateTimeFormat("es-ES", {
+		dateStyle: "medium",
+		timeStyle: "short",
+	}).format(date);
+};
 
 // Hook para realizar la consulta al montar el componente
 onMounted(async () => {
