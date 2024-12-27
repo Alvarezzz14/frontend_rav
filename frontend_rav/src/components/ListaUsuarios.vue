@@ -919,7 +919,7 @@ async function submitForm() {
 			tipo_documento: "CC", // Valor quemado
 			numero_documento: formData.documento,
 			sede: "Secundaria", // Valor quemado
-			id_rol: roleMap[formData.rol],
+			id_rol: roleReverseMap[formData.rol],
 			regional: "antioquia", // Valor quemado
 			correo: formData.email,
 			telefono: "2356477868", // Valor quemado

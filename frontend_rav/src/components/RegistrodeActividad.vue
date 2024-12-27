@@ -53,7 +53,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Víctima: </span>
+							<span class="text-gray-800 font-semibold">Nombre: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
@@ -295,8 +295,8 @@ const createBodyFetch = () => {
 		titulo: title.value,
 		contenido: content.value,
 		palabras_clave: selectedKeywords.value.join(", "),
-		numero_documento: parseInt(userInfo.documento),
-		id_usuario: userInfo.id,
+		numero_documento: parseInt(userInfo.value.documento),
+		id_usuario: authStore.authenticatedUser?.user_id || null,
 	};
 };
 
@@ -338,6 +338,10 @@ const resetForm = () => {
 	content.value = "";
 	activeCategory.value = null;
 };
+
+onMounted(() => {
+	authStore.initializeAuth();
+});
 </script>
 
 <style scoped>
