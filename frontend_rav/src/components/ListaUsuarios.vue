@@ -915,14 +915,14 @@ async function submitForm() {
 		// Cuerpo de la solicitud con datos predeterminados
 		const payload = {
 			nombre: formData.name,
-			apellidos: "Santa", // Valor quemado
+			apellidos: "A", // Valor quemado
 			tipo_documento: "CC", // Valor quemado
 			numero_documento: formData.documento,
-			sede: "Secundaria", // Valor quemado
+			sede: "A", // Valor quemado
 			id_rol: roleReverseMap[formData.rol],
-			regional: "antioquia", // Valor quemado
+			regional: "A", // Valor quemado
 			correo: formData.email,
-			telefono: "2356477868", // Valor quemado
+			telefono: "1234", // Valor quemado
 			contraseña: formData.password,
 		};
 
@@ -936,7 +936,7 @@ async function submitForm() {
 		toast.success("Registro exitoso. Ahora puedes iniciar sesión.");
 
 		setTimeout(() => {
-			router.push("/login");
+			router.push("/listausuarios");
 		}, 1550);
 	} catch (error) {
 		console.error(
