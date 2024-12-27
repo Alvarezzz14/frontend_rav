@@ -934,10 +934,8 @@ async function submitForm() {
 		});
 
 		toast.success("Registro exitoso. Ahora puedes iniciar sesión.");
-
-		setTimeout(() => {
-			router.push("/listausuarios");
-		}, 1550);
+		closeRegisterModal();
+		router.push("/listausuarios");
 	} catch (error) {
 		console.error(
 			"Error en el registro:",
