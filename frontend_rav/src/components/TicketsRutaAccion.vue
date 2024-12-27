@@ -286,28 +286,6 @@ const userInfo = computed(() => eventStore.getUserInfo());
 
 const host = import.meta.env.VITE_HOST;
 
-const groupedEvents = ref({
-	"2024-11-20": [
-		{
-			title: "Revisión del ticket 12345",
-			description: "Pendiente de aprobación",
-			profileImage: "https://via.placeholder.com/56",
-		},
-		{
-			title: "Consulta del ticket 12346",
-			description: "Ticket cerrado satisfactoriamente",
-			profileImage: "https://via.placeholder.com/56",
-		},
-	],
-	"2024-11-21": [
-		{
-			title: "Actualización del ticket 12347",
-			description: "Nuevo comentario agregado",
-			profileImage: "https://via.placeholder.com/56",
-		},
-	],
-});
-
 const fetchOptions = {
 	url: `${host}:8082/api/v1/victimas/ticket`,
 	options: {

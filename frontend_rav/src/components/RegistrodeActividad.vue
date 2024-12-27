@@ -290,13 +290,15 @@ const addToKeywords = (keyword) => {
 
 // Crear el cuerpo para el fetch
 const createBodyFetch = () => {
+	console.log("userInfo:", userInfo.value);
+	console.log("user:", user.value);
 	return {
 		id_ticket: window.Date.now(),
 		titulo: title.value,
 		contenido: content.value,
 		palabras_clave: selectedKeywords.value.join(", "),
-		numero_documento: parseInt(userInfo.documento),
-		id_usuario: userInfo.id,
+		numero_documento: parseInt(userInfo.value.documento),
+		id_usuario: userInfo.value.id,
 	};
 };
 
