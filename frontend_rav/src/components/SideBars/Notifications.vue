@@ -114,7 +114,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, nextTick } from "vue";
 import { useGoalStore } from "@/stores/goalStore";
-import CircularChart from "@/components/CircularChart.vue";
+import CircularChart from "@/components/metas/CircularChart.vue";
 
 // Acceso al store de metas
 const goalStore = useGoalStore();

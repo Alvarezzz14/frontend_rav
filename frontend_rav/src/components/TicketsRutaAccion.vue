@@ -43,9 +43,9 @@
 					</svg>
 				</div>
 				<div class="">
-					<span class="text-black text-4xl">Ruta de Atención al</span>
+					<span class="text-black text-4xl">Ruta de Atención de la</span>
 					<br />
-					<span class="text-customPurple text-7xl font-bold">Ciudadano</span>
+					<span class="text-customPurple text-7xl font-bold">Víctima</span>
 				</div>
 			</div>
 
@@ -71,7 +71,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Ciudadano: </span>
+							<span class="text-gray-800 font-semibold">Nombre: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
@@ -100,7 +100,7 @@
 							fill="white" />
 					</svg>
 					<span class="text-white font-bold text-sm text-center"
-						>Regresar a Perfil del Ciudadano</span
+						>Regresar a Perfil de la Víctima</span
 					>
 				</router-link>
 			</div>
@@ -285,28 +285,6 @@ const eventStore = useEventStore();
 const userInfo = computed(() => eventStore.getUserInfo());
 
 const host = import.meta.env.VITE_HOST;
-
-const groupedEvents = ref({
-	"2024-11-20": [
-		{
-			title: "Revisión del ticket 12345",
-			description: "Pendiente de aprobación",
-			profileImage: "https://via.placeholder.com/56",
-		},
-		{
-			title: "Consulta del ticket 12346",
-			description: "Ticket cerrado satisfactoriamente",
-			profileImage: "https://via.placeholder.com/56",
-		},
-	],
-	"2024-11-21": [
-		{
-			title: "Actualización del ticket 12347",
-			description: "Nuevo comentario agregado",
-			profileImage: "https://via.placeholder.com/56",
-		},
-	],
-});
 
 const fetchOptions = {
 	url: `${host}:8082/api/v1/victimas/ticket`,

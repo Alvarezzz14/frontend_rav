@@ -125,6 +125,9 @@ const uploadSuccess = ref(false);
 const uploadError = ref(false);
 const host = import.meta.env.VITE_HOST;
 const fetchService = new FetchService();
+let listener;
+let canDeleteFile = false
+
 
 const acceptedFileTypes = [
 	"text/plain",
@@ -218,19 +221,21 @@ const ReuploadFile = async () => {
 	}
 };
 
-const deleteFile = async (options) => {
-	const { url, fetchOptions } = options;
-	const newUrl = url + `/${fileName}`;
 
-	await fetchService.post(newUrl, {
-		fetchOptions,
-		success: (response) => console.log(response),
-		error: (response) => console.log(response),
-	});
-};
 
-const ConnectionWifi = (callback) => {
-	window.addEventListener("online", async () => await callback());
+const deleteFile = async(options)=>{
+	const {url,fetchOptions} = options
+
+	 await fetchService.post(url,{fetchOptions,success: (response)=>console.log(response),error:(response)=>console.log(response)})
+
+	 window.removeEventListener("online", listener);
+	
+}
+
+
+const ConnectionWifi = (callback,parameter) => {
+	listener =  async () => await callback(parameter);
+	window.addEventListener("online", listener);
 };
 async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 	let { url, options } = fetchOptions;
@@ -250,28 +255,26 @@ async function sendFile(fetchOptions, chunkSize, totalSize, currentChunk) {
 			`Parte ${currentChunk} subida exitosamente. Progreso actual: ${intUploadProgress.value}%`
 		);
 	} catch (err) {
-		if (err instanceof TypeError && !navigator.onLine) {
-			const fileName = fetchOptions.options.body.get("file").name;
-			deleteFile({
-				url: `${host}:8081/api/delete/${fileName}`,
-				fetchOptions: {
-					method: "POST",
-					headers: {
-						Accept: "application/json",
-					},
-				},
-			});
+		if (err instanceof TypeError && !navigator.onLine && canDeleteFile) {
+			const fileName = fetchOptions.options.body.get("file").name
+			ConnectionWifi(deleteFile,{url:`${host}:8081/api/delete/${fileName}`,fetchOptions:{
+				method: "POST",
+				headers: {
+                "Accept": "application/json",
+            },
+			}})
+			
+			canDeleteFile = false;
 
-			console.error(
-				"Error: No internet connection no se pudo subir el archivo"
-			);
-		} else {
-			console.error("Error al enviar el archivo:", err);
-		}
+      console.error('Error: No internet connection no se pudo subir el archivo');
+    } else {
+		console.error("Error al enviar el archivo:", err);
+    }
 		uploadError.value = true;
 	}
 }
 const createPartsTxt = async (file, chunkSize = 10 * 1024 * 1024) => {
+	canDeleteFile = true;
 	let offset = 0;
 	let partNumber = 1;
 	const totalSize = file.size;
@@ -337,6 +340,7 @@ onMounted(() => {
 });
 onUnmounted(() => {
 	window.removeEventListener("beforeunload", showUnloadWarning);
+	window.addEventListener("online", async () => await callback());
 });
 // Funcion para deshabilitar el boton, una vez subido
 const uploadFileFinal = async () => {

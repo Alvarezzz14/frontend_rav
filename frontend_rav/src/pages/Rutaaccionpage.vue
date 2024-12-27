@@ -32,7 +32,7 @@ const searchResults = ref([]);
 const selectedEvent = ref(null);
 const dialogVisible = ref(false);
 
-const nombre = computed(() => searchResults.value[0]?.profile || "Ciudadano");
+const nombre = computed(() => searchResults.value[0]?.profile || "Víctima");
 
 const groupedEvents = computed(() => {
 	return searchResults.value.reduce((groups, event) => {
@@ -53,7 +53,7 @@ const closeDialog = () => {
 
 // Cargar eventos al montar el componente
 onMounted(async () => {
-	searchResults.value = await eventStore.searchByCedula(cedula);
+	searchResults.value = await eventStore.getUserInfo(cedula);
 });
 </script>
 

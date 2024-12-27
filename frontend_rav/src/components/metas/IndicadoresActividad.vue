@@ -36,7 +36,10 @@
 								:src="Signointe"
 								alt="Indicador"
 								class="inline-block mr-2 icon-with-tooltip" />
-							<span class="tooltip-text">Este es el mensaje flotante</span>
+							<span class="tooltip-text"
+								>Configura Tus Metas Eligiendo el Nombre, El limite para que la
+								meta se cumpla y el rango de fecha para alcanzar la meta</span
+							>
 						</span>
 					</p>
 					<form @submit.prevent="saveGoal">

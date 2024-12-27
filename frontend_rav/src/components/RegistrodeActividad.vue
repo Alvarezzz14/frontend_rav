@@ -53,7 +53,7 @@
 
 					<div class="w-82 h-20 ml-2 flex flex-col justify-center">
 						<div class="">
-							<span class="text-gray-800 font-semibold">Ciudadano: </span>
+							<span class="text-gray-800 font-semibold">Nombre: </span>
 							<span>{{ userInfo.nombrecompleto }}</span>
 						</div>
 						<div class="">
@@ -82,7 +82,7 @@
 							fill="white" />
 					</svg>
 					<span class="text-white font-bold text-sm text-center"
-						>Regresar a Perfil del Ciudadano</span
+						>Regresar a Perfil de la Víctima</span
 					>
 				</router-link>
 			</div>
@@ -117,7 +117,7 @@
 						3
 					</span>
 					<span
-						>Registre la actividad o información otorgada al ciudadano en la
+						>Registre la actividad o información otorgada a la Víctima en la
 						sección de <span class="font-bold">Descripción.</span></span
 					>
 				</li>
@@ -199,7 +199,7 @@
 				placeholder="Descripción:"></textarea>
 
 			<button
-				class="bg-customPurple border-none w-full h-12 text-amarillo font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
+				class="bg-customPurple border-none w-full h-12 text-amarillo cursor-pointer font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
 				@click="() => sendTicker(fetchOptions)">
 				Enviar
 			</button>
@@ -212,7 +212,7 @@
 			<div class="bg-white shadow-lg rounded-lg w-full max-w-lg p-6 relative">
 				<button
 					@click="closeSuccessModal"
-					class="absolute top-4 right-4 text-customPurple border-none rounded-full p-2 font-bold hover:bg-customPurple hover:text-white">
+					class="absolute top-4 right-4 cursor-pointer text-customPurple border-none rounded-full p-2 font-bold hover:bg-customPurple hover:text-white">
 					✕
 				</button>
 				<div class="text-center">
@@ -221,7 +221,7 @@
 					</h2>
 					<button
 						@click="closeSuccessModal"
-						class="bg-customPurple text-white py-2 px-4 rounded-lg">
+						class="bg-customPurple text-white py-2 px-4 rounded-lg cursor-pointer">
 						Aceptar
 					</button>
 				</div>
@@ -290,13 +290,15 @@ const addToKeywords = (keyword) => {
 
 // Crear el cuerpo para el fetch
 const createBodyFetch = () => {
+	console.log("userInfo:", userInfo.value);
+	console.log("user:", user.value);
 	return {
 		id_ticket: window.Date.now(),
 		titulo: title.value,
 		contenido: content.value,
 		palabras_clave: selectedKeywords.value.join(", "),
-		numero_documento: parseInt(documentNumber.value),
-		id_usuario: user_id,
+		numero_documento: parseInt(userInfo.value.documento),
+		id_usuario: userInfo.value.id,
 	};
 };
 

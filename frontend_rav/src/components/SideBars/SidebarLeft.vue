@@ -147,7 +147,7 @@
 								{{ user.nombre }} {{ user.apellidos }}
 							</p>
 							<p class="text-gray-700 text-sm">
-								{{ user.email || "email.eample.com" }}
+								{{ user.email || "email@example.com" }}
 							</p>
 						</div>
 					</div>
@@ -199,7 +199,7 @@ const menuItems = ref([
 		</svg>`,
 	},
 	{
-		title: "Búsqueda del Ciudadano",
+		title: "Búsqueda de la Víctima",
 		to: { name: "BusquedaCiudadanoPage" },
 		icon: `<svg width="34" height="34" viewBox="0 0 34 34" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <path d="M11.3215 0.0224217C20.8956 -0.55239 27.2974 10.0419 22.3381 18.337C22.0487 18.8205 21.2592 19.6839 21.0965 20.0591C21.0678 20.1264 21.0295 20.1793 21.063 20.2563L23.4506 22.6614C24.3931 22.1058 25.3285 22.0769 26.2113 22.76C28.3117 25.2348 31.4241 27.5004 33.4146 29.9944C35.2734 32.3249 32.3117 35.2904 30.0294 33.3976C27.5247 31.322 25.2759 28.2796 22.7879 26.115C22.2281 25.3334 22.1778 24.304 22.6874 23.4839L20.2281 20.9297C14.3047 26.6442 4.38142 24.6287 1.0274 17.1225C-2.32662 9.61625 2.90297 0.527487 11.3215 0.0224217ZM11.4077 2.46597C4.06325 2.94699 -0.16158 11.3503 4.01779 17.5169C8.19716 23.6835 16.788 23.1424 20.3429 16.9421C24.1563 10.2945 18.9913 1.97053 11.4077 2.46597Z" fill="currentColor"/>
@@ -211,7 +211,7 @@ const menuItems = ref([
 		submenuOpen: false,
 		submenu: [
 			{
-				title: "Perfil del Ciudadano",
+				title: "Perfil de la Víctima",
 				to: { name: "PerfilCiudadanoPage" },
 				icon: `<svg width="21" height="26" viewBox="0 0 21 26" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 <path d="M20.9638 25.6793C20.9979 25.6543 21 25.6501 21 25.6127C21 25.2194 20.9808 24.8199 20.9787 24.4246C20.9744 23.5632 20.9467 22.8516 20.7633 22.0006C20.0383 18.6215 17.4817 15.7522 14.1553 14.5891C11.8545 15.6648 9.15715 15.6669 6.85852 14.5849C3.47881 15.7772 0.907244 18.7151 0.222773 22.1629C0.00527763 23.2552 0.0756416 24.152 0.0415249 25.2402C0.0372601 25.3796 -0.0586929 25.5648 0.0564518 25.6772H20.9638V25.6793Z" fill="#FDC300"/>
@@ -344,7 +344,7 @@ const canAccessSubmenu = computed(() => !!eventStore.getUserInfo());
 // Mostrar mensaje de advertencia
 const showToast = () => {
 	toast.warning(
-		"Por favor, ingrese un ciudadano para acceder a esta funcionalidad."
+		"Por favor, ingrese un Numero de Documento Válido para acceder a esta funcionalidad."
 	);
 };
 
