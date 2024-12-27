@@ -9,26 +9,20 @@ export default class PermissionService {
         const host = import.meta.env.VITE_HOST;
         this.urlFetch = `${host}:8080/${rol_id}/permissions`
         this.modulesAndPermissions
-        this.gotData = false
+        this.setModulesAndPermissions(this.urlFetch)
     }
 
-    async validate(module_id,keyPermissions) {
-        if(this.gotData) return
-     
-        await this.fetchService.get(this.urlFetch, {
-            fetchOptions: {
-
-            },
+    async setModulesAndPermissions(url,fetchOptions={}){
+        await this.fetchService.get(url, {
+            fetchOptions,
             success: (response) => {
-                this.gotData = true
                 this.modulesAndPermissions = response
-                
-              
             },
             error: (response) => console.log(response),
         })
+    }
 
-
+    async validate(module_id,keyPermissions) {
         for (let i = 0; i<this.modulesAndPermissions.length; i++){
             if (module_id == module.module_id){
                 for(let index in module.permission){
