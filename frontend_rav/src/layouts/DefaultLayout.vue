@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Footer -->
-		<footer class="w-full h-16">
+		<footer class="w-full h-12 fixed bottom-0">
 			<Footer />
 		</footer>
 	</div>
