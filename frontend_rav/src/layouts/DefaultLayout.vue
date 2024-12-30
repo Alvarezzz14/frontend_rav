@@ -1,7 +1,7 @@
 <template>
 	<div class="overflow-auto flex flex-col min-h-dvh">
 		<!-- Header -->
-		<header class="w-full">
+		<header class="w-full fixed">
 			<Header />
 		</header>
 
@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Footer -->
-		<footer class="w-full h-16">
+		<footer class="w-full h-12 fixed bottom-0">
 			<Footer />
 		</footer>
 	</div>

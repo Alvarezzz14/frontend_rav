@@ -203,6 +203,7 @@
 							</button>
 							<!-- Botón Eliminar -->
 							<button
+								v-if="user.correo !== superAdminEmail"
 								@click="confirmDeleteUser(user)"
 								class="bg-white border-none cursor-pointer shadow-md p-2 rounded-full">
 								<img :src="IconoEliminar" alt="Eliminar" class="w-5 h-5" />
@@ -924,6 +925,7 @@ const showViewModal = ref(false);
 const showConfirmation = ref(false); // Estado del modal de confirmación
 const toast = useToast();
 const router = useRouter();
+const superAdminEmail = "superadmin@example.com"; //Correo del SuperAdmin
 
 // Usuario seleccionado para ver, editar o eliminar
 const selectedUser = reactive({});
