@@ -1,7 +1,7 @@
 <template>
 	<div class="overflow-auto flex flex-col min-h-dvh">
 		<!-- Header -->
-		<header class="w-full">
+		<header class="w-full fixed">
 			<Header />
 		</header>
 
