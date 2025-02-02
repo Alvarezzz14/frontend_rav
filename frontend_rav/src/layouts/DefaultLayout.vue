@@ -46,7 +46,7 @@
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
 			<aside v-show="!isSmallScreen" class="hidden lg:flex h-full">
-				<h1>Hola</h1>
+				<!-- <h1>Hola</h1> -->
 				<SidebarLeft />
 			</aside>
 
