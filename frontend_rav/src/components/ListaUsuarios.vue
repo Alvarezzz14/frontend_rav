@@ -203,6 +203,7 @@
 							</button>
 							<!-- Botón Eliminar -->
 							<button
+								v-if="user.correo !== superAdminEmail"
 								@click="confirmDeleteUser(user)"
 								class="bg-white border-none cursor-pointer shadow-md p-2 rounded-full">
 								<img :src="IconoEliminar" alt="Eliminar" class="w-5 h-5" />
@@ -293,7 +294,7 @@
 							required />
 						<input
 							v-model="formData.documento"
-							type="documento"
+							type="text"
 							placeholder="Digite Documento Identidad"
 							class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
@@ -303,20 +304,101 @@
 							placeholder="Correo SENA"
 							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
 							required />
-						<input
-							v-model="formData.password"
-							type="password"
-							placeholder="Crear Contraseña"
-							id="password"
-							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
-							required />
-						<input
-							v-model="formData.confirmPassword"
-							type="password"
-							placeholder="Confirmar Contraseña"
-							id="confirmPassword"
-							class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
-							required />
+
+						<!-- Contraseña -->
+						<div class="relative">
+							<input
+								v-model="formData.password"
+								:type="showPassword ? 'text' : 'password'"
+								placeholder="Crear Contraseña"
+								id="password"
+								class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
+								required />
+							<button
+								type="button"
+								@click="togglePassword"
+								class="absolute top-1/4 bg-gray-100 border-none right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none">
+								<svg
+									v-if="showPassword"
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18" />
+								</svg>
+								<svg
+									v-else
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+								</svg>
+							</button>
+						</div>
+
+						<!-- Confirmar Contraseña -->
+						<div class="relative">
+							<input
+								v-model="formData.confirmPassword"
+								:type="showConfirmPassword ? 'text' : 'password'"
+								placeholder="Confirmar Contraseña"
+								id="confirmPassword"
+								class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
+								required />
+							<button
+								type="button"
+								@click="toggleConfirmPassword"
+								class="absolute top-1/4 bg-gray-100 border-none right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none">
+								<svg
+									v-if="showConfirmPassword"
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18" />
+								</svg>
+								<svg
+									v-else
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor">
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+								</svg>
+							</button>
+						</div>
+
 						<button
 							type="submit"
 							class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300">
@@ -843,6 +925,7 @@ const showViewModal = ref(false);
 const showConfirmation = ref(false); // Estado del modal de confirmación
 const toast = useToast();
 const router = useRouter();
+const superAdminEmail = "superadmin@example.com"; //Correo del SuperAdmin
 
 // Usuario seleccionado para ver, editar o eliminar
 const selectedUser = reactive({});
@@ -915,14 +998,14 @@ async function submitForm() {
 		// Cuerpo de la solicitud con datos predeterminados
 		const payload = {
 			nombre: formData.name,
-			apellidos: "Santa", // Valor quemado
+			apellidos: "A", // Valor quemado
 			tipo_documento: "CC", // Valor quemado
 			numero_documento: formData.documento,
-			sede: "Secundaria", // Valor quemado
-			id_rol: roleMap[formData.rol],
-			regional: "antioquia", // Valor quemado
+			sede: "A", // Valor quemado
+			id_rol: roleReverseMap[formData.rol],
+			regional: "A", // Valor quemado
 			correo: formData.email,
-			telefono: "2356477868", // Valor quemado
+			telefono: "1234", // Valor quemado
 			contraseña: formData.password,
 		};
 
@@ -934,10 +1017,9 @@ async function submitForm() {
 		});
 
 		toast.success("Registro exitoso. Ahora puedes iniciar sesión.");
-
-		setTimeout(() => {
-			router.push("/login");
-		}, 1550);
+		closeRegisterModal();
+		router.push("/listausuarios");
+		fetchUsers();
 	} catch (error) {
 		console.error(
 			"Error en el registro:",
@@ -1043,7 +1125,7 @@ const saveUser = async () => {
 
 		// Realiza la solicitud de actualización
 		await axios.patch(
-			`http://localhost:8080/users/${selectedUser.id}`,
+			`${host}:8080/users/${selectedUser.id}`,
 			{
 				nombre: selectedUser.nombre,
 				apellidos: selectedUser.apellido,
@@ -1139,6 +1221,17 @@ const roleMap = {
 const roleReverseMap = {
 	Administrador: 1,
 	Funcionario: 2,
+};
+// Mostrar/ocultar contraseñas
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+
+// Métodos para alternar las contraseñas
+const togglePassword = () => {
+	showPassword.value = !showPassword.value;
+};
+const toggleConfirmPassword = () => {
+	showConfirmPassword.value = !showConfirmPassword.value;
 };
 
 onMounted(fetchUsers);

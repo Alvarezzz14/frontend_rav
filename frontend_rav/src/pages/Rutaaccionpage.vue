@@ -53,7 +53,7 @@ const closeDialog = () => {
 
 // Cargar eventos al montar el componente
 onMounted(async () => {
-	searchResults.value = await eventStore.searchByCedula(cedula);
+	searchResults.value = await eventStore.getUserInfo(cedula);
 });
 </script>
 

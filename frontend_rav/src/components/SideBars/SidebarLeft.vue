@@ -145,10 +145,11 @@
 
 						<div class="text-xs text-center ml-3">
 							<p class="font-bold text-lg">
-								{{ user.nombre }} {{ user.apellidos }}
+								{{ authStore.authenticatedUser.nombre }}
+								{{ authStore.authenticatedUser.apellidos }}
 							</p>
 							<p class="text-gray-700 text-sm">
-								{{ user.email || "email.eample.com" }}
+								{{ authStore.authenticatedUser.correo }}
 							</p>
 						</div>
 					</div>

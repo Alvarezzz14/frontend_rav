@@ -50,49 +50,49 @@
 		<!-- Información personal del ciudadano -->
 		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-lg gap-8 mb-8">
 			<!-- Primera columna -->
-			<div class="flex-1">
+			<div class="flex-1 text-sm">
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3"
 						>TIPO DE DOCUMENTO:</label
 					>
 					<p class="text-black w-2/3">
-						{{ userInfo.tipo_documento || "NO REGISTRA" }}
+						{{ formatData(userInfo.tipo_documento) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">NOMBRE COMPLETO:</label>
 					<p class="text-black w-2/3">
-						{{ userInfo.nombrecompleto || "NO REGISTRA" }}
+						{{ formatData(userInfo.nombrecompleto) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">CIUDAD:</label>
-					<p class="text-black w-2/3">{{ userInfo.ciudad || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">{{ formatData(userInfo.ciudad) }}</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">GENERO:</label>
-					<p class="text-black w-2/3">{{ userInfo.genero || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">{{ formatData(userInfo.genero) }}</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">ID HOGAR:</label>
 					<p class="text-black w-2/3">
-						{{ userInfo.id_hogar || "NO REGISTRA" }}
+						{{ formatData(userInfo.id_hogar) }}
 					</p>
 				</div>
 			</div>
 
 			<!-- Segunda columna -->
-			<div class="flex-1">
+			<div class="flex-1 text-sm">
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3"
 						>NÚMERO DE DOCUMENTO:</label
 					>
 					<p class="text-black w-2/3">
-						{{ userInfo.documento || "NO REGISTRA" }}
+						{{ formatData(userInfo.documento) }}
 					</p>
 				</div>
 
@@ -101,20 +101,20 @@
 						>PROCEDENCIA ÉTNICA:</label
 					>
 					<p class="text-black w-2/3">
-						{{ userInfo.pertenenciaetnica || "NO REGISTRA" }}
+						{{ formatData(userInfo.pertenenciaetnica) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">ESTADO VICTIMA:</label>
 					<p class="text-black w-2/3">
-						{{ userInfo.estadovictima || "NO REGISTRA" }}
+						{{ formatData(userInfo.estadovictima) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
 					<label class="text-black font-semibold w-1/3">HECHO:</label>
-					<p class="text-black w-2/3">{{ userInfo.hecho || "NO REGISTRA" }}</p>
+					<p class="text-black w-2/3">{{ formatData(userInfo.hecho) }}</p>
 				</div>
 
 				<div class="flex items-center">
@@ -122,7 +122,7 @@
 						>NÚMERO DE CONTACTO:</label
 					>
 					<p class="text-black w-2/3">
-						{{ userInfo.numtelefonocelular || "NO REGISTRA" }}
+						{{ formatData(userInfo.numtelefonocelular) }}
 					</p>
 				</div>
 			</div>
@@ -216,6 +216,20 @@ const getFetchData = async (fetchOptions) => {
 	} finally {
 		newUrl = "";
 	}
+};
+
+// Función de utilidad
+const formatData = (value) => {
+	// Considera casos adicionales como "NULL", undefined, o valores vacíos
+	if (
+		value == null ||
+		value === "" ||
+		value === "NULL" ||
+		value === "undefined"
+	) {
+		return "NO REGISTRA";
+	}
+	return value;
 };
 
 onMounted(() => {
