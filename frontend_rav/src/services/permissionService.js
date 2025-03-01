@@ -1,6 +1,7 @@
 import FetchService from "./fetchService";
 import { useAuthStore } from "../stores/auth";
 
+
 export default class PermissionService {
   constructor() {
     this.fetchService = new FetchService();
@@ -12,6 +13,8 @@ export default class PermissionService {
   }
 
   async setModulesAndPermissions(url, fetchOptions = {}) {
+    console.log(fetchOptions);
+    
     await this.fetchService.get(url, {
       fetchOptions,
       success: (response) => {

@@ -18,6 +18,10 @@ import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 import RolesPermisosPage from '@/pages/RolesPermisos.vue';
 import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
+import { useModuleStore } from '../stores/modules';
+import { computed } from 'vue';
+
+
 
 
 const routes = [
@@ -51,6 +55,7 @@ const routes = [
         component: DashBoardPage,
       },
       {
+        id: 2,
         path: '/departamentos',
         name: 'DepartamentosPage',
         component: DepartamentosPage,
@@ -62,6 +67,7 @@ const routes = [
         props: true,
       },
       {
+        id: 3,
         path: '/busquedaciudadano',
         name: 'BusquedaCiudadanoPage',
         component: BusquedaCiudadanoPage,
@@ -72,11 +78,13 @@ const routes = [
         component: RegistroActividadPage,
       },
       {
+        id: 5,
         path: '/formatodereportes',
         name: 'FormatodeReportesPage',
         component: FormatodeReportesPage,
       },
       {
+        id: 4,
         path: '/subirfichero',
         name: 'SubirFicheroPage',
         component: SubirFicheroPage,
@@ -92,11 +100,13 @@ const routes = [
         component: LineaTiempoNuevaPage,
       },
       {
+        id: 6,
         path: '/ListaUsuarios',
         name: 'ListaUsuariosPage',
         component: ListaUsuariosPage,
       },
       {
+        id: 7,
         path: '/lineasatencion',
         name: 'LineasAtencionPage',
         component: LineasAtencionPage,
@@ -107,6 +117,7 @@ const routes = [
         component: IndicadoresActividadPage,
       },
       {
+        id: 8,
         path: '/rolespermisos',
         name: 'RolesPermisosPage',
         component: RolesPermisosPage,
@@ -128,13 +139,44 @@ const router = createRouter({
 // Guard global para proteger rutas privadas
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
+  const moduleStore = useModuleStore();
+  const menuItems = moduleStore.getMenuItems();
+
+  console.log(menuItems);
+  
+  
+  
 
   // Si la ruta requiere autenticación y no está autenticado
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login'); // Redirige al login
   } else if (to.path === '/login' && authStore.isAuthenticated) {
     next('/'); // Si ya está autenticado y va al login, redirige al home
-  } else {
+  }else if (authStore.isAuthenticated && menuItems.length > 0){
+    console.log('Linea 156');
+    console.log(menuItems);
+    menuItems.forEach(item=>{
+      console.log(item);
+      
+      if(item.id){
+        const childrenRoutes = routes[routes.length - 1].children;
+        console.log(childrenRoutes);
+        
+        
+        childrenRoutes.forEach(route=>{
+          console.log('Linea 163');
+          
+          if(route.id && route.id == item.id){
+              if(!item.validate){
+                next('/');
+              }
+              next();
+          }
+        })
+      }
+      
+    })
+  }else {
     next(); // Permite el acceso a la ruta
   }
 });
