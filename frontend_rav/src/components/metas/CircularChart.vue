@@ -1,29 +1,45 @@
 <template>
-	<div class="flex flex-col bg-white items-center gap-2">
+	<div class="flex flex-col items-center gap-[10px] w-full">
 		<div
 			v-for="(goal, index) in goals"
 			:key="index"
-			class="flex flex-row items-center rounded-md w-[279px] h-[150px] max-w-md"
+			class="relative w-[279px] h-[150px] rounded-[10px] flex items-center px-[15px]"
 			:style="getGradientStyle(index)">
-			<!-- Contenedor del SVG personalizado para la barra de carga -->
-			<div class="relative w-48 h-48 -ml-2">
+			<!-- Contenedor del círculo de progreso -->
+			<div class="relative w-[115px] h-[115px] flex-shrink-0">
 				<svg
-					class="m-10 progress-circle-svg"
-					viewBox="0 0 120 120"
+					class="w-full h-full"
+					viewBox="0 0 115 115"
 					xmlns="http://www.w3.org/2000/svg">
-					<!-- Círculo de fondo con borde -->
+					<!-- Gradiente de fondo del círculo -->
+					<defs>
+						<linearGradient :id="`bgGradient${index}`" x1="0%" y1="0%" x2="0%" y2="100%">
+							<stop offset="0%" :stop-color="getCircleGradient(index).start" />
+							<stop offset="100%" :stop-color="getCircleGradient(index).end" />
+						</linearGradient>
+					</defs>
+					
+					<!-- Círculo de fondo con gradiente -->
 					<circle
-						cx="60"
-						cy="60"
+						cx="57.5"
+						cy="57.5"
 						r="52"
+						:fill="`url(#bgGradient${index})`"
+						stroke="none" />
+
+					<!-- Borde del círculo -->
+					<circle
+						cx="57.5"
+						cy="57.5"
+						r="52"
+						fill="none"
 						:stroke="getStrokeColors(index).backgroundStroke"
-						stroke-width="10"
-						fill="none" />
+						stroke-width="10" />
 
 					<!-- Progreso dinámico -->
 					<circle
-						cx="60"
-						cy="60"
+						cx="57.5"
+						cy="57.5"
 						r="52"
 						fill="none"
 						:stroke="getStrokeColors(index).progressStroke"
@@ -31,70 +47,60 @@
 						stroke-linecap="round"
 						:stroke-dasharray="calculateStrokeDasharray(goal.progress)"
 						stroke-dashoffset="0"
-						transform="rotate(-90 60 60)" />
+						transform="rotate(-90 57.5 57.5)" />
 
-					<!-- Círculo inicial -->
+					<!-- Círculo pequeño inicial -->
 					<circle
-						cx="60"
-						cy="8"
+						cx="57.5"
+						cy="5.5"
 						r="8"
-						:fill="getStrokeColors(index).progressStroke" />
+						:fill="getStrokeColors(index).dotColor" />
 
-					<!-- Círculo final dinámico -->
+					<!-- Círculo grande final dinámico -->
 					<circle
-						:cx="getProgressPositionX(goal.progress)"
-						:cy="getProgressPositionY(goal.progress)"
-						r="10"
-						:fill="getStrokeColors(index).progressStroke" />
+						:cx="getProgressPositionX(goal.progress, 57.5, 52)"
+						:cy="getProgressPositionY(goal.progress, 57.5, 52)"
+						r="10.8"
+						:fill="getStrokeColors(index).dotColor" />
 				</svg>
 
-				<!-- Texto de porcentaje en el centro -->
-				<div class="absolute inset-0 flex flex-col items-center justify-center">
+				<!-- Porcentaje en el centro -->
+				<div class="absolute inset-0 flex items-center justify-center">
 					<span
-						class="text-xl font-bold text-gray-800"
+						class="font-['Work_Sans'] font-bold text-[24px] leading-[28px] text-center"
 						:style="{ color: getTextColor(index) }">
 						{{ goal.progress }}%
 					</span>
 				</div>
 			</div>
-			<!-- Texto a la derecha del indicador -->
-			<div class="flex flex-col justify-center items-start -ml-6">
-				<div :class="index === 2 ? 'text-white' : 'text-black'" class="text-xs">
-					Meta {{ goal.name }}
-				</div>
-				<div
-					:class="
-						index === 2
-							? 'text-white text-base font-bold'
-							: 'text-black text-base font-bold'
-					">
-					{{ goal.limit || 0 }} Tickets
-				</div>
 
-				<div
-					:class="index === 2 ? 'text-white' : 'text-black'"
-					class="mt-1 text-xs">
-					Progreso Actual
-				</div>
-				<div
-					:class="
-						index === 2
-							? 'text-white text-base font-bold'
-							: 'text-black text-base font-bold'
-					">
-					{{ goal.current || 0 }} Tickets
-				</div>
-				<!-- Mostrar la fecha -->
-				<div
-					:class="index === 2 ? 'text-white' : 'text-black'"
-					class="mt-1 text-xs">
-					Fecha limite:
-				</div>
-				<div
-					:class="index === 2 ? 'text-white font-bold' : 'text-black font-bold'"
-					class="text-xs mt-1">
-					{{ goal.endDate }}
-				</div>
+			<!-- Información de la meta a la derecha -->
+			<div class="flex flex-col ml-[16px] gap-0">
+				<!-- Meta Anual/Trimestral/Diaria -->
+				<p 
+					class="font-['Work_Sans'] font-normal text-[14px] leading-[16px] m-0"
+					:class="index === 2 ? 'text-white' : 'text-black'">
+					Meta {{ goal.name }}
+				</p>
+				<!-- Número de la meta -->
+				<p 
+					class="font-['Work_Sans'] font-normal text-[14px] leading-[16px] m-0"
+					:class="index === 2 ? 'text-white' : 'text-black'">
+					{{ goal.limit || 0 }}
+				</p>
+				
+				<!-- Estado Actual label -->
+				<p 
+					class="font-['Work_Sans'] font-normal text-[14px] leading-[16px] m-0 mt-[4px]"
+					:class="index === 2 ? 'text-white' : 'text-black'">
+					Estado Actual
+				</p>
+				<!-- Número estado actual -->
+				<p 
+					class="font-['Work_Sans'] font-normal text-[14px] leading-[16px] m-0"
+					:class="index === 2 ? 'text-white' : 'text-black'">
+					{{ goal.current || 0 }}
+				</p>
 			</div>
 		</div>
 	</div>
@@ -173,66 +179,80 @@ const calculateStrokeDasharray = (value) => {
 };
 
 // Función para calcular la posición X del círculo final
-const getProgressPositionX = (value) => {
+const getProgressPositionX = (value, centerX, radius) => {
 	const angle = (value / 100) * 360 - 90;
-	const radius = 52;
-	return 60 + radius * Math.cos((angle * Math.PI) / 180);
+	return centerX + radius * Math.cos((angle * Math.PI) / 180);
 };
 
 // Función para calcular la posición Y del círculo final
-const getProgressPositionY = (value) => {
+const getProgressPositionY = (value, centerY, radius) => {
 	const angle = (value / 100) * 360 - 90;
-	const radius = 52;
-	return 60 + radius * Math.sin((angle * Math.PI) / 180);
+	return centerY + radius * Math.sin((angle * Math.PI) / 180);
 };
 
 // Función para obtener el gradiente de fondo según el índice
 const getGradientStyle = (index) => {
-	const normalizedIndex = index % 3; //Ciclo de 3 Estilos
+	const normalizedIndex = index % 3;
 	switch (normalizedIndex) {
 		case 0:
 			return {
-				background:
-					"linear-gradient(to right, rgba(242, 243, 243, 1), rgba(217, 217, 217, 1))",
+				background: "linear-gradient(180deg, #F2F3F3 0%, #D9D9D9 100%)",
 			};
 		case 1:
 			return {
-				background:
-					"linear-gradient(to right, rgba(253, 195, 0, 0.4), rgba(253, 195, 0, 1))",
+				background: "linear-gradient(180deg, rgba(253, 195, 0, 0.4) 0%, #FDC300 100%)",
 			};
 		case 2:
 			return {
-				background:
-					"linear-gradient(to right, rgba(207, 95, 221, 1), rgba(113, 39, 122, 1))",
+				background: "linear-gradient(180deg, #CF5FDD 0%, #71277A 74.5%)",
 			};
 		default:
 			return {};
 	}
 };
 
+// Función para obtener el gradiente del círculo interior
+const getCircleGradient = (index) => {
+	const normalizedIndex = index % 3;
+	switch (normalizedIndex) {
+		case 0:
+			return { start: "#F2F3F3", end: "#D9D9D9" };
+		case 1:
+			return { start: "rgba(253, 195, 0, 0.4)", end: "#FDC300" };
+		case 2:
+			return { start: "#CF48E0", end: "#71277A" };
+		default:
+			return { start: "#FFFFFF", end: "#CCCCCC" };
+	}
+};
+
 // Función para obtener los colores dinámicos según el gradiente
 const getStrokeColors = (index) => {
-	const normalizedIndex = index % 3; //Ciclo de 3 Estilos
+	const normalizedIndex = index % 3;
 	switch (normalizedIndex) {
 		case 0: // Gradiente gris
 			return {
-				backgroundStroke: "#7A1F7E", // Morado
-				progressStroke: "#FDC300", // Amarillo
+				backgroundStroke: "#7A1F7E", // Borde morado
+				progressStroke: "#FDC300", // Progreso amarillo
+				dotColor: "#FDC300", // Puntos amarillos
 			};
 		case 1: // Gradiente amarillo
 			return {
-				backgroundStroke: "#F2F3F3", // Blanco
-				progressStroke: "#7A1F7E", // Morado
+				backgroundStroke: "#F2F3F3", // Borde blanco
+				progressStroke: "#7A1F7E", // Progreso morado
+				dotColor: "#7A1F7E", // Puntos morados
 			};
 		case 2: // Gradiente morado
 			return {
-				backgroundStroke: "#F2F3F3", // Blanco
-				progressStroke: "#FDC300", // Amarillo
+				backgroundStroke: "#F2F3F3", // Borde blanco
+				progressStroke: "#FDC300", // Progreso amarillo
+				dotColor: "#FDC300", // Puntos amarillos
 			};
 		default:
 			return {
-				backgroundStroke: "#CCCCCC", // Gris por defecto
-				progressStroke: "#000000", // Negro por defecto
+				backgroundStroke: "#CCCCCC",
+				progressStroke: "#000000",
+				dotColor: "#000000",
 			};
 	}
 };

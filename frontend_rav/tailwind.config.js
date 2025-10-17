@@ -12,11 +12,14 @@ export default {
     extend: {
       boxShadow: {
         custom: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+        menu: "0 10px 24px rgba(113, 39, 122, 0.18)",
+        card: "0 6px 12px rgba(0, 0, 0, 0.08)",
       },
       colors: {
         amarillo: '#FDC300',
         grisInput: '#F2F3F3',
         customPurple: '#71277A',
+        fondoVioleta: '#631E6B',
         cardBackground: '#D9D9D9',
         textBackground: '#003150',
         azulHeaderFooter: '#3366CC',
@@ -24,11 +27,16 @@ export default {
         GrisIconosDash: '#D9D9D9',
         naranjagrafica: '#FDC300',
       },
+      borderRadius: {
+        card: '1.25rem', // 20px
+        menu: '1.875rem', // 30px
+      },
       fontFamily: {
         sans: ['Work Sans', 'sans-serif'],
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(180deg, #D160DE 0%, #71277A 100%)',
+        'violet-gradient': 'linear-gradient(180deg, #D160DE 0%, #71277A 100%)',
       },
       transitionProperty: {
         all: 'all',

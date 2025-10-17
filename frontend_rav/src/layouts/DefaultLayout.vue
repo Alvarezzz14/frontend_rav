@@ -1,7 +1,7 @@
 <template>
 	<div class="overflow-auto flex flex-col min-h-dvh">
 		<!-- Header -->
-		<header class="w-full fixed">
+		<header class="w-full h-12 fixed top-0 z-50">
 			<Header />
 		</header>
 
@@ -28,7 +28,7 @@
 		</div>
 
 		<!-- Contenedor principal -->
-		<div class="flex flex-grow overflow-y-visible relative">
+		<div class="flex flex-grow overflow-y-visible relative mt-12 mb-12">
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
@@ -39,7 +39,7 @@
 			<transition name="slide">
 				<aside
 					v-show="isSidebarOpen && isSmallScreen"
-					class="absolute left-0 shadow-md lg:hidden z-30 w-52">
+					class="absolute left-0 shadow-md lg:hidden z-30 w-[280px]">
 					<SidebarLeft @item-click="closeSidebar" />
 				</aside>
 			</transition>
@@ -51,7 +51,7 @@
 
 			<!-- Contenido principal -->
 			<main
-				class="flex-grow p-4 overflow-auto bg-gray-50 relative bg-no-repeat bg-bottom bg-contain"
+				class="flex-grow p-4 overflow-auto bg-fondoVioleta relative bg-no-repeat bg-bottom bg-contain"
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
