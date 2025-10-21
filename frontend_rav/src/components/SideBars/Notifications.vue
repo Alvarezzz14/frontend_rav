@@ -1,5 +1,5 @@
 <template>
-	<div class="w-[300px] h-screen bg-customPurple flex flex-col shadow-[0px_0px_4px_rgba(0,0,0,0.25)]">
+	<div class="w-[300px] h-full bg-customPurple flex flex-col shadow-[0px_0px_4px_rgba(0,0,0,0.25)]">
 		<!-- Sección de Actividad -->
 		<div class="flex flex-row justify-center items-center px-[10px] py-[10px] gap-[40px] w-full h-[60px] bg-amarillo flex-shrink-0">
 			<h2 class="font-['Work_Sans'] font-bold text-[24px] leading-[28px] text-center text-[#7A1F7E]">

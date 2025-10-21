@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-customPurple w-[280px] h-screen overflow-hidden flex flex-col">
+  <div class="bg-customPurple w-[280px] h-full overflow-hidden flex flex-col">
     <!-- Logo -->
     <div
       class="hidden lg:flex items-center justify-center px-8 py-2 h-[94px] flex-shrink-0"

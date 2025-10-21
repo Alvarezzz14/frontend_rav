@@ -28,7 +28,7 @@
 		</div>
 
 		<!-- Contenedor principal -->
-		<div class="flex flex-grow overflow-y-visible relative mt-12 mb-12">
+		<div class="flex flex-grow relative mt-12 mb-12">
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
@@ -45,13 +45,13 @@
 			</transition>
 
 			<!-- Sidebar izquierdo (para pantallas grandes) -->
-			<aside v-show="!isSmallScreen" class="hidden lg:flex h-full">
+			<aside v-show="!isSmallScreen" class="hidden lg:flex min-h-full flex-shrink-0">
 				<SidebarLeft />
 			</aside>
 
 			<!-- Contenido principal -->
 			<main
-				class="flex-grow p-4 overflow-auto bg-fondoVioleta relative bg-no-repeat bg-bottom bg-contain"
+				class="flex-1 min-w-0 p-4 overflow-auto bg-fondoVioleta relative bg-no-repeat bg-bottom bg-contain"
 				style="background-image: url('src/assets/images/plantas.png')">
 				<FileNotification />
 				<router-view />
@@ -59,7 +59,7 @@
 
 			<!-- Sidebar derecho de notificaciones -->
 			<aside
-				class="hidden lg:flex h-full max-w-72"
+				class="hidden lg:flex min-h-full flex-shrink-0"
 				:class="{ 'translate-x-full': isNotificationsCollapsed }">
 				<Notifications @toggle="toggleNotifications" />
 			</aside>
