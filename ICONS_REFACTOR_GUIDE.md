@@ -140,6 +140,3 @@ const IconRarelyUsed = defineAsyncComponent(() =>
 - **Antes**: ~15KB de strings HTML repetidas en menuItems
 - **Después**: ~8KB de componentes Vue reutilizables + mejor compresión gzip
 
----
-
-¿Deseas que proceda a refactorizar completamente el SidebarLeft.vue con esta estructura?
