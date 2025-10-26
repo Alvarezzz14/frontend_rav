@@ -1,10 +1,5 @@
 <template>
 	<div class="overflow-auto flex flex-col min-h-dvh">
-		<!-- Header -->
-		<header class="w-full h-12 fixed top-0 z-50">
-			<Header />
-		</header>
-
 		<!-- Logo para pantallas pequeñas -->
 		<div class="lg:hidden flex justify-center py-4">
 			<img :src="RavLogo" alt="Logo Rav" />
@@ -27,8 +22,11 @@
 			</svg>
 		</div>
 
-		<!-- Contenedor principal -->
-		<div class="flex flex-grow relative mt-12 mb-12">
+		<!-- Contenedor principal con sidebars integrados -->
+		<main
+			class="flex-1 min-w-0 overflow-auto bg-[#F5F5F5] relative bg-no-repeat bg-bottom bg-contain hide-scrollbar"
+			style="background-image: url('src/assets/images/plantas.png')">
+			
 			<!-- Overlay (solo para main) -->
 			<div
 				v-show="isSidebarOpen && isSmallScreen"
@@ -39,34 +37,32 @@
 			<transition name="slide">
 				<aside
 					v-show="isSidebarOpen && isSmallScreen"
-					class="absolute left-0 shadow-md lg:hidden z-30 w-[280px]">
+					class="absolute left-0 top-0 shadow-md lg:hidden z-30 w-[280px] h-full">
 					<SidebarLeft @item-click="closeSidebar" />
 				</aside>
 			</transition>
 
-			<!-- Sidebar izquierdo (para pantallas grandes) -->
-			<aside v-show="!isSmallScreen" class="hidden lg:flex min-h-full flex-shrink-0">
+			<!-- Sidebar izquierdo (para pantallas grandes) - absolute -->
+			<aside class="hidden lg:block absolute left-0 top-0 z-30 h-full p-4">
 				<SidebarLeft />
 			</aside>
 
-			<!-- Contenido principal -->
-			<main
-				class="flex-1 min-w-0 p-4 overflow-auto bg-fondoVioleta relative bg-no-repeat bg-bottom bg-contain"
-				style="background-image: url('src/assets/images/plantas.png')">
-				<FileNotification />
-				<router-view />
-			</main>
+			<!-- Contenido del dashboard -->
+			<div class="w-full min-w-0 p-4 overflow-auto relative flex justify-center hide-scrollbar">
+				<div class="w-full pl-4 lg:pl-[220px] lg:pr-[100px]">
+					<FileNotification />
+					<router-view />
+				</div>
+			</div>
 
-			<!-- Sidebar derecho de notificaciones -->
-			<aside
-				class="hidden lg:flex min-h-full flex-shrink-0"
-				:class="{ 'translate-x-full': isNotificationsCollapsed }">
-				<Notifications @toggle="toggleNotifications" />
+			<!-- Sidebar derecho de actividad - absolute -->
+			<aside class="hidden lg:block absolute right-0 top-0 z-30 h-full p-4">
+				<Activity @toggle="toggleActivity" />
 			</aside>
-		</div>
+		</main>
 
 		<!-- Footer -->
-		<footer class="w-full h-12 fixed bottom-0">
+		<footer class="w-full h-12">
 			<Footer />
 		</footer>
 	</div>
@@ -76,16 +72,15 @@
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 
 // Componentes
-import Header from "@/components/Header.vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
-import Notifications from "@/components/SideBars/Notifications.vue";
+import Activity from "@/components/SideBars/Activity.vue";
 import Footer from "@/components/Footer.vue";
 import RavLogo from "@/assets/images/ravLogo.png";
 import FileNotification from "@/components/FileNotification.vue";
 
 // Estados para controlar los menús y el overlay
 const isSidebarOpen = ref(false);
-const isNotificationsCollapsed = ref(false);
+const isActivityCollapsed = ref(false);
 const isSmallScreen = ref(window.innerWidth < 1024); // Verificar si es pantalla pequeña
 
 // Métodos
@@ -97,8 +92,8 @@ const closeSidebar = () => {
 	isSidebarOpen.value = false;
 };
 
-const toggleNotifications = () => {
-	isNotificationsCollapsed.value = !isNotificationsCollapsed.value;
+const toggleActivity = () => {
+	isActivityCollapsed.value = !isActivityCollapsed.value;
 };
 
 // Listener para detectar cambios en el tamaño de la pantalla
@@ -138,5 +133,25 @@ const handleItemClick = (item) => {
 }
 .slide-leave-to {
 	transform: translateX(-100%);
+}
+
+/* Ocultar barras de scroll pero mantener funcionalidad */
+.hide-scrollbar {
+	scrollbar-width: none !important; /* Firefox */
+	-ms-overflow-style: none !important; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none !important; /* Chrome, Safari y Opera */
+	width: 0 !important;
+	height: 0 !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar-track {
+	display: none !important;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb {
+	display: none !important;
 }
 </style>

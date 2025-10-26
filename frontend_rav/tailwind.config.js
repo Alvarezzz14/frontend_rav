@@ -33,6 +33,7 @@ export default {
       },
       fontFamily: {
         sans: ['Work Sans', 'sans-serif'],
+        'work-sans': ['Work Sans', 'sans-serif'],
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(180deg, #D160DE 0%, #71277A 100%)',

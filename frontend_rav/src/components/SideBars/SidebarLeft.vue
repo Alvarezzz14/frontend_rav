@@ -1,56 +1,116 @@
 <template>
-  <div class="bg-customPurple w-[280px] h-full overflow-hidden flex flex-col">
+  <div 
+    class="sidebar-container h-[995px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
+    :class="isExpanded ? 'w-[266px]' : 'w-[100px]'"
+    :style="{ 
+      background: 'linear-gradient(180deg, #71277A 0%, #410A48 100%)',
+      filter: 'drop-shadow(4px 0px 9.7px rgba(113, 39, 122, 0.45))'
+    }"
+    @mouseenter="isExpanded = true"
+    @mouseleave="isExpanded = false"
+  >
+    <!-- Decorative degradedMenu image (cuando está expandido) -->
+    <div
+      v-if="isExpanded"
+      class="absolute inset-0 pointer-events-none transition-opacity duration-700"
+      style="
+        mix-blend-mode: multiply;
+        opacity: 0.26;
+      "
+    >
+      <img 
+        src="@/assets/images/degradedMenu.svg" 
+        alt="decorative gradient expanded"
+        class="w-full h-full object-cover"
+        style="border-radius: 29.3592px;"
+      />
+    </div>
+
+    <!-- Decorative degradedMenu2 image (cuando está contraído) -->
+    <div
+      v-else
+      class="absolute inset-0 pointer-events-none transition-opacity duration-700"
+      style="
+        mix-blend-mode: multiply;
+        opacity: 0.26;
+      "
+    >
+      <img 
+        src="@/assets/images/degradedMenu2.svg" 
+        alt="decorative gradient collapsed"
+        class="w-full h-full object-cover"
+        style="border-radius: 29.3592px;"
+      />
+    </div>
+
     <!-- Logo -->
     <div
-      class="hidden lg:flex items-center justify-center px-8 py-2 h-[94px] flex-shrink-0"
+      class="hidden lg:flex items-center justify-center flex-shrink-0 overflow-hidden transition-all duration-700 relative z-10"
+      :class="isExpanded ? 'py-[46px] px-[50px]' : 'py-[46px] px-[12px]'"
     >
-      <LogoRav :size="140" class="w-auto h-auto max-h-full max-w-full" />
+      <LogoRav 
+        v-if="isExpanded" 
+        :size="165" 
+        class="w-auto h-auto max-h-full max-w-full transition-opacity duration-700" 
+      />
+      <!-- Logo contraído cuando está cerrado -->
+      <img 
+        v-else
+        src="@/assets/images/Group (1).svg"
+        alt="Logo RAV"
+        class="w-[76px] h-[26px] transition-opacity duration-700"
+      />
     </div>
     
     <!-- Menu de navegación -->
-    <nav class="flex-1 overflow-y-auto bg-customPurple">
+    <nav class="flex-1 overflow-y-auto bg-transparent relative z-10">
       <div class="lg:hidden flex ml-6 pt-4">
         <span class="text-customPurple font-bold"> Menú Principal </span>
       </div>
-      <ul class="list-none flex flex-col px-0 mb-0">
+      <ul class="list-none flex flex-col mb-0 gap-[20px] transition-all duration-700"
+          :class="isExpanded ? 'px-[11px]' : 'px-[10px]'">
           <li
             v-for="item in menuItems"
             :key="item.title"
-            class="py-0.5 relative w-full"
+            class="relative w-full"
             @click="item.submenu ? toggleSubmenu(item) : handleItemClick(item)"
           >
             <router-link
               v-if="item.to"
               :to="item.to"
               @click="setActive(item)"
-              class="px-5 h-[60px] flex flex-row items-center gap-5 transform text-white transition-colors duration-200"
-              :class="[isActive(item) ? 'bg-amarillo text-customPurple' : '']"
+              class="h-[44px] flex flex-row items-center transform text-white transition-all duration-700 rounded-[30px]"
+              :class="[
+                isActive(item) ? 'bg-amarillo text-customPurple' : '',
+                isExpanded ? 'px-4 gap-5' : 'px-[10px] justify-center gap-0'
+              ]"
             >
               <component
                 v-if="item.iconComponent"
                 :is="item.iconComponent"
-                :size="34"
+                :size="24"
                 :color="isActive(item) ? '#71277A' : 'white'"
-                class="flex-none w-[34px] h-[34px] transition-colors duration-200"
+                class="flex-none w-[24px] h-[24px] transition-colors duration-700"
               />
 
               <span
-                class="text-left text-[20px] leading-[23px] font-['Work_Sans'] transition-colors duration-200"
+                v-if="isExpanded"
+                class="text-left text-[18px] leading-[21px] font-['Work_Sans'] transition-opacity duration-700 whitespace-nowrap"
                 :class="{
                   'font-bold text-customPurple': isActive(item),
                   'font-normal text-white': !isActive(item),
                 }"
                 >{{ item.title }}</span
               >
-              <span v-if="item.submenu" class="ml-auto">
+              <span v-if="item.submenu && isExpanded" class="ml-auto">
                 <svg
                   :class="[
                     { 'rotate-180': item.submenuOpen },
-                    isActive(item) ? 'text-customPurple' : 'text-gray-300',
+                    isActive(item) ? 'text-customPurple' : 'text-white',
                   ]"
                   class="transform transition-transform"
                   width="13"
-                  height="9"
+                  height="8"
                   viewBox="0 0 13 9"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -64,9 +124,10 @@
             </router-link>
 
             <ul
-              v-if="item.submenu"
-              class="pl-14 pr-3 overflow-hidden transition-all duration-300 list-none bg-customPurple"
-              :style="{ maxHeight: item.submenuOpen ? '200px' : '0px' }"
+              v-if="item.submenu && isExpanded"
+              class="pr-3 overflow-hidden transition-all duration-700 list-none bg-customPurple"
+              :class="isExpanded ? 'pl-14' : 'pl-3'"
+              :style="{ maxHeight: item.submenuOpen && isExpanded ? '200px' : '0px' }"
             >
               <li
                 v-for="submenuItem in item.submenu"
@@ -77,7 +138,7 @@
                   v-if="submenuItem.to"
                   :to="submenuItem.to"
                   :class="[
-                    'flex flex-row items-center px-4 h-10 text-base font-light transition-colors duration-200',
+                    'flex flex-row items-center px-4 h-10 text-base font-light transition-colors duration-700 rounded-[30px]',
                     isActive(submenuItem)
                       ? 'bg-amarillo text-customPurple'
                       : '',
@@ -94,7 +155,7 @@
                     :color="isActive(submenuItem) ? '#71277A' : 'white'"
                     class="flex-none w-[21px] h-[21px] mr-4"
                   />
-                  <span class="text-[20px] leading-[23px] font-['Work_Sans']">{{ submenuItem.title }}</span>
+                  <span v-if="isExpanded" class="text-[18px] leading-[21px] font-['Work_Sans'] whitespace-nowrap">{{ submenuItem.title }}</span>
                 </router-link>
               </li>
             </ul>
@@ -132,23 +193,25 @@
             </div>
           </li>
           <li class="lg:hidden">
-            <Notifications />
+            <Activity />
           </li>
         </ul>
       </nav>
       
       <!-- Sección inferior con el avatar, nombre y email -->
-      <div class="hidden lg:flex flex-col items-start py-[10px] px-[20px] gap-2 w-full flex-shrink-0 bg-customPurple">
+      <div class="hidden lg:flex flex-col items-center py-[20px] w-full flex-shrink-0 bg-transparent transition-all duration-700 relative z-10"
+           :class="isExpanded ? 'px-[20px] gap-[8px]' : 'px-[10px] gap-2'">
           <!-- Contenedor de avatar y texto -->
-          <div class="flex flex-row items-center gap-2 w-full">
+          <div class="flex items-center w-full transition-all duration-700"
+               :class="isExpanded ? 'flex-row gap-3' : 'flex-col justify-center'">
             <!-- Avatar SVG con fondo amarillo -->
             <svg
-              width="60"
-              height="60"
+              :width="isExpanded ? '60' : '60'"
+              :height="isExpanded ? '60' : '60'"
               viewBox="0 0 60 60"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              class="flex-none"
+              class="flex-none filter drop-shadow-[0px_0px_6.4px_rgba(0,0,0,0.55)] transition-all duration-700"
             >
               <circle cx="30" cy="30" r="30" fill="#FDC300"/>
               <path
@@ -158,26 +221,27 @@
             </svg>
 
             <!-- Contenedor de nombre y correo -->
-            <div class="flex flex-col flex-1 gap-0">
+            <div v-if="isExpanded" class="flex flex-col flex-1 overflow-hidden transition-opacity duration-700">
               <!-- Nombre -->
-              <p class="font-['Work_Sans'] font-bold text-[16px] leading-[20px] text-white truncate m-0">
+              <p class="font-['Work_Sans'] font-bold text-[24px] leading-[28px] text-center text-white truncate m-0 py-[2px]">
                 {{ authStore.authenticatedUser.nombre }} {{ authStore.authenticatedUser.apellidos }}
               </p>
               
               <!-- Correo -->
-              <p class="font-['Work_Sans'] font-normal text-[12px] leading-[14px] text-white truncate m-0">
+              <p class="font-['Work_Sans'] font-normal text-[12px] leading-[14px] text-white truncate m-0 py-[5px]">
                 {{ authStore.authenticatedUser.correo }}
               </p>
             </div>
           </div>
 
-          <!-- Botón de Cerrar Sesión -->
-          <button
+          <!-- Botón de Cerrar Sesión (solo cuando está expandido) -->
+          <!-- <button
+            v-if="isExpanded"
             @click="logout"
-            class="w-full bg-amarillo rounded-[10px] py-[10px] px-[10px] font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-center text-customPurple hover:bg-yellow-500 transition-colors border-0 outline-none"
+            class="w-full bg-amarillo rounded-[10px] py-[10px] px-[10px] font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-center text-customPurple hover:bg-yellow-500 transition-all duration-700 border-0 outline-none"
           >
             Cerrar Sesión
-          </button>
+          </button> -->
       </div>
   </div>
 </template>
@@ -190,7 +254,7 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
-import Notifications from "./Notifications.vue";
+import Activity from "./Activity.vue";
 import { useEventStore } from "@/stores/storedataOff";
 import { 
   LogoRav,
@@ -215,6 +279,9 @@ const eventStore = useEventStore();
 
 const user = computed(() => authStore.authenticatedUser.user);
 
+// Estado para controlar si el sidebar está expandido
+const isExpanded = ref(false);
+
 /* const user = ref({
 	name: "Amy Elsner",
 	email: "amy.elsner@example.com",
@@ -233,7 +300,7 @@ const menuItems = ref([
     iconComponent: IconMap,
   },
   {
-    title: "Búsqueda del Ciudadano",
+    title: "Búsqueda",
     to: { name: "BusquedaCiudadanoPage" },
     iconComponent: IconSearch,
     submenuOpen: false,
@@ -410,5 +477,39 @@ onUnmounted(() => {
 <style scoped>
 a {
   text-decoration: none; /* Elimina subrayado en enlaces */
+}
+
+.sidebar-container {
+  position: relative;
+  background: linear-gradient(180deg, #71277A 0%, #410A48 100%);
+  border-radius: 29.3592px;
+  filter: drop-shadow(4px 0px 9.7px rgba(113, 39, 122, 0.45));
+  z-index: 10;
+}
+
+.sidebar-container::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: #000000;
+  border-radius: 30px;
+  mix-blend-mode: multiply;
+  opacity: 0.26;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Ocultar scrollbar pero mantener funcionalidad */
+nav::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+nav {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 </style>

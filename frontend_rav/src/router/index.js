@@ -18,6 +18,7 @@ import LineasAtencionPage from '@/pages/LineasAtencionPage.vue';
 import IndicadoresActividadPage from '@/pages/IndicadoresActividadPage.vue';
 import RolesPermisosPage from '@/pages/RolesPermisos.vue';
 import formbienvenidaPage from '@/pages/formbienvenidaPage.vue';
+import IconGallery from '@/pages/IconGallery.vue';
 
 
 const routes = [
@@ -112,9 +113,14 @@ const routes = [
         component: RolesPermisosPage,
       },
       {
-        path: 'formbienvenida',
+        path: '/formbienvenida',
         name: 'formbienvenidaPage',
         component: formbienvenidaPage,
+      },
+      {
+        path: '/iconos',
+        name: 'IconGallery',
+        component: IconGallery,
       },
     ],
   },

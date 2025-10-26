@@ -1,61 +1,66 @@
 <template>
-  <div class="min-h-screen p-4 flex flex-col -mt-20">
+  <div class="reportes-container">
     <!-- Sección Superior -->
-    <div class="flex flex-col md:flex-row items-center justify-between p-2 rounded-lg w-full max-w-7xl mb-1">
-      <div class="flex items-center">
-        <div class="p-6 bg-customPurple rounded-full">
-          <img :src="Reportes" alt="Icono de Reportes" class="w-16 h-16" />
+    <div class="header-section">
+      <div class="title-container">
+        <div class="icon-wrapper">
+          <img :src="Reportes" alt="Icono de Reportes" class="icon-reportes" />
         </div>
-        <div class="ml-4 text-center md:text-left mt-14">
-          <p class="text-black -mb-1 text-2xl md:text-[37px]">Generar</p>
-          <h2 class="text-customPurple text-5xl md:text-[94px] mt-0 font-bold">Reportes</h2>
-        </div>
+        <h2 class="title-reportes">Generar reportes</h2>
       </div>
     </div>
 
     <!-- Sección Central -->
-    <div class="flex flex-col xl:flex-row xl:items-start w-full max-w-9xl space-y-8 xl:space-x-20">
-      <div class="flex-grow max-w-md lg:max-w-xl bg-white rounded-lg shadow-md sm:w-auto md:w-auto  w-auto p-3">
-        <div class="text-center">
-          <h3>Seleccione el tipo de reporte</h3>
+    <div class="content-section">
+      <div class="form-card">
+        <div class="form-header">
+          <h3 class="form-title">Seleccione el tipo de reporte</h3>
         </div>
 
         <!-- Selección de tipo de reporte -->
-        <div class="radio-button text-base grid grid-flow-col  w-auto items-center mx-9 mr-3">
-          <input 
-            type="radio" 
-            id="tickets" 
-            name="reportType" 
-            value="HistorialTickets" 
-            class="custom-radio" 
-            v-model="selectedReport" 
-          />
-          <label class="w-auto" for="tickets">Historial de Tickets</label>
+        <div class="radio-options">
+          <div class="radio-item">
+            <input 
+              type="radio" 
+              id="tickets" 
+              name="reportType" 
+              value="HistorialTickets" 
+              class="custom-radio" 
+              v-model="selectedReport" 
+            />
+            <label class="radio-label" for="tickets">Historial de ticket</label>
+          </div>
 
-          <input 
-            type="radio" 
-            id="estadisticas" 
-            name="reportType" 
-            value="EstadisticasVictima" 
-            class="custom-radio" 
-            v-model="selectedReport" 
-          />
-          <label class="w-auto" for="estadisticas">Estadísticas de victima</label>
+          <div class="radio-item">
+            <input 
+              type="radio" 
+              id="estadisticas" 
+              name="reportType" 
+              value="EstadisticasVictima" 
+              class="custom-radio" 
+              v-model="selectedReport" 
+            />
+            <label class="radio-label" for="estadisticas">Estadísticas del ciudadano</label>
+          </div>
 
-          <input 
-            type="radio" 
-            id="auditLogs" 
-            name="reportType" 
-            value="AuditLogs" 
-            class="custom-radio" 
-            v-model="selectedReport" 
-          />
-          <label class="w-auto" for="auditLogs">Logs de Auditoría</label>
+          <div class="radio-item">
+            <input 
+              type="radio" 
+              id="auditLogs" 
+              name="reportType" 
+              value="AuditLogs" 
+              class="custom-radio" 
+              v-model="selectedReport" 
+            />
+            <label class="radio-label" for="auditLogs">Historial de usuarios</label>
+          </div>
         </div>
 
-        <!-- Selección de Departamento - Ahora solo se muestra para EstadisticasVictima y AuditLogs -->
-        <div v-if="selectedReport && selectedReport !== 'HistorialTickets'" class="mb-4">
-          <select v-model="form.department_name" class="block p-4 rounded-lg w-full">
+        <div class="divider"></div>
+
+        <!-- Selección de Departamento -->
+        <div v-if="selectedReport && selectedReport !== 'HistorialTickets'" class="form-group">
+          <select v-model="form.department_name" class="form-select">
             <option disabled value="">Buscar por regional</option>
             <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.name">
               {{ departamento.name }}
@@ -63,47 +68,42 @@
           </select>
         </div>
 
- 
-
-        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4">
-          <label for="document">Buscar por numero de identificación:</label>
+        <!-- Campo de búsqueda por documento -->
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="form-group">
           <input
             type="text"
             id="document"
             v-model="form.document"
-            placeholder="Ingrese el número de identificación"
-            class="block p-2 rounded-lg w-full"
+            placeholder="Buscar por correo SENA"
+            class="form-input"
           />
         </div>
 
         <!-- Checkbox para desplegar filtros adicionales -->
-        <div v-if="selectedReport === 'EstadisticasVictima'" class="mb-4 flex items-center">
+        <div v-if="selectedReport === 'EstadisticasVictima'" class="checkbox-group">
           <input 
             type="checkbox" 
             id="needsSearch" 
             v-model="needsSearch" 
-            class="mr-2" 
+            class="custom-checkbox" 
           />
-          <label for="needsSearch">¿Necesitas una búsqueda avanzada?</label>
+          <label for="needsSearch" class="checkbox-label">¿Necesitas una búsqueda avanzada?</label>
         </div>
 
         <!-- Filtros adicionales -->
-        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="space-y-4">
-          <!-- Filtros existentes permanecen igual -->
-          <div class="mb-4">
-            <label for="genere">Seleccione el género:</label>
-            <select v-model="form.genere" id="genere" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione un género</option>
+        <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="filters-section">
+          <div class="form-group">
+            <select v-model="form.genere" id="genere" class="form-select">
+              <option disabled value="">Seleccione el género</option>
               <option value="HOMBRE">Hombre</option>
               <option value="MUJER">Mujer</option>
               <option value="LGBTI">LGBTI</option>
               <option value="INTERSEXUAL">Intersexual</option>              
             </select>
           </div>
-          <div class="mb-4">
-            <label for="etario_group">Seleccione el grupo etario:</label>
-            <select v-model="form.etario_group" id="etario_group" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione un grupo etario</option>
+          <div class="form-group">
+            <select v-model="form.etario_group" id="etario_group" class="form-select">
+              <option disabled value="">Seleccione el grupo etario</option>
               <option value="Primera infancia (0-5 años)">Primera infancia (0-5 años)</option>
               <option value="Infancia (6-11 años)">Infancia (6-11 años)</option>
               <option value="Adolescencia temprana (12-13 años)">Adolescencia temprana (12-13 años)</option>
@@ -113,10 +113,9 @@
               <option value="Persona mayor (60 años o más)">Persona mayor (60 años o más)</option>
             </select>
           </div>
-          <div class="mb-4">
-            <label for="pertenencia_etnica">Seleccione la procedencia étnica:</label>
-            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="block p-4 rounded-lg w-full">
-              <option disabled value="">Seleccione una étnia</option>         
+          <div class="form-group">
+            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="form-select">
+              <option disabled value="">Seleccione la procedencia étnica</option>         
               <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
               <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
               <option value="INDIGENA (ACREDITADO RA)">Indigena</option>
@@ -135,17 +134,17 @@
         <!-- Botón de Búsqueda -->
         <button
           :disabled="loading"
-          class="w-full bg-customPurple text-lg text-amarillo font-bold py-2 rounded-lg"
+          class="generate-button"
           @click="handleSubmit"
         >
-          <span v-if="!loading">Generar Reporte</span>
+          <span v-if="!loading">Generar reporte</span>
           <span v-else>Generando...</span>
         </button>
       </div>
 
       <!-- Imagen lateral -->
-      <div class="flex-1 max-w-md lg:max-w-lg">
-        <img :src="PersonaReportes" alt="Persona sonriendo" class="h-auto max-w-auto" />
+      <div class="image-section">
+        <img :src="PersonaReportes" alt="Persona sonriendo" class="persona-image" />
       </div>
     </div>
   </div>
@@ -551,47 +550,358 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 </script>
 
 <style scoped>
-/* Estilo para radio buttons personalizados */
-.radio-button input[type="radio"].custom-radio {
-	appearance: none;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	width: 16px;
-	height: 16px;
-	border: 2px solid #71277A;
-	/* Color morado del borde */
-	border-radius: 50%;
-	margin-right: 0.5rem;
-	outline: none;
-	cursor: pointer;
+/* Contenedor principal */
+.reportes-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 36px 0px 0px;
 }
 
-.radio-button input[type="radio"].custom-radio:checked {
-	background-color: #71277A;
-	/* Fondo morado al seleccionar */
-	border-color: #71277A;
-	/* Asegura que el borde sea morado al seleccionarse */
+/* Sección del header */
+.header-section {
+  margin-bottom: 40px;
 }
 
-.radio-button label {
-	cursor: pointer;
-	font-weight: 500;
-	margin-right: 1rem;
-	color: #333;
-	/* Color del texto */
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  height: 41px;
 }
 
-.radio-button input[type="radio"].custom-radio:checked+label {
-	color: #080808;
-	/* Color del texto cuando se selecciona */
-	font-weight: 700;
+.icon-wrapper {
+  width: 44px;
+  height: 44px;
+  background: #71277A;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-option {
-    font-size: 14px; /* Cambia el tamaño de la fuente de las opciones */
-    padding: 4px; /* Reduce el espacio interno */
-    line-height: 1.2; /* Ajusta el espaciado entre líneas */
+.icon-reportes {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.title-reportes {
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 35px;
+  color: #71277A;
+  margin: 0;
+}
+
+/* Sección de contenido */
+.content-section {
+  display: flex;
+  flex-direction: row;
+  gap: 100px;
+  align-items: flex-start;
+}
+
+/* Card del formulario */
+.form-card {
+  width: 506px;
+  background: #FFFFFF;
+  box-shadow: 0px 5.06px 12.65px rgba(0, 0, 0, 0.25);
+  border-radius: 25.3px;
+  padding: 31.62px;
+  display: flex;
+  flex-direction: column;
+  gap: 20.24px;
+}
+
+/* Título del formulario */
+.form-header {
+  margin-bottom: 10px;
+}
+
+.form-title {
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25.3px;
+  line-height: 30px;
+  color: #000000;
+  margin: 0;
+}
+
+/* Radio buttons */
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20.24px;
+}
+
+.radio-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 15.18px;
+  gap: 15.18px;
+  background: #F2F3F3;
+  border-radius: 37.95px;
+  height: 50.6px;
+}
+
+.custom-radio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  box-sizing: border-box;
+  width: 22.23px;
+  height: 22.23px;
+  background: #FFFFFF;
+  border: 1.265px solid #71277A;
+  border-radius: 6.325px;
+  margin: 0;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.custom-radio:checked::after {
+  content: '';
+  position: absolute;
+  width: 17.78px;
+  height: 17.78px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #71277A;
+  border-radius: 4px;
+}
+
+.radio-label {
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22.77px;
+  line-height: 27px;
+  color: #000000;
+  cursor: pointer;
+  margin: 0;
+  flex: 1;
+}
+
+/* Divisor */
+.divider {
+  width: 100%;
+  height: 0px;
+  border: 1.265px solid #F2F3F3;
+  margin: 10px 0;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 20.24px;
+}
+
+/* Selects e Inputs */
+.form-select,
+.form-input {
+  width: 100%;
+  height: 50.6px;
+  background: #F2F3F3;
+  border-radius: 37.95px;
+  padding: 10.12px 25.3px;
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22.77px;
+  line-height: 27px;
+  color: #000000;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2371277A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 25.3px center;
+  padding-right: 50px;
+}
+
+.form-input::placeholder {
+  color: #000000;
+  opacity: 0.6;
+}
+
+/* Checkbox group */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20.24px;
+}
+
+.custom-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #71277A;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  background: #FFFFFF;
+}
+
+.custom-checkbox:checked {
+  background: #71277A;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #FFFFFF;
+  font-size: 14px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.checkbox-label {
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  cursor: pointer;
+}
+
+/* Filters section */
+.filters-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20.24px;
+}
+
+/* Botón de generar reporte */
+.generate-button {
+  width: 100%;
+  height: 50.6px;
+  background: #00AA00;
+  border-radius: 37.95px;
+  font-family: 'Work Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25.3px;
+  line-height: 30px;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.generate-button:hover:not(:disabled) {
+  background: #009900;
+}
+
+.generate-button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Sección de imagen */
+.image-section {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 714px;
+  margin-top: -70px;
+  margin-left: 30px;
+}
+
+.persona-image {
+  width: 100%;
+  height: auto;
+  max-height: 863px;
+  object-fit: contain;
+}
+
+/* Responsive */
+@media (max-width: 1400px) {
+  .content-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
   }
+  
+  .reportes-container {
+    padding: 52px 40px 50px;
+  }
+}
 
+@media (max-width: 768px) {
+  .reportes-container {
+    padding: 30px 20px;
+  }
+  
+  .form-card {
+    width: 100%;
+    max-width: 506px;
+    padding: 20px;
+  }
+  
+  .icon-wrapper {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .icon-reportes {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .title-reportes {
+    font-size: 24px;
+    line-height: 28px;
+  }
+  
+  .form-title {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  
+  .radio-label,
+  .form-select,
+  .form-input {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  
+  .generate-button {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
 
+/* Opciones de select */
+option {
+  font-size: 18px;
+  padding: 8px;
+  line-height: 1.4;
+  background: #FFFFFF;
+  color: #000000;
+}
 </style>
