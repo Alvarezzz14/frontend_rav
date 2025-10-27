@@ -13,7 +13,9 @@
 			<!-- Sección de carga de archivo (IZQUIERDA) -->
 			<div class="upload-card">
 				<!-- Subtítulo -->
-				<h2 class="subtitle">Cargar archivo</h2>
+				<h2 class="title">Cargar archivo</h2>
+
+				<h3 class="subtitle">Adjunta el archivo que deseas compartír</h3>
 
 				<!-- Área de arrastrar y soltar -->
 				<div
@@ -406,7 +408,7 @@ const uploadFile = async () => {
 <style scoped>
 /* Contenedor principal */
 .main-container {
-	min-height: 100vh;
+	min-height: 91vh;
 	padding: 2rem 1rem;
 	display: flex;
 	flex-direction: column;
@@ -454,7 +456,7 @@ const uploadFile = async () => {
 	display: flex;
 	align-items: flex-start;
 	justify-content: center;
-	gap: 3rem;
+	gap: 7rem;
 	max-width: 1400px;
 	width: 100%;
 }
@@ -464,20 +466,33 @@ const uploadFile = async () => {
 	background: #ffffff;
 	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 	border-radius: 20px;
-	padding: 2rem;
-	width: 100%;
+	padding: 0rem 2rem 1rem;
+	width: 640px;
 	max-width: 780px;
 	position: relative;
+	text-align: center;
 }
 
-/* Subtítulo */
-.subtitle {
+/* título */
+.title {
 	font-family: 'Work Sans', sans-serif;
 	font-weight: 700;
 	font-size: 20px;
 	line-height: 23px;
 	text-align: center;
 	color: #000000;
+	margin-bottom: 1.5rem;
+}
+
+
+/* Subtítulo */
+.subtitle {
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 23px;
+	text-align: center;
+	color: #5C5C5C;
 	margin-bottom: 1.5rem;
 }
 
@@ -553,7 +568,7 @@ const uploadFile = async () => {
 	align-items: center;
 	padding: 10px;
 	gap: 5px;
-	min-width: 237px;
+	min-width: 194.71px;
 	height: 42px;
 	background: #fdc300;
 	border-radius: 30px;
@@ -661,8 +676,7 @@ const uploadFile = async () => {
 
 /* Botón Subir archivo (verde) */
 .btn-upload {
-	width: 100%;
-	display: flex;
+	width: 200px;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
@@ -693,6 +707,7 @@ const uploadFile = async () => {
 
 /* Contenedor de imagen del ciudadano (DERECHA) */
 .citizen-image-container {
+	height: 700px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -700,9 +715,7 @@ const uploadFile = async () => {
 }
 
 .citizen-image {
-	width: 100%;
-	max-width: 699px;
-	height: auto;
+	height: 780px;
 	object-fit: contain;
 }
 

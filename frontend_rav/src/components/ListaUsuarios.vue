@@ -1,5 +1,5 @@
 <template>
-	<div class="min-h-screen p-4 flex flex-col">
+	<div class="p-4 flex flex-col">
 		<!-- Sección Superior -->
 		<div class="flex flex-col mb-6 mx-8">
 			<!-- Título con icono -->

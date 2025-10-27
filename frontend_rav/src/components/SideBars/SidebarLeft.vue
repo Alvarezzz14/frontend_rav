@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="sidebar-container h-[995px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
+    class="sidebar-container h-[833px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
     :class="isExpanded ? 'w-[266px]' : 'w-[100px]'"
     :style="{ 
       background: 'linear-gradient(180deg, #71277A 0%, #410A48 100%)',
@@ -67,31 +67,47 @@
       <div class="lg:hidden flex ml-6 pt-4">
         <span class="text-customPurple font-bold"> Menú Principal </span>
       </div>
-      <ul class="list-none flex flex-col mb-0 gap-[20px] transition-all duration-700"
-          :class="isExpanded ? 'px-[11px]' : 'px-[10px]'">
+      <ul
+        class="list-none flex flex-col mb-0 transition-all duration-700 items-center"
+        :class="[
+          isExpanded ? 'gap-[20px] px-[11px]' : 'gap-[41px] px-[10px]'
+        ]"
+      >
           <li
             v-for="item in menuItems"
             :key="item.title"
             class="relative w-full"
             @click="item.submenu ? toggleSubmenu(item) : handleItemClick(item)"
           >
-            <router-link
-              v-if="item.to"
-              :to="item.to"
-              @click="setActive(item)"
-              class="h-[44px] flex flex-row items-center transform text-white transition-all duration-700 rounded-[30px]"
-              :class="[
-                isActive(item) ? 'bg-amarillo text-customPurple' : '',
-                isExpanded ? 'px-4 gap-5' : 'px-[10px] justify-center gap-0'
-              ]"
-            >
-              <component
-                v-if="item.iconComponent"
-                :is="item.iconComponent"
-                :size="24"
-                :color="isActive(item) ? '#71277A' : 'white'"
-                class="flex-none w-[24px] h-[24px] transition-colors duration-700"
-              />
+              <router-link
+                v-if="item.to"
+                :to="item.to"
+                @click="setActive(item)"
+                class="flex flex-row items-center transform text-white transition-all duration-700 rounded-[30px]"
+                :class="[
+                  isActive(item) && isExpanded ? 'bg-amarillo text-customPurple' : '',
+                  isExpanded ? 'h-[44px] px-4 gap-5' : 'h-auto p-0 justify-center gap-0'
+                ]"
+                style="min-width:0; min-height:0;"
+              >
+
+              <!-- Icono con fondo amarillo redondo cuando está activo y el menú está cerrado -->
+              <template v-if="item.iconComponent">
+                <div v-if="isActive(item) && !isExpanded"
+                  class="flex items-center justify-center bg-amarillo rounded-full w-[44px] h-[44px] mx-auto p-0 transition-all duration-700">
+                  <component
+                    :is="item.iconComponent"
+                    :size="24"
+                    :color="'#71277A'"
+                    class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
+                </div>
+                <component
+                  v-else
+                  :is="item.iconComponent"
+                  :size="24"
+                  :color="isActive(item) ? '#71277A' : 'white'"
+                  class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
+              </template>
 
               <span
                 v-if="isExpanded"
@@ -123,42 +139,59 @@
               </span>
             </router-link>
 
-            <ul
-              v-if="item.submenu && isExpanded"
-              class="pr-3 overflow-hidden transition-all duration-700 list-none bg-customPurple"
-              :class="isExpanded ? 'pl-14' : 'pl-3'"
-              :style="{ maxHeight: item.submenuOpen && isExpanded ? '200px' : '0px' }"
+            <!-- Submenú personalizado estilo Figma -->
+            <div
+              v-if="item.submenu && isExpanded && item.submenuOpen"
+              class="submenu-busqueda absolute left-[0px] top-0 z-50"
+              style="width:246px;height:161.02px;"
             >
-              <li
-                v-for="submenuItem in item.submenu"
-                :key="submenuItem.title"
-                class="py-1"
-              >
-                <router-link
-                  v-if="submenuItem.to"
-                  :to="submenuItem.to"
-                  :class="[
-                    'flex flex-row items-center px-4 h-10 text-base font-light transition-colors duration-700 rounded-[30px]',
-                    isActive(submenuItem)
-                      ? 'bg-amarillo text-customPurple'
-                      : '',
-                    canAccessSubmenu
-                      ? 'text-white cursor-pointer'
-                      : 'text-gray-400 cursor-not-allowed',
-                  ]"
-                  @click="handleSubmenuClick($event, submenuItem)"
+              <!-- Header amarillo -->
+              <div class="flex flex-row items-center gap-[20px] px-4 py-[10px] bg-amarillo rounded-t-[30px] text-[#71277A]" style="width:244px;height:44px;">
+                <component :is="item.iconComponent" :size="24" :color="'#71277A'" class="w-[24px] h-[24px]" />
+                <span class="font-bold text-[18px] leading-[21px] font-['Work_Sans'] bg-gradient-to-b from-[#71277A] to-[#410A48] bg-clip-text " style="width:130px;">{{ item.title }}</span>
+                <svg width="13" height="8" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-auto">
+                  <path d="M6.75 8.23077L0 0.230774L13 0.230774L6.75 8.23077Z" fill="url(#gradViolet)" />
+                  <defs>
+                    <linearGradient id="gradViolet" x1="0" y1="0" x2="0" y2="9" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#71277A"/>
+                      <stop offset="1" stop-color="#410A48"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <!-- Fondo blanco y lista -->
+              <div class="submenu-content-busqueda" style="position:absolute;top:44px;width:244px;height:117px;background:#fff;box-shadow:0px 5px 9.4px rgba(0,0,0,0.6);border-radius:0 0 20px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;">
+                <div
+                  v-for="submenuItem in item.submenu"
+                  :key="submenuItem.title"
+                  class="flex flex-row items-center gap-[9px] px-3 h-[28px] w-[200px] rounded-[30px] cursor-pointer transition-colors duration-300"
+                  :class="canAccessSubmenu ? 'hover:bg-[#f3f3f3]' : 'cursor-not-allowed'"
+                  @click="canAccessSubmenu ? handleSubmenuClick($event, submenuItem) : null"
                 >
-                  <component
-                    v-if="submenuItem.iconComponent"
-                    :is="submenuItem.iconComponent"
-                    :size="21"
-                    :color="isActive(submenuItem) ? '#71277A' : 'white'"
-                    class="flex-none w-[21px] h-[21px] mr-4"
-                  />
-                  <span v-if="isExpanded" class="text-[18px] leading-[21px] font-['Work_Sans'] whitespace-nowrap">{{ submenuItem.title }}</span>
-                </router-link>
-              </li>
-            </ul>
+                  <span
+                    class="flex items-center justify-center rounded-full"
+                    style="width:18.53px;height:18.53px;background:linear-gradient(180deg,#71277A 0%,#410A48 100%);"
+                  >
+                    <component
+                      v-if="submenuItem.iconComponent"
+                      :is="submenuItem.iconComponent"
+                      :size="11"
+                      :color="'white'"
+                      class="flex-none"
+                    />
+                  </span>
+                  <router-link
+                    v-if="submenuItem.to"
+                    :to="submenuItem.to"
+                    class="text-[14px] leading-[16px] font-['Work_Sans'] font-normal text-[#410A48]"
+                    style="width:168px;"
+                    @click.stop="canAccessSubmenu ? null : $event.preventDefault()"
+                  >
+                    {{ submenuItem.title }}
+                  </router-link>
+                </div>
+              </div>
+            </div>
           </li>
 
           <li>
@@ -315,11 +348,11 @@ const menuItems = ref([
         to: { name: "RutaAtencionPage" },
         iconComponent: IconRoute,
       },
-      {
-        title: "Linea de Tiempo",
-        to: { name: "LineaTiempoNuevaPage" },
-        iconComponent: IconTimeline,
-      },
+      // {
+      //   title: "Linea de Tiempo",
+      //   to: { name: "LineaTiempoNuevaPage" },
+      //   iconComponent: IconTimeline,
+      // },
       {
         title: "Registro de Actividad",
         to: { name: "RegistroActividadPage" },

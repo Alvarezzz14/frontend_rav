@@ -554,7 +554,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .reportes-container {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: 90vh;
   padding: 36px 0px 0px;
 }
 
@@ -828,14 +828,13 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   align-items: flex-start;
   justify-content: center;
   max-width: 714px;
-  margin-top: -70px;
+  margin-top: -100px;
   margin-left: 30px;
 }
 
 .persona-image {
-  width: 100%;
-  height: auto;
-  max-height: 863px;
+  width: 714px;
+  height: 784px;
   object-fit: contain;
 }
 

@@ -1,7 +1,7 @@
 <template>
 	<div class="lineas-atencion-container">
 		<!-- Sección Superior: Título e Icono -->
-		<div class="flex items-center gap-3 px-6 pt-8 pb-4">
+		<div class="flex items-center gap-3 pt-4 pb-4">
 			<div class="flex items-center justify-center w-[30px] h-[30px] bg-customPurple rounded-full">
 				<img
 					:src="lineaAten"
@@ -14,7 +14,7 @@
 		</div>
 
 		<!-- Sección de Selección de Entidades -->
-		<div class="flex flex-col gap-6 px-6 py-4">
+		<div class="flex flex-col gap-6 ">
 			<!-- Subtítulo de Selección con Número -->
 			<div class="flex items-center gap-3">
 				<div class="flex items-center justify-center w-[35px] h-[35px] bg-customPurple rounded-full">
@@ -359,7 +359,7 @@ const handleEntityClick = (options) => {
 <style scoped>
 /* Contenedor principal con fondo gris */
 .lineas-atencion-container {
-	min-height: 100vh;
+	min-height: 90vh;
 	position: relative;
 	overflow: hidden;
 	font-family: 'Work Sans', sans-serif;

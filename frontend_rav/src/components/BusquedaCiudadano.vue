@@ -1,5 +1,5 @@
 <template>
-	<div class="absolute left-[189px] top-[52px] flex flex-row items-center gap-3 w-[698px] h-[41px]">
+	<div class="absolute left-[245px] top-[52px] flex flex-row items-center gap-3 w-[698px] h-[41px]">
 		<!-- Group 1322 - Icono de Búsqueda con círculo morado -->
 		<div class="relative w-[30px] h-[29.93px] flex-none">
 			<!-- Círculo morado de fondo -->
@@ -36,25 +36,23 @@
 				<div class="absolute left-[723px] top-[460px] w-[785px] h-[197px] bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.1)] rounded-[20px] flex flex-col items-center justify-center gap-4 p-6">
 					
 					<!-- Selector de tipo de documento -->
-					<div class="relative w-[750px] h-10">
-						<select
-							id="documentType"
-							class="w-full h-10 bg-[#F2F3F3] rounded-[30px] border-none font-work-sans font-normal text-[18px] leading-[21px] text-black px-4 appearance-none document-select"
-							name="documentType">
-							<option value="">Seleccione tipo de documento</option>
-							<option value="cc">Cédula de Ciudadanía</option>
-							<option value="passport">Pasaporte</option>
-							<option value="ti">Tarjeta de Identidad</option>
-							<option value="ce">Cédula de Extranjería</option>
-							<option value="ppt">Permiso de Protección Temporal (PPT)</option>
-							<option value="rc">Registro Civil</option>
-							<option value="nit">NIT</option>
-						</select>
-						<!-- Flecha del selector -->
-						<svg class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M1 1L6.5 7L12 1" stroke="#71277A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-						</svg>
-					</div>
+									<div class="relative w-[750px] h-10">
+										<select
+											id="documentType"
+											class="w-full h-10 bg-[#F2F3F3] rounded-[30px] border-none font-work-sans font-normal text-[18px] leading-[21px] text-black px-4 appearance-none document-select"
+											name="documentType">
+											<option value="">Seleccione tipo de documento</option>
+											<option value="cc">Cédula de Ciudadanía</option>
+											<option value="passport">Pasaporte</option>
+											<option value="ti">Tarjeta de Identidad</option>
+											<option value="ce">Cédula de Extranjería</option>
+											<option value="ppt">Permiso de Protección Temporal (PPT)</option>
+											<option value="rc">Registro Civil</option>
+											<option value="nit">NIT</option>
+										</select>
+										<!-- Flecha del selector como componente -->
+										<IconDropdownArrow class="absolute right-4 top-[44%] -translate-y-1/2 pointer-events-none" />
+									</div>
 
 					<!-- Group 1350 - Input y botón -->
 					<div class="flex flex-col items-end gap-4 w-[750px]">
@@ -81,9 +79,9 @@
 				</div>
 			</div>
 			<!-- Imagen Ciudadano-->
-			<div class="relative mt-28 flex justify-center">
+			<div class="relative mt-10 flex justify-center">
 				<!-- Imagen -->
-				<img :src="Ciudadano" alt="Ciudadano" class="object-cover w-5/6 lg:max-w-2xl lg:w-auto" />
+				<img :src="Ciudadano" alt="Ciudadano" class="object-cover w-5/6 lg:w-auto" />
 
 				<!-- Contenedor con el botón encima -->
 				<div class="absolute top-52 lg:hidden flex items-center justify-center">
@@ -124,6 +122,7 @@
 <script setup>
 import Ciudadano from "@/assets/images/BusquedaCiudadano/personaBusquedaCiudadano.png";
 import IconSearch from "@/components/Icons/IconSearch.vue";
+import IconDropdownArrow from "@/components/Icons/IconDropdownArrow.vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useEventStore } from "@/stores/storedataOff.js";

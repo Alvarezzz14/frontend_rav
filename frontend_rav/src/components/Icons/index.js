@@ -18,3 +18,5 @@ export { default as LogoRav } from './LogoRav.vue'
 export { default as LogoGov } from './LogoGov.vue'
 export { default as LogoLogout } from './LogoLogout.vue'
 export { default as RavLogo } from './RavLogo.vue'
+// Dropdown Arrow
+export { default as IconDropdownArrow } from './IconDropdownArrow.vue'
