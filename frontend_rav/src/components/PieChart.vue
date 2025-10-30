@@ -41,7 +41,7 @@
       <!-- Mostrar gráfico después de cargar los datos -->
       <div v-else-if="hasData" class="w-full h-full flex gap-4">
         <!-- Columna izquierda: Título y Leyenda (38%) -->
-        <div class="flex flex-col justify-start pt-[20px] w-[38%] pl-2">
+        <div class="flex flex-col justify-start w-[38%] pl-2">
           <div class="mb-[25px]">
             <h3 class="text-white font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[8px]">
               Tipos de poblaciones
@@ -87,7 +87,7 @@
         
         <!-- Columna derecha: Gráfico Donut (62%) -->
         <div class="flex-1 relative flex items-center justify-center pl-[40px] pr-[20px]">
-          <div class="w-full h-full max-w-[280px] max-h-[280px] relative flex items-center justify-center">
+          <div class="w-full h-full max-w-[303px] max-h-[280px] relative flex items-center justify-center">
             <Doughnut
               ref="doughnutChart"
               :data="clonedChartData"

@@ -88,20 +88,41 @@ const dummyData = [
 const chartData = reactive({
   labels: [],
   datasets: [
+    // Dataset 0: valor (parte inferior, colores morados)
     {
-      label: "Cantidad",
+      label: "Valor",
       backgroundColor: [],
       borderColor: "transparent",
       borderWidth: 0,
       data: [],
-      borderRadius: 10, // Border radius como en Figma
-      barThickness: 19, // Ancho ajustado según proporción de Figma
+      borderSkipped: false,
+      borderRadius: { topLeft: 0, topRight: 0, bottomLeft: 10, bottomRight: 10 },
+      barThickness: 19,
+      stack: "total",
+      order: 1,
+    },
+    // Dataset 1: restante (parte superior, gris hasta completar 100%)
+    {
+      label: "Restante",
+      backgroundColor: "#D9D9D9",
+      borderColor: "transparent",
+      borderWidth: 0,
+      data: [],
+      borderSkipped: false,
+      borderRadius: { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 },
+      barThickness: 19,
+      stack: "total",
+      order: 2,
     },
   ],
 });
 
 // Clonar datos para evitar problemas de solo lectura
 const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
+
+// Guardamos los valores para tooltips y cálculo
+let rawValues = [];
+let percValues = [];
 
 const chartOptions = reactive({
   responsive: true,
@@ -132,13 +153,17 @@ const chartOptions = reactive({
       },
       callbacks: {
         label: (context) => {
-          return `Cantidad: ${context.raw}`;
+          // Mostrar porcentaje utilizado (0-100%)
+          const i = context.dataIndex;
+          const val = percValues[i] ?? context.raw;
+          return `Porcentaje: ${val}%`;
         },
       },
     },
   },
   scales: {
     x: {
+      stacked: true,
       ticks: {
         font: {
           size: 20,
@@ -148,12 +173,21 @@ const chartOptions = reactive({
         color: "#000000",
       },
       grid: {
-        display: false,
+        display: false, // sin líneas verticales
+        drawBorder: false,
       },
+      border: { display: false }, // sin línea del eje X
     },
     y: {
-      display: false, // Ocultar completamente el eje Y
+      stacked: true,
       beginAtZero: true,
+      max: 100, // trabajamos en porcentaje
+      display: false, // ocultar completamente el eje Y
+      grid: {
+        display: false, // sin línea horizontal/baseline
+        drawBorder: false,
+      },
+      border: { display: false },
     },
   },
 });
@@ -188,9 +222,14 @@ const fetchCitiesData = async () => {
       getShortMonth(item.mes || item.ciudad || "Desconocido")
     );
     
-    chartData.datasets[0].data = data.map((item) =>
-      Number(item.valor || item.cantidad_repeticiones)
-    );
+  rawValues = data.map((item) => Number(item.valor || item.cantidad_repeticiones));
+
+  // Tratar el valor como porcentaje directo 0-100
+  percValues = rawValues.map((v) => Math.max(0, Math.min(100, Math.round(v))));
+  const rest = percValues.map((p) => 100 - p);
+
+  chartData.datasets[0].data = percValues; // parte inferior (morado)
+  chartData.datasets[1].data = rest; // parte superior (gris)
 
     // Colores en tonos morado/rosa según Figma (8 colores cíclicos)
     const purpleShades = [
@@ -209,7 +248,7 @@ const fetchCitiesData = async () => {
     );
 
     // Verifica si hay Datos
-    hasData.value = chartData.datasets[0].data.length > 0;
+  hasData.value = percValues.length > 0;
 
     console.log("Datos cargados:", chartData);
     isLoading.value = false; // Ocultar el spinner

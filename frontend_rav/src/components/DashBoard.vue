@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-col gap-5 p-4 w-full max-w-[1498.53px] overflow-hidden">
+	<div class="flex flex-col gap-5 p-4 w-full max-w-[1453px] overflow-hidden">
 		   <!-- Texto de bienvenida con icono -->
 		   <div class="flex items-center gap-2 ">
 			   <!-- Icono Dashboard con círculo morado -->
@@ -33,33 +33,17 @@
 				v-for="(image, index) in imagePaths"
 				:key="index"
 				class="relative rounded-[20px] flex-shrink-0 image-card overflow-hidden"
-				style="width: 345.53px; height: 345.53px;">
+				style="width: 330px; height: 330px;">
 				<!-- Imagen de fondo -->
 				<img 
 					:src="image.path"
 					:alt="image.title"
 					class="absolute object-cover"
 					style="
-						width: 338.86px; 
-						height: 362.86px;
+						width: 330px; 
+						height: 330px;
 					"
 				/>
-				
-				<!-- Overlay gradient en la parte inferior -->
-				<div 
-					class="absolute"
-					style="
-						left: 0.5%;
-						right: 2.2%;
-						top: 64%;
-						bottom: -1%;
-						background: linear-gradient(180deg, rgba(113,39,122,0) 0%, rgba(113,39,122,0.18) 50%, rgba(113,39,122,0.65) 85%, #71277A 100%);
-						background-blend-mode: multiply;
-						backdrop-filter: blur(1px);
-						border-radius: 0px 0px 11.9561px 11.9561px;
-					">
-				</div>
-				
 				<!-- Contenedor para el título y el número -->
 				<div class="absolute inset-0 flex flex-col items-center justify-end pb-8">
 					<!-- Título -->
@@ -94,11 +78,11 @@
 	<div class="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
 		<div
 			class="border-0 my-card rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]"
-			style="background: linear-gradient(180deg, #71277A 0%, #410A48 100%); width: 729px; height: 418px;">
+			style="background: linear-gradient(180deg, #71277A 0%, #410A48 100%); width: 688px; height: 342px;">
 			<PieChart />
 		</div>
 		<div class="border-0 my-card rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]" 
-			style="background: white; width: 729px; height: 418px;">
+			style="background: white; width: 688px; height: 342px;">
 			<BarChart />
 		</div>
 	</div>
@@ -110,9 +94,9 @@
 import { ref, onMounted } from "vue";
 import BarChart from "@/components/BarChart.vue";
 import EnFormacion from "@/assets/images/EnFormacion.webp";
-import Certificados from "@/assets/images/Certificados.png";
-import EnProceso from "@/assets/images/PorCertificar.png";
-import Cancelados from "@/assets/images/Cancelados.svg";
+import Certificados from "@/assets/images/Certificados.webp";
+import EnProceso from "@/assets/images/PorCertificar.webp";
+import Cancelados from "@/assets/images/Cancelados.webp";
 import PieChart from "./PieChart.vue";
 import IconDashboard from "@/components/Icons/IconDashboard.vue";
 

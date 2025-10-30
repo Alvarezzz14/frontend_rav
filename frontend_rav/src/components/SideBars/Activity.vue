@@ -4,6 +4,8 @@
     :class="[
       isExpanded ? 'w-[266px] sidebar-activity-container' : 'w-[100px]'
     ]"
+    @mouseenter="isExpanded = true"
+    @mouseleave="isExpanded = false"
   >
     <!-- Botón de Actividad (siempre visible) -->
     <div 
@@ -11,8 +13,6 @@
       :class="[
         isExpanded ? 'activity-btn-expanded mt-5' : 'activity-btn-collapsed mt-5 animate-bounce'
       ]"
-      @mouseenter="isExpanded = true"
-      @mouseleave="isExpanded = false"
     >
       <!-- Icono de Actividad -->
       <router-link to="/IndicadoresActividad" class="flex items-center justify-center">

@@ -60,12 +60,17 @@
 
         <!-- Selección de Departamento -->
         <div v-if="selectedReport && selectedReport !== 'HistorialTickets'" class="form-group">
-          <select v-model="form.department_name" class="form-select">
-            <option disabled value="">Buscar por regional</option>
-            <option v-for="departamento in department_name" :key="departamento.code" :value="departamento.name">
-              {{ departamento.name }}
-            </option>
-          </select>
+          <RavSelect
+            v-model="selectedDepartmentOption"
+            :options="department_name"
+            placeholder="Buscar por regional"
+            :showImage="false"
+            :withShadow="true"
+            :bgColor="'#F2F3F3'"
+            inputClass="w-full"
+            :height="'50px'"
+            overlayWidth="100%"
+          />
         </div>
 
         <!-- Campo de búsqueda por documento -->
@@ -157,12 +162,14 @@ import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.svg";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
+import RavSelect from '@/components/Inputs/RavSelect.vue';
 
 
 // Variables reactivas
 const selectedReport = ref(""); // Tipo de reporte seleccionado
 
-const selectedDepartamento = ref(""); // Departamento seleccionado
+const selectedDepartamento = ref(""); // Departamento seleccionado (no usado directamente)
+const selectedDepartmentOption = ref(null); // Opción seleccionada del componente RavSelect
 const loading = ref(false);
 const needsSearch = ref(false);
 const host = import.meta.env.VITE_HOST;
@@ -189,6 +196,19 @@ watch(selectedReport, (newValue) => {
   
   // Resetear checkbox de búsqueda avanzada
   needsSearch.value = false;
+  // Resetear selección del componente RavSelect
+  selectedDepartmentOption.value = null;
+});
+
+// Sincronizar la opción seleccionada del RavSelect con el nombre (string) esperado en el formulario
+watch(selectedDepartmentOption, (val) => {
+  if (!val) {
+    form.value.department_name = '';
+  } else if (typeof val === 'string') {
+    form.value.department_name = val;
+  } else {
+    form.value.department_name = val.name ?? '';
+  }
 });
 
 // Lista de department_name
@@ -794,7 +814,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 
 /* Botón de generar reporte */
 .generate-button {
-  width: 100%;
+  width: 278.3px;
   height: 50.6px;
   background: #00AA00;
   border-radius: 37.95px;
@@ -810,6 +830,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-end;
 }
 
 .generate-button:hover:not(:disabled) {
