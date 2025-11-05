@@ -2,11 +2,11 @@
   <div
     class="absolute left-[245px] top-[52px] flex flex-row items-center gap-3 w-[698px] h-[41px]"
   >
-    <!-- Group 1322 - Icono de Búsqueda con círculo morado -->
+    <!-- Group 1322 - Icono de Búsqueda con círculo (azul de marca) -->
     <div class="relative w-[30px] h-[29.93px] flex-none">
-      <!-- Círculo morado de fondo -->
+      <!-- Círculo azul de fondo -->
       <div
-        class="absolute inset-0 w-[30px] h-[29.93px] bg-[#71277A] rounded-full"
+        class="absolute inset-0 w-[30px] h-[29.93px] bg-azul-gradian rounded-full"
       ></div>
       <!-- Icono blanco centrado, tamaño 16.5x16.5px -->
       <div class="absolute inset-0 flex items-center justify-center">
@@ -16,7 +16,7 @@
 
     <!-- Texto "Búsqueda del ciudadano" -->
     <h1
-      class="w-[607px] h-[41px] font-work-sans font-bold text-[30px] leading-[35px] text-[#71277A] flex-none"
+      class="w-[607px] h-[41px] font-work-sans font-bold text-[30px] leading-[35px] text-azul2Ape flex-none"
     >
       Búsqueda del ciudadano
     </h1>
@@ -28,7 +28,7 @@
       <div class="-mt-44 lg:w-full lg:mx-14">
         <!-- Titulo-->
         <p
-          class="text-center lg:text-left font-medium text-[32px] leading-[38px]"
+          class="text-center lg:text-left font-bold text-[32px] leading-[38px] text-azul2Ape"
         >
           Aquí podrás visualizar información acerca de la
         </p>
@@ -129,7 +129,7 @@
                 type="button"
                 label="Buscar"
                 :loading="loading"
-                class="mt-3 w-72 h-10 text-base !hover:bg-purple-600 !border-none !bg-customPurple !text-amarillo"
+                class="mt-3 w-72 h-10 text-base !hover:bg-azul2Ape !border-none !bg-customPurple !text-amarillo"
                 @click="searchUser"
               />
             </div>

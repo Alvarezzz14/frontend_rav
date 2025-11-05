@@ -1,22 +1,5 @@
 <template>
-  <div class="relative flex w-full h-full p-4 overflow-hidden">
-    <!-- Imagen decorativa de fondo -->
-    <div 
-      class="absolute rounded-[20px]"
-      style="
-        left: 13.39%;
-        right: 64.84%;
-        top: 47.5%;
-        bottom: -15%;
-        opacity: 0.9;
-        transform: rotate(-90deg);
-        background-image: url('@/assets/images/Rectangle.svg');
-        background-size: cover;
-        background-position: center;
-        background-blend-mode: multiply;
-        pointer-events: none;
-      "
-    ></div>
+  <div class="relative flex w-full h-full p-4 overflow-hidden bg-azul-gradian rounded-[20px]">
 
     <!-- Botón de descarga en la esquina superior derecha -->
     <button
@@ -47,7 +30,7 @@
               Tipos de poblaciones
             </h3>
             <!-- Línea amarilla debajo del título -->
-            <div class="w-[289px] h-[6px] bg-[#FDC300] rounded-[1px]"></div>
+            <div class="w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
           </div>
           
           <!-- Leyenda personalizada -->
@@ -214,7 +197,7 @@ const chartOptions = reactive({
     },
     tooltip: {
       enabled: true,
-      backgroundColor: "rgba(113, 39, 122, 0.95)",
+      backgroundColor: "rgba(0, 93, 202, 0.95)",
       titleColor: "#FDC300",
       bodyColor: "white",
       borderColor: "#FDC300",
@@ -325,6 +308,6 @@ onMounted(() => {
 
 /* Asegurar que el gradiente se aplique correctamente */
 .bg-customPurple {
-  background: linear-gradient(180deg, #d160de 0%, #71277a 100%);
+  background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%);
 }
 </style>

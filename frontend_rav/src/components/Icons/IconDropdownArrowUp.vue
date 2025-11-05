@@ -8,7 +8,7 @@
 const props = defineProps({
   color: {
     type: String,
-    default: '#71277A'
+    default: '#005DCA'
   }
 });
 </script>

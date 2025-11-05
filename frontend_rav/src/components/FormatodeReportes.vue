@@ -446,7 +446,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
       worksheet.getCell(cell).fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: '71277A' }, // Fondo color #71277A
+        fgColor: { argb: '005DCA' }, // Fondo color azul
       };
       worksheet.getCell(cell).alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
     });
@@ -457,7 +457,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     titleCell.value = `Reporte ${worksheetName}`;
     titleCell.font = { size: 35, bold: true, color: { argb: 'FFFFFF' } };
     titleCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
-    titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '005DCA' } };
 
     // Campo "Fecha de generación"
     const currentDate = new Date();
@@ -471,7 +471,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     dateCell.value = `Fecha de generación: ${formattedDate}`;
     dateCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
     dateCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
-    dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+  dateCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '005DCA' } };
 
     // Otros detalles del reporte
     mergeCellsSafely('C4:E5');
@@ -479,21 +479,21 @@ const generateReport = async (data, worksheetName, reportDetails) => {
     regionalCell.value = `Regional: ${reportDetails.regional}`;
     regionalCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
     regionalCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
-    regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+  regionalCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '005DCA' } };
 
     mergeCellsSafely('C6:E7');
     const responsableCell = worksheet.getCell('C6');
     responsableCell.value = `Responsable de generación: ${reportDetails.responsable}`;
     responsableCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
     responsableCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
-    responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+  responsableCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '005DCA' } };
 
     mergeCellsSafely('F4:H5');
     const correoCell = worksheet.getCell('F4');
     correoCell.value = `Correo: ${reportDetails.correo}`;
     correoCell.font = { size: 13, bold: true, color: { argb: 'FFFFFF' } };
     correoCell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
-    correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '71277A' } };
+  correoCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '005DCA' } };
 
     // Establecer los encabezados de la tabla comenzando en A9
     const headers = Object.keys(data[0]).map((key) => ({
@@ -508,7 +508,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: '77277A' },
+        fgColor: { argb: '005DCA' },
       };
       cell.font = { color: { argb: 'FFFFFF' }, bold: true };
       cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true }; // Alineación con ajuste de texto
@@ -594,7 +594,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .icon-wrapper {
   width: 44px;
   height: 44px;
-  background: #71277A;
+  background: #005DCA;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -615,7 +615,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   font-weight: 700;
   font-size: 30px;
   line-height: 35px;
-  color: #71277A;
+  color: #005DCA;
   margin: 0;
 }
 
@@ -680,7 +680,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   width: 22.23px;
   height: 22.23px;
   background: #FFFFFF;
-  border: 1.265px solid #71277A;
+  border: 1.265px solid #005DCA;
   border-radius: 6.325px;
   margin: 0;
   outline: none;
@@ -697,7 +697,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: #71277A;
+  background: #005DCA;
   border-radius: 4px;
 }
 
@@ -749,7 +749,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%2371277A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23005DCA' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 25.3px center;
   padding-right: 50px;
@@ -774,7 +774,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   -moz-appearance: none;
   width: 20px;
   height: 20px;
-  border: 2px solid #71277A;
+  border: 2px solid #005DCA;
   border-radius: 4px;
   cursor: pointer;
   position: relative;
@@ -782,7 +782,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 }
 
 .custom-checkbox:checked {
-  background: #71277A;
+  background: #005DCA;
 }
 
 .custom-checkbox:checked::after {

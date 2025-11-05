@@ -1,5 +1,5 @@
 <template>
-	<div class="w-[240px] h-[240px] bg-[#2F1333] rounded-[20px] flex flex-col items-center justify-center relative">
+	<div class="w-[240px] h-[240px] bg-azul2Ape rounded-[20px] flex flex-col items-center justify-center relative">
 		<!-- Contenedor del círculo de progreso -->
 		<div class="relative w-[106.48px] h-[109.72px] flex-shrink-0 mb-[20px]">
 			<svg
@@ -56,8 +56,8 @@
 			<!-- Meta Anual -->
 			<div class="flex flex-row items-center gap-[7px]">
 				<div class="w-[16px] h-[16px] bg-white rounded-[30px] flex items-center justify-center flex-shrink-0">
-					<svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M3.5 0L0 4H7L3.5 0Z" fill="#71277A"/>
+								<svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M3.5 0L0 4H7L3.5 0Z" fill="#005DCA"/>
 					</svg>
 				</div>
 				<span class="font-['Work_Sans'] font-normal text-[12px] leading-[14px] text-white">
@@ -71,9 +71,9 @@
 			<!-- Estado Actual -->
 			<div class="flex flex-row items-center gap-[7px]">
 				<div class="w-[16px] h-[16px] bg-white rounded-[30px] flex items-center justify-center flex-shrink-0">
-					<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M3.657 2.046C3.478 2.226 3.478 2.521 3.657 2.701L4.597 3.641L2 3.641C1.723 3.641 1.5 3.864 1.5 4.141C1.5 4.418 1.723 4.641 2 4.641L4.597 4.641L3.657 5.581C3.478 5.761 3.478 6.056 3.657 6.236C3.837 6.416 4.132 6.416 4.312 6.236L6.315 4.233C6.495 4.053 6.495 3.758 6.315 3.578L4.312 1.575C4.132 1.395 3.837 1.395 3.657 1.575Z" fill="#71277A"/>
-						<circle cx="4" cy="4" r="3.5" stroke="#71277A"/>
+								<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M3.657 2.046C3.478 2.226 3.478 2.521 3.657 2.701L4.597 3.641L2 3.641C1.723 3.641 1.5 3.864 1.5 4.141C1.5 4.418 1.723 4.641 2 4.641L4.597 4.641L3.657 5.581C3.478 5.761 3.478 6.056 3.657 6.236C3.837 6.416 4.132 6.416 4.312 6.236L6.315 4.233C6.495 4.053 6.495 3.758 6.315 3.578L4.312 1.575C4.132 1.395 3.837 1.395 3.657 1.575Z" fill="#005DCA"/>
+									<circle cx="4" cy="4" r="3.5" stroke="#005DCA"/>
 					</svg>
 				</div>
 				<span class="font-['Work_Sans'] font-normal text-[12px] leading-[14px] text-white">
@@ -87,8 +87,8 @@
 			<!-- Fecha Límite -->
 			<div class="flex flex-row items-center gap-[7px]">
 				<div class="w-[16px] h-[16px] bg-white rounded-[30px] flex items-center justify-center flex-shrink-0">
-					<svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M0 4L3.5 8L7 4H0Z" fill="#71277A"/>
+								<svg width="7" height="8" viewBox="0 0 7 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 4L3.5 8L7 4H0Z" fill="#005DCA"/>
 					</svg>
 				</div>
 				<span class="font-['Work_Sans'] font-normal text-[12px] leading-[14px] text-white">

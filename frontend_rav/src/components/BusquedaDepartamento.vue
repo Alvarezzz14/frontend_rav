@@ -5,11 +5,11 @@
     <div
       class="absolute top-[35px] left-[10px] flex flex-row items-center gap-3 w-[141px] h-[41px]"
     >
-      <!-- Group 1322 - Icono de Mapa con círculo morado -->
+      <!-- Group 1322 - Icono de Mapa con círculo (azul de marca) -->
       <div class="relative w-[30px] h-[29.93px] flex-none">
-        <!-- Círculo morado de fondo -->
+        <!-- Círculo azul de fondo -->
         <div
-          class="absolute inset-0 w-[30px] h-[29.93px] bg-[#71277A] rounded-full"
+          class="absolute inset-0 w-[30px] h-[29.93px] bg-azul-gradian rounded-full"
         ></div>
         <!-- Icono blanco centrado, tamaño 16.61x15.91px -->
         <div class="absolute inset-0 flex items-center justify-center">
@@ -23,7 +23,7 @@
 
       <!-- Texto "Mapa" -->
       <h1
-        class="font-work-sans font-bold text-[30px] leading-[35px] text-[#71277A] flex-none"
+        class="font-work-sans font-bold text-[30px] leading-[35px] text-azul2Ape flex-none"
       >
         Mapa
       </h1>
@@ -69,7 +69,7 @@
       <!-- Frame 514 - Encabezado con nombre y fondo color -->
       <div
         class="absolute top-[125px] w-[518px] h-[68px] flex flex-row justify-center items-start pt-3 px-0 pb-0 gap-[212px]"
-        style="background: linear-gradient(180deg, #71277a 0%, #410a48 100%)"
+        style="background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%)"
       >
         <!-- Nombre del departamento -->
         <h2
@@ -124,14 +124,14 @@
             :key="dep.code"
             :d="departmentPaths[dep.code]"
             :fill="
-              selectedCountry && selectedCountry.code === dep.code
-                ? '#71277A'
-                : 'rgba(119, 39, 122, 0.05)'
+                selectedCountry && selectedCountry.code === dep.code
+                  ? '#FFD600'
+                  : 'rgba(0, 93, 202, 0.05)'
             "
             :stroke="
-              selectedCountry && selectedCountry.code === dep.code
-                ? '#71277A'
-                : 'none'
+                selectedCountry && selectedCountry.code === dep.code
+                  ? '#FFD600'
+                  : 'none'
             "
           />
         </g>

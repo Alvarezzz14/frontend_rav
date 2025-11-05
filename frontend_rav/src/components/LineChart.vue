@@ -146,7 +146,7 @@ const chartOptions = reactive({
 			display: false, // Título externo
 		},
 		tooltip: {
-			backgroundColor: 'rgba(113, 39, 122, 0.95)',
+			backgroundColor: 'rgba(0, 93, 202, 0.95)',
 			titleColor: '#FDC300',
 			bodyColor: 'white',
 			borderColor: '#FDC300',
@@ -260,8 +260,8 @@ onMounted(() => {
 	opacity: 0;
 }
 
-/* Gradiente morado como en el diseño de Figma */
+/* Gradiente actualizado azul según nueva paleta */
 .bg-gradient-purple {
-	background: linear-gradient(180deg, #d160de 0%, #71277a 100%);
+	background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%);
 }
 </style>

@@ -1,11 +1,7 @@
 <template>
   <div 
-    class="sidebar-container h-[833px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
+    class="sidebar-container bg-azul-gradian h-[833px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
     :class="isExpanded ? 'w-[266px]' : 'w-[100px]'"
-    :style="{ 
-      background: 'linear-gradient(180deg, #71277A 0%, #410A48 100%)',
-      filter: 'drop-shadow(4px 0px 9.7px rgba(113, 39, 122, 0.45))'
-    }"
     @mouseenter="isExpanded = true"
     @mouseleave="isExpanded = false"
   >
@@ -98,14 +94,15 @@
                   <component
                     :is="item.iconComponent"
                     :size="24"
-                    :color="'#71277A'"
+                    :useGradient="true"
                     class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
                 </div>
                 <component
                   v-else
                   :is="item.iconComponent"
                   :size="24"
-                  :color="isActive(item) ? '#71277A' : 'white'"
+                  :useGradient="isActive(item)"
+                  :color="isActive(item) ? null : 'white'"
                   class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
               </template>
 
@@ -113,11 +110,10 @@
                 v-if="isExpanded"
                 class="text-left text-[18px] leading-[21px] font-['Work_Sans'] transition-opacity duration-700 whitespace-nowrap"
                 :class="{
-                  'font-bold text-customPurple': isActive(item),
+                  'font-bold bg-azul-gradian bg-clip-text text-transparent': isActive(item),
                   'font-normal text-white': !isActive(item),
                 }"
-                >{{ item.title }}</span
-              >
+                >{{ item.title }}</span>
               <span v-if="item.submenu && isExpanded" class="ml-auto">
                 <svg
                   :class="[
@@ -146,15 +142,15 @@
               style="width:246px;height:161.02px;"
             >
               <!-- Header amarillo -->
-              <div class="flex flex-row items-center gap-[20px] px-4 py-[10px] bg-amarillo rounded-t-[30px] text-[#71277A]" style="width:244px;height:44px;">
-                <component :is="item.iconComponent" :size="24" :color="'#71277A'" class="w-[24px] h-[24px]" />
-                <span class="font-bold text-[18px] leading-[21px] font-['Work_Sans'] bg-gradient-to-b from-[#71277A] to-[#410A48] bg-clip-text " style="width:130px;">{{ item.title }}</span>
+              <div class="flex flex-row items-center gap-[20px] px-4 py-[10px] bg-amarillo rounded-t-[30px] text-[#005DCA]" style="width:244px;height:44px;">
+                <component :is="item.iconComponent" :size="24" :color="'#005DCA'" class="w-[24px] h-[24px]" />
+                <span class="font-bold text-[18px] leading-[21px] font-['Work_Sans'] bg-gradient-to-b from-[#005DCA] to-[#003B8A] bg-clip-text " style="width:130px;">{{ item.title }}</span>
                 <svg width="13" height="8" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-auto">
-                  <path d="M6.75 8.23077L0 0.230774L13 0.230774L6.75 8.23077Z" fill="url(#gradViolet)" />
+                  <path d="M6.75 8.23077L0 0.230774L13 0.230774L6.75 8.23077Z" fill="url(#gradAzul)" />
                   <defs>
-                    <linearGradient id="gradViolet" x1="0" y1="0" x2="0" y2="9" gradientUnits="userSpaceOnUse">
-                      <stop stop-color="#71277A"/>
-                      <stop offset="1" stop-color="#410A48"/>
+                    <linearGradient id="gradAzul" x1="0" y1="0" x2="0" y2="9" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#005DCA"/>
+                      <stop offset="1" stop-color="#003B8A"/>
                     </linearGradient>
                   </defs>
                 </svg>
@@ -170,7 +166,7 @@
                 >
                   <span
                     class="flex items-center justify-center rounded-full"
-                    style="width:18.53px;height:18.53px;background:linear-gradient(180deg,#71277A 0%,#410A48 100%);"
+                    style="width:18.53px;height:18.53px;background:linear-gradient(180deg,#005DCA 0%,#003B8A 100%);"
                   >
                     <component
                       v-if="submenuItem.iconComponent"
@@ -183,7 +179,7 @@
                   <router-link
                     v-if="submenuItem.to"
                     :to="submenuItem.to"
-                    class="text-[14px] leading-[16px] font-['Work_Sans'] font-normal text-[#410A48]"
+                    class="text-[14px] leading-[16px] font-['Work_Sans'] font-normal text-[#003B8A]"
                     style="width:168px;"
                     @click.stop="canAccessSubmenu ? null : $event.preventDefault()"
                   >
@@ -249,7 +245,7 @@
               <circle cx="30" cy="30" r="30" fill="#FDC300"/>
               <path
                 d="M42.6237 48.3254C40.4036 49.2335 36.4265 50.3012 30.0001 50.3012C23.5737 50.3012 19.5966 49.2335 17.3765 48.3254C15.9006 47.7217 15.0067 46.2131 15.1807 44.6279C15.4719 41.9776 16.312 39.3394 18.232 38.1446C21.7702 35.9427 25.2824 35.0045 25.2824 35.0045C25.4061 34.6194 25.5452 33.3453 25.618 32.0408C25.1699 31.5753 24.7258 31.0896 24.2574 30.6293C23.3658 29.753 23.2655 28.5006 22.9472 26.885C22.3623 27.0512 22.1773 26.7728 22.022 26.536C21.9162 26.3741 21.8745 26.1801 21.8349 25.9907C21.6924 25.3099 21.5502 24.629 21.4079 23.9482C21.3009 23.4367 21.1934 22.9128 21.2659 22.3953C21.3006 22.1507 21.3876 21.8943 21.5886 21.7503C21.7895 21.6067 22.1252 21.6413 22.2258 21.8671C22.2258 21.8671 21.9 18.6626 21.9 18.9323C21.6279 18.6302 21.4125 17.9722 21.5027 17.4636C21.5926 16.9554 21.7543 16.4607 21.8349 15.951C21.9231 15.3913 21.9138 14.8136 22.0746 14.2701C22.3013 13.5039 22.843 12.876 23.3944 12.2981C23.785 11.8887 24.1889 11.4908 24.6295 11.1361C25.5119 10.4269 26.5637 9.89323 27.6889 9.76716C28.05 9.72698 28.4143 9.7287 28.7774 9.73045C29.1847 9.73248 29.5924 9.73448 30 9.73652C30.4076 9.73448 30.8153 9.73248 31.2226 9.73045C31.5858 9.7287 31.95 9.72698 32.3111 9.76716C33.4364 9.89323 34.4882 10.4269 35.3705 11.1361C35.8111 11.4909 36.215 11.8887 36.6056 12.2981C37.157 12.876 37.6988 13.5039 37.9254 14.2701C38.0862 14.8136 38.0769 15.3913 38.1651 15.951C38.2458 16.4607 38.4074 16.9554 38.4973 17.4636C38.5875 17.9722 38.3721 18.6302 38.1 18.9323C38.1 18.6626 37.7742 21.8671 37.7742 21.8671C37.8748 21.6413 38.2105 21.6066 38.4114 21.7503C38.6124 21.8943 38.6994 22.1508 38.7341 22.3953C38.8067 22.9128 38.6991 23.4367 38.5921 23.9482C38.4499 24.629 38.3076 25.3099 38.1651 25.9907C38.1255 26.1801 38.0838 26.3741 37.978 26.536C37.8228 26.7728 37.6377 27.0512 37.0528 26.885C36.7345 28.5006 36.6342 29.753 35.7426 30.6293C35.2742 31.0896 34.8302 31.5753 34.382 32.0408C34.4549 33.3453 34.5939 34.6194 34.7176 35.0045C34.7176 35.0045 38.2298 35.9427 41.768 38.1446C43.688 39.3394 44.5282 41.9776 44.8193 44.6279C44.9935 46.2131 44.0996 47.7217 42.6237 48.3254Z"
-                fill="#71277A"
+                fill="#005DCA"
               />
             </svg>
 
@@ -514,9 +510,8 @@ a {
 
 .sidebar-container {
   position: relative;
-  background: linear-gradient(180deg, #71277A 0%, #410A48 100%);
   border-radius: 29.3592px;
-  filter: drop-shadow(4px 0px 9.7px rgba(113, 39, 122, 0.45));
+  filter: drop-shadow(4px 0px 9.7px rgba(0, 93, 202, 0.45));
   z-index: 10;
 }
 

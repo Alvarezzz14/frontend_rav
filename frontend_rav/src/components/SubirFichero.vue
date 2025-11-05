@@ -2,10 +2,10 @@
 	<div class="main-container">
 		<!-- Título con icono (ARRIBA) -->
 		<div class="header-section">
-			<div class="icon-wrapper">
+			<div class="icon-wrapper bg-azul-gradian">
 				<img :src="download" alt="Icono download" class="header-icon" />
 			</div>
-			<h1 class="main-title">Carga de archivos</h1>
+			<h1 class="main-title text-azul2Ape">Carga de archivos</h1>
 		</div>
 
 		<!-- Contenedor principal con imagen y formulario -->
@@ -13,7 +13,7 @@
 			<!-- Sección de carga de archivo (IZQUIERDA) -->
 			<div class="upload-card">
 				<!-- Subtítulo -->
-				<h2 class="title">Cargar archivo</h2>
+				<h2 class="title text-azul2Ape">Cargar archivo</h2>
 
 				<h3 class="subtitle">Adjunta el archivo que deseas compartír</h3>
 
@@ -430,7 +430,6 @@ const uploadFile = async () => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: #71277a;
 	border-radius: 50%;
 	padding: 6px;
 }
@@ -447,7 +446,6 @@ const uploadFile = async () => {
 	font-weight: 700;
 	font-size: 30px;
 	line-height: 35px;
-	color: #71277a;
 	margin: 0;
 }
 
@@ -480,7 +478,6 @@ const uploadFile = async () => {
 	font-size: 20px;
 	line-height: 23px;
 	text-align: center;
-	color: #000000;
 	margin-bottom: 1.5rem;
 }
 
@@ -498,8 +495,8 @@ const uploadFile = async () => {
 
 /* Área de arrastrar y soltar */
 .upload-area {
-	background: rgba(113, 39, 122, 0.1);
-	border: 2px dashed rgba(113, 39, 122, 0.4);
+	background: rgba(0, 93, 202, 0.1);
+	border: 2px dashed rgba(0, 93, 202, 1);
 	border-radius: 20px;
 	padding: 3rem 2rem;
 	text-align: center;
@@ -511,8 +508,8 @@ const uploadFile = async () => {
 
 /* Estado de carga activo - Gradiente morado */
 .upload-area:has(.upload-state) {
-	background: linear-gradient(180deg, #71277a 0%, #410a48 100%);
-	border: 2px dashed #71277a;
+	background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%);
+	border: 2px dashed #005DCA;
 	border-radius: 10px;
 }
 
@@ -579,7 +576,7 @@ const uploadFile = async () => {
 	font-size: 20px;
 	line-height: 23px;
 	text-align: center;
-	color: #71277a;
+	color: #002C4D;
 	transition: all 0.3s ease;
 }
 
@@ -604,7 +601,7 @@ const uploadFile = async () => {
 	display: flex;
 	align-items: center;
 	padding: 0.75rem 1rem;
-	background: rgba(122, 31, 126, 0.2);
+	background: rgba(0, 93, 202, 0.2);
 	border-radius: 10px;
 	margin-top: 1.5rem;
 	box-shadow: 0px 4px 6.8px rgba(0, 0, 0, 0.25);
@@ -654,7 +651,7 @@ const uploadFile = async () => {
 
 .progress-bar {
 	height: 100%;
-	background: #71277a;
+	background: #005DCA;
 	border-radius: 10px;
 	transition: width 0.3s ease;
 }

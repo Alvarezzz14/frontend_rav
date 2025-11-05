@@ -19,7 +19,7 @@
       <template #value="slotProps">
         <div
           v-if="slotProps.value"
-          class="flex gap-2 items-center font-work-sans font-bold text-[18px] leading-[18px] tracking-normal text-[#71277A]"
+          class="flex gap-2 items-center font-work-sans font-bold text-[18px] leading-[18px] tracking-normal text-azulApe"
         >
           <img
             v-if="showImage && imageOf(slotProps.value)"
@@ -220,7 +220,7 @@ onUnmounted(() => {
 
 /* Borde morado SOLO cuando el dropdown está abierto */
 .rav-open :deep(.p-select) {
-  border: 1.4px solid #71277A !important;
+  border: 1.4px solid #005DCA !important;
   position: relative !important;
   z-index: 2000 !important; /* Asegura que el select quede por encima del overlay en el borde superior */
 }
@@ -254,7 +254,7 @@ onUnmounted(() => {
 }
 
 :deep(.p-select .p-select-dropdown) {
-  color: #71277a !important;
+  color: #005DCA !important;
 }
 
 /* Panel desplegable */
@@ -267,7 +267,7 @@ onUnmounted(() => {
   background: #F1F1F1 !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.14) !important;
   border: none !important;
-  border-top: 1.6px solid #71277A !important; /* línea superior morada como en diseño */
+  border-top: 1.6px solid #005DCA !important; /* línea superior azul como en diseño */
   width: var(--rav-select-overlay-w, 520px) !important;
   padding: 16px 0 16px 0 !important;
   z-index: var(--rav-select-overlay-z, 10) !important;
@@ -279,7 +279,7 @@ onUnmounted(() => {
   align-items: center !important;
   gap: 10px !important;
   background: #fff !important;
-  border: 1.4px solid #71277A !important;
+  border: 1.4px solid #005DCA !important;
   border-radius: 30px !important;
   height: 40px !important;
   margin: 8px 12px !important;
@@ -294,15 +294,15 @@ onUnmounted(() => {
 
 :deep(.p-select-option.p-select-option-selected) {
   background: #fff !important;
-  color: #71277A !important;
+  color: #005DCA !important;
   font-weight: 700 !important;
-  border: 2px solid #71277A !important;
+  border: 2px solid #005DCA !important;
 }
 
 :deep(.p-select-option:hover),
 :deep(.p-select-option.p-focus) {
   background: #f1f1f1 !important;
-  color: #71277A !important;
+  color: #005DCA !important;
 }
 
 :deep(.p-select-option img) {
@@ -335,16 +335,16 @@ onUnmounted(() => {
 }
 
 :deep(.p-select-option:hover) {
-  background-color: rgba(113, 39, 122, 0.1) !important;
+  background-color: rgba(0, 93, 202, 0.1) !important;
 }
 
 :deep(.p-select-option.p-focus) {
-  background-color: rgba(113, 39, 122, 0.1) !important;
+  background-color: rgba(0, 93, 202, 0.1) !important;
 }
 
 :deep(.p-select-option.p-select-option-selected) {
-  background-color: rgba(113, 39, 122, 0.2) !important;
-  color: #71277a !important;
+  background-color: rgba(0, 93, 202, 0.2) !important;
+  color: #005DCA !important;
 }
 </style>
 

@@ -4,10 +4,10 @@
     <button
       v-if="hasData"
       @click="downloadChart"
-      class="absolute top-4 right-4 w-[50px] h-[50px] bg-[#7A1F7E] rounded-full flex items-center justify-center shadow-[0px_4px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer hover:bg-[#8F2A93] transition-colors"
+      class="absolute top-4 right-4 w-[50px] h-[50px] bg-azulApe rounded-full flex items-center justify-center shadow-[0px_4px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer transition-colors"
       title="Descargar gráfico"
     >
-      <DownloadIcon :size="25" :height="20" class-name="text-amarillo" />
+      <DownloadIcon :size="25" :height="20" class-name="text-backgroundApp" />
     </button>
 
     <!-- Transición suave para manejar tanto el spinner como el gráfico -->
@@ -17,14 +17,14 @@
         class="flex flex-col items-center justify-center h-full"
       >
         <!-- Spinner visible mientras se cargan los datos -->
-        <p class="text-customPurple font-['Work_Sans'] font-bold text-[16px] mb-4">
+        <p class="text-azulApe font-['Work_Sans'] font-bold text-[16px] mb-4">
           Generando Gráfico...
         </p>
         <div class="spinner"></div>
       </div>
       <div v-else-if="hasData" class="w-full h-full flex flex-col">
         <h3
-          class="text-black font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[30px]"
+          class="text-azul2Ape font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[30px]"
         >
           {{ chartTitle }}
         </h3>
@@ -36,10 +36,10 @@
       <!-- Mostrar mensaje si no hay datos -->
       <div
         v-else
-        class="flex flex-col items-center justify-center text-customPurple h-full"
+        class="flex flex-col items-center justify-center text-azulApe h-full"
       >
         <svg
-          class="w-16 h-16 mb-4 text-customPurple"
+          class="w-16 h-16 mb-4 text-azulApe"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -101,10 +101,10 @@ const chartData = reactive({
       stack: "total",
       order: 1,
     },
-    // Dataset 1: restante (parte superior, gris hasta completar 100%)
+    // Dataset 1: restante (parte superior, backgroundApp hasta completar 100%)
     {
       label: "Restante",
-      backgroundColor: "#D9D9D9",
+      backgroundColor: "#EEF5FF", // backgroundApp
       borderColor: "transparent",
       borderWidth: 0,
       data: [],
@@ -135,10 +135,10 @@ const chartOptions = reactive({
       display: false,
     },
     tooltip: {
-      backgroundColor: "rgba(122, 31, 126, 0.95)",
+  backgroundColor: "rgba(0, 93, 202, 0.95)",
       titleColor: "#FFFFFF",
       bodyColor: "white",
-      borderColor: "#E391EC",
+      borderColor: "#005DCA",
       borderWidth: 2,
       padding: 12,
       displayColors: false,
@@ -228,23 +228,23 @@ const fetchCitiesData = async () => {
   percValues = rawValues.map((v) => Math.max(0, Math.min(100, Math.round(v))));
   const rest = percValues.map((p) => 100 - p);
 
-  chartData.datasets[0].data = percValues; // parte inferior (morado)
+  chartData.datasets[0].data = percValues; // parte inferior (azul)
   chartData.datasets[1].data = rest; // parte superior (gris)
 
-    // Colores en tonos morado/rosa según Figma (8 colores cíclicos)
-    const purpleShades = [
-      "#7A1F7E", // Rectangle 174 - Morado oscuro
-      "#A032A4", // Rectangle 178 - Morado medio oscuro
-      "#D041D5", // Rectangle 175 - Morado medio
-      "#E64CEB", // Rectangle 179 - Rosa morado
-      "#F868FD", // Rectangle 176 - Rosa brillante
-      "#FB8EFF", // Rectangle 180 - Rosa claro
-      "#FCADFF", // Rectangle 177 - Rosa muy claro
-      "#FDC7FF", // Rectangle 181 - Rosa pastel
+    // Colores en escala de AZULES (8 tonos cíclicos) alineados a la marca
+    const blueShades = [
+      "#003B8A", // Azul profundo (gradiente oscuro)
+      "#004EA8", // Azul intenso
+      "#005DCA", // Azul marca (azulApe)
+      "#2D7DE2", // Azul medio
+      "#4D93E8", // Azul claro intermedio
+      "#7AB0F0", // Azul claro
+      "#A6C8F5", // Azul muy claro
+      "#D2E3FA", // Azul pastel
     ];
 
     chartData.datasets[0].backgroundColor = data.map(
-      (_, index) => purpleShades[index % purpleShades.length]
+      (_, index) => blueShades[index % blueShades.length]
     );
 
     // Verifica si hay Datos
@@ -277,8 +277,8 @@ onMounted(() => {
 
 <style scoped>
 .spinner {
-  border: 4px solid rgba(122, 31, 126, 0.3);
-  border-top: 4px solid #7A1F7E;
+  border: 4px solid rgba(0, 93, 202, 0.3);
+  border-top: 4px solid #005DCA;
   border-radius: 50%;
   width: 50px;
   height: 50px;

@@ -105,6 +105,6 @@ const deleteFileFromServer = async () => {
 
 <style scoped>
 .progress-bar {
-	background-color: #7a1f7e;
+	background-color: #005DCA;
 }
 </style>
