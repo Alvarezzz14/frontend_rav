@@ -7,19 +7,19 @@
     <div class="flex-1 flex items-center justify-center">
       <div class="text-center rounded-md mb-12">
         <!-- Mensaje de error -->
-        <h1 class="text-negro font-bold text-6xl m-0">Oops...</h1>
+        <h1 class="text-azul2Ape font-bold text-6xl m-0">Oops...</h1>
         <!-- Imágenes de los personajes -->
         <div>
           <img :src="characterImage" alt="404 con personajes" class="w-full" />
         </div>
         <!-- Mensaje de texto -->
-        <h2 class="text-[60px] font-bold text-negro mt-1 mb-6">
+        <h2 class="text-[60px] font-bold text-azul2Ape mt-1 mb-6">
           Página no encontrada
         </h2>
         <!-- Botón -->
         <button
           @click="goHome"
-          class="bg-amarillo text-customPurple w-[400px] h-[50px] text-[24px] font-semibold shadow -mt-10 border-none rounded-[50px] cursor-pointer"
+          class="bg-amarillo mt-2 text-azul2Ape w-[400px] h-[50px] text-[24px] font-semibold shadow border-none rounded-[50px] cursor-pointer"
         >
           Regresar a la página de inicio
         </button>
@@ -36,7 +36,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import characterImage from "@/assets/images/error.webp";
+import characterImage from "@/assets/images/404.webp";
 import Footer from "@/components/Footer.vue";
 
 const router = useRouter();

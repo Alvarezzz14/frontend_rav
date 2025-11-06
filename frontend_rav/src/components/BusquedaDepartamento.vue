@@ -80,13 +80,14 @@
 
         <!-- Group 363 - Imagen del mapa del departamento -->
         <div class="w-[44px] h-[44px] flex-none order-1 flex-grow-0 relative">
-          <!-- Ellipse 7 - Fondo blanco circular -->
-          <div class="absolute w-[44px] h-[44px] bg-white rounded-full"></div>
-          <!-- Icono del mapa -->
-          <img
-            :src="selectedInfo.imageMap"
-            class="absolute inset-0 w-full h-full object-contain p-1.5"
-          />
+          <!-- Ellipse 7 - Fondo blanco circular y bandera centrada con flex -->
+          <div class="absolute w-[44px] h-[44px] bg-white rounded-full flex items-center justify-center">
+            <img
+              :src="selectedInfo.flagUrl"
+              :alt="'Bandera de ' + selectedInfo.name"
+              class="w-[26px] h-[26px] object-cover rounded-full"
+            />
+          </div>
         </div>
       </div>
 

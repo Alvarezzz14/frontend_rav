@@ -261,14 +261,15 @@
     >
       <!-- Modal -->
       <div
-        class="relative bg-white shadow-lg rounded-lg w-full max-w-5xl flex flex-col lg:flex-row overflow-hidden"
+        class="relative bg-white shadow-lg rounded-lg w-full max-w-5xl flex flex-col lg:flex-row"
       >
         <!-- Botón de Cerrar -->
         <button
           @click="closeRegisterModal"
-          class="absolute top-4 right-4 text-customPurple rounded-full hover:text-customPurple hover:bg-white cursor-pointer border-none text-xl z-10"
+          class="absolute -top-2 -right-2 bg-rojo-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90 z-20"
+          style="width: 20px; height: 20px"
         >
-          ✕
+          <CloseXIcon :width="7" :height="8" color="white" />
         </button>
 
         <!-- Formulario -->
@@ -361,13 +362,7 @@
               class="w-full px-4 py-3 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-customPurple"
               required
             />
-            <input
-              v-model="formData.documento"
-              type="text"
-              placeholder="Digite Documento Identidad"
-              class="w-full px-3 h-11 py-2 bg-grisInput border-none font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-customPurple"
-              required
-            />
+
             <input
               v-model="formData.email"
               type="email"
@@ -486,7 +481,7 @@
 
             <button
               type="submit"
-              class="w-full bg-azul-gradian cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300"
+              class="w-full bg-azul-gradian border-none cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-full transition duration-300"
             >
               Registrar
             </button>
@@ -543,7 +538,7 @@
           </div>
           <button
             @click="closeViewModal"
-            class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+            class="absolute -top-2 -right-2 bg-rojo-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
             style="width: 20px; height: 20px"
           >
             <CloseXIcon :width="7" :height="8" color="white" />
@@ -705,7 +700,7 @@
           </div>
           <button
             @click="closeEditModal"
-            class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+            class="absolute -top-2 -right-2 bg-rojo-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
             style="width: 20px; height: 20px"
           >
             <CloseXIcon :width="7" :height="8" color="white" />
@@ -865,12 +860,10 @@
           <div class="w-[1293px] h-px bg-[#D9D9D9] mt-3 mb-4"></div>
 
           <!-- Botón Guardar -->
-          <div class="flex justify-center">
+          <div class="flex justify-end">
             <button
               type="submit"
-              class="flex flex-row items-center justify-center p-[10px] gap-[10px] rounded-[30px] text-[#FDC300] font-bold text-[16px] leading-[19px] hover:opacity-90 border-none w-[1288px] h-[30px]"
-              style="font-family: 'Work Sans', sans-serif"
-              :style="{ background: '#005DCA' }"
+              class="flex bg-azul-gradian flex-row font-work-sans items-center justify-center p-[10px] gap-[10px] rounded-[30px] text-[#FDC300] font-bold text-[16px] leading-[19px] hover:opacity-90 border-none w-[219px] h-[30px]"
             >
               Guardar Cambios
             </button>
@@ -890,32 +883,30 @@
       >
         <button
           @click="closeDeleteModal"
-          class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
-          style="width: 20px; height: 20px"
+          class="absolute -top-2 -right-2 bg-rojo-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+          style="width: 30px; height: 30px"
           aria-label="Cerrar"
           type="button"
         >
           <CloseXIcon :width="7" :height="8" color="white" />
         </button>
         <div class="text-center">
-          <img :src="DeleteSucess" class="" alt="" />
+          <img :src="DeleteSucess" class="my-5" alt="" />
           <h2 class="text-xl font-bold m-0 text-black">¿Estás seguro que</h2>
-          <h2 class="text-xl font-bold mb-4 mt-0 text-black">
+          <h2 class="text-xl font-bold mb-5 mt-0 text-black">
             deseas eliminar este usuario?
           </h2>
           <div class="flex justify-center space-x-4">
             <button
               @click="deleteUser"
-              class="cursor-pointer border-none font-bold hover:opacity-90 flex items-center justify-center"
+              class="cursor-pointer text-amarillo bg-azul-gradian border-none font-bold hover:opacity-90 flex items-center justify-center"
               style="
                 width: 247px;
                 height: 43px;
-                background: #005DCA;
                 border-radius: 30px;
                 font-family: 'Work Sans', sans-serif;
                 font-size: 20px;
                 line-height: 23px;
-                color: #fdc300;
               "
             >
               Aceptar
@@ -923,7 +914,7 @@
 
             <button
               @click="closeDeleteModal"
-              class="cursor-pointer border-none font-bold hover:opacity-90 flex items-center justify-center"
+              class="cursor-pointer text-azul2Ape border-none font-bold hover:opacity-90 flex items-center justify-center"
               style="
                 width: 247px;
                 height: 43px;
@@ -932,7 +923,6 @@
                 font-family: 'Work Sans', sans-serif;
                 font-size: 20px;
                 line-height: 23px;
-                color: #005DCA;
               "
             >
               Cancelar
@@ -956,7 +946,7 @@ import IconoEditar from "@/assets/images/IconoEditar.svg";
 import IconoEliminar from "@/assets/images/IconoEliminar.svg";
 import IconoVisualizar from "@/assets/images/IconoVisualizar.svg";
 import RegistroUsuario from "@/assets/images/RegistroUsuario.svg";
-import DeleteSucess from "@/assets/images/delete-success.png";
+import DeleteSucess from "@/assets/images/delete-success.webp";
 import imagenRegistro from "@/assets/images/imagenRegistro.jpg";
 import logoRav from "@/assets/images/LogoPageRav.svg";
 import logoSena from "@/assets/images/logosenaverde.svg";
@@ -1344,7 +1334,7 @@ onMounted(() => {
 <style scoped>
 /* Estilos personalizados según Figma */
 .bg-gray-100 {
-  background-color: #EEF5FF;
+  background-color: #eef5ff;
 }
 
 /* Transiciones suaves */
@@ -1380,12 +1370,12 @@ onMounted(() => {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #005DCA;
+  background: #005dca;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #003B8A;
+  background: #003b8a;
 }
 
 /* Animación de botones */
@@ -1419,14 +1409,14 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 select:focus {
-  outline: 2px solid #005DCA;
+  outline: 2px solid #005dca;
   outline-offset: 2px;
-  border-color: #005DCA;
+  border-color: #005dca;
 }
 
 /* Radio buttons personalizados */
 input[type="radio"]:checked {
-  background-color: #005DCA;
-  border-color: #005DCA;
+  background-color: #005dca;
+  border-color: #005dca;
 }
 </style>

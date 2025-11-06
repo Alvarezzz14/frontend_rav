@@ -9,7 +9,7 @@
           <p class="text-lg font-bold mb-4">¡Usuario creado  exitosamente!</p>
           <button
             @click="closeModal"
-            class="bg-amarillo cursor-pointer text-customPurple border-none font-bold py-2 px-4 rounded"
+            class="bg-amarillo cursor-pointer text-azul2Ape border-none font-bold py-2 px-4 rounded"
           >
             Aceptar
           </button>
