@@ -3,10 +3,10 @@
     <!-- Sección Superior -->
     <div class="header-section">
       <div class="title-container">
-        <div class="icon-wrapper">
+        <div class="icon-wrapper bg-azul-gradian">
           <img :src="Reportes" alt="Icono de Reportes" class="icon-reportes" />
         </div>
-        <h2 class="title-reportes">Generar reportes</h2>
+        <h2 class="title-reportes text-azul2Ape">Generar reportes</h2>
       </div>
     </div>
 
@@ -14,7 +14,7 @@
     <div class="content-section">
       <div class="form-card">
         <div class="form-header">
-          <h3 class="form-title">Seleccione el tipo de reporte</h3>
+          <h3 class="form-title text-azul2Ape">Seleccione el tipo de reporte</h3>
         </div>
 
         <!-- Selección de tipo de reporte -->
@@ -66,10 +66,11 @@
             placeholder="Buscar por regional"
             :showImage="false"
             :withShadow="true"
-            :bgColor="'#F2F3F3'"
-            inputClass="w-full"
+            :bgColor="'#EEF5FF'"
+            inputClass="w-[442px]"
             :height="'50px'"
-            overlayWidth="100%"
+            overlayWidth="442px"
+            :placeholderFontSize="'22.77px'"
           />
         </div>
 
@@ -594,7 +595,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .icon-wrapper {
   width: 44px;
   height: 44px;
-  background: #005DCA;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -615,7 +615,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   font-weight: 700;
   font-size: 30px;
   line-height: 35px;
-  color: #005DCA;
   margin: 0;
 }
 
@@ -650,7 +649,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   font-weight: 700;
   font-size: 25.3px;
   line-height: 30px;
-  color: #000000;
   margin: 0;
 }
 
@@ -667,7 +665,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   align-items: center;
   padding: 15.18px;
   gap: 15.18px;
-  background: #F2F3F3;
+  background: #EEF5FF;
   border-radius: 37.95px;
   height: 50.6px;
 }
@@ -717,7 +715,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .divider {
   width: 100%;
   height: 0px;
-  border: 1.265px solid #F2F3F3;
+  border: 1.265px solid #EEF5FF;
   margin: 10px 0;
 }
 
@@ -731,7 +729,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .form-input {
   width: 100%;
   height: 50.6px;
-  background: #F2F3F3;
+  background: #EEF5FF;
   border-radius: 37.95px;
   padding: 10.12px 25.3px;
   font-family: 'Work Sans', sans-serif;

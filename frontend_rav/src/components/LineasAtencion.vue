@@ -3,7 +3,7 @@
     <!-- Sección Superior: Título e Icono -->
     <div class="flex items-center gap-3 pt-4 pb-4">
       <div
-        class="flex items-center justify-center w-[30px] h-[30px] bg-customPurple rounded-full"
+        class="flex items-center justify-center w-[30px] h-[30px] bg-azul-gradian rounded-full"
       >
         <img
           :src="lineaAten"
@@ -12,7 +12,7 @@
         />
       </div>
       <h1
-        class="text-customPurple text-[30px] font-bold leading-[35px] font-work-sans"
+        class="text-azul2pae text-[30px] font-bold leading-[35px] font-work-sans"
       >
         Líneas de atención
       </h1>
@@ -23,7 +23,7 @@
       <!-- Subtítulo de Selección con Número -->
       <div class="flex items-center gap-3">
         <div
-          class="flex items-center justify-center w-[35px] h-[35px] bg-customPurple rounded-full"
+          class="flex items-center justify-center w-[35px] h-[35px] bg-azul-gradian rounded-full"
         >
           <span class="text-white font-bold text-[24px] font-work-sans">1</span>
         </div>
@@ -110,7 +110,7 @@
       <!-- Sección de Selección de Regional con Número -->
       <div class="flex items-center gap-3">
         <div
-          class="flex items-center justify-center w-[35px] h-[35px] bg-customPurple rounded-full"
+          class="flex items-center justify-center w-[35px] h-[35px] bg-azul-gradian rounded-full"
         >
           <span class="text-white font-bold text-[24px] font-work-sans">2</span>
         </div>
@@ -418,7 +418,7 @@ const handleEntityClick = (options) => {
 
 /* Gradiente más oscuro al hacer hover */
 .entity-card:hover .entity-card-overlay {
-  background: linear-gradient(180deg, #ffffff 0%, rgba(81, 20, 88, 0.7) 0.01%);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 93, 202, 0.6) 0.01%);
 }
 
 /* Overlay degradado morado que va SOBRE la imagen de fondo */
@@ -428,7 +428,7 @@ const handleEntityClick = (options) => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(180deg, #ffffff 0%, rgba(81, 20, 88, 0.5) 0.01%);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 93, 202, 0.2) 0.01%);
   background-blend-mode: multiply;
   border-radius: 20px;
   z-index: 1;
@@ -480,7 +480,7 @@ const handleEntityClick = (options) => {
 
 /* Gradiente oscuro para card seleccionada */
 .entity-card-selected .entity-card-overlay {
-  background: linear-gradient(180deg, #ffffff 0%, rgba(81, 20, 88, 0.7) 0.01%);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 93, 202, 0.8) 0.01%);
 }
 
 /* Contenedor del select y botón en la misma fila */
@@ -545,7 +545,6 @@ const handleEntityClick = (options) => {
   background: #00aa00 !important;
   border: none !important;
   border-radius: 30px !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   cursor: pointer !important;
   transition: all 0.3s ease;
   width: 370px !important;

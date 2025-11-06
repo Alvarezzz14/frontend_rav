@@ -1,7 +1,7 @@
 <template>
   <div
-    class="min-h-screen flex flex-col bg-[#F5F5F5] relative bg-no-repeat bg-bottom bg-contain"
-    style="background-image: url('src/assets/images/plantas.png')"
+  class="min-h-screen flex flex-col bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain"
+    style="background-image: url('src/assets/images/plantas.svg')"
   >
     <!-- Contenido centrado -->
     <div class="flex-1 flex items-center justify-center">

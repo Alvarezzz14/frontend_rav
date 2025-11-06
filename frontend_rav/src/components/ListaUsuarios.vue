@@ -5,7 +5,7 @@
       <!-- Título con icono -->
       <div class="flex items-center gap-[12px] mb-4">
         <div
-          class="bg-customPurple rounded-full p-2 flex items-center justify-center"
+          class="bg-azul-gradian rounded-full p-2 flex items-center justify-center"
           style="width: 30px; height: 30px"
         >
           <img
@@ -15,7 +15,7 @@
           />
         </div>
         <h1
-          class="text-customPurple font-bold"
+          class="text-azul2pae font-bold"
           style="
             font-size: 30px;
             line-height: 35px;
@@ -43,7 +43,7 @@
       >
         <div
           class="bg-white flex items-center justify-center"
-          style="width: 26px; height: 26px; border-radius: 30px; padding: 3px"
+          style="width: 22px; height: 22px; border-radius: 30px; padding: 3px"
         >
           <AddUserIcon :width="14" :height="15" color="#00AA00" />
         </div>
@@ -69,7 +69,7 @@
           <tr class="text-white">
             <th class="p-1 pt-2 pl-2 w-[394px]">
               <div
-                class="bg-customPurple rounded-lg flex items-center gap-2 px-4"
+                class="bg-azul-gradian rounded-lg flex items-center gap-2 px-4"
                 style="
                   height: 48.6px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -86,7 +86,7 @@
             </th>
             <th class="p-1 pt-2 w-[264px]">
               <div
-                class="bg-customPurple rounded-lg flex items-center gap-2 px-4"
+                class="bg-azul-gradian rounded-lg flex items-center gap-2 px-4"
                 style="
                   height: 48.6px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -103,7 +103,7 @@
             </th>
             <th class="p-1 pt-2 w-[394px]">
               <div
-                class="bg-customPurple rounded-lg flex items-center gap-2 px-4"
+                class="bg-azul-gradian rounded-lg flex items-center gap-2 px-4"
                 style="
                   height: 48.6px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -131,7 +131,7 @@
             </th>
             <th class="p-1 pt-2 w-[264px]">
               <div
-                class="bg-customPurple rounded-lg flex items-center gap-2 px-4"
+                class="bg-azul-gradian rounded-lg flex items-center gap-2 px-4"
                 style="
                   height: 48.6px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -148,7 +148,7 @@
             </th>
             <th class="p-1 pt-2 pr-2 w-[131px]">
               <div
-                class="bg-customPurple rounded-lg flex items-center gap-2 px-4"
+                class="bg-azul-gradian rounded-lg flex items-center gap-2 px-4"
                 style="
                   height: 48.6px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
@@ -214,7 +214,7 @@
             </td>
             <td class="p-1">
               <div
-                class="bg-white rounded-lg px-4 flex items-center gap-2"
+                class="bg-white rounded-lg px-4 flex items-center gap-3"
                 style="
                   width: 135px;
                   height: 50px;
@@ -224,7 +224,7 @@
                 <!-- Botón Ver -->
                 <button
                   @click="viewUser(user)"
-                  class="bg-customPurple cursor-pointer border-none shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
+                  class="bg-azul-gradian cursor-pointer border-none shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
                   style="width: 26px; height: 25px"
                 >
                   <ViewIcon :width="20" :height="11" color="white" />
@@ -232,7 +232,7 @@
                 <!-- Botón Editar -->
                 <button
                   @click="updateUser(user)"
-                  class="bg-customPurple cursor-pointer border-none shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
+                  class="bg-azul-gradian cursor-pointer border-none shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
                   style="width: 26px; height: 25px"
                 >
                   <EditIcon :width="15.6" :height="15.04" color="white" />
@@ -241,7 +241,7 @@
                 <button
                   v-if="user.correo !== superAdminEmail"
                   @click="confirmDeleteUser(user)"
-                  class="bg-customPurple border-none cursor-pointer shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
+                  class="bg-azul-gradian border-none cursor-pointer shadow-md rounded-full hover:bg-purple-800 transition-colors flex items-center justify-center"
                   style="width: 26px; height: 25px"
                 >
                   <DeleteIcon :width="15.6" :height="16.15" color="white" />
@@ -486,7 +486,7 @@
 
             <button
               type="submit"
-              class="w-full bg-customPurple cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300"
+              class="w-full bg-azul-gradian cursor-pointer hover:bg-moradoSecundario text-amarillo font-bold py-3 rounded-lg transition duration-300"
             >
               Registrar
             </button>
@@ -532,7 +532,7 @@
         <div class="flex items-center justify-between mb-2">
           <div class="flex items-center gap-2">
             <div
-              class="bg-customPurple rounded-full flex items-center justify-center mr-2"
+              class="bg-azul-gradian rounded-full flex items-center justify-center mr-2"
               style="width: 20px; height: 20px"
             >
               <UserIcon :width="9.89" :height="13.38" color="white" />
@@ -543,7 +543,7 @@
           </div>
           <button
             @click="closeViewModal"
-            class="absolute top-2 right-2 bg-customPurple rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+            class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
             style="width: 20px; height: 20px"
           >
             <CloseXIcon :width="7" :height="8" color="white" />
@@ -565,7 +565,7 @@
                 Nombre completo:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.nombre }}
               </div>
@@ -578,7 +578,7 @@
                 Cédula:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.numero_documento }}
               </div>
@@ -601,7 +601,7 @@
                 Ubicación / Sede:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.sed_nombre }}
               </div>
@@ -614,7 +614,7 @@
                 Regional:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.regional }}
               </div>
@@ -627,7 +627,7 @@
                 Rol:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.rol }}
               </div>
@@ -640,7 +640,7 @@
                 Correo SENA:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black truncate"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black truncate"
               >
                 {{ selectedUser.correo }}
               </div>
@@ -653,7 +653,7 @@
                 Teléfono:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.telefono }}
               </div>
@@ -666,7 +666,7 @@
                 Celular:
               </div>
               <div
-                class="h-[30px] bg-[#F2F3F3] rounded-[30px] px-4 flex items-center text-[16px] text-black"
+                class="h-[30px] bg-[#EEF5FF] rounded-[30px] px-4 flex items-center text-[16px] text-black"
               >
                 {{ selectedUser.celular }}
               </div>
@@ -695,7 +695,7 @@
         <div class="flex items-center justify-between px-6 pt-4">
           <div class="flex items-center gap-2">
             <div
-              class="w-5 h-5 rounded-full bg-customPurple flex items-center justify-center"
+              class="w-5 h-5 rounded-full bg-azul-gradian flex items-center justify-center"
             >
               <UserIcon :width="9.89" :height="13.38" color="white" />
             </div>
@@ -705,7 +705,7 @@
           </div>
           <button
             @click="closeEditModal"
-            class="absolute top-2 right-2 bg-customPurple rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+            class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
             style="width: 20px; height: 20px"
           >
             <CloseXIcon :width="7" :height="8" color="white" />
@@ -890,7 +890,7 @@
       >
         <button
           @click="closeDeleteModal"
-          class="absolute top-2 right-2 bg-customPurple rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
+          class="absolute top-2 right-2 bg-azul-gradian rounded-full border-none cursor-pointer flex items-center justify-center hover:opacity-90"
           style="width: 20px; height: 20px"
           aria-label="Cerrar"
           type="button"
@@ -1344,7 +1344,7 @@ onMounted(() => {
 <style scoped>
 /* Estilos personalizados según Figma */
 .bg-gray-100 {
-  background-color: #f2f3f3;
+  background-color: #EEF5FF;
 }
 
 /* Transiciones suaves */

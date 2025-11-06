@@ -9,7 +9,7 @@
       v-model="model"
       :options="options"
       :placeholder="placeholder"
-      class="!border-0 !rounded-[30px] !shadow-[0px_4px_4px_rgba(0,0,0,0.25)]"
+      class="!border-0 !rounded-[30px]]"
       :class="inputClass"
       @change="onChange"
       @show="onShow"
@@ -29,7 +29,11 @@
           />
           <div>{{ labelOf(slotProps.value) }}</div>
         </div>
-        <span v-else class="font-work-sans font-normal text-[18px] leading-[21px] text-black">
+        <span
+          v-else
+          class="font-work-sans font-normal leading-[21px] ml-[8px] text-black"
+          :style="{ fontSize: placeholderFontSize }"
+        >
           {{ slotProps.placeholder }}
         </span>
       </template>
@@ -94,8 +98,12 @@ const props = defineProps({
   overlayPaddingTop: { type: String, default: '' },
   // Padding bottom opcional del overlay
   overlayPaddingBottom: { type: String, default: '20px' },
-  overlayBorderRadius: { type: String, default: '25px' }
+  overlayBorderRadius: { type: String, default: '25px' },
+  // Permite personalizar el tamaño del placeholder
+  placeholderFontSize: { type: String, default: '18px' },
 })
+// Permite personalizar el tamaño del placeholder
+const placeholderFontSize = props.placeholderFontSize;
 
 const emit = defineEmits(['update:modelValue', 'change', 'open', 'close'])
 
@@ -214,7 +222,6 @@ onUnmounted(() => {
   border: none !important;
   border-radius: 30px !important;
   background: var(--rav-select-bg, #FFFFFF) !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   height: var(--rav-select-h, 40px) !important;
 }
 
@@ -236,7 +243,6 @@ onUnmounted(() => {
 
 :deep(.p-select:not(.p-disabled).p-focus) {
   border-color: transparent !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
   outline: none !important;
 }
 
@@ -264,7 +270,7 @@ onUnmounted(() => {
   /* Agregar padding superior extra para que las opciones no queden tapadas por el Select */
   padding-top: calc(16px + var(--rav-select-overlay-overlap, 20px)) !important;
   border-radius: var(--rav-select-overlay-br, 25px) !important; /* bordes más redondos del contenedor */
-  background: #F1F1F1 !important;
+  background: #C3DAFF !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.14) !important;
   border: none !important;
   border-top: 1.6px solid #005DCA !important; /* línea superior azul como en diseño */
@@ -334,16 +340,10 @@ onUnmounted(() => {
   padding: 0.5rem 1rem !important;
 }
 
-:deep(.p-select-option:hover) {
-  background-color: rgba(0, 93, 202, 0.1) !important;
-}
-
-:deep(.p-select-option.p-focus) {
-  background-color: rgba(0, 93, 202, 0.1) !important;
-}
-
+/* Fondo azul claro para hover, focus y seleccionado */
+:deep(.p-select-option:hover),
+:deep(.p-select-option.p-focus),
 :deep(.p-select-option.p-select-option-selected) {
-  background-color: rgba(0, 93, 202, 0.2) !important;
   color: #005DCA !important;
 }
 </style>
@@ -354,6 +354,7 @@ onUnmounted(() => {
 .p-select-overlay * {
   scrollbar-width: none !important; /* Firefox */
   -ms-overflow-style: none !important; /* IE 10+ */
+  background-color: #C3DAFF !important;
 }
 .p-select-overlay::-webkit-scrollbar,
 .p-select-overlay *::-webkit-scrollbar {

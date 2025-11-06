@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex flex-col w-full h-full p-6 bg-white rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]">
+  <div class="relative flex flex-col w-full h-full p-4 bg-white rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.15)]">
     <!-- Botón de descarga en la esquina superior derecha -->
     <button
       v-if="hasData"
@@ -23,12 +23,16 @@
         <div class="spinner"></div>
       </div>
       <div v-else-if="hasData" class="w-full h-full flex flex-col">
-        <h3
-          class="text-azul2Ape font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[30px]"
-        >
-          {{ chartTitle }}
-        </h3>
-        <div class="flex-1 min-h-0">
+        <div class="mb-[25px] pl-2">
+          <h3
+            class="text-azul2Ape font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[8px]"
+          >
+            {{ chartTitle }}
+          </h3>
+          <!-- Línea amarilla debajo del título -->
+          <div class="w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
+        </div>
+        <div class="flex-1 min-h-0 px-4 py-2">
           <!-- Gráfico mostrado después de cargar los datos -->
           <Bar ref="barChart" :data="clonedChartData" :options="chartOptions" />
         </div>

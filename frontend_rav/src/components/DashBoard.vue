@@ -79,9 +79,8 @@
     <!-- Segunda Sección: Gráficos -->
     <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]"
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
         style="
-          background: linear-gradient(180deg, #005dca 0%, #003b8a 100%);
           width: 688px;
           height: 342px;
         "
@@ -89,7 +88,7 @@
         <PieChart />
       </div>
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.25)]"
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
         style="background: white; width: 688px; height: 342px"
       >
         <BarChart />

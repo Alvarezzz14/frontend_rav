@@ -1,54 +1,58 @@
 <template>
-	<div class="w-[240px] h-[240px] bg-azul2Ape rounded-[20px] flex flex-col items-center justify-center relative">
+	<div class="w-[240px] h-[240px] bg-azul2Ape rounded-[20px] flex flex-col items-center justify-center relative p-2">
 		<!-- Contenedor del círculo de progreso -->
-		<div class="relative w-[106.48px] h-[109.72px] flex-shrink-0 mb-[20px]">
+		<div class="relative w-[118px] h-[118px] flex-shrink-0 mb-[20px]">
 			<svg
 				class="w-full h-full"
-				viewBox="0 0 106.48 109.72"
+				viewBox="0 0 138 138"
 				xmlns="http://www.w3.org/2000/svg">
 				<!-- Círculo de borde blanco -->
-				<circle
-					cx="53.24"
-					cy="54.86"
-					r="48"
-					fill="none"
-					stroke="#FFFFFF"
-					stroke-width="10" />
+					<circle
+						cx="66"
+						cy="66"
+						r="52"
+						fill="none"
+						stroke="#FFFFFF"
+						stroke-width="10" />
 
 				<!-- Progreso dinámico amarillo -->
-				<circle
-					cx="53.24"
-					cy="54.86"
-					r="48"
-					fill="none"
-					stroke="#FDC300"
-					stroke-width="11"
-					stroke-linecap="round"
-					:stroke-dasharray="calculateStrokeDasharray(goal.progress)"
-					stroke-dashoffset="0"
-					transform="rotate(-90 53.24 54.86)" />
+						<circle
+							cx="62"
+							cy="66"
+							r="52"
+							fill="none"
+							stroke="#FDC300"
+							stroke-width="11"
+							stroke-linecap="round"
+							:stroke-dasharray="calculateStrokeDasharray(animatedProgress, 52)"
+							stroke-dashoffset="0"
+							transform="rotate(-90 64 64)"
+							style="transition: stroke-dasharray 1.2s cubic-bezier(0.4,0,0.2,1);"
+						/>
 
 				<!-- Círculo pequeño inicial amarillo -->
-				<circle
-					cx="53.24"
-					cy="6.86"
-					r="7.385"
-					fill="#FDC300" />
+					<circle
+						cx="64"
+						cy="14"
+						r="7.375"
+						fill="#FDC300" />
 
 				<!-- Círculo grande final dinámico amarillo -->
-				<circle
-					:cx="getProgressPositionX(goal.progress, 53.24, 48)"
-					:cy="getProgressPositionY(goal.progress, 53.24, 48)"
-					r="9.98"
-					fill="#FDC300" />
+						<circle
+							:cx="getProgressPositionX(animatedProgress, 64, 52)"
+							:cy="getProgressPositionY(animatedProgress, 64, 52)"
+							r="9.98"
+							fill="#FDC300"
+							style="transition: cx 1.2s cubic-bezier(0.4,0,0.2,1), cy 1.2s cubic-bezier(0.4,0,0.2,1);"
+						/>
 			</svg>
 
 			<!-- Porcentaje en el centro -->
-			<div class="absolute inset-0 flex items-center justify-center">
-				<span class="font-['Work_Sans'] font-bold text-[24px] leading-[28px] text-center text-white">
-					{{ goal.progress }}%
-				</span>
-			</div>
+					<div class="absolute inset-0 flex items-center justify-center">
+						<span class="font-['Work_Sans'] font-bold text-[24px] leading-[28px] text-center text-white">
+							{{ Math.round(animatedProgress) }}%
+						</span>
+					</div>
 		</div>
 
 		<!-- Información de la meta -->
@@ -116,9 +120,41 @@ const props = defineProps({
 
 const goalStore = useGoalStore();
 
+// Animación de progreso
+const animatedProgress = ref(0);
+let animationFrame;
+
+const animateProgress = (target, duration = 1200) => {
+	const start = 0;
+	const end = target;
+	const startTime = performance.now();
+
+	const animate = (now) => {
+		const elapsed = now - startTime;
+		const progress = Math.min(elapsed / duration, 1);
+		animatedProgress.value = start + (end - start) * progress;
+		if (progress < 1) {
+			animationFrame = requestAnimationFrame(animate);
+		} else {
+			animatedProgress.value = end;
+		}
+	};
+	cancelAnimationFrame(animationFrame);
+	animationFrame = requestAnimationFrame(animate);
+};
+
+onMounted(() => {
+	goalStore.fetchGoals();
+	animateProgress(props.goal.progress || 0);
+});
+
+watch(() => props.goal.progress, (newVal) => {
+	animateProgress(newVal || 0);
+});
+
 // Cálculo de stroke-dasharray dinámico
-const calculateStrokeDasharray = (value) => {
-	const circumference = 2 * Math.PI * 48;
+const calculateStrokeDasharray = (value, r = 52) => {
+	const circumference = 2 * Math.PI * r;
 	return `${(circumference * value) / 100} ${circumference}`;
 };
 
@@ -137,24 +173,20 @@ const getProgressPositionY = (value, centerY, radius) => {
 // Función para formatear fecha
 const formatDate = (dateString) => {
 	if (!dateString) return "00/00/0000";
-	
+  
 	// Si ya está en formato DD/MM/YYYY, retornar tal cual
 	if (dateString.includes('/')) return dateString;
-	
+  
 	// Si es un objeto Date o string ISO
 	const date = new Date(dateString);
 	if (isNaN(date.getTime())) return "00/00/0000";
-	
+  
 	const day = String(date.getDate()).padStart(2, '0');
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const year = date.getFullYear();
-	
+  
 	return `${day}/${month}/${year}`;
 };
-
-onMounted(() => {
-	goalStore.fetchGoals();
-});
 </script>
 
 <style scoped></style>

@@ -51,7 +51,7 @@
               placeholder="Seleccione tipo de documento"
               :showImage="false"
               :withShadow="false"
-              bgColor="#F2F3F3"
+              bgColor="#EEF5FF"
               inputClass="w-[750px] h-10"
               overlayWidth="750px"
               :overlayPaddingTop="'30px'"
@@ -66,7 +66,7 @@
               @keydown.enter="searchUser"
               type="text"
               placeholder="Digite el documento de identificación"
-              class="w-full h-10 bg-[#F2F3F3] rounded-[20px] border-none font-work-sans font-normal text-[18px] leading-[21px] text-black px-4 placeholder:text-black"
+              class="w-full h-10 bg-[#EEF5FF] rounded-[20px] border-none font-work-sans font-normal text-[18px] leading-[21px] text-black px-4 placeholder:text-black"
             />
 
             <!-- Frame 1398 - Botón Buscar -->
@@ -113,7 +113,7 @@
               placeholder="Seleccione tipo de documento"
               :showImage="false"
               :withShadow="false"
-              bgColor="#F2F3F3"
+              bgColor="#EEF5FF"
               inputClass="w-72 h-10 text-xs"
               overlayWidth="288px"
             />

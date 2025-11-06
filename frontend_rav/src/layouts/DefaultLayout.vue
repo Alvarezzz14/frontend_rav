@@ -24,8 +24,8 @@
 
 		<!-- Contenedor principal con sidebars integrados -->
 		<main
-			class="flex-1 min-w-0 overflow-auto bg-[#F5F5F5] relative bg-no-repeat bg-bottom bg-contain hide-scrollbar"
-			style="background-image: url('src/assets/images/plantas.png')">
+			class="flex-1 min-w-0 overflow-auto bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar"
+			style="background-image: url('src/assets/images/plantas.svg')">
 			
 			<!-- Overlay (solo para main) -->
 			<div

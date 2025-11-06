@@ -1,5 +1,23 @@
 <template>
+
   <div class="relative flex w-full h-full p-4 overflow-hidden bg-azul-gradian rounded-[20px]">
+    <!-- Imagen decorativa de fondo -->
+    <div 
+      class="absolute"
+      :style="{
+        width: '342px',
+        height: '690px',
+        top: '-174px',
+        left: '174px',
+        opacity: 0.3,
+        transform: 'rotate(90deg)',
+        borderRadius: '20px',
+        backgroundImage: `url(${RectangleBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        pointerEvents: 'none',
+      }"
+    ></div>
 
     <!-- Botón de descarga en la esquina superior derecha -->
     <button
@@ -111,6 +129,7 @@
 </template>
 
 <script setup>
+import RectangleBg from '@/assets/images/Rectangle.svg';
 import { Doughnut } from "vue-chartjs";
 import { Chart, registerables } from "chart.js";
 import { reactive, onMounted, ref, computed } from "vue";
