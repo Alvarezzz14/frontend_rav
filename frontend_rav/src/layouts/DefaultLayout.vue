@@ -49,10 +49,13 @@
 
 			<!-- Contenido del dashboard -->
 			<div class="w-full min-w-0 p-4 overflow-auto relative flex justify-center hide-scrollbar">
-				<div class="w-full pl-4 lg:pl-[220px] lg:pr-[100px]">
-					<FileNotification />
-					<router-view />
-				</div>
+				   <div class="w-full pl-4 lg:pl-[220px] lg:pr-[100px]">
+					   <router-view />
+				   </div>
+			</div>
+			<!-- FileNotification flotante fuera del dashboard -->
+			<div class="hidden lg:block fixed top-8 right-24 z-40 pointer-events-auto">
+				<FileNotification />
 			</div>
 
 			<!-- Sidebar derecho de actividad - absolute -->
