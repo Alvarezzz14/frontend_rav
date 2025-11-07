@@ -71,9 +71,9 @@
 				</button>
 
 				<!-- Mensaje éxito -->
-				<div v-if="isUploadComplete" class="absolute" :style="{ left: '16%', top: '68%' }">
+				<!-- <div v-if="isUploadComplete" class="absolute" :style="{ left: '16%', top: '68%' }">
 					<span class="text-white font-bold text-[12px]">Archivo Subido Exitosamente</span>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>

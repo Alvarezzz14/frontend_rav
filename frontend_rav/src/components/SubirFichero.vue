@@ -27,10 +27,10 @@
           <!-- Estados de carga -->
           <div v-if="uploading" class="upload-state">
             <img :src="loadingGif" alt="Cargando..." class="state-image" />
-            <p class="state-text">El archivo se esta cargando</p>
+            <p class="state-text m-2">El archivo se esta cargando</p>
           </div>
           <div v-else-if="uploadSuccess" class="upload-state">
-            <img :src="successImage" alt="Éxito" class="state-image" />
+            <img :src="successImage" alt="Éxito" class="state-image-success" />
           </div>
           <div v-else class="upload-placeholder">
             <img src="@/assets/images/txt.svg" alt="TXT" class="file-icon" />
@@ -83,7 +83,7 @@
             </p>
             <div
               v-show="!collapsed"
-              class="relative mt-2 w-[350px] h-[15px] bg-white rounded-[24.9286px] overflow-visible flex flex-col justify-end"
+              class="relative mt-2 w-[400px] h-[15px] bg-white rounded-[24.9286px] overflow-visible flex flex-col justify-end"
             >
               <span
                 class="absolute -top-7 right-0 font-work-sans font-bold text-[21px] leading-[25px] text-black w-[44px] text-right"
@@ -117,14 +117,14 @@
               <DeleteIcon :width="15" :height="16" color="#005DCA" />
             </button>
             <!-- Botón Collapse/Expand -->
-            <button
+            <!-- <button
               type="button"
               @click="toggleCollapse"
               class="w-[20px] h-[21px] p-0 rounded-full bg-white border-none flex items-center justify-center shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
               :aria-label="collapsed ? 'Expandir' : 'Contraer'"
             >
               <CollapseIcon :width="20" :height="21" :rotated="collapsed" />
-            </button>
+            </button> -->
           </div>
         </div>
 
@@ -148,7 +148,7 @@
 
       <!-- Imagen del ciudadano (DERECHA) -->
       <div class="citizen-image-container">
-        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image" />
+        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image -mt-[100px]" />
       </div>
     </div>
   </div>
@@ -163,7 +163,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import * as XLSX from "xlsx";
 import FetchService from "@/services/fetchService";
 import loadingGif from "@/assets/images/subirFichero/EstadosCarga/gifjeep1.gif";
-import successImage from "@/assets/images/subirFichero/EstadosCarga/SuccesedImg.svg";
+import successImage from "@/assets/images/subirFichero/EstadosCarga/SuccesedImg.avif";
 import RefreshIcon from "@/components/Icons/RefreshIcon.vue";
 import CollapseIcon from "@/components/Icons/CollapseIcon.vue";
 import DeleteIcon from "@/components/Icons/DeleteIcon.vue";
@@ -470,7 +470,7 @@ const uploadFileFinal = async () => {
   //   uploading.value = false;
   // }
 
-  const duration = 1500; // 4 segundos exactos (SIMULACIÓN). Eliminar cuando conecte backend
+  const duration = 15000; // 4 segundos exactos (SIMULACIÓN). Eliminar cuando conecte backend
   const start = performance.now();
 
   return new Promise((resolve) => {
@@ -595,7 +595,7 @@ const uploadFile = async () => {
   border: 2px dashed rgba(0, 93, 202, 1);
   border-radius: 20px;
   text-align: center;
-  min-height: 241px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -616,8 +616,11 @@ const uploadFile = async () => {
 }
 
 .state-image {
-  width: 140px;
-  height: 81px;
+  height: 80px;
+}
+
+.state-image-success {
+	height: 130px;
 }
 
 .state-text {
@@ -661,7 +664,7 @@ const uploadFile = async () => {
   padding: 10px;
   gap: 5px;
   min-width: 194.71px;
-  height: 42px;
+  height: 41px;
   background: #fdc300;
   border-radius: 30px;
   border: none;
