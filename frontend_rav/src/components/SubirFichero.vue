@@ -110,7 +110,7 @@
 	</div>
 </template>
 <script setup>
-import Ciudadano from "@/assets/images/cuidadanoflauta.svg";
+import Ciudadano from "@/assets/images/subirFichero/personaSubirFicheroMD.avif";
 import TXT from "@/assets/images/txt.svg";
 import download from "@/assets/images/download.svg";
 import { useFileNotificationStore } from "../stores/fileNotification";

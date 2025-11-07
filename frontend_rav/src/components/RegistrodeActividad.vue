@@ -8,11 +8,11 @@
 					alt="Icono de Actividad"
 					width="30"
 					height="30" />
-				<h2 class="text-blue-950 ms-2 text-3xl">Ruta de atención al ciudadano</h2>
+				<h2 class="text-blue-950 ms-2 xl:text-3xl text-md">Registro de actividad</h2>
 			</div>
 		</div>
 
-		<div class="flex gap-3 mb-5">
+		<div class="lg:flex hidden gap-3 mb-5">
 			<!-- Sección Derecha (Botón) -->
 			<router-link
 				:to="{ name: 'PerfilCiudadanoPage' }"
@@ -38,81 +38,103 @@
 			</div>
 		</div>
 
-		<div class="mt-4 bg-azul-gradian rounded-lg shadow p-4">
-			<div class="border border-yellow-400 flex">
-				<div>
-
+		<div class="mt-4 bg-azul-gradian rounded-3xl shadow-lg p-5">
+			<div class="outline outline-1 outline-yellow-400 rounded-2xl flex xl:flex-row flex-col gap-6 justify-between text-white py-6 px-8">
+				<div class="flex items-center gap-3 flex-[0.8]">
+					<img :src="imgIndicativa1" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
+					<p class="text-sm">Ingrese un nombre en la casilla de <strong>Título.</strong></p>
+				</div>
+				<div class="flex items-center gap-3 flex-[1.4]">
+					<img :src="imgIndicativa2" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
+					<p class="text-sm">Registre la actividad o información otorgada al ciudadano en la sección de <strong>Descripción.</strong></p>
+				</div>
+				<div class="flex items-center gap-3 flex-[0.8]">
+					<img :src="imgIndicativa3" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
+					<p class="text-sm">Una vez completa la información, presiona <strong>Enviar.</strong></p>
 				</div>
 			</div>
 		</div>
 
 		<div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
-			<h2 class="text-left font-bold text-lg mb-4">CREAR TICKET</h2>
-			<p>Palabras Clave:</p>
+			<h2 class="text-left font-bold text-lg mb-4">Crear Ticket</h2>
 
-			<div class="grid grid-cols-2 sm:grid-cols-7 gap-2 w-full">
-				<div
-					v-for="(category, index) in categories"
-					:key="index"
-					class="relative flex flex-col items-center w-full">
-					<!-- Botón de Categoría -->
-					<button
-						class="bg-gray-100 text-black py-2 w-full cursor-pointer border-none rounded-md text-xs"
-						@click="toggleCategory(index)">
-						{{ category.name }}
+			<div class="flex flex-row xl:space-x-2 space-y-3 xl:space-y-0 space-x-2 items-center xl:justify-start justify-center flex-wrap">
+				<RavSelect
+					:options="options"
+					placeholder="Palabra clave"
+					:showImage="false"
+					:withShadow="true"
+					:bgColor="'#EEF5FF'"
+					inputClass="w-[220PX] !shadow-lg text-blue-950"
+					:height="'33px'"
+					overlayWidth="277"
+					:placeholderFontSize="'12px'"
+          		/>
 
-						<!-- Flecha indicadora -->
-						<svg
-							class="w-4 h-4 arrow"
-							:class="{ rotate: activeCategory === index }"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="#005DCA">
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="3"
-								d="M19 9l-7 7-7-7" />
-						</svg>
-					</button>
+				<RavSelect
+					:options="options"
+					placeholder="Palabra clave"
+					:showImage="false"
+					:withShadow="true"
+					:bgColor="'#EEF5FF'"
+					inputClass="w-[220PX] !shadow-lg text-blue-950"
+					:height="'33px'"
+					overlayWidth="277"
+					:placeholderFontSize="'12px'"
+          		/>
 
-					<!-- Opciones desplegables -->
-					<div
-						v-if="activeCategory === index"
-						class="absolute bottom-full mb-2 bg-white shadow-md rounded-md p-2 w-full z-10 grid gap-2 transition-all duration-300">
-						<button
-							v-for="(keyword, keywordIndex) in category.keywords"
-							:key="keywordIndex"
-							:class="[
-								'py-2 w-full border-none rounded-md text-xs cursor-pointer',
-								selectedKeywords.includes(keyword)
-									? 'bg-customPurple text-white font-bold'
-									: 'bg-gray-100 text-black ',
-							]"
-							@click="toggleKeyword(keyword)">
-							{{ keyword }}
-						</button>
-					</div>
-				</div>
+				<RavSelect
+					:options="options"
+					placeholder="Palabra clave"
+					:showImage="false"
+					:withShadow="true"
+					:bgColor="'#EEF5FF'"
+					inputClass="w-[220PX] !shadow-lg text-blue-950"
+					:height="'33px'"
+					overlayWidth="277"
+					:placeholderFontSize="'12px'"
+          		/>
+
+				<RavSelect
+					:options="options"
+					placeholder="Palabra clave"
+					:showImage="false"
+					:withShadow="true"
+					:bgColor="'#EEF5FF'"
+					inputClass="w-[220PX] !shadow-lg text-blue-950"
+					:height="'33px'"
+					overlayWidth="277"
+					:placeholderFontSize="'12px'"
+          		/>
+
+				<RavSelect
+					:options="options"
+					placeholder="Palabra clave"
+					:showImage="false"
+					:withShadow="true"
+					:bgColor="'#EEF5FF'"
+					inputClass="w-[220PX] !shadow-lg text-blue-950"
+					:height="'33px'"
+					overlayWidth="277"
+					:placeholderFontSize="'12px'"
+          		/>
 			</div>
 
 			<input
 				type="text"
-				class="w-full bg-gray-100 h-10 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-4"
+				class="w-full bg-[#eef5ff] h-10 border-none text-black placeholder-black rounded-menu p-4 mt-4 font-work-sans"
 				placeholder="Título:"
 				name="titulo"
 				v-model="title" />
 
 			<textarea
 				v-model="content"
-				class="w-full bg-gray-100 h-32 border-none text-black placeholder-gray-700 rounded-sm p-2 mt-2"
+				class="w-full bg-[#eef5ff] h-32 border-none text-black placeholder-black rounded-menu p-4 mt-2 font-work-sans"
 				id="descripcion"
 				placeholder="Descripción:"></textarea>
 
 			<button
-				class="bg-customPurple border-none w-full h-12 text-amarillo cursor-pointer font-bold p-2 rounded-sm shadow flex justify-center items-center mt-4"
-				@click="() => sendTicker(fetchOptions)">
+				class="bg-verde-gradient border-none px-20 h-8 ms-auto text-white cursor-pointer font-bold p-2 rounded-menu shadow flex justify-center items-center mt-4">
 				Enviar
 			</button>
 		</div>
@@ -151,6 +173,9 @@ import { categories as staticCategories } from "@/data/palabrasClaves";
 import ticketRegistroActividad from "@/assets/images/ticketRegistroActividad.svg"
 import arrowBack from "@/assets/images/arrowBack.svg";
 import imgIndicativa1 from "@/assets/images/img-indicativa-casilla-titulo.avif"
+import imgIndicativa2 from "@/assets/images/img-indicativa-descripcion.avif"
+import imgIndicativa3 from "@/assets/images/img-indicativa-enviar.avif"
+import RavSelect from '@/components/Inputs/RavSelect.vue';
 
 // Variables reactivas
 const showSuccessModal = ref(false); // Controla la visibilidad del modal de éxito
@@ -248,6 +273,12 @@ const sendTicker = async (fetchOptions) => {
 const closeSuccessModal = () => {
 	showSuccessModal.value = false; // Ocultar el modal
 };
+
+const options = ref([
+	"Lorem",
+	"Lorem",
+	"Lorem"
+])
 
 const resetForm = () => {
 	// Restablecer todas las variables del formulario
