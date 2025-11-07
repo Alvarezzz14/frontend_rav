@@ -159,7 +159,7 @@
 </template>
 
 <script setup>
-import Ciudadano from "@/assets/images/BusquedaCiudadano/personaBusquedaCiudadano.png";
+import Ciudadano from "@/assets/images/BusquedaCiudadano/personaBusquedaCiudadano.avif";
 import IconSearch from "@/components/Icons/IconSearch.vue";
 import RavSelect from "@/components/Inputs/RavSelect.vue";
 import { ref } from "vue";

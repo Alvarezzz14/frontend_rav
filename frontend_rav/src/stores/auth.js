@@ -2,8 +2,17 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', () => {
+    // Usuario falso por defecto en desarrollo
+    const defaultUser = import.meta.env.DEV ? {
+        nombre: 'Usuario Dev',
+        apellidos: 'Prueba',
+        correo: 'dev@example.com',
+        user_id: 999,
+        token: 'fake-token'
+    } : null;
+
     // Estado reactivo para el usuario autenticado
-    const authenticatedUser = ref(null);
+    const authenticatedUser = ref(defaultUser);
 
     function decodeJWT(token) {
         if (!token) return null;
@@ -16,7 +25,6 @@ export const useAuthStore = defineStore('auth', () => {
             return null;
         }
     }
-
 
     // Computado para determinar si el usuario está autenticado
     const isAuthenticated = computed(() => authenticatedUser.value !== null);
@@ -32,15 +40,13 @@ export const useAuthStore = defineStore('auth', () => {
         const userFromStorage = window.localStorage.getItem('auth');
         if (userFromStorage) {
             const parsedUser = JSON.parse(userFromStorage);
-
-            // Decodifica el token para extraer información adicional
             const decodedToken = decodeJWT(parsedUser.token);
             if (decodedToken) {
                 authenticatedUser.value = {
-                    ...parsedUser.user, // Copia las propiedades de "user"
-                    token: parsedUser.token, // Mantén el token
-                    correo: decodedToken.email, // Extrae el correo del token
-                    user_id: decodedToken.user_id, // Extrae el user_id del token
+                    ...parsedUser.user,
+                    token: parsedUser.token,
+                    correo: decodedToken.email,
+                    user_id: decodedToken.user_id,
                 };
             }
         }
