@@ -470,7 +470,7 @@ const uploadFileFinal = async () => {
   //   uploading.value = false;
   // }
 
-  const duration = 400000; // 4 segundos exactos (SIMULACIÓN). Eliminar cuando conecte backend
+  const duration = 1500; // 4 segundos exactos (SIMULACIÓN). Eliminar cuando conecte backend
   const start = performance.now();
 
   return new Promise((resolve) => {

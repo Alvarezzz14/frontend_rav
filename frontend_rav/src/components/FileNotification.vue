@@ -1,7 +1,7 @@
 <template>
 	<div
-		class="fixed right-24 z-50 transition-all duration-200"
-		:style="{ width: expanded ? '280px' : '70px', height: '50px' }"
+		class="fixed z-50 transition-all duration-700 ease-in-out"
+		:style="fileNotificationStyle"
 	>
 		<div
 			:class="[
@@ -80,6 +80,7 @@
 </template>
 <script setup>
 import { computed, ref, watch } from "vue";
+import { useUiStore } from '@/stores/ui';
 import TxtIcon from "@/components/Icons/TxtIcon.vue";
 import RefreshIcon from "@/components/Icons/RefreshIcon.vue";
 import DeleteIcon from "@/components/Icons/DeleteIcon.vue";
@@ -97,11 +98,21 @@ const host = import.meta.env.VITE_HOST;
 // Estado adicional para manejar el mensaje de éxito
 const isUploadComplete = ref(false);
 
+// Store UI para saber si Activity está expandido
+const uiStore = useUiStore();
+
 // Estado de expandir/contraer
 const expanded = ref(false);
 const toggleExpand = () => {
 	expanded.value = !expanded.value;
 };
+
+// Estilo reactivo para mover el FileNotification si Activity está expandido
+const fileNotificationStyle = computed(() => ({
+	width: expanded.value ? '280px' : '70px',
+	height: '50px',
+	right: uiStore.isActivityExpanded ? '320px' : '6rem', // 6rem ≈ right-24
+}));
 
 // Estado de colapso de la barra de progreso (como en SubirFichero)
 const collapsed = ref(false);
