@@ -15,7 +15,7 @@
       "
     >
       <img 
-        src="@/assets/images/degradedMenu.svg" 
+        :src="degradedMenuImg" 
         alt="decorative gradient expanded"
         class="w-full h-full object-cover"
         style="border-radius: 29.3592px;"
@@ -32,7 +32,7 @@
       "
     >
       <img 
-        src="@/assets/images/degradedMenu2.svg" 
+        :src="degradedMenu2Img" 
         alt="decorative gradient collapsed"
         class="w-full h-full object-cover"
         style="border-radius: 29.3592px;"
@@ -52,7 +52,7 @@
       <!-- Logo contraído cuando está cerrado -->
       <img 
         v-else
-        src="@/assets/images/Group (1).svg"
+        :src="logoRavImg"
         alt="Logo RAV"
         class="w-[76px] h-[26px] transition-opacity duration-700"
       />
@@ -275,6 +275,9 @@
   </div>
 </template>
 <script setup>
+import degradedMenuImg from '@/assets/images/degradedMenu.svg';
+import degradedMenu2Img from '@/assets/images/DegradedMenu2.svg';
+import logoRavImg from '@/assets/images/Group (1).svg';
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useAuthStore } from "../../stores/auth";
 import Avatar from "@/components/Buttons/Avatar.vue";
