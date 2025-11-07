@@ -59,7 +59,7 @@
 			
 
 			<!-- Recuadro Blanco (Información del ciudadano) -->
-			<div class="flex items-center gap-2">
+			<div class="flex items-center gap-5 text-xl">
 
 				<div class="ms-3">
 					<span class="text-blue-950  font-bold">Ciudadano: </span>
@@ -73,28 +73,26 @@
 
 			
 		</div>
-		<div class="bg-white p-2 shadow-custom rounded-lg">
-			<table class="">
+		<div class="bg-white p-3 shadow-custom rounded-2xl">
+			<table class="w-full !border-separate border-spacing-2">
 				<thead>
-					<tr class="">
-						<th class="bg-gradient-to-l from-blue-600 to-blue-800 rounded-lg w-[292px] py-2 ps-3">
+					<tr>
+						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
 							<div class="flex items-center">
 								<img :src="calendario" alt="calendario">
 								<span class="pl-2 text-white">FECHA</span>
 							</div>
 						</th>
-						<th class="">
+						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
 							<div class="flex items-center">
-								
-
-								<span class="pl-2">TICKET</span>
+								<img :src="ticket" alt="ticket">
+								<span class="pl-2 text-white">TICKET</span>
 							</div>
 						</th>
-						<th class="">
+						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
 							<div class="flex items-center">
-								
-
-								<span class="pl-2">VISUALIZAR</span>
+								<img :src="eyeRounded" alt="eye">
+								<span class="pl-2 text-white">VISUALIZAR</span>
 							</div>
 						</th>
 					</tr>
@@ -107,75 +105,47 @@
 							No hay tickets disponibles
 						</td>
 					</tr>
-					<tr v-for="(events, date) in fetchData.data" :key="date">
+					<tr v-for="(events, date) in fetchData.data" :key="date" class="h-32">
 						<!-- Columna de Fecha -->
-						<td class="py-4 px-2">
-							<time class="text-lg font-bold text-gray-700">{{
-								formatDate(events.fecha_hora)
-							}}</time>
-						</td>
-
-						<!-- Columna de Información del Evento (Título e Imagen) -->
-						<td class="py-4 px-2">
-							<div class="flex items-center space-y-2 justify-between">
-								<div>
-									<p class="font-semibold text-black">
-										{{ events.titulo }}
-									</p>
-									<div v-if="openedGroups[date]" class="mt-2">
-										<p class="text-gray-600">{{ events.contenido }}</p>
-									</div>
-								</div>
-								<!-- Mostrar los detalles del evento en la misma celda cuando se haga clic en "Ver más" -->
-
-								<!-- <img
-									src=""
-									alt="Imagen del evento"
-									class="w-14 h-14 rounded-full" /> -->
+						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
+							<div class="h-full py-4 px-4 rounded-lg bg-white text-xl items-start">
+								<time class="font-bold text-gray-700">{{
+									formatDate(events.fecha_hora)
+								}}</time>
 							</div>
 						</td>
 
-						<!-- Columna de Visualización (Botón Ver más) -->
-						<td class="py-4 px-2 text-center">
-							<div
-								@click="toggleEventDetails(date)"
-								class="flex items-center justify-center cursor-pointer">
-								<!-- Transición entre los íconos SVG -->
-								<transition name="fade">
-									<svg
-										v-if="!openedGroups[date]"
-										width="40"
-										height="40"
-										viewBox="0 0 40 40"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg">
-										<rect width="40" height="40" rx="20" fill="#FFBF00" />
-										<path
-											d="M8.63785 21.9416C8.45886 21.7223 7.25547 20.1791 7.27564 20.0319C8.6597 17.8973 10.411 15.9773 12.3984 14.5429C17.6405 10.761 23.4768 10.8088 28.6777 14.6544C30.6004 16.0757 32.2979 17.9488 33.6484 20.031C32.5559 21.7794 31.1786 23.3638 29.6592 24.6585C22.5868 30.6857 14.4312 29.0338 8.63701 21.9407L8.63785 21.9416ZM16.5968 25.626C16.0287 25.1957 15.527 24.5741 15.1506 23.9338C13.569 21.2404 13.8262 17.6723 15.7548 15.2882C15.9674 15.0248 16.2817 14.7838 16.4708 14.5401C16.5119 14.4876 16.5716 14.4632 16.554 14.376C13.706 15.4307 11.174 17.4435 9.28996 20.031C9.27231 20.1416 10.3454 21.3998 10.5034 21.5713C12.1984 23.4154 14.2573 24.8629 16.5094 25.701L16.5968 25.626ZM24.328 25.626L24.4154 25.701C27.2457 24.6435 29.7634 22.6382 31.6357 20.0638C29.7836 17.4491 27.2256 15.4532 24.3902 14.3798L24.328 14.4688C24.4524 14.5298 24.607 14.6713 24.707 14.7735C27.4945 17.6169 27.5062 22.4038 24.7491 25.2744C24.6381 25.3907 24.465 25.551 24.328 25.626ZM20.2439 14.6704C16.3363 14.901 14.2514 19.8988 16.6632 23.3713C18.9271 26.631 23.6163 25.8669 24.9474 22.0279C26.165 18.5151 23.939 14.8241 20.6086 14.6573L20.2431 14.6704H20.2439Z"
-											fill="white" />
-										<path
-											d="M17.9841 19.0158C18.1757 19.0936 18.3194 19.2558 18.5186 19.3336C19.4816 19.7105 20.3884 18.9014 20.2942 17.7736C20.2741 17.5326 20.1514 17.3536 20.1455 17.138C21.2144 16.9289 22.3892 17.6817 22.8455 18.7711C23.4892 20.3067 22.8649 22.1386 21.4581 22.7733C19.3228 23.737 17.2009 21.4073 17.9849 19.0148L17.9841 19.0158Z"
-											fill="white" />
-									</svg>
-								</transition>
-								<transition name="fade">
-									<svg
-										v-if="openedGroups[date]"
-										width="39"
-										height="38"
-										viewBox="0 0 39 38"
-										fill="none"
-										xmlns="http://www.w3.org/2000/svg">
-										<rect width="39" height="38" rx="19" fill="#005DCA" />
-										<path
-											d="M31.519 14.4216L30.7305 14.3108C30.3515 14.2579 29.9875 14.4857 29.8877 14.8464C26.9991 25.2378 12 25.2378 9.11141 14.8464C9.01159 14.4869 8.64767 14.2579 8.26859 14.3108L7.48009 14.4216C7.03277 14.4844 6.73835 14.9104 6.84829 15.3364C7.27286 16.9924 8.06009 18.5314 9.07224 19.9227C9.27948 20.2083 9.25799 20.5937 9.01664 20.8535L7.5458 22.4307C7.27412 22.7225 7.28297 23.1706 7.56728 23.4514L8.09547 23.9734C8.39116 24.2664 8.87512 24.2689 9.1746 23.9795L10.696 22.5107C10.9613 22.2546 11.3771 22.2226 11.6791 22.4368C12.5143 23.029 13.3849 23.6163 14.3567 23.9537C14.7244 24.0817 14.9367 24.4548 14.8469 24.8242L14.3466 26.8987C14.253 27.2853 14.4893 27.6756 14.8823 27.784L15.6468 27.9933C16.06 28.1066 16.4884 27.8652 16.5933 27.4589L17.1126 25.4385C17.2086 25.063 17.5839 24.8242 17.9756 24.8869C18.9827 25.0482 20.0164 25.0482 21.0222 24.8869C21.4139 24.8242 21.7892 25.063 21.8853 25.4385L22.4046 27.4577C22.5095 27.864 22.9366 28.1053 23.3511 27.9921L24.1155 27.7828C24.5085 27.6744 24.7448 27.2853 24.6513 26.8975L24.1509 24.8229C24.0612 24.4536 24.2735 24.0805 24.6412 23.9525C25.6129 23.6139 26.4835 23.0266 27.3188 22.4356C27.6208 22.2226 28.0365 22.2546 28.3019 22.5095L29.8233 23.9783C30.1227 24.2676 30.6067 24.2652 30.9024 23.9722L31.4306 23.4501C31.7149 23.1694 31.7237 22.7212 31.4521 22.4294L29.9812 20.8523C29.7399 20.5937 29.7184 20.2071 29.9256 19.9215C30.9378 18.5302 31.725 16.9924 32.1496 15.3352C32.2595 14.908 31.9651 14.4832 31.5178 14.4204L31.519 14.4216Z"
-											fill="white" />
-										<path
-											d="M32.1515 15.3364C31.727 16.9924 30.9397 18.5314 29.9276 19.9227C29.7203 20.2083 29.7418 20.5937 29.9832 20.8535L31.454 22.4307C31.7257 22.7225 31.7168 23.1706 31.4325 23.4513L30.9043 23.9734C30.6087 24.2664 30.1247 24.2689 29.8252 23.9795L28.3038 22.5107C28.0385 22.2546 27.6227 22.2226 27.3207 22.4368C26.4855 23.029 25.6149 23.6163 24.6432 23.9537C24.2754 24.0817 24.0632 24.4548 24.1529 24.8241L24.6533 26.8987C24.7468 27.2853 24.5105 27.6756 24.1175 27.784L23.353 27.9933C22.9398 28.1065 22.5114 27.8652 22.4066 27.4589L21.8872 25.4397C21.7912 25.0642 21.4159 24.8254 21.0242 24.8882C20.0183 25.0495 18.9834 25.0495 17.9776 24.8882C17.5859 24.8254 17.2106 25.0642 17.1146 25.4397L16.5952 27.4602C16.4903 27.8665 16.0632 28.1078 15.6488 27.9945L14.8843 27.7852C14.4913 27.6769 14.255 27.2878 14.3485 26.9L14.8489 24.8254C14.9386 24.456 14.7263 24.083 14.3586 23.9549C13.3869 23.6163 12.5163 23.029 11.681 22.4381C11.379 22.2251 10.9633 22.2571 10.6979 22.5119L9.17655 23.9808C8.87707 24.2701 8.39311 24.2676 8.09742 23.9746L7.56923 23.4526C7.28492 23.1719 7.27608 22.7237 7.54775 22.4319L9.0186 20.8547C9.25995 20.5962 9.28143 20.2096 9.0742 19.9239C8.06204 18.5327 7.27481 16.9949 6.85024 15.3377C6.74031 14.9104 7.03473 14.4857 7.48205 14.4229L8.27054 14.3121C8.64962 14.2591 9.01228 14.4869 9.11337 14.8476C12.002 25.2391 27.001 25.2391 29.8897 14.8476C29.9895 14.4881 30.3534 14.2591 30.7325 14.3121L31.521 14.4229C31.9683 14.4857 32.2627 14.9117 32.1528 15.3377L32.1515 15.3364Z"
-											fill="white" />
-									</svg>
-								</transition>
-								{{ openedGroups[date] ? "" : "" }}
+						<!-- Columna de Información del Evento -->
+						<td class="h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
+							<div class="h-full py-4 px-4 rounded-lg bg-white flex items-center">
+								<div class="leading-3">
+									<span class="text-xl">Ticekt 6</span>
+									<br>
+									<span class="font-semibold text-blue-950 text-2xl">
+										{{ events.titulo }}
+									</span>
+									<div>
+										<p>{{ events.contenido }}</p>
+									</div>
+								</div>
+							</div>
+						</td>
+
+						<!-- Columna de Visualización -->
+						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
+							<div class="h-full py-4 px-4 bg-white  flex items-center justify-center">
+								<!-- <div
+									@click="toggleEventDetails(date)"
+									class="cursor-pointer">
+									<transition name="fade">
+										<svg v-if="!openedGroups[date]" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+										</svg>
+									</transition>
+									<transition name="fade">
+										<svg v-if="openedGroups[date]" width="39" height="38" viewBox="0 0 39 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+										</svg>
+									</transition> -->
+								<button class="border border-hidden rounded-menu bg-verde-gradient w-24 py-1 text-md text-white font-bold hover:cursor-pointer"><img :src="eyebtn" alt="ojo ver mas"> ver</button>
 							</div>
 						</td>
 					</tr>
@@ -190,6 +160,9 @@ import { ref, onMounted, computed } from "vue";
 import { useEventStore } from "@/stores/storedataOff";
 import arrowBack from "@/assets/images/arrowBack.svg";
 import calendario from "@/assets/images/calendario.svg"
+import ticket from "@/assets/images/ticket.svg"
+import eyeRounded from "@/assets/images/eyeRounded.svg"
+import eyebtn from "@/assets/images/eyebtn.svg";
 
 const openedGroups = ref({});
 const fetchData = ref([]);
@@ -238,23 +211,23 @@ const getFetchData = async (fetchOptions) => {
 		data: [
 			{
 				fecha_hora: "2024-11-01T10:30:00",
-				titulo: "Ticket de Atención Inicial",
-				contenido: "Se realizó la primera consulta y registro del caso. Se documentaron los hechos y se asignó un código de seguimiento."
+				titulo: "Citacion audiencia",
+				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-05T14:15:00",
-				titulo: "Seguimiento Psicológico",
-				contenido: "Sesión de apoyo psicológico. Se brindó orientación y se programó próxima cita de seguimiento."
+				titulo: "Citacion audiencia",
+				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-10T09:00:00",
-				titulo: "Asesoría Legal",
-				contenido: "Se proporcionó información sobre derechos y procedimientos legales disponibles. Se entregó documentación necesaria."
+				titulo: "Citacion audiencia",
+				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-15T16:45:00",
-				titulo: "Revisión de Caso",
-				contenido: "Actualización del estado del caso. Se revisaron avances y se establecieron próximos pasos a seguir."
+				titulo: "Citacion audiencia",
+				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			}
 		]
 	};
