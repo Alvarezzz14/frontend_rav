@@ -77,11 +77,10 @@
 			<table class="">
 				<thead>
 					<tr class="">
-						<th class="bg-blue-950">
+						<th class="bg-gradient-to-l from-blue-600 to-blue-800 rounded-lg w-[292px] py-2 ps-3">
 							<div class="flex items-center">
 								<img :src="calendario" alt="calendario">
-
-								<span class="pl-2">FECHA</span>
+								<span class="pl-2 text-white">FECHA</span>
 							</div>
 						</th>
 						<th class="">
