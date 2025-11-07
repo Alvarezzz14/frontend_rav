@@ -9,7 +9,7 @@
       v-model="model"
       :options="options"
       :placeholder="placeholder"
-      class="!border-0 !rounded-[30px]]"
+      class="!border-0 !rounded-[30px] relative"
       :class="inputClass"
       @change="onChange"
       @show="onShow"
@@ -92,7 +92,7 @@ const props = defineProps({
   // Solapamiento del overlay por detrás del Select (visible ~20px). Ej: '20px'
   overlayOverlap: { type: String, default: '30px' },
   // Z-index del overlay (override del inline style de PrimeVue)
-  overlayZIndex: { type: [String, Number], default: 10 },
+  overlayZIndex: { type: [String, Number], default: 20 },
   // Padding top específico del overlay cuando está abierto (para variantes de diseño)
   // Por defecto se calcula como (16px + overlap)
   overlayPaddingTop: { type: String, default: '' },
@@ -140,8 +140,11 @@ function positionOverlay() {
     const overlap = parseInt(String(cs.getPropertyValue('--rav-select-overlay-overlap')).replace('px', '')) || 20
     const rect = selectEl.getBoundingClientRect()
 
-    overlay.style.position = 'absolute'
+    // Forzar position absolute de forma consistente
+    overlay.style.position = 'absolute !important'
     overlay.style.marginTop = '0px'
+    overlay.style.left = `${rect.left}px`
+
     // Calcular paddingTop: usar prop si viene, si no => 16px + overlap
     const overlapPx = Math.max(0, overlap)
     const autoPadTop = `${16 + overlapPx}px`
@@ -152,12 +155,15 @@ function positionOverlay() {
     if (props.overlayPaddingBottom) overlay.style.paddingBottom = String(props.overlayPaddingBottom)
     overlay.style.zIndex = String(props.overlayZIndex ?? 1)
     overlay.style.top = `${window.scrollY + rect.top + rect.height - overlap}px`
-  // Forzar el borde redondeado del overlay para evitar que otros estilos lo reduzcan a 6px
-  overlay.style.borderRadius = String(props.overlayBorderRadius || '25px')
+
+    // Forzar el borde redondeado del overlay para evitar que otros estilos lo reduzcan a 6px
+    overlay.style.borderRadius = String(props.overlayBorderRadius || '25px')
+
     // Ajustar el ancho del overlay para que coincida con el ancho visual del trigger
     // 1) Por defecto igualamos el ancho al del select (rect.width)
     overlay.style.width = `${rect.width}px`
     overlay.style.minWidth = `${rect.width}px`
+
     // 2) Si el consumidor especifica overlayWidth:
     //    - 'trigger': mantener el ancho calculado
     //    - otro valor CSS: forzar ese ancho explícito
@@ -172,6 +178,10 @@ function positionOverlay() {
 
 function onShow() {
   dropdownOpen.value = true
+  // Remover listeners existentes antes de agregar nuevos (evita duplicados)
+  window.removeEventListener('scroll', positionOverlay)
+  window.removeEventListener('resize', positionOverlay)
+
   nextTick(() => {
     positionOverlay()
     window.addEventListener('scroll', positionOverlay, { passive: true })
@@ -223,13 +233,13 @@ onUnmounted(() => {
   border-radius: 30px !important;
   background: var(--rav-select-bg, #FFFFFF) !important;
   height: var(--rav-select-h, 40px) !important;
+  position: relative !important;
+  z-index: 11 !important; /* Siempre por encima del overlay para evitar sobreposición al cerrar */
 }
 
 /* Borde morado SOLO cuando el dropdown está abierto */
 .rav-open :deep(.p-select) {
   border: 1.4px solid #005DCA !important;
-  position: relative !important;
-  z-index: 2000 !important; /* Asegura que el select quede por encima del overlay en el borde superior */
 }
 
 /* Sin sombra cuando se usa withShadow=false */
@@ -266,17 +276,20 @@ onUnmounted(() => {
 /* Panel desplegable */
 :deep(.p-select-overlay) {
   /* Desplazar el overlay hacia arriba para que se "meta"  por detrás del Select */
-  margin-top: calc(var(--rav-select-overlay-overlap, 20px) * -1) !important;
-  /* Agregar padding superior extra para que las opciones no queden tapadas por el Select */
-  padding-top: calc(16px + var(--rav-select-overlay-overlap, 20px)) !important;
+  margin-top: 0 !important;
   border-radius: var(--rav-select-overlay-br, 25px) !important; /* bordes más redondos del contenedor */
   background: #C3DAFF !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.14) !important;
   border: none !important;
   border-top: 1.6px solid #005DCA !important; /* línea superior azul como en diseño */
   width: var(--rav-select-overlay-w, 520px) !important;
-  padding: 16px 0 16px 0 !important;
+  padding: 16px 0 !important;
   z-index: var(--rav-select-overlay-z, 10) !important;
+}
+
+/* Cuando el overlay está visible, aplicar el margin negativo */
+:deep(.p-select-overlay:not([style*="display: none"])) {
+  margin-top: calc(var(--rav-select-overlay-overlap, 20px) * -1) !important;
 }
 
 /* Opciones */
@@ -348,7 +361,7 @@ onUnmounted(() => {
 }
 </style>
 
-<!-- Global: ocultar scrollbars del overlay -->
+<!-- Global: ocultar scrollbars del overlay y forzar position absolute -->
 <style>
 .p-select-overlay,
 .p-select-overlay * {
@@ -363,4 +376,5 @@ onUnmounted(() => {
   background: transparent !important;
   display: none !important;
 }
+
 </style>

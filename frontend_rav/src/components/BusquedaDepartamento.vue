@@ -1,59 +1,39 @@
 
 <template>
   <div ref="rootEl" class="relative w-full h-[91vh] overflow-hidden">
-    <!-- Frame 620 - Título con icono de Mapa -->
-    <div
-      class="absolute top-[35px] left-[10px] flex flex-row items-center gap-3 w-[141px] h-[41px]"
-    >
-      <!-- Group 1322 - Icono de Mapa con círculo (azul de marca) -->
-      <div class="relative w-[30px] h-[29.93px] flex-none">
-        <!-- Círculo azul de fondo -->
-        <div
-          class="absolute inset-0 w-[30px] h-[29.93px] bg-azul-gradian rounded-full"
-        ></div>
-        <!-- Icono blanco centrado, tamaño 16.61x15.91px -->
-        <div class="absolute inset-0 flex items-center justify-center">
-          <IconMap
-            :size="16.61"
-            color="white"
-            class="w-[16.61px] h-[15.91px]"
-          />
-        </div>
+    <div class="flex flex-row items-center gap-3">
+      <div class="bg-azul-gradian p-1 rounded-full">
+        <IconMap
+          :size="16.61"
+          color="white"
+          class="w-[16.61px] h-[15.91px]"
+        />
       </div>
-
-      <!-- Texto "Mapa" -->
-      <h1
-        class="font-work-sans font-bold text-[30px] leading-[35px] text-azul2Ape flex-none"
-      >
-        Mapa
-      </h1>
+      <h1 class="font-work-sans font-bold text-[30px] leading-[35px] text-azul2Ape flex-none">Mapa</h1>
     </div>
 
-    <!-- Selector del Departamento -->
-    <div class="absolute top-[97px] left-[10px] w-[520px] h-10">
-      <RavSelect
-        v-model="selectedCountry"
-        :options="departamentos"
-        placeholder="Seleccione departamento"
-        :showImage="true"
-        optionLabel="name"
-        optionImage="flagUrl"
-        inputClass="w-[520px] h-10"
-        overlayWidth="520px"
-        :overlayPaddingTop="'30px'"
-        :overlayZIndex="1"
-        @open="onDropdownOpen"
-        @close="onDropdownClose"
-        @change="handleChange"
-      />
-    </div>
+    <!-- Select del Departamento -->
+    <RavSelect
+      v-model="selectedCountry"
+      :options="departamentos"
+      placeholder="Seleccione departamento"
+      :showImage="true"
+      optionLabel="name"
+      optionImage="flagUrl"
+      inputClass="w-[520px] h-10"
+      overlayWidth="520px"
+      :overlayPaddingTop="'30px'"
+      :overlayZIndex="1"
+      @open="onDropdownOpen"
+      @close="onDropdownClose"
+      @change="handleChange"
+    />
+
 
     <!-- Tarjeta de Información del Departamento -->
-    <!-- Group 574 -->
     <div
+      class="mt-10 relative"
       v-if="selectedInfo"
-      class="absolute left-[10px] w-[518px] h-[371px] z-10"
-      :style="{ top: infoCardTop, filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
     >
       <!-- Frame 515 - Imagen principal -->
       <div
@@ -126,12 +106,12 @@
             :d="departmentPaths[dep.code]"
             :fill="
                 selectedCountry && selectedCountry.code === dep.code
-                  ? '#FFD600'
-                  : 'rgba(0, 93, 202, 0.05)'
+                  ? '#fdc300'
+                  : '#c3daff'
             "
             :stroke="
                 selectedCountry && selectedCountry.code === dep.code
-                  ? '#FFD600'
+                  ? '#fdc300'
                   : 'none'
             "
           />
@@ -167,8 +147,6 @@ const computeCardTopBelowOverlay = () => {
   const oRect = overlay.getBoundingClientRect();
   const rRect = root.getBoundingClientRect();
   const gap = 10; // separación inferior entre overlay y tarjeta
-  const relativeTop = Math.max(0, (oRect.bottom - rRect.top) + gap);
-  infoCardTop.value = `${relativeTop}px`;
 };
 
 const addOverlayPositionListeners = () => {
@@ -193,8 +171,11 @@ const onDropdownOpen = () => {
 };
 
 const onDropdownClose = () => {
-  infoCardTop.value = '170px';
   removeOverlayPositionListeners();
+  // Pequeño delay para asegurar que el overlay se ocultó completamente
+  setTimeout(() => {
+    infoCardTop.value = '170px';
+  }, 50);
 };
 
 //Formatear numeros
