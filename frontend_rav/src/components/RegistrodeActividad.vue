@@ -12,11 +12,11 @@
 			</div>
 		</div>
 
-		<div class="lg:flex hidden gap-3 mb-5">
+		<div class="lg:flex max-xl:flex-col hidden gap-3 mb-5">
 			<!-- Sección Derecha (Botón) -->
 			<router-link
 				:to="{ name: 'PerfilCiudadanoPage' }"
-				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2">
+				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2 max-xl:w-6/12">
 				<img :src="arrowBack" alt="volver">
 				<span class="text-white font-bold text-sm text-center items-center justify-center"
 					>Regresar a perfil del ciudadano</span
@@ -38,106 +38,57 @@
 			</div>
 		</div>
 
-		<div class="mt-4 bg-azul-gradian rounded-3xl shadow-lg p-5">
-			<div class="outline outline-1 outline-yellow-400 rounded-2xl flex xl:flex-row flex-col gap-6 justify-between text-white py-6 px-8">
-				<div class="flex items-center gap-3 flex-[0.8]">
+		<section class="mt-4 bg-azul-gradian rounded-3xl shadow-lg p-4">
+			<div class="outline outline-1 outline-yellow-400 rounded-2xl flex xl:flex-row flex-col gap-5 justify-evenly text-white py-6 xl:px-2 px-1">
+				<div class="flex items-center gap-3">
 					<img :src="imgIndicativa1" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
 					<p class="text-sm">Ingrese un nombre en la casilla de <strong>Título.</strong></p>
 				</div>
-				<div class="flex items-center gap-3 flex-[1.4]">
+				<div class="flex items-center gap-3 flex-2">
 					<img :src="imgIndicativa2" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
 					<p class="text-sm">Registre la actividad o información otorgada al ciudadano en la sección de <strong>Descripción.</strong></p>
 				</div>
-				<div class="flex items-center gap-3 flex-[0.8]">
+				<div class="flex items-center gap-3">
 					<img :src="imgIndicativa3" class="w-20 flex-shrink-0" alt="imagen indicativa ingresar el titulo en la casilla">
 					<p class="text-sm">Una vez completa la información, presiona <strong>Enviar.</strong></p>
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
-			<h2 class="text-left font-bold text-lg mb-4">Crear Ticket</h2>
+		<section class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto text-blue-950">
+			<h2 class="text-center xl:text-left font-bold text-lg mb-4 text-blue-950">Crear Ticket</h2>
 
-			<div class="flex flex-row xl:space-x-2 space-y-3 xl:space-y-0 space-x-2 items-center xl:justify-start justify-center flex-wrap">
-				<RavSelect
-					:options="options"
-					placeholder="Palabra clave"
-					:showImage="false"
-					:withShadow="true"
-					:bgColor="'#EEF5FF'"
-					inputClass="w-[220PX] !shadow-lg text-blue-950"
-					:height="'33px'"
-					overlayWidth="277"
-					:placeholderFontSize="'12px'"
-          		/>
-
-				<RavSelect
-					:options="options"
-					placeholder="Palabra clave"
-					:showImage="false"
-					:withShadow="true"
-					:bgColor="'#EEF5FF'"
-					inputClass="w-[220PX] !shadow-lg text-blue-950"
-					:height="'33px'"
-					overlayWidth="277"
-					:placeholderFontSize="'12px'"
-          		/>
-
-				<RavSelect
-					:options="options"
-					placeholder="Palabra clave"
-					:showImage="false"
-					:withShadow="true"
-					:bgColor="'#EEF5FF'"
-					inputClass="w-[220PX] !shadow-lg text-blue-950"
-					:height="'33px'"
-					overlayWidth="277"
-					:placeholderFontSize="'12px'"
-          		/>
-
-				<RavSelect
-					:options="options"
-					placeholder="Palabra clave"
-					:showImage="false"
-					:withShadow="true"
-					:bgColor="'#EEF5FF'"
-					inputClass="w-[220PX] !shadow-lg text-blue-950"
-					:height="'33px'"
-					overlayWidth="277"
-					:placeholderFontSize="'12px'"
-          		/>
-
-				<RavSelect
-					:options="options"
-					placeholder="Palabra clave"
-					:showImage="false"
-					:withShadow="true"
-					:bgColor="'#EEF5FF'"
-					inputClass="w-[220PX] !shadow-lg text-blue-950"
-					:height="'33px'"
-					overlayWidth="277"
-					:placeholderFontSize="'12px'"
-          		/>
+			<div class="flex flex-row flex-wrap gap-3 items-center xl:justify-start justify-center" v-if="screenSize === 'desktop'">
+				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
+					<input type="checkbox" class="me-3">
+					{{ keyword  }}
+				</label>
+				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-20 rounded-menu border-0 py-2 cursor-pointer">Ver más +</button>
+			</div>
+			<div v-else class="flex flex-wrap gap-3 [&_button]:rounded-menu [&_button]:bg-gray-100 [&_button]:border-0  [&_button]:py-3">
+				<button v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="px-3">{{ keyword }}</button>	
+				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-6">Ver más +</button>
 			</div>
 
 			<input
 				type="text"
-				class="w-full bg-[#eef5ff] h-10 border-none text-black placeholder-black rounded-menu p-4 mt-4 font-work-sans"
+				class="w-full bg-[#eef5ff] h-10 border-none placeholder-blue-950 rounded-menu p-4 mt-4"
 				placeholder="Título:"
 				name="titulo"
 				v-model="title" />
 
 			<textarea
 				v-model="content"
-				class="w-full bg-[#eef5ff] h-32 border-none text-black placeholder-black rounded-menu p-4 mt-2 font-work-sans"
+				class="w-full bg-[#eef5ff] h-32 border-none placeholder-blue-950 rounded-menu p-4 mt-2"
 				id="descripcion"
 				placeholder="Descripción:"></textarea>
 
 			<button
-				class="bg-verde-gradient border-none px-20 h-8 ms-auto text-white cursor-pointer font-bold p-2 rounded-menu shadow flex justify-center items-center mt-4">
+				@click="() => sendTicker(fetchOptions)"
+				class="bg-verde-gradient border-none lg:w-2/12 w-full h-8 ms-auto text-white cursor-pointer font-bold p-2 rounded-menu shadow flex justify-center items-center mt-4">
 				Enviar
 			</button>
-		</div>
+		</section>
 
 		<!-- Modal de éxito -->
 		<div
@@ -161,12 +112,27 @@
 				</div>
 			</div>
 		</div>
+		<Modal
+		:showModal="showKeyWordsModal"
+		>
+			<div class="space-y-2">
+				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
+					<input type="checkbox" class="me-3">
+					{{ keyword  }}
+				</label>
+				<button
+				@click="() => sendTicker(fetchOptions)"
+				class="bg-verde-gradient border-none w-full h-8 ms-auto text-white cursor-pointer font-bold p-2 rounded-menu shadow flex justify-center items-center mt-4">
+				Enviar
+			</button>
+			</div>
+		</Modal>
 	</div>
 </template>
 <script setup>
 import Actividad from "@/assets/images/Actividad.png";
 import personwhite from "@/assets/images/UserWhite.svg";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
 import { useEventStore } from "@/stores/storedataOff";
 import { useAuthStore } from "@/stores/auth";
 import { categories as staticCategories } from "@/data/palabrasClaves";
@@ -175,7 +141,8 @@ import arrowBack from "@/assets/images/arrowBack.svg";
 import imgIndicativa1 from "@/assets/images/img-indicativa-casilla-titulo.avif"
 import imgIndicativa2 from "@/assets/images/img-indicativa-descripcion.avif"
 import imgIndicativa3 from "@/assets/images/img-indicativa-enviar.avif"
-import RavSelect from '@/components/Inputs/RavSelect.vue';
+import { useResponsive } from "@/composables";
+import Modal from "./Modal.vue";
 
 // Variables reactivas
 const showSuccessModal = ref(false); // Controla la visibilidad del modal de éxito
@@ -187,6 +154,8 @@ const authStore = useAuthStore();
 const eventStore = useEventStore();
 const selectedKeywords = ref([]);
 const host = import.meta.env.VITE_HOST;
+const { screenSize } = useResponsive()
+const showKeyWordsModal = ref(false)
 
 const user = computed(() => authStore.authenticatedUser.user);
 
@@ -274,11 +243,9 @@ const closeSuccessModal = () => {
 	showSuccessModal.value = false; // Ocultar el modal
 };
 
-const options = ref([
-	"Lorem",
-	"Lorem",
-	"Lorem"
-])
+const closeMoal = () => {
+	showKeyWordsModal.value = false
+}
 
 const resetForm = () => {
 	// Restablecer todas las variables del formulario
@@ -294,6 +261,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+:deep(.p-dialog-mask) {
+  @apply backdrop-blur-md bg-black/30; /* difuminado + oscurecido */
+}
+
 .arrow {
 	transition: transform 0.3s ease-in-out;
 }
