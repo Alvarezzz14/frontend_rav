@@ -46,7 +46,6 @@ export default {
         'azul-gradian': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
         'amarillo-gradian': 'linear-gradient(90deg, #FEC905 0%, #D1A500 100%)',
         'rojo-gradian': 'linear-gradient(180deg, #D80F16 0%, #72080C 100%)',
-        'verde-gradient': 'linear-gradient(90deg, #00D000 0%, #00A000 88.46%, #009000 98.08%)',
         // Alias heredados apuntando al nuevo tema azul
         'custom-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
         'violet-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',

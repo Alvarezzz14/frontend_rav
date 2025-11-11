@@ -127,7 +127,7 @@
             :fill="
                 selectedCountry && selectedCountry.code === dep.code
                   ? '#FFD600'
-                  : '#C3DAFF'
+                  : 'rgba(0, 93, 202, 0.05)'
             "
             :stroke="
                 selectedCountry && selectedCountry.code === dep.code

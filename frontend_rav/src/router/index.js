@@ -22,29 +22,29 @@ import IconGallery from '@/pages/IconGallery.vue';
 
 
 const routes = [
-  // {
-  //   path: '/login',
-  //   name: 'LoginPage',
-  //   component: LoginPage,
-  //   // meta: { requiresAuth: false }, // Ruta pública
-  // },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage,
+    meta: { requiresAuth: false }, // Ruta pública
+  },
   {
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
     component: RegistroUsuarioPage,
-    // meta: { requiresAuth: true }, // Ruta privada
+    meta: { requiresAuth: true }, // Ruta privada
 
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'ErrorPage',
     component: ErrorPage,
-    // meta: { requiresAuth: false }, // Ruta pública
+    meta: { requiresAuth: false }, // Ruta pública
   },
   {
     path: "/",
     component: DefaultLayout, // Usa el layout como contenedor
-    // meta: { requiresAuth: false }, // Todas las rutas hijas requieren autenticación
+    meta: { requiresAuth: true }, // Todas las rutas hijas requieren autenticación
     children: [
       {
         path: '',
@@ -133,17 +133,21 @@ const router = createRouter({
 
 // Guard global para proteger rutas privadas
 router.beforeEach((to, from, next) => {
-  //  const authStore = useAuthStore();
+  const authStore = useAuthStore();
 
-  // // Si la ruta requiere autenticación y no está autenticado
-  // if (to.meta.requiresAuth && !authStore.isAuthenticated) {
-  //   next('/login'); // Redirige al login
-  // } else if (to.path === '/login' && authStore.isAuthenticated) {
-  //   next('/'); // Si ya está autenticado y va al login, redirige al home
-  // } else {
-  //   next(); // Permite el acceso a la ruta
-  // }
-  next(); 
+  // Si la ruta requiere autenticación y no está autenticado
+  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+    next('/login'); // Redirige al login
+  } else if (to.path === '/login' && authStore.isAuthenticated) {
+    next('/'); // Si ya está autenticado y va al login, redirige al home
+  } else {
+    next(); // Permite el acceso a la ruta
+  }
 });
 
 export default router;
+
+
+
+
+
