@@ -114,11 +114,13 @@
 		</div>
 		<Modal
 		:showModal="showKeyWordsModal"
+		title="Listado de palabras clave"
+		@close="showKeyWordsModal = false"
 		>
-			<div class="space-y-2">
-				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
+			<div class="space-y-2 mx-2">
+				<label v-for="(keyword, keywordIndex) in dataKeyWords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
 					<input type="checkbox" class="me-3">
-					{{ keyword  }}
+					{{ keyword }}
 				</label>
 				<button
 				@click="() => sendTicker(fetchOptions)"
@@ -153,6 +155,7 @@ const categories = ref(staticCategories);
 const authStore = useAuthStore();
 const eventStore = useEventStore();
 const selectedKeywords = ref([]);
+const dataKeyWords = ref([]);
 const host = import.meta.env.VITE_HOST;
 const { screenSize } = useResponsive()
 const showKeyWordsModal = ref(false)
@@ -243,10 +246,6 @@ const closeSuccessModal = () => {
 	showSuccessModal.value = false; // Ocultar el modal
 };
 
-const closeMoal = () => {
-	showKeyWordsModal.value = false
-}
-
 const resetForm = () => {
 	// Restablecer todas las variables del formulario
 	selectedKeywords.value = [];
@@ -257,14 +256,15 @@ const resetForm = () => {
 
 onMounted(() => {
 	authStore.initializeAuth();
+	for (let index = 1; index < categories.value.length; index++) {
+		for (let j = 0; j < categories.value[index].keywords.length; j++){
+			dataKeyWords.value.push(categories.value[index].keywords[j]);
+		}
+	}
 });
 </script>
 
 <style scoped>
-:deep(.p-dialog-mask) {
-  @apply backdrop-blur-md bg-black/30; /* difuminado + oscurecido */
-}
-
 .arrow {
 	transition: transform 0.3s ease-in-out;
 }
