@@ -14,61 +14,38 @@
         </div>
       </div>
       <h1
-        class="text-azul2Ape"
-        style="
-          font-family: 'Work Sans';
-          font-weight: 700;
-          font-size: 30px;
-          line-height: 100%;
-          letter-spacing: 0%;
-        "
+        class="text-azul2Ape font-work-sans text-3xl font-bold leading-none tracking-normal"
       >
         Bienvenido, {{ empresaNombre }}
       </h1>
     </div>
 
     <!-- Primera Sección: Contenedores con contenido e imagen -->
-    <div class="flex gap-7 justify-start flex-wrap">
+    <div class="flex flex-wrap lg:flex-nowrap gap-7 lg:justify-start">
       <div
         v-for="(image, index) in imagePaths"
         :key="index"
-        class="relative rounded-[20px] flex-shrink-0 image-card overflow-hidden"
-        style="width: 330px; height: 330px"
+        class="relative rounded-[20px] image-card overflow-hidden w-[330px] h-[330px]"
       >
         <!-- Imagen de fondo -->
         <img
           :src="image.path"
           :alt="image.title"
-          class="absolute object-cover"
-          style="width: 330px; height: 330px"
+            class="absolute object-cover w-full h-full"
         />
         <!-- Contenedor para el título y el número -->
         <div
-          class="absolute inset-0 flex flex-col items-center justify-end pb-8"
+          class="absolute left-0 right-0 bottom-10 flex flex-col"
         >
           <!-- Título -->
           <h4
-            class="text-white text-center mb-1"
-            style="
-              font-family: 'Work Sans';
-              font-weight: 700;
-              font-size: 23.9122px;
-              line-height: 28px;
-              text-shadow: 0px 4.78243px 4.78243px rgba(0, 0, 0, 0.25);
-            "
+            class="text-white text-center mb-1 font-work-sans font-bold text-2xl leading-7 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
           >
             {{ image.title }}
           </h4>
           <!-- Número -->
           <p
-            class="text-white text-center m-0"
-            style="
-              font-family: 'Work Sans';
-              font-weight: 700;
-              font-size: 38.2595px;
-              line-height: 45px;
-              text-shadow: 0px 4.78243px 4.78243px rgba(0, 0, 0, 0.25);
-            "
+            class="text-white text-center m-0 font-work-sans font-bold text-[38px] leading-10 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
           >
             {{ image.count }}
           </p>
@@ -77,19 +54,14 @@
     </div>
 
     <!-- Segunda Sección: Gráficos -->
-    <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+    <div class="grid xl:grid-cols-2 gap-7">
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
-        style="
-          width: 688px;
-          height: 342px;
-        "
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full h-[342px]"
       >
         <PieChart />
       </div>
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
-        style="background: white; width: 688px; height: 342px"
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full h-[342px] bg-white"
       >
         <BarChart />
       </div>
