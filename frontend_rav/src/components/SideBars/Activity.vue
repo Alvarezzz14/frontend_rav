@@ -76,8 +76,13 @@ import CircularChart from "@/components/metas/CircularChart.vue";
 
 import IconConfigurarMeta from "@/components/Icons/IconConfigurarMeta.vue";
 
-// Estado de expansión del sidebar
-const isExpanded = ref(false);
+// Estado de expansión del sidebar (compartido con el store UI)
+import { useUiStore } from '@/stores/ui';
+const uiStore = useUiStore();
+const isExpanded = computed({
+  get: () => uiStore.isActivityExpanded,
+  set: (val) => uiStore.setActivityExpanded(val)
+});
 
 // Acceso al store de metas
 const goalStore = useGoalStore();
