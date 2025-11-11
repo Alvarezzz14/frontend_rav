@@ -1,48 +1,52 @@
 <template>
   <div 
-    class="sidebar-container bg-azul-gradian h-[833px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative"
-    :class="isExpanded ? 'w-[266px]' : 'w-[100px]'"
-    @mouseenter="isExpanded = true"
-    @mouseleave="isExpanded = false"
+    class="sidebar-container h-[833px] overflow-hidden flex flex-col transition-all duration-700 ease-in-out rounded-[29.3592px] relative shadow-menu"
+    :class="[
+      // En mobile aplicamos un fondo sólido con transparencia y sin degradado visual adicional
+      isMobile ? 'w-full h-dvh bg-[#002C4D]/95 backdrop-blur-sm rounded-none before:hidden' : ['bg-azul-gradian', (isExpanded ? 'w-[266px]' : 'w-[100px]')]
+    ]"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
-    <!-- Decorative degradedMenu image (cuando está expandido) -->
+    <!-- Botón cerrar (solo mobile) -->
+    <button
+      v-if="isMobile"
+      type="button"
+      aria-label="Cerrar menú"
+      class="absolute top-4 left-4 z-20 lg:hidden bg-transparent p-0 border-0 outline-none focus:outline-none active:outline-none appearance-none hover:bg-transparent"
+      @click="emit('close')"
+    >
+      <IconCloseMenu :size="30" />
+    </button>
+    <!-- Fondos degradados solo en desktop (se ocultan en mobile para respetar color plano con transparencia) -->
     <div
-      v-if="isExpanded"
-      class="absolute inset-0 pointer-events-none transition-opacity duration-700"
-      style="
-        mix-blend-mode: multiply;
-        opacity: 0.26;
-      "
+      v-if="!isMobile && isExpanded"
+      class="absolute inset-0 pointer-events-none transition-opacity duration-700 mix-blend-multiply opacity-30"
     >
       <img 
         :src="degradedMenuImg" 
         alt="decorative gradient expanded"
-        class="w-full h-full object-cover"
-        style="border-radius: 29.3592px;"
+        class="w-full h-full object-cover rounded-[29.3592px]"
       />
     </div>
-
-    <!-- Decorative degradedMenu2 image (cuando está contraído) -->
     <div
-      v-else
-      class="absolute inset-0 pointer-events-none transition-opacity duration-700"
-      style="
-        mix-blend-mode: multiply;
-        opacity: 0.26;
-      "
+      v-if="!isMobile && !isExpanded"
+      class="absolute inset-0 pointer-events-none transition-opacity duration-700 mix-blend-multiply opacity-30"
     >
       <img 
         :src="degradedMenu2Img" 
         alt="decorative gradient collapsed"
-        class="w-full h-full object-cover"
-        style="border-radius: 29.3592px;"
+        class="w-full h-full object-cover rounded-[29.3592px]"
       />
     </div>
 
     <!-- Logo -->
     <div
-      class="hidden lg:flex items-center justify-center flex-shrink-0 overflow-hidden transition-all duration-700 relative z-10"
-      :class="isExpanded ? 'py-[46px] px-[50px]' : 'py-[46px] px-[12px]'"
+      class="items-center justify-center flex-shrink-0 overflow-hidden transition-all duration-700 relative z-10"
+      :class="[
+        isMobile ? 'flex py-6' : 'hidden lg:flex',
+        isExpanded ? 'py-[46px] px-[50px]' : 'py-[46px] px-[12px]'
+      ]"
     >
       <LogoRav 
         v-if="isExpanded" 
@@ -54,19 +58,19 @@
         v-else
         :src="logoRavImg"
         alt="Logo RAV"
-        class="w-[76px] h-[26px] transition-opacity duration-700"
+        :class="isMobile ? 'w-[179px] h-[76px] drop-shadow-md' : 'w-[76px] h-[26px] transition-opacity duration-700'"
       />
     </div>
     
     <!-- Menu de navegación -->
-    <nav class="flex-1 overflow-y-auto bg-transparent relative z-10">
-      <div class="lg:hidden flex ml-6 pt-4">
-        <span class="text-customPurple font-bold"> Menú Principal </span>
-      </div>
+  <nav class="flex-1 overflow-y-auto bg-transparent relative z-10">
       <ul
         class="list-none flex flex-col mb-0 transition-all duration-700 items-center"
         :class="[
-          isExpanded ? 'gap-[20px] px-[11px]' : 'gap-[41px] px-[10px]'
+          // En mobile priorizamos gap-6; en desktop respetamos tamaños expandido/colapsado
+          isMobile
+            ? 'gap-6 px-6 mt-4'
+            : (isExpanded ? 'gap-[20px] px-[11px]' : 'gap-[41px] px-[10px]')
         ]"
       >
           <li
@@ -79,40 +83,72 @@
                 v-if="item.to"
                 :to="item.to"
                 @click="setActive(item)"
-                class="flex flex-row items-center transform text-white transition-all duration-700 rounded-[30px]"
+                class="flex flex-row items-center transform text-white transition-all duration-700 rounded-[30px] no-underline"
                 :class="[
-                  isActive(item) && isExpanded ? 'bg-amarillo text-customPurple' : '',
-                  isExpanded ? 'h-[44px] px-4 gap-5' : 'h-auto p-0 justify-center gap-0'
+                  // Estado activo: móvil vs desktop
+                  isMobile
+                    ? [
+                        isActive(item) ? 'bg-white text-[#002C4D]' : 'hover:bg-[#F3F3F3] hover:text-[#FDC300]',
+                        // Forzar bold en hover cuando no está activo
+                        !isActive(item) ? 'hover:font-bold' : ''
+                      ]
+                    : (isActive(item) && isExpanded ? 'bg-amarillo text-customPurple' : ''),
+                  // Dimensiones desktop / mobile
+                  isExpanded ? 'px-4 gap-5' : 'h-auto p-0 justify-center gap-0',
+                  // Ajuste: altura mobile de 44px -> 48px según requerimiento (270x48)
+                  isMobile ? 'group w-[270px] h-[48px] px-5 gap-4 mx-auto' : 'h-[44px]',
                 ]"
                 style="min-width:0; min-height:0;"
               >
 
-              <!-- Icono con fondo amarillo redondo cuando está activo y el menú está cerrado -->
+              <!-- Icono -->
               <template v-if="item.iconComponent">
-                <div v-if="isActive(item) && !isExpanded"
-                  class="flex items-center justify-center bg-amarillo rounded-full w-[44px] h-[44px] mx-auto p-0 transition-all duration-700">
+                <!-- Desktop: mantener lógica actual -->
+                <template v-if="!isMobile">
+                  <div v-if="isActive(item) && !isExpanded"
+                    class="flex items-center justify-center bg-amarillo rounded-full w-[44px] h-[44px] mx-auto p-0 transition-all duration-700">
+                    <component
+                      :is="item.iconComponent"
+                      :size="24"
+                      :useGradient="true"
+                      class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
+                  </div>
+                  <component
+                    v-else
+                    :is="item.iconComponent"
+                    :size="24"
+                    :useGradient="isActive(item)"
+                    :color="isActive(item) ? null : 'white'"
+                    class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
+                </template>
+                <!-- Mobile: usar currentColor para soportar hover y activo via CSS -->
+                <template v-else>
                   <component
                     :is="item.iconComponent"
                     :size="24"
-                    :useGradient="true"
-                    class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
-                </div>
-                <component
-                  v-else
-                  :is="item.iconComponent"
-                  :size="24"
-                  :useGradient="isActive(item)"
-                  :color="isActive(item) ? null : 'white'"
-                  class="flex-none w-[24px] h-[24px] transition-colors duration-700"/>
+                    :useGradient="false"
+                    class="flex-none w-[24px] h-[24px] transition-colors duration-200"
+                    :class="[
+                      isActive(item) ? 'text-[#002C4D]' : 'text-white',
+                      !isActive(item) ? 'group-hover:text-[#FDC300]' : ''
+                    ]"
+                  />
+                </template>
               </template>
 
               <span
                 v-if="isExpanded"
-                class="text-left text-[18px] leading-[21px] font-['Work_Sans'] transition-opacity duration-700 whitespace-nowrap"
-                :class="{
-                  'font-bold bg-azul-gradian bg-clip-text text-transparent': isActive(item),
-                  'font-normal text-white': !isActive(item),
-                }"
+                class="text-left text-[18px] leading-[21px] font-['Work_Sans'] whitespace-nowrap transition-colors duration-200"
+                :class="[
+                  isMobile
+                    ? [
+                        isActive(item) ? 'font-bold text-[#002C4D]' : 'font-normal text-white',
+                        !isActive(item) ? 'group-hover:text-[#FDC300] group-hover:font-bold' : ''
+                      ]
+                    : [
+                        isActive(item) ? 'font-bold bg-azul-gradian bg-clip-text text-transparent' : 'font-normal text-white'
+                      ]
+                ]"
                 >{{ item.title }}</span>
               <span v-if="item.submenu && isExpanded" class="ml-auto">
                 <svg
@@ -138,11 +174,10 @@
             <!-- Submenú personalizado estilo Figma -->
             <div
               v-if="item.submenu && isExpanded && item.submenuOpen"
-              class="submenu-busqueda absolute left-[0px] top-0 z-50"
-              style="width:246px;height:161.02px;"
+              class="submenu-busqueda absolute left-0 top-0 z-50 w-[246px] h-[161.02px]"
             >
               <!-- Header amarillo -->
-              <div class="flex flex-row items-center gap-[20px] px-4 py-[10px] bg-amarillo rounded-t-[30px] text-[#005DCA]" style="width:244px;height:44px;">
+              <div class="flex flex-row items-center gap-[20px] px-4 py-[10px] bg-amarillo rounded-t-[30px] text-[#005DCA] w-[244px] h-[48px]">
                 <component :is="item.iconComponent" :size="24" :color="'#005DCA'" class="w-[24px] h-[24px]" />
                 <span class="font-bold text-[18px] leading-[21px] font-['Work_Sans'] bg-gradient-to-b from-[#005DCA] to-[#003B8A] bg-clip-text " style="width:130px;">{{ item.title }}</span>
                 <svg width="13" height="8" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-auto">
@@ -156,7 +191,7 @@
                 </svg>
               </div>
               <!-- Fondo blanco y lista -->
-              <div class="submenu-content-busqueda" style="position:absolute;top:44px;width:244px;height:117px;background:#fff;box-shadow:0px 5px 9.4px rgba(0,0,0,0.6);border-radius:0 0 20px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;">
+              <div class="submenu-content-busqueda absolute top-[44px] w-[244px] h-[117px] bg-white shadow-[0px_5px_9.4px_rgba(0,0,0,0.6)] rounded-b-[20px] flex flex-col justify-center items-center gap-[10px]">
                 <div
                   v-for="submenuItem in item.submenu"
                   :key="submenuItem.title"
@@ -165,8 +200,7 @@
                   @click="canAccessSubmenu ? handleSubmenuClick($event, submenuItem) : null"
                 >
                   <span
-                    class="flex items-center justify-center rounded-full"
-                    style="width:18.53px;height:18.53px;background:linear-gradient(180deg,#005DCA 0%,#003B8A 100%);"
+                    class="flex items-center justify-center rounded-full w-[18.53px] h-[18.53px] bg-gradient-to-b from-[#005DCA] to-[#003B8A]"
                   >
                     <component
                       v-if="submenuItem.iconComponent"
@@ -179,8 +213,7 @@
                   <router-link
                     v-if="submenuItem.to"
                     :to="submenuItem.to"
-                    class="text-[14px] leading-[16px] font-['Work_Sans'] font-normal text-[#003B8A]"
-                    style="width:168px;"
+                    class="text-[14px] leading-[16px] font-['Work_Sans'] font-normal text-[#003B8A] w-[168px] no-underline"
                     @click.stop="canAccessSubmenu ? null : $event.preventDefault()"
                   >
                     {{ submenuItem.title }}
@@ -190,7 +223,7 @@
             </div>
           </li>
 
-          <li>
+          <!-- <li>
             <div
               class="cursor-pointer flex lg:hidden mt-0 ml-6 mb-2 gap-1"
               @click="logout"
@@ -220,10 +253,10 @@
                 </svg>
               </div>
             </div>
-          </li>
-          <li class="lg:hidden">
+          </li> -->
+          <!-- <li class="lg:hidden">
             <Activity />
-          </li>
+          </li> -->
         </ul>
       </nav>
       
@@ -302,6 +335,7 @@ import {
   IconUsers,
   IconAttention
 } from '@/components/Icons';
+import IconCloseMenu from '@/components/Icons/IconCloseMenu.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -313,6 +347,21 @@ const user = computed(() => authStore.authenticatedUser.user);
 
 // Estado para controlar si el sidebar está expandido
 const isExpanded = ref(false);
+const isMobile = ref(window.innerWidth < 1024);
+
+const handleResizeSidebar = () => {
+  isMobile.value = window.innerWidth < 1024;
+  if (isMobile.value) {
+    isExpanded.value = true; // siempre expandido en mobile
+  }
+};
+
+const handleMouseEnter = () => {
+  if (!isMobile.value) isExpanded.value = true;
+};
+const handleMouseLeave = () => {
+  if (!isMobile.value) isExpanded.value = false;
+};
 
 /* const user = ref({
 	name: "Amy Elsner",
@@ -388,7 +437,7 @@ const isResponsive = ref(false);
 
 const host = import.meta.env.VITE_HOST;
 
-const emit = defineEmits(["item-click"]);
+const emit = defineEmits(["item-click", "close"]);
 
 // Función para actualizar el estado responsive
 const updateResponsive = () => {
@@ -454,6 +503,8 @@ const setActive = (item) => {
     router.push(item.to);
   }
   activeItem.value = item.title;
+  // Emitir para que el layout cierre el sidebar en mobile
+  emit('item-click', item);
 };
 //Computed para verificar si un elemento esta activo
 const isActive = (item) => {
@@ -497,50 +548,15 @@ const logout = async () => {
 
 // Configuración inicial
 onMounted(() => {
-  updateResponsive(); // Actualizar el estado al cargar la página
-  window.addEventListener("resize", updateResponsive); // Escuchar cambios de tamaño
+  updateResponsive();
+  handleResizeSidebar();
+  window.addEventListener("resize", updateResponsive);
+  window.addEventListener("resize", handleResizeSidebar);
 });
 
 // Limpieza del event listener
 onUnmounted(() => {
   window.removeEventListener("resize", updateResponsive);
+  window.removeEventListener("resize", handleResizeSidebar);
 });
 </script>
-<style scoped>
-a {
-  text-decoration: none; /* Elimina subrayado en enlaces */
-}
-
-.sidebar-container {
-  position: relative;
-  border-radius: 29.3592px;
-  filter: drop-shadow(4px 0px 9.7px rgba(0, 93, 202, 0.45));
-  z-index: 10;
-}
-
-.sidebar-container::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background: #000000;
-  border-radius: 30px;
-  mix-blend-mode: multiply;
-  opacity: 0.26;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Ocultar scrollbar pero mantener funcionalidad */
-nav::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
-nav {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-</style>
