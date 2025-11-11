@@ -5,7 +5,7 @@
 	>
 		<div
 			:class="[
-				'relative w-full h-full rounded-[5px] flex flex-col justify-center items-center',
+				'relative w-full h-full rounded-[20px] flex flex-col justify-center items-center',
 				expanded
 					? 'border border-[#9747FF] shadow-[0_4px_6.8px_rgba(0,0,0,0.25)] bg-[#005DCA]'
 					: 'bg-transparent border-none shadow-none'
@@ -15,7 +15,7 @@
 
 			<!-- Vista contraída: pill completo 70x50 con icono centrado -->
 			<div v-if="!expanded" class="w-full h-full relative">
-				<div class="absolute inset-0 bg-[#005DCA] shadow-[0_4px_12px_rgba(0,0,0,0.25)] rounded-[5px]"></div>
+				<div class="absolute inset-0 bg-[#005DCA] shadow-[0_4px_12px_rgba(0,0,0,0.25)] rounded-[20px]"></div>
 				<div class="absolute inset-0 flex items-center justify-between px-2">
 					<!-- Icono TXT a la izquierda -->
 					<div class="flex items-center justify-center">

@@ -34,7 +34,7 @@
           </div>
           <div v-else class="upload-placeholder">
             <img src="@/assets/images/txt.svg" alt="TXT" class="file-icon" />
-            <p class="drag-text">Arrastra y suelta el archivo .txt ó</p>
+            <p class="drag-text">Arrastra y suelta el archivo .txt <br></br> ó</p>
             <!-- Botón amarillo -->
             <button class="btn-search" @click="selectFile">Buscar</button>
             <!-- Input oculto -->
@@ -46,14 +46,6 @@
               accept=".txt,.csv,.xlsx"
             />
           </div>
-        </div>
-
-        <!-- Mensaje para dispositivos no compatibles -->
-        <div v-else class="mobile-warning">
-          <p>
-            Esta función solo está disponible desde un PC. Por favor, intenta
-            desde un ordenador.
-          </p>
         </div>
 
         <!-- Encabezado Archivos cargados -->
@@ -148,8 +140,27 @@
 
       <!-- Imagen del ciudadano (DERECHA) -->
       <div class="citizen-image-container">
-        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image -mt-[100px]" />
+        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image -mt-[50px]" />
       </div>
+    </div>
+    <!-- Cuadro azul solo para mobile, debajo de la imagen -->
+    <div class="mobile-warning-outer">
+        <div class="mobile-warning relative">
+          <!-- Imagen decorativa como en SidebarLeft.vue -->
+          <div
+            class="absolute mix-blend-multiply opacity-30"
+          >
+            <img
+              src="@/assets/images/blue-warning-bg.svg"
+              alt="decorative blue warning background"
+							class="mt-[4px]"
+            />
+          </div>
+          <div class="mobile-warning-border relative z-10">
+            <LogoRav :width="90" :height= "60" />
+            <span>Este módulo solo está disponible en versión de escritorio.</span>
+          </div>
+        </div>
     </div>
   </div>
 </template>
@@ -168,6 +179,7 @@ import RefreshIcon from "@/components/Icons/RefreshIcon.vue";
 import CollapseIcon from "@/components/Icons/CollapseIcon.vue";
 import DeleteIcon from "@/components/Icons/DeleteIcon.vue";
 import TxtIcon from "@/components/Icons/TxtIcon.vue";
+import LogoRav from "@/components/Icons/LogoRav.vue";
 
 // Variables y lógica para la carga de archivos
 const uploadedFile = ref(null);
@@ -687,11 +699,45 @@ const uploadFile = async () => {
   display: none;
 }
 
-/* Mensaje para móviles */
+/* Cuadro azul mobile fuera de la tarjeta */
+.mobile-warning-outer {
+  display: none;
+}
 .mobile-warning {
+  background: linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%);
+  color: #fff;
+  border-radius: 20px;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 28px;
   text-align: center;
-  color: #dc2626;
-  padding: 2rem;
+  width: 380px;
+  height: 260px;
+  margin: 1.5rem auto 0 auto;
+  padding: 0;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: unset;
+  max-width: 95vw;
+}
+
+.mobile-warning-border {
+  box-sizing: border-box;
+  border: 2px solid #FDC300;
+  border-radius: 10px;
+  width: 340px;
+  height: 220px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  background: transparent;
+  max-width: 90vw;
 }
 
 /* Información del archivo cargado */
@@ -802,7 +848,6 @@ const uploadFile = async () => {
 
 /* Contenedor de imagen del ciudadano (DERECHA) */
 .citizen-image-container {
-  height: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -812,6 +857,7 @@ const uploadFile = async () => {
 .citizen-image {
   height: 700px;
   object-fit: contain;
+  max-width: 100%;
 }
 
 /* Responsive */
@@ -822,17 +868,19 @@ const uploadFile = async () => {
   }
 
   .citizen-image {
-    max-width: 500px;
+    height: 400px;
   }
 }
 
 @media (max-width: 768px) {
   .main-container {
-    padding: 1rem 0.5rem;
+    padding: 0px;
+		gap: 0;
   }
 
   .upload-card {
     padding: 1.5rem;
+    display: none;
   }
 
   .main-title {
@@ -844,7 +892,11 @@ const uploadFile = async () => {
   }
 
   .citizen-image {
-    max-width: 350px;
+    margin: 0 auto;
+    display: block;
+  }
+  .mobile-warning-outer {
+    display: block;
   }
 }
 </style>
