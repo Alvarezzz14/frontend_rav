@@ -146,11 +146,11 @@ const goal = ref({
 });
 
 const customSegmentColors = [
-	"#71277A",
-	"#A032A4",
-	"#A032A4",
-	"#D041D5",
-	"#E64CEB",
+	"#003B8A",
+	"#005DCA",
+	"#1F6FE0",
+	"#3B88EA",
+	"#6AA6F3",
 ];
 // Progreso aleatorio
 const randomProgress = ref(generateRandomProgress());
@@ -243,7 +243,7 @@ const saveGoal = () => {
 }
 
 .text-customPurple {
-	color: #71277a;
+	color: #005DCA;
 }
 
 /* Estilo para el contenedor */

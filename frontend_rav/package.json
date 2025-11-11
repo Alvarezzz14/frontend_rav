@@ -28,7 +28,7 @@
     "vue-router": "^4.4.5",
     "vue-speedometer": "^3.0.1",
     "vue-toastification": "^2.0.0-rc.5",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.19.3"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.4",

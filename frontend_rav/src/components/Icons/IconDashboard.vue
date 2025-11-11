@@ -1,0 +1,35 @@
+<template>
+  <svg 
+    :width="size" 
+    :height="size" 
+    viewBox="0 0 34 34" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    :class="className">
+    <defs>
+      <linearGradient :id="gradId" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" :stop-color="gradientFrom" />
+        <stop offset="88.46%" :stop-color="gradientTo" />
+        <stop offset="98.08%" :stop-color="gradientTo" />
+      </linearGradient>
+    </defs>
+    <path 
+      d="M17 0C7.65 0 0 7.65 0 17C0 26.35 7.65 34 17 34C26.35 34 34 26.35 34 17C34 7.65 26.35 0 17 0ZM17 4.25C24.055 4.25 29.75 9.945 29.75 17C29.75 24.055 24.055 29.75 17 29.75C9.945 29.75 4.25 24.055 4.25 17C4.25 9.945 9.945 4.25 17 4.25ZM17 8.5C15.81 8.5 14.875 9.435 14.875 10.625C14.875 11.815 15.81 12.75 17 12.75C18.19 12.75 19.125 11.815 19.125 10.625C19.125 9.435 18.19 8.5 17 8.5ZM9.945 12.75C9.59311 12.863 9.27678 13.0658 9.02722 13.3384C8.77767 13.611 8.60353 13.944 8.52199 14.3045C8.44046 14.6649 8.45434 15.0404 8.56229 15.3939C8.67023 15.7474 8.86849 16.0666 9.1375 16.32L13.005 20.1875C12.92 20.5275 12.75 20.8675 12.75 21.25C12.75 23.5875 14.6625 25.5 17 25.5C19.3375 25.5 21.25 23.5875 21.25 21.25C21.25 18.9125 19.3375 17 17 17C16.6175 17 16.2775 17.17 15.9375 17.255L12.07 13.3875C11.8375 13.1302 11.5455 12.9336 11.2195 12.8151C10.8935 12.6966 10.5435 12.6596 10.2 12.7075C10.1151 12.7024 10.0299 12.7024 9.945 12.7075V12.75ZM23.375 12.75C22.185 12.75 21.25 13.685 21.25 14.875C21.25 16.065 22.185 17 23.375 17C24.565 17 25.5 16.065 25.5 14.875C25.5 13.685 24.565 12.75 23.375 12.75Z" 
+      :fill="useGradient ? `url(#${gradId})` : color"/>
+  </svg>
+</template>
+
+<script setup>
+import { getCurrentInstance } from 'vue'
+defineProps({
+  size: { type: [String, Number], default: 34 },
+  color: { type: String, default: 'currentColor' },
+  className: { type: String, default: '' },
+  useGradient: { type: Boolean, default: false },
+  gradientFrom: { type: String, default: '#005DCA' },
+  gradientTo: { type: String, default: '#003B8A' }
+})
+
+const uid = getCurrentInstance()?.uid ?? Math.floor(Math.random()*1e6)
+const gradId = `gradAzul-${uid}`
+</script>

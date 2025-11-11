@@ -1,171 +1,159 @@
 <template>
-	<div class="flex flex-col gap-5 p-4">
-		<!-- Primera Sección: Contenedores con contenido e imagen -->
-		<div class="flex gap-5 justify-between">
-			<div
-				v-for="(image, index) in imagePaths"
-				:key="index"
-				class="rounded-lg text-center shadow-lg w-full sm:w-1/4 md:w-1/5 my-card"
-				:style="{
-					backgroundImage:
-						'url(' +
-						image.path +
-						'), linear-gradient(180deg, rgba(0, 0, 0, 0) 16%, #71277A 85.5%)',
-					backgroundPosition: 'center',
-					height: '287.6px',
-					width: '287.6px',
-					borderRadius: '10px',
-					backgroundBlendMode: 'multiply',
-					position: 'relative',
-				}">
-				<!-- Contenedor para el título y el número en la parte inferior -->
-				<div
-					class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-transparent to-transparent rounded-lg">
-					<h4 class="font-bold text-white text-lg text-center">
-						{{ image.title }}
-					</h4>
-					<div class="text-3xl font-semibold text-white text-center">
-						<p>{{ image.count }}</p>
-					</div>
-				</div>
-			</div>
-		</div>
+  <div class="flex flex-col gap-5 p-4 w-full max-w-[1453px] overflow-hidden">
+    <!-- Texto de bienvenida con icono -->
+    <div class="flex items-center gap-2">
+      <!-- Icono Dashboard con círculo (gradiente azul) -->
+      <div class="relative w-[30px] h-[29.93px] flex-none">
+        <!-- Círculo de fondo (gradiente azul de marca) -->
+        <div
+          class="absolute inset-0 w-[30px] h-[29.93px] bg-azul-gradian rounded-full"
+        ></div>
+        <!-- Icono blanco centrado, tamaño 16.61x15.91px -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <IconDashboard :size="17" color="white" class="w-[17px] h-[17px]" />
+        </div>
+      </div>
+      <h1
+        class="text-azul2Ape"
+        style="
+          font-family: 'Work Sans';
+          font-weight: 700;
+          font-size: 30px;
+          line-height: 100%;
+          letter-spacing: 0%;
+        "
+      >
+        Bienvenido, {{ empresaNombre }}
+      </h1>
+    </div>
 
-		<!-- Segunda Sección: Gráficos -->
-		<div class="grid gap-5 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
-			<div
-				class="p-4 border my-card bg-customPurple rounded-lg w-full max-w-full sm:max-w-full">
-				<PieChart />
-			</div>
-			<div
-				class="p-4 border my-card border-customPurple rounded-lg bg-white w-full !h-full max-w-full sm:max-w-full">
-				<BarChart />
-			</div>
-		</div>
+    <!-- Primera Sección: Contenedores con contenido e imagen -->
+    <div class="flex gap-7 justify-start flex-wrap">
+      <div
+        v-for="(image, index) in imagePaths"
+        :key="index"
+        class="relative rounded-[20px] flex-shrink-0 image-card overflow-hidden"
+        style="width: 330px; height: 330px"
+      >
+        <!-- Imagen de fondo -->
+        <img
+          :src="image.path"
+          :alt="image.title"
+          class="absolute object-cover"
+          style="width: 330px; height: 330px"
+        />
+        <!-- Contenedor para el título y el número -->
+        <div
+          class="absolute inset-0 flex flex-col items-center justify-end pb-8"
+        >
+          <!-- Título -->
+          <h4
+            class="text-white text-center mb-1"
+            style="
+              font-family: 'Work Sans';
+              font-weight: 700;
+              font-size: 23.9122px;
+              line-height: 28px;
+              text-shadow: 0px 4.78243px 4.78243px rgba(0, 0, 0, 0.25);
+            "
+          >
+            {{ image.title }}
+          </h4>
+          <!-- Número -->
+          <p
+            class="text-white text-center m-0"
+            style="
+              font-family: 'Work Sans';
+              font-weight: 700;
+              font-size: 38.2595px;
+              line-height: 45px;
+              text-shadow: 0px 4.78243px 4.78243px rgba(0, 0, 0, 0.25);
+            "
+          >
+            {{ image.count }}
+          </p>
+        </div>
+      </div>
+    </div>
 
-		<!-- Tercera Sección: Tabla de Datos -->
-		<div
-			class="p-4 border border-customPurple my-card rounded-lg bg-white overflow-x-auto">
-			<table class="w-full border-collapse">
-				<thead>
-					<tr>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">
-							Departamento
-						</th>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">
-							Nombre Víctima
-						</th>
-						<th class="p-3 text-left border-b bg-gray-200 font-bold">
-							Fecha de Acercamiento
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<!-- Muestra un mensaje si no hay datos -->
-					<tr v-if="!tableData && Object.keys(tableData).length === 0">
-						<td colspan="3" class="p-3 text-center text-gray-500">
-							No hay datos disponibles.
-						</td>
-					</tr>
-					<!-- Rellena la tabla con los datos -->
-					<tr v-for="(row, index) in tableData.data" :key="index">
-						<td class="p-3 border-b">{{ row.nombre_departamento }}</td>
-						<td class="p-3 border-b">{{ row.nombre_completo }}</td>
-						<td class="p-3 border-b">{{ formatDate(row.fecha_hora) }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+    <!-- Segunda Sección: Gráficos -->
+    <div class="grid gap-3 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+      <div
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
+        style="
+          width: 688px;
+          height: 342px;
+        "
+      >
+        <PieChart />
+      </div>
+      <div
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)]"
+        style="background: white; width: 688px; height: 342px"
+      >
+        <BarChart />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 // Importar componentes
 import { ref, onMounted } from "vue";
-import LineChart from "@/components/LineChart.vue";
 import BarChart from "@/components/BarChart.vue";
-import EnFormacion from "@/assets/images/EnFormacion.png";
-import Certificados from "@/assets/images/Certificados.png";
-import EnProceso from "@/assets/images/PorCertificar.png";
-import Cancelados from "@/assets/images/Cancelados.svg";
+import EnFormacion from "@/assets/images/EnFormacion.webp";
+import Certificados from "@/assets/images/Certificados.webp";
+import EnProceso from "@/assets/images/PorCertificar.webp";
+import Cancelados from "@/assets/images/Cancelados.webp";
 import PieChart from "./PieChart.vue";
-import axios from "axios";
+import IconDashboard from "@/components/Icons/IconDashboard.vue";
+
+// Nombre de la empresa - Se actualizará desde el backend
+const empresaNombre = ref("RAV");
 
 // Datos de las imágenes estáticas y sus títulos
 const imagePaths = ref([
-	{
-		title: "EN FORMACIÓN",
-		count: "12883124",
-		path: EnFormacion,
-	},
-	{
-		title: "CERTIFICADOS",
-		count: "9888112",
-		path: Certificados,
-	},
-	{
-		title: "POR CERTIFICAR",
-		count: "85883161",
-		path: EnProceso,
-	},
-	{
-		title: "CANCELADOS",
-		count: "99883151",
-		path: Cancelados,
-	},
+  {
+    title: "En formación",
+    count: "12883124",
+    path: EnFormacion,
+  },
+  {
+    title: "Certificados",
+    count: "9888112",
+    path: Certificados,
+  },
+  {
+    title: "Por certificar",
+    count: "85883161",
+    path: EnProceso,
+  },
+  {
+    title: "Cancelados",
+    count: "99883151",
+    path: Cancelados,
+  },
 ]);
-
-const tableData = ref([]); // Datos de la tabla inicializados vacíos
-const loading = ref(false); // Indicador de carga para mostrar durante la consulta
-const errorMessage = ref(null); // Almacena errores en caso de que falle la consulta
-const host = import.meta.env.VITE_HOST;
-
-const formatDate = (isoDate) => {
-	const date = new Date(isoDate);
-	return new Intl.DateTimeFormat("es-ES", {
-		dateStyle: "medium",
-		timeStyle: "short",
-	}).format(date);
-};
-
-// Hook para realizar la consulta al montar el componente
-onMounted(async () => {
-	tableData.value = await fetchTableData();
-	console.log(Object.keys(tableData.value).length === 0);
-});
-
-// Función para obtener los datos de la API
-const fetchTableData = async () => {
-	loading.value = true;
-	errorMessage.value = null;
-
-	try {
-		const response = await axios.get(
-			`${host}:8082/api/v1/victimas/ticket/attended`
-		);
-		console.log(response.data);
-		// Suponiendo que la respuesta contiene un array de datos
-
-		return response.data;
-	} catch (error) {
-		errorMessage.value = "Error al obtener los datos. Intente nuevamente.";
-		console.error("Error al obtener los datos de la API:", error);
-	} finally {
-		loading.value = false;
-	}
-};
 </script>
 
 <style scoped>
-@import "@/styles/table-styles.css";
-
-.my-card {
-	transition: transform 0.3s ease-in-out;
-	/* Transición de la propiedad transform con duración de 300ms */
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Animación para las cards de imágenes superiores */
+.image-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-.my-card:hover {
-	transform: scale(1.05);
+.image-card:hover {
+  transform: scale(1.05);
+}
+
+/* Ocultar barras de scroll pero mantener funcionalidad */
+:deep(.hide-scrollbar) {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+:deep(.hide-scrollbar::-webkit-scrollbar) {
+  display: none; /* Chrome, Safari y Opera */
 }
 </style>

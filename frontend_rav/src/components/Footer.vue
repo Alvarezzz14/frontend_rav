@@ -4,10 +4,9 @@
 
 		<div
 			class="flex items-center h-12 justify-center w-full sm:w-auto sm:justify-start bg-azulHeaderFooter">
-			<img
-				:src="IconoGov"
-				alt="Icono Institucional"
-				class="w-[140px] h-6 pl-6 sm:ml-0 my-2" />
+			<IconoGov
+				class="w-[140px] h-6 pl-6 sm:ml-0 my-2"
+			/>
 		</div>
 
 		<!-- Texto centrado con fondo negro -->
@@ -20,5 +19,5 @@
 
 <script setup>
 // Importamos el componente del ícono
-import IconoGov from "@/assets/images/Gov.svg";
+ import IconoGov from "@/components/Icons/IconoGov.vue";
 </script>
