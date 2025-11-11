@@ -154,7 +154,7 @@
   </div>
 </template>
 <script setup>
-import Ciudadano from "@/assets/images/cuidadanoflauta.avif";
+import Ciudadano from "@/assets/images/subirFichero/personaSubirFicheroMD.avif";
 const azulApe = '#005DCA';
 import TXT from "@/assets/images/txt.svg";
 import download from "@/assets/images/download.svg";

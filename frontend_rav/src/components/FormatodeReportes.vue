@@ -161,7 +161,7 @@ import { ref, watch } from 'vue';
 import axios from "axios";
 import ExcelJS from "exceljs";
 import Reportes from "@/assets/images/Reportes.svg";
-import PersonaReportes from "@/assets/images/PersonaReportes.svg";
+import PersonaReportes from "@/assets/images/PersonaReportes.avif";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 import RavSelect from '@/components/Inputs/RavSelect.vue';
 
