@@ -19,8 +19,7 @@
 				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2 max-xl:w-6/12">
 				<img :src="arrowBack" alt="volver">
 				<span class="text-white font-bold text-sm text-center items-center justify-center"
-					>Regresar a perfil del ciudadano</span
-				>
+					>Regresar a perfil del ciudadano</span>
 			</router-link>
 			
 
