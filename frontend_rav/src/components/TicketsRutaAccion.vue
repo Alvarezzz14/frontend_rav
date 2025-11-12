@@ -1,5 +1,5 @@
 <template>
-	<div class="m-5">
+	<div class="-pl-4">
 		<div class="flex flex-col md:flex-row items-center justify-between">
 			<!-- Sección Izquierda (Icono y Título) -->
 			<div class="flex items-center">
@@ -46,7 +46,7 @@
 				<h2 class="text-blue-950 ms-2 text-xl md:text-3xl">Ruta de atención al ciudadano</h2>
 			</div>
 		</div>
-		<div class="flex flex-col md:flex-row gap-3 mb-5">
+		<div class="flex flex-col xl:flex-row gap-3 mb-5">
 			<!-- Sección Derecha (Botón) -->
 			<router-link
 				:to="{ name: 'PerfilCiudadanoPage' }"
@@ -59,7 +59,7 @@
 			
 
 			<!-- Recuadro Blanco (Información del ciudadano) -->
-			<div class="flex flex-col md:flex-row items-center mt-2 gap-2 md:gap-5 text-xl">
+			<div class="flex flex-col xl:flex-row items-center mt-2 gap-2 xl:gap-5 text-xl">
 
 				<div class="ms-3">
 					<span class="text-blue-950  font-bold">Ciudadano: </span>
@@ -73,26 +73,26 @@
 
 			
 		</div>
-		<div class="bg-white p-3 shadow-custom rounded-2xl">
-			<table class="w-full !border-separate border-spacing-2">
+		<div class="bg-white shadow-custom rounded-2xl">
+			<table class="w-full !border-separate border-spacing-2 md:p-3">
 				<thead>
-					<tr>
-						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
+					<tr class="text-xs">
+						<th class="bg-azul-gradian rounded-lg py-2 px-2 md:ps-3">
 							<div class="flex items-center">
 								<img :src="calendario" alt="calendario">
-								<span class="pl-2 text-white">FECHA</span>
+								<span class="pl-1 md:pl-2 text-white md:text-lg">Fecha</span>
 							</div>
 						</th>
-						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
+						<th class="bg-azul-gradian rounded-lg py-2 px-2 md:ps-3">
 							<div class="flex items-center">
 								<img :src="ticket" alt="ticket">
-								<span class="pl-2 text-white">TICKET</span>
+								<span class="pl-1 md:pl-2 text-white md:text-lg">Ticket</span>
 							</div>
 						</th>
-						<th class="bg-azul-gradian rounded-lg py-2 ps-3">
+						<th class="bg-azul-gradian rounded-lg py-2 px-2 md:ps-3">
 							<div class="flex items-center">
 								<img :src="eyeRounded" alt="eye">
-								<span class="pl-2 text-white">VISUALIZAR</span>
+								<span class="pl-1 md:pl-2 text-white md:text-lg">{{ screenSize == "mobile" ? "Ver" : "Visualizar" }}</span>
 							</div>
 						</th>
 					</tr>
@@ -107,32 +107,30 @@
 					</tr>
 					<tr v-for="(events, date) in fetchData.data" :key="date" class="h-32">
 						<!-- Columna de Fecha -->
-						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
-							<div class="h-full py-4 px-4 rounded-lg bg-white text-xl items-start">
-								<time class="font-bold text-gray-700">{{
-									formatDate(events.fecha_hora)
-								}}</time>
+						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-xl">
+							<div class="h-full py-4 lg:px-4 rounded-xl bg-white text-xs md:text-xl items-start">
+								<time class="font-medium md:font-bold text-gray-700">{{ events.fecha_hora }}</time>
 							</div>
 						</td>
 
 						<!-- Columna de Información del Evento -->
-						<td class="h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
-							<div class="h-full py-4 px-4 rounded-lg bg-white flex items-center">
+						<td class="h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-xl">
+							<div class="h-full py-4 px-2 lg:px-4 rounded-xl bg-white flex items-center tracking-tight">
 								<div class="leading-3">
-									<span class="text-[10px] md:text-xl">Ticekt 6</span>
+									<span class="text-xs md:text-xl">Ticekt 6</span>
 									<br>
-									<span class="font-semibold text-blue-950 text-sm md:text-2xl">
+									<span class="font-bold text-blue-950 text-sm md:text-2xl">
 										{{ events.titulo }}
 									</span>
 									<div>
-										<p>{{ events.contenido }}</p>
+										<p class="text-xs md:text-lg mt-0">{{ events.contenido }}</p>
 									</div>
 								</div>
 							</div>
 						</td>
 
 						<!-- Columna de Visualización -->
-						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
+						<td class="p-1 h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-xl">
 							<div class="h-full py-4 px-4 bg-white  flex items-center justify-center">
 								<!-- <div
 									@click="toggleEventDetails(date)"
@@ -145,7 +143,7 @@
 										<svg v-if="openedGroups[date]" width="39" height="38" viewBox="0 0 39 38" fill="none" xmlns="http://www.w3.org/2000/svg">
 										</svg>
 									</transition> -->
-								<button class="border border-hidden rounded-menu bg-verde-gradient w-24 py-1 text-md text-white font-bold hover:cursor-pointer"><img :src="eyebtn" alt="ojo ver mas"> ver</button>
+								<button class="border border-hidden rounded-menu bg-verde-gradient md:w-24 py-1 text-md text-white font-bold hover:cursor-pointer"><img :src="eyebtn" alt="ojo ver mas"> {{ screenSize != "mobile" ? "ver" : "" }}</button>
 							</div>
 						</td>
 					</tr>
@@ -163,6 +161,7 @@ import calendario from "@/assets/images/calendario.svg"
 import ticket from "@/assets/images/ticket.svg"
 import eyeRounded from "@/assets/images/eyeRounded.svg"
 import eyebtn from "@/assets/images/eyebtn.svg";
+import { useResponsive } from "@/composables";
 
 const openedGroups = ref({});
 const fetchData = ref([]);
@@ -171,6 +170,7 @@ const userInfo = ref({
 	nombrecompleto: "Juan Pérez García",
 	documento: "1234567890"
 });
+const { screenSize } = useResponsive()
 
 const host = import.meta.env.VITE_HOST;
 
@@ -210,22 +210,22 @@ const getFetchData = async (fetchOptions) => {
 	fetchData.value = {
 		data: [
 			{
-				fecha_hora: "2024-11-01T10:30:00",
+				fecha_hora: "13/07/2023",
 				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
-				fecha_hora: "2024-11-05T14:15:00",
+				fecha_hora: "13/07/2023",
 				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
-				fecha_hora: "2024-11-10T09:00:00",
+				fecha_hora: "13/07/2023",
 				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
-				fecha_hora: "2024-11-15T16:45:00",
+				fecha_hora: "13/07/2023",
 				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			}

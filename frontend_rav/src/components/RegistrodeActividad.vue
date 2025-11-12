@@ -65,7 +65,7 @@
 				</label>
 				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-20 rounded-menu border-0 py-2 cursor-pointer">Ver más +</button>
 			</div>
-			<div v-else class="flex flex-wrap gap-3 [&_button]:rounded-menu [&_button]:bg-gray-100 [&_button]:border-0 [&_button]:py-3">
+			<div v-else class="flex flex-wrap gap-3 [&_button]:rounded-menu [&_button]:bg-gray-100 [&_button]:border-0  [&_button]:py-3">
 				<button v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="px-3">{{ keyword }}</button>	
 				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-6">Ver más +</button>
 			</div>
