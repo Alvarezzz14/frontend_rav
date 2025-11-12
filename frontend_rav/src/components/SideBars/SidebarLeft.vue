@@ -32,7 +32,7 @@
       "
     >
       <img 
-        src="@/assets/images/degradedMenu2.svg" 
+        :src="degradeMenu2" 
         alt="decorative gradient collapsed"
         class="w-full h-full object-cover"
         style="border-radius: 29.3592px;"
@@ -283,6 +283,7 @@ import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
 import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
+import degradeMenu2 from "@/assets/images/degradedMenu2.svg"
 import Activity from "./Activity.vue";
 import { useEventStore } from "@/stores/storedataOff";
 import { 
