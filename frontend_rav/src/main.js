@@ -23,6 +23,22 @@ const pinia = createPinia();
 const app = createApp(App);
 app.use(pinia);
 const authStore = useAuthStore();
+
+// Seed de autenticación en desarrollo: crea un usuario en localStorage si no existe
+if (import.meta.env.DEV && !window.localStorage.getItem('auth')) {
+    const payload = {
+        email: 'demo@rav.gov.co',
+        user_id: 1,
+    };
+    const token = `dummy.${btoa(JSON.stringify(payload))}.dummy`;
+    const user = {
+        nombre: 'Usuario',
+        apellidos: 'Demo',
+        documento: '00000000',
+        rol: 'ADMIN',
+    };
+    window.localStorage.setItem('auth', JSON.stringify({ user, token }));
+}
 authStore.initializeAuth(); // Inicializa la autenticación desde localStorage
 
 

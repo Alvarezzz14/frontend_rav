@@ -1,25 +1,37 @@
 <template>
 	<div class="overflow-auto flex flex-col min-h-dvh">
-		<!-- Logo para pantallas pequeñas -->
-		<div class="lg:hidden flex justify-center py-4">
-			<img :src="RavLogo" alt="Logo Rav" />
-		</div>
-
-		<!-- Barra horizontal (botón para abrir el sidebar) -->
-		<div
-			@click="toggleSidebar"
-			class="lg:hidden flex h-12 cursor-pointer items-center font-bold bg-customPurple text-amarillo text-lg shadow-md p-4 w-full">
-			<svg
-				width="27"
-				height="27"
-				viewBox="0 0 25 25"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg">
-				<circle cx="12.5" cy="12.5" r="12.5" fill="#FDC300" />
-				<path
-					d="M8 8V9.12646H17.0117V8H8ZM8 11.3456V12.4721H17.0117V11.3456H8ZM8 14.725V15.8515H17.0117V14.725H8Z"
-					fill="#005DCA" />
-			</svg>
+        <!-- Header mobile (solo mobile): contenedor 394x54 centrado -->
+		<div class="lg:hidden flex justify-center w-full py-4">
+			<div class="flex items-center justify-between w-full max-w-[394px] h-[54px]">
+				<LogoRavMobile class="w-[128px] h-[54px]" />
+				<div class="flex items-center gap-3">
+					<!-- Botón actividad -->
+					<button
+						type="button"
+						aria-label="Actividad"
+						class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-[#005DCA] to-[#003B8A]"
+						@click="toggleActivity"
+					>
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+							<circle cx="10" cy="10" r="10" fill="#FDC300" />
+							<path d="M6 10.5L9 13.5L14 8.5" stroke="#005DCA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						</svg>
+					</button>
+					<!-- Botón menú -->
+					<button
+						type="button"
+						aria-label="Menú"
+						class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-[#005DCA] to-[#003B8A]"
+						@click="toggleSidebar"
+					>
+						<svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+							<rect y="0" width="18" height="2" rx="1" fill="#F2F3F3" />
+							<rect y="6" width="18" height="2" rx="1" fill="#F2F3F3" />
+							<rect y="12" width="18" height="2" rx="1" fill="#F2F3F3" />
+						</svg>
+					</button>
+				</div>
+			</div>
 		</div>
 
 		<!-- Contenedor principal con sidebars integrados -->
@@ -27,18 +39,15 @@
 			class="flex-1 min-w-0 overflow-auto bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar"
 			style="background-image: url('src/assets/images/plantas.svg')">
 			
-			<!-- Overlay (solo para main) -->
-			<div
-				v-show="isSidebarOpen && isSmallScreen"
-				class="absolute inset-0 lg:hidden min-h-dvh bg-black bg-opacity-75 z-20"
-				@click="closeSidebar"></div>
+			<!-- Overlay deshabilitado porque el sidebar móvil cubre toda la pantalla -->
+			<div v-show="false"></div>
 
 			<!-- Sidebar izquierdo desplegable en Menos de 1024px -->
 			<transition name="slide">
 				<aside
 					v-show="isSidebarOpen && isSmallScreen"
-					class="absolute left-0 top-0 shadow-md lg:hidden z-30 w-[280px] h-full">
-					<SidebarLeft @item-click="closeSidebar" />
+					class="fixed inset-0 lg:hidden z-30 w-screen h-screen p-0">
+					<SidebarLeft @item-click="closeSidebar" @close="closeSidebar" />
 				</aside>
 			</transition>
 
@@ -49,7 +58,7 @@
 
 			<!-- Contenido del dashboard -->
 			<div class="w-full min-w-0 p-4 overflow-auto relative flex justify-center hide-scrollbar">
-				   <div class="w-full pl-4 lg:pl-[220px] lg:pr-[100px]">
+				   <div class="w-full lg:pl-[220px] lg:pr-[100px]">
 					   <router-view />
 				   </div>
 			</div>
@@ -78,7 +87,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import SidebarLeft from "@/components/SideBars/SidebarLeft.vue";
 import Activity from "@/components/SideBars/Activity.vue";
 import Footer from "@/components/Footer.vue";
-import RavLogo from "@/assets/images/ravLogo.png";
+import LogoRavMobile from "@/components/Icons/LogoRavMobile.vue";
 import FileNotification from "@/components/FileNotification.vue";
 
 // Estados para controlar los menús y el overlay
