@@ -43,23 +43,23 @@
 					</svg>
 				</div>
 				
-				<h2 class="text-blue-950 ms-2">Ruta de atención al ciudadano</h2>
+				<h2 class="text-blue-950 ms-2 text-xl md:text-3xl">Ruta de atención al ciudadano</h2>
 			</div>
 		</div>
-		<div class="flex gap-3 mb-5">
+		<div class="flex flex-col md:flex-row gap-3 mb-5">
 			<!-- Sección Derecha (Botón) -->
 			<router-link
 				:to="{ name: 'PerfilCiudadanoPage' }"
 				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2">
 				<img :src="arrowBack" alt="volver">
-				<span class="text-white font-bold text-sm text-center items-center justify-center"
+				<span class="text-white text-lg text-center items-center justify-center"
 					>Regresar a perfil del ciudadano</span
 				>
 			</router-link>
 			
 
 			<!-- Recuadro Blanco (Información del ciudadano) -->
-			<div class="flex items-center gap-5 text-xl">
+			<div class="flex flex-col md:flex-row items-center mt-2 gap-2 md:gap-5 text-xl">
 
 				<div class="ms-3">
 					<span class="text-blue-950  font-bold">Ciudadano: </span>
@@ -119,9 +119,9 @@
 						<td class="h-full shadow-[0_0_0_1px_rgb(209,213,219)] rounded-lg">
 							<div class="h-full py-4 px-4 rounded-lg bg-white flex items-center">
 								<div class="leading-3">
-									<span class="text-xl">Ticekt 6</span>
+									<span class="text-[10px] md:text-xl">Ticekt 6</span>
 									<br>
-									<span class="font-semibold text-blue-950 text-2xl">
+									<span class="font-semibold text-blue-950 text-sm md:text-2xl">
 										{{ events.titulo }}
 									</span>
 									<div>

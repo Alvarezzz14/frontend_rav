@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-5 p-4 w-full max-w-[1453px] overflow-hidden">
+  <div class="flex flex-col gap-5 xl:p-4 w-full max-w-[1453px] overflow-hidden">
     <!-- Texto de bienvenida con icono -->
     <div class="flex items-center gap-2">
       <!-- Icono Dashboard con círculo (gradiente azul) -->
@@ -21,11 +21,11 @@
     </div>
 
     <!-- Primera Sección: Contenedores con contenido e imagen -->
-    <div class="flex flex-wrap lg:flex-nowrap gap-7 lg:justify-start">
+    <div class="grid grid-cols-2 xl:flex xl:flex-row gap-2 xl:gap-7 lg:justify-center">
       <div
         v-for="(image, index) in imagePaths"
         :key="index"
-        class="relative rounded-[20px] image-card overflow-hidden w-[330px] h-[330px]"
+        class="relative rounded-[20px] image-card overflow-hidden w-h-48 h-48  lg:w-[300px] lg:h-[300px] xl:w-[330px] xl:h-[330px]"
       >
         <!-- Imagen de fondo -->
         <img
@@ -39,13 +39,13 @@
         >
           <!-- Título -->
           <h4
-            class="text-white text-center mb-1 font-work-sans font-bold text-2xl leading-7 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
+            class="text-white text-center mb-1 font-work-sans font-bold text-lg xl:text-2xl leading-5 xl:leading-7 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
           >
             {{ image.title }}
           </h4>
           <!-- Número -->
           <p
-            class="text-white text-center m-0 font-work-sans font-bold text-[38px] leading-10 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
+            class="text-white text-center m-0 font-work-sans font-bold text-2xl xl:text-[38px] leading-5 xl:leading-10 [text-shadow:0px_4.78243px_4.78243px_rgba(0,0,0,0.25)]"
           >
             {{ image.count }}
           </p>
@@ -56,7 +56,7 @@
     <!-- Segunda Sección: Gráficos -->
     <div class="grid xl:grid-cols-2 gap-7">
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full h-[342px]"
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full xl:h-[342px]"
       >
         <PieChart />
       </div>
