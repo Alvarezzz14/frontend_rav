@@ -34,7 +34,7 @@
           </div>
           <div v-else class="upload-placeholder">
             <img src="@/assets/images/txt.svg" alt="TXT" class="file-icon" />
-            <p class="drag-text">Arrastra y suelta el archivo .txt <br></br> ó</p>
+            <p class="drag-text">Arrastra y suelta el archivo .txt <br> ó</p>
             <!-- Botón amarillo -->
             <button class="btn-search" @click="selectFile">Buscar</button>
             <!-- Input oculto -->
@@ -165,8 +165,7 @@
   </div>
 </template>
 <script setup>
-import Ciudadano from "@/assets/images/cuidadanoflauta.avif";
-const azulApe = '#005DCA';
+import Ciudadano from "@/assets/images/subirFichero/personaSubirFicheroMD.avif";
 import TXT from "@/assets/images/txt.svg";
 import download from "@/assets/images/download.svg";
 import { useFileNotificationStore } from "../stores/fileNotification";

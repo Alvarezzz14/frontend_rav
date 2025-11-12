@@ -211,22 +211,22 @@ const getFetchData = async (fetchOptions) => {
 		data: [
 			{
 				fecha_hora: "2024-11-01T10:30:00",
-				titulo: "Citacion audiencia",
+				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-05T14:15:00",
-				titulo: "Citacion audiencia",
+				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-10T09:00:00",
-				titulo: "Citacion audiencia",
+				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			},
 			{
 				fecha_hora: "2024-11-15T16:45:00",
-				titulo: "Citacion audiencia",
+				titulo: "Citación audiencia",
 				contenido: "Descripción del evento: citación a audiencia para Robert Johnson."
 			}
 		]
