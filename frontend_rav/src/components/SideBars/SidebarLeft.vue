@@ -71,7 +71,7 @@
 
     <!-- Menu de navegación (flex-1 solo en desktop) -->
     <nav
-      class="overflow-y-auto bg-transparent relative z-10"
+      class="overflow-y-auto bg-transparent relative z-20"
       :class="!isMobile ? 'flex-1' : ''"
     >
       <ul
