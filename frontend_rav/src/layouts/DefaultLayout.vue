@@ -1,42 +1,43 @@
 <template>
-	<div class="overflow-auto flex flex-col min-h-dvh">
-        <!-- Header mobile (solo mobile): contenedor 394x54 centrado -->
-		<div class="lg:hidden flex justify-center w-full py-4">
-			<div class="flex items-center justify-between w-full max-w-[394px] h-[54px]">
-				<LogoRavMobile class="w-[128px] h-[54px]" />
-				<div class="flex items-center gap-3">
-					<!-- Botón actividad -->
-					<button
-						type="button"
-						aria-label="Actividad"
-						class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-[#005DCA] to-[#003B8A]"
-						@click="toggleActivity"
-					>
-						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-							<circle cx="10" cy="10" r="10" fill="#FDC300" />
-							<path d="M6 10.5L9 13.5L14 8.5" stroke="#005DCA" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</button>
-					<!-- Botón menú -->
-					<button
-						type="button"
-						aria-label="Menú"
-						class="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-r from-[#005DCA] to-[#003B8A]"
-						@click="toggleSidebar"
-					>
-						<svg width="18" height="14" viewBox="0 0 18 14" fill="none">
-							<rect y="0" width="18" height="2" rx="1" fill="#F2F3F3" />
-							<rect y="6" width="18" height="2" rx="1" fill="#F2F3F3" />
-							<rect y="12" width="18" height="2" rx="1" fill="#F2F3F3" />
-						</svg>
-					</button>
+    <div class="overflow-auto flex flex-col min-h-dvh relative">
+        <!-- Header mobile absoluto según Figma: centrado, 394x54, top:56px -->
+		<div class="lg:hidden">
+			<div class="absolute top-8 left-0 w-full h-[54px] z-10 pl-4 pr-5">
+				<div class="w-full max-w-[394px] mx-auto h-full flex items-center justify-between">
+					<!-- Logo a la izquierda -->
+					<LogoRavMobile class="w-[128px] h-[54px]" />
+					<!-- Botones a la derecha -->
+					<div class="flex items-center gap-2">
+						<!-- Botón actividad -->
+						<button
+							type="button"
+							aria-label="Actividad"
+							class="flex items-center justify-center w-10 h-10 border-none rounded-full bg-azul-gradian active:brightness-95"
+							@click="toggleActivity"
+						>
+							<IconActividad :size="20" :active="isActivityExpanded" class="flex-shrink-0" />
+						</button>
+						<!-- Botón menú -->
+						<button
+							type="button"
+							aria-label="Menú"
+							class="flex items-center justify-center w-10 h-10 border-none rounded-full bg-azul-gradian hover:brightness-110 active:brightness-95"
+							@click="toggleSidebar"
+						>
+							<svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+								<rect y="0" width="18" height="2" rx="1" fill="#F2F3F3" />
+								<rect y="6" width="18" height="2" rx="1" fill="#F2F3F3" />
+								<rect y="12" width="18" height="2" rx="1" fill="#F2F3F3" />
+							</svg>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<!-- Contenedor principal con sidebars integrados -->
 		<main
-			class="flex-1 min-w-0 overflow-auto bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar"
+			class="flex-1 min-w-0 overflow-auto bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar pt-[120px] lg:pt-0"
 			style="background-image: url('src/assets/images/plantas.svg')">
 			
 			<!-- Overlay deshabilitado porque el sidebar móvil cubre toda la pantalla -->
@@ -67,10 +68,27 @@
 				<FileNotification />
 			</div>
 
-			<!-- Sidebar derecho de actividad - absolute -->
+			<!-- Sidebar derecho de actividad - desktop -->
 			<aside class="hidden lg:block absolute right-0 top-0 z-30 h-full p-4">
 				<Activity @toggle="toggleActivity" />
 			</aside>
+
+			<!-- Panel actividad móvil (overlay) -->
+			<transition name="slide">
+				<aside
+					v-show="isActivityExpanded && isSmallScreen"
+					class="fixed inset-0 w-screen h-screen z-40 overflow-y-auto lg:hidden"
+				>
+					<button
+						class="absolute top-8 left-7 w-10 h-10 flex border-none bg-transparent z-50"
+						@click="toggleActivity"
+						aria-label="Cerrar actividad"
+					>
+						<IconCloseMenu class="w-[30px] h-[30px]" />
+					</button>
+					<Activity />
+				</aside>
+			</transition>
 		</main>
 
 		<!-- Footer -->
@@ -89,10 +107,17 @@ import Activity from "@/components/SideBars/Activity.vue";
 import Footer from "@/components/Footer.vue";
 import LogoRavMobile from "@/components/Icons/LogoRavMobile.vue";
 import FileNotification from "@/components/FileNotification.vue";
+import IconActividad from "@/components/Icons/IconActividad.vue";
+import IconCloseMenu from "@/components/Icons/IconCloseMenu.vue";
+import { useUiStore } from '@/stores/ui';
+
+// Store UI para controlar expansión del panel de actividad
+const uiStore = useUiStore();
+const isActivityExpanded = computed(() => uiStore.isActivityExpanded);
 
 // Estados para controlar los menús y el overlay
 const isSidebarOpen = ref(false);
-const isActivityCollapsed = ref(false);
+// Eliminamos estado local duplicado de actividad: usamos store
 const isSmallScreen = ref(window.innerWidth < 1024); // Verificar si es pantalla pequeña
 
 // Métodos
@@ -105,7 +130,7 @@ const closeSidebar = () => {
 };
 
 const toggleActivity = () => {
-	isActivityCollapsed.value = !isActivityCollapsed.value;
+  uiStore.setActivityExpanded(!uiStore.isActivityExpanded);
 };
 
 // Listener para detectar cambios en el tamaño de la pantalla
