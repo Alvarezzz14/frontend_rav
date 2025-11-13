@@ -402,6 +402,9 @@ import { useAuthStore } from "../../stores/auth";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
 import { useToast } from "vue-toastification";
+import IconoLogout from "@/assets/iconosDash/malecostume-512.svg";
+import degradeMenu2 from "@/assets/images/degradedMenu2.svg"
+import Activity from "./Activity.vue";
 import { useEventStore } from "@/stores/storedataOff";
 import {
   LogoRav,
