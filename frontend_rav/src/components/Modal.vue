@@ -30,7 +30,7 @@
             <button @click="closeModal" class="bg-rojo-gradian shadow-[-1px_0_4px_rgba(0,0,0,0.3)] border-0 rounded-full text-white font-bold absolute top-0 right-1 px-1 cursor-pointer">X</button>           
           </div>
             
-          <div class="mx-4 mb-5 max-h-[450px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-azulApe [&::-webkit-scrollbar-thumb]:rounded-full">
+          <div class="mx-4 mb-5 max-h-[350px] xl:max-h-[450px] overflow-y-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-azulApe [&::-webkit-scrollbar-thumb]:rounded-full">
                 <slot></slot>
             </div>
         </div>

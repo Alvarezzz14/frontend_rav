@@ -5,7 +5,8 @@ export function useResponsive() {
   
   const checkScreenSize = () => {
     const width = window.innerWidth
-    if (width < 768) screenSize.value = 'mobile'
+    if (width <= 640) screenSize.value = 'mobile'
+    else if (width < 768 && width > 640) screenSize.value = 'tabletDevice'
     else if (width < 1024) screenSize.value = 'tablet'
     else screenSize.value = 'desktop'
   }

@@ -59,7 +59,7 @@
 			<h2 class="text-center xl:text-left font-bold text-lg mb-4 text-blue-950">Crear Ticket</h2>
 
 			<div class="flex flex-row flex-wrap gap-3 items-center xl:justify-start justify-center" v-if="screenSize === 'desktop'">
-				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
+				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2 cursor-pointer">
 					<input type="checkbox" class="me-3">
 					{{ keyword  }}
 				</label>
@@ -118,7 +118,7 @@
 		@close="showKeyWordsModal = false"
 		>
 			<div class="space-y-2 mx-2">
-				<label v-for="(keyword, keywordIndex) in dataKeyWords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2">
+				<label v-for="(keyword, keywordIndex) in dataKeyWords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2 cursor-pointer">
 					<input type="checkbox" class="me-3">
 					{{ keyword }}
 				</label>
