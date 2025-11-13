@@ -33,6 +33,10 @@
           :alt="image.title"
             class="absolute object-cover w-full h-full"
         />
+
+         <!-- Gradiente oscuro con mayor intensidad -->
+        <div class="absolute inset-0 bg-blue-gradient" />
+
         <!-- Contenedor para el título y el número -->
         <div
           class="absolute left-0 right-0 bottom-10 flex flex-col"
@@ -73,10 +77,10 @@
 // Importar componentes
 import { ref, onMounted } from "vue";
 import BarChart from "@/components/BarChart.vue";
-import EnFormacion from "@/assets/images/EnFormacion.webp";
-import Certificados from "@/assets/images/Certificados.webp";
-import EnProceso from "@/assets/images/PorCertificar.webp";
-import Cancelados from "@/assets/images/Cancelados.webp";
+import EnFormacion from "@/assets/images/Dashboard/en-formacion.avif";
+import Certificados from "@/assets/images/Dashboard/certificados.avif";
+import EnProceso from "@/assets/images/Dashboard/por-certificar.avif";
+import Cancelados from "@/assets/images/Dashboard/cancelados.avif";
 import PieChart from "./PieChart.vue";
 import IconDashboard from "@/components/Icons/IconDashboard.vue";
 
