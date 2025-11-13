@@ -3,7 +3,7 @@
 		<!-- Ícono institucional a la izquierda con fondo azul -->
 
 		<div
-			class="flex items-center h-12 justify-center w-full sm:w-auto sm:justify-start bg-azulHeaderFooter">
+			class="flex items-center h-12 w-full sm:w-auto sm:justify-start bg-azulHeaderFooter">
 			<IconoGov
 				class="w-[140px] h-6 pl-6 sm:ml-0 my-2"
 			/>

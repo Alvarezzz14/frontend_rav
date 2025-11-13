@@ -192,7 +192,7 @@ import FondoEmprender from "@/assets/images/FondoEmprender.png";
 import SenaLaIcon from "@/components/Icons/SenaLaIcon.vue";
 import ApeLaIcon from "@/components/Icons/ApeLaIcon.vue";
 import FondoEmprenderIcon from "@/components/Icons/FondoEmprenderIcon.vue";
-import CompetenciasLaboralLaIcon from "@/components/Icons/CompetenciasLaboralLaIcon.vue.vue";
+import CompetenciasLaboralLaIcon from "@/components/Icons/CompetenciasLaboralLaIcon.vue";
 // Imágenes de fondo para las cards
 import BgSena from "@/assets/images/LaSena.svg";
 import BgApe from "@/assets/images/LaApe.svg";
