@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="flex flex-row items-center gap-3 w-[698px] h-[41px]">
+  <div class="-ml-4">
+    <div class="flex flex-row items-center gap-3 h-[41px]">
       <!-- Group 1322 - Icono de Búsqueda con círculo (azul de marca) -->
       <div class="relative w-[30px] h-[29.93px] flex-none">
         <!-- Círculo azul de fondo -->
@@ -11,28 +11,32 @@
         </div>
       </div>
       <!-- Texto "Búsqueda del ciudadano" -->
-      <h1 class="w-[607px] h-[41px] font-work-sans font-bold text-[30px] leading-[35px] text-azul2Ape flex-none">
+      <h1 class="h-[41px] font-work-sans font-bold text-xl md:text-[30px] leading-[35px] text-azul2Ape flex-none">
         Búsqueda del ciudadano
       </h1>
     </div>
     <div class="relative">
       <!-- Frame 620 - Título con icono de Búsqueda -->
 
-      <div class="flex flex-col lg:flex-row-reverse items-center mt-8">
-        <div class="-mt-44 lg:w-full ms-5">
+      <div class="flex flex-col xl:flex-row-reverse items-center justify-center mt-28 xl:mt-8">
+        <div class="-mt-24 xl:ms-5 w-full "> 
           <!-- Titulo-->
-          <p class="text-center lg:text-left font-bold text-[32px] leading-[38px] text-azul2Ape">
+          <p class="text-center xl:text-left font-bold text-2xl xl:text-[32px] leading-[38px] text-azul2Ape">
             Aquí podrás visualizar información acerca de la
           </p>
-          <h2 class="text-center lg:text-left -mt-5 font-bold text-customPurple  xl:text-[80px] xl:leading-[75px]">
+          <h2 class="text-center xl:text-left -mt-5 font-bold text-customPurple text-[32px] xl:text-[80px] xl:leading-[75px]">
             Ruta de Orientación a Víctimas.
           </h2>
-          <!-- Rectangle 117 - Formulario de búsqueda -->
+        
+          <!-- Section input con el form de busqueda -->
+        
           <div
-            class="w-full bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.1)] rounded-[20px] flex flex-col items-center justify-center gap-4 p-6">
-            <RavSelect v-model="documentType" :options="documentTypes" placeholder="Seleccione tipo de documento"
-              :showImage="false" :withShadow="false" bgColor="#EEF5FF" inputClass="w-full h-10"
-              :overlayPaddingTop="'30px'" />
+            class="bg-white shadow-[0px_4px_4px_rgba(0,0,0,0.1)] rounded-[20px] flex flex-col items-center justify-center gap-4 p-6  ">
+            <div class="w-full h-10">
+              <RavSelect v-model="documentType" :options="documentTypes" placeholder="Seleccione tipo de documento"
+                :showImage="false" :withShadow="false" bgColor="#EEF5FF" inputClass="w-full h-10"
+                :overlayPaddingTop="'30px'" />
+            </div>
             <div class="flex flex-col items-end gap-4 w-full">
               <!-- Rectangle 118 - Input de documento -->
               <input v-model="searchCedula" @keydown.enter="searchUser" type="text"
@@ -40,7 +44,7 @@
                 class="w-full h-10 bg-[#EEF5FF] rounded-[20px] border-none font-work-sans font-normal text-[18px] leading-[21px] text-black px-4 placeholder:text-black" />
               <!-- Frame 1398 - Botón Buscar -->
               <Button type="button" :loading="loading" @click="searchUser"
-                class="w-[220px] h-10 !bg-[#00AA00] !border-none !rounded-full flex flex-row justify-center items-center gap-2.5 p-2.5 !text-white !font-work-sans !font-normal !text-[20px] !leading-[23px]">
+                class="w-full xl:w-[220px] h-10 !bg-[#00AA00] !border-none !rounded-full flex flex-row justify-center items-center gap-2.5 p-2.5 !text-white !font-work-sans !font-normal !text-[20px] !leading-[23px]">
                 <svg v-if="!loading" width="20" height="20" viewBox="0 0 20 20" fill="none"
                   xmlns="http://www.w3.org/2000/svg" class="flex-none">
                   <path
@@ -52,7 +56,8 @@
             </div>
           </div>
         </div>
-        <img :src="Ciudadano" alt="Ciudadano" class="object-cover w-5/6 lg:max-w-xl" />
+        <!-- Imagen del ciudadano con fondo azul -->
+        <img :src="Ciudadano" alt="Ciudadano" class="object-cover w-5/6 lg:max-w-xl mt-2 xl:mt-0" />
       </div>
       <Dialog v-model:visible="noResultsModal" modal header="Búsqueda Fallida" :style="{ width: '30rem' }">
         <p class="m-0 text-customPurple">
