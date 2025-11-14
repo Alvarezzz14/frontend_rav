@@ -57,27 +57,16 @@
 		<div class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto">
 			<h2 class="text-left font-bold text-lg mb-4">Crear Ticket</h2>
 
-			<div
-				class="flex flex-row xl:space-x-2 space-y-3 xl:space-y-0 space-x-2 items-center xl:justify-start justify-center flex-wrap">
-				<RavSelect :options="options" placeholder="Palabra clave" :showImage="false" :withShadow="true"
-					:bgColor="'#EEF5FF'" inputClass="w-[220PX] !shadow-lg text-blue-950" :height="'33px'"
-					overlayWidth="277" :placeholderFontSize="'12px'" />
-
-				<RavSelect :options="options" placeholder="Palabra clave" :showImage="false" :withShadow="true"
-					:bgColor="'#EEF5FF'" inputClass="w-[220PX] !shadow-lg text-blue-950" :height="'33px'"
-					overlayWidth="277" :placeholderFontSize="'12px'" />
-
-				<RavSelect :options="options" placeholder="Palabra clave" :showImage="false" :withShadow="true"
-					:bgColor="'#EEF5FF'" inputClass="w-[220PX] !shadow-lg text-blue-950" :height="'33px'"
-					overlayWidth="277" :placeholderFontSize="'12px'" />
-
-				<RavSelect :options="options" placeholder="Palabra clave" :showImage="false" :withShadow="true"
-					:bgColor="'#EEF5FF'" inputClass="w-[220PX] !shadow-lg text-blue-950" :height="'33px'"
-					overlayWidth="277" :placeholderFontSize="'12px'" />
-
-				<RavSelect :options="options" placeholder="Palabra clave" :showImage="false" :withShadow="true"
-					:bgColor="'#EEF5FF'" inputClass="w-[220PX] !shadow-lg text-blue-950" :height="'33px'"
-					overlayWidth="277" :placeholderFontSize="'12px'" />
+			<div class="flex flex-row flex-wrap gap-3 items-center xl:justify-start justify-center" v-if="screenSize === 'desktop'">
+				<label v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2 cursor-pointer">
+					<input type="checkbox" class="me-3">
+					{{ keyword  }}
+				</label>
+				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-20 rounded-menu border-0 py-2 cursor-pointer">Ver más +</button>
+			</div>
+			<div v-else class="flex flex-wrap gap-3 [&_button]:rounded-menu [&_button]:bg-gray-100 [&_button]:border-0  [&_button]:py-3">
+				<button v-for="(keyword, keywordIndex) in categories[0].keywords" :key="keywordIndex" class="px-3">{{ keyword }}</button>	
+				<button @click="showKeyWordsModal = true" class="!bg-yellow-300 text-blue-950 font-bold px-6">Ver más +</button>
 			</div>
 
 			<section class="mt-4 bg-white rounded-lg shadow p-4 mx-auto w-full sm:w-auto text-blue-950">
@@ -149,6 +138,23 @@
 				</div>
 			</Modal>
 		</div>
+		<Modal
+		:showModal="showKeyWordsModal"
+		title="Listado de palabras clave"
+		@close="showKeyWordsModal = false"
+		>
+			<div class="space-y-2 mx-2">
+				<label v-for="(keyword, keywordIndex) in dataKeyWords" :key="keywordIndex" class="flex bg-[#eef5ff] rounded-menu py-2 px-2 cursor-pointer">
+					<input type="checkbox" class="me-3">
+					{{ keyword }}
+				</label>
+				<button
+				@click="() => sendTicker(fetchOptions)"
+				class="bg-verde-gradient border-none w-full h-8 ms-auto text-white cursor-pointer font-bold p-2 rounded-menu shadow flex justify-center items-center mt-4">
+				Enviar
+			</button>
+			</div>
+		</Modal>
 	</div>
 </template>
 <script setup>
