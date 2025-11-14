@@ -37,8 +37,7 @@
 
 		<!-- Contenedor principal con sidebars integrados -->
 		<main
-			class="flex-1 min-w-0 overflow-auto bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar pt-[120px] lg:pt-0"
-			style="background-image: url('src/assets/images/plantas.svg')">
+			class="flex-1 min-w-0 overflow-auto plantas-bg bg-backgroundApp relative bg-no-repeat bg-bottom bg-contain hide-scrollbar pt-[120px] lg:pt-0">
 			
 			<!-- Overlay deshabilitado porque el sidebar móvil cubre toda la pantalla -->
 			<div v-show="false"></div>
@@ -191,4 +190,14 @@ const handleItemClick = (item) => {
 .hide-scrollbar::-webkit-scrollbar-thumb {
 	display: none !important;
 }
+
+.plantas-bg {
+  background-image: url("@/assets/images/plantasMobile.svg");
+}
+@media (min-width: 640px) {
+  .plantas-bg {
+    background-image: url("@/assets/images/plantas.svg");
+  }
+}
+
 </style>
