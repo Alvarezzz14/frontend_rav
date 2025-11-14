@@ -25,6 +25,7 @@ export default {
         azulApe: '#005DCA',
         azul2Ape: '#002C4D',
         rojoApe: '#D80F16',
+        verdeApe: '#00D000',
         // Alias heredados (mantener compatibilidad con clases existentes)
         customPurple: '#005DCA',
         moradoSecundario: '#090c0fff',

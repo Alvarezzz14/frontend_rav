@@ -24,6 +24,64 @@ export const useGoalStore = defineStore("goalStore", {
     actions: {
         fetchGoals() {
             const savedGoals = JSON.parse(localStorage.getItem("goals") || "[]");
+
+            // Fallback: si no hay metas en localStorage, cargar 5 actividades "quemadas"
+            if (!Array.isArray(savedGoals) || savedGoals.length === 0) {
+                const defaultGoals = [
+                    {
+                        id: 1,
+                        name: "Atenciones del mes",
+                        limit: 1200,
+                        current: 350,
+                        deadline: "31/12/2025",
+                        startDate: "2025-01-01",
+                        endDate: "2025-12-31",
+                    },
+                    {
+                        id: 2,
+                        name: "Casos resueltos",
+                        limit: 800,
+                        current: 420,
+                        deadline: "31/12/2025",
+                        startDate: "2025-01-01",
+                        endDate: "2025-12-31",
+                    },
+                    {
+                        id: 3,
+                        name: "Nuevos registros",
+                        limit: 500,
+                        current: 260,
+                        deadline: "31/12/2025",
+                        startDate: "2025-01-01",
+                        endDate: "2025-12-31",
+                    },
+                    {
+                        id: 4,
+                        name: "Seguimientos",
+                        limit: 900,
+                        current: 300,
+                        deadline: "31/12/2025",
+                        startDate: "2025-01-01",
+                        endDate: "2025-12-31",
+                    },
+                    {
+                        id: 5,
+                        name: "Remisiones",
+                        limit: 400,
+                        current: 150,
+                        deadline: "31/12/2025",
+                        startDate: "2025-01-01",
+                        endDate: "2025-12-31",
+                    },
+                ];
+
+                this.goals = defaultGoals.map((goal) => ({
+                    ...goal,
+                    animatedValue: 0, // Arranca la animación desde 0
+                }));
+                return; // No persistimos en localStorage; son solo de visualización inicial
+            }
+
             const uniqueGoals = Array.from(
                 new Map(savedGoals.map((goal) => [goal.id, goal])).values()
             );
