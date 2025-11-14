@@ -1,9 +1,11 @@
 <template>
-  <div class="lineas-atencion-container">
+  <div
+    class="lineas-atencion-container min-h-[90vh] -mt-[25px] md:mt-[0px] relative overflow-hidden font-work-sans w-full mx-auto md:px-4 max-w-[440px] md:max-w-none md:px-0 md:mx-0"
+  >
     <!-- Sección Superior: Título e Icono -->
-    <div class="flex items-center gap-3 pt-4 pb-4">
+    <div class="flex items-center gap-3 md:pt-8 pb-4 md:pt-4">
       <div
-        class="flex items-center justify-center w-[30px] h-[30px] bg-azul-gradian rounded-full"
+        class="flex items-center justify-center w-[30px] h-[30px] md:w-[30px] md:h-[30px] bg-azul-gradian rounded-full"
       >
         <img
           :src="lineaAten"
@@ -12,7 +14,7 @@
         />
       </div>
       <h1
-        class="text-azul2pae text-[30px] font-bold leading-[35px] font-work-sans"
+        class="text-azul2Ape text-[21px] leading-[25px] font-bold font-work-sans md:text-[30px] md:leading-[35px]"
       >
         Líneas de atención
       </h1>
@@ -23,20 +25,25 @@
       <!-- Subtítulo de Selección con Número -->
       <div class="flex items-center gap-3">
         <div
-          class="flex items-center justify-center w-[35px] h-[35px] bg-azul-gradian rounded-full"
+          class="flex items-center justify-center w-[20px] h-[20px] md:w-[35px] md:h-[35px] bg-azul-gradian rounded-full"
         >
-          <span class="text-white font-bold text-[24px] font-work-sans">1</span>
+          <span
+            class="text-white font-bold text-[14px] md:text-[24px] leading-none font-work-sans"
+            >1</span
+          >
         </div>
         <p class="font-work-sans text-[24px] leading-[28px] text-black">
           Seleccione la <span class="font-bold">Entidad</span>
         </p>
       </div>
 
-      <!-- Contenedor de Cards de Entidades -->
-      <div class="flex gap-5 flex-wrap ml-1 mb-6">
+      <!-- Contenedor de Cards de Entidades (grid 2 columnas en mobile, layout desktop intacto) -->
+      <div
+        class="grid grid-cols-2 place-items-center gap-x-4 gap-y-4 md:mb-6 md:flex md:flex-wrap md:justify-start md:gap-5"
+      >
         <!-- SENA Card -->
         <div
-          class="entity-card"
+          class="entity-card entity-card-sena relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:320px_183px] md:bg-cover bg-[position:-120px_center] md:bg-center bg-no-repeat"
           :class="{ 'entity-card-selected': selectedEntity === 'sena' }"
           @click="
             () =>
@@ -53,7 +60,7 @@
 
         <!-- APE Card -->
         <div
-          class="entity-card entity-card-ape"
+          class="entity-card entity-card-ape relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:272px_183px] md:bg-cover bg-[position:-44px_center] md:bg-center bg-no-repeat"
           :class="{ 'entity-card-selected': selectedEntity === 'ape' }"
           @click="
             () =>
@@ -70,7 +77,7 @@
 
         <!-- Certificaciones Card -->
         <div
-          class="entity-card entity-card-cert"
+          class="entity-card entity-card-cert relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:180px_245px] md:bg-cover bg-[position:2px_-57px] md:bg-center bg-no-repeat"
           :class="{
             'entity-card-selected': selectedEntity === 'certificaciones',
           }"
@@ -89,7 +96,7 @@
 
         <!-- Fondo Emprender Card -->
         <div
-          class="entity-card entity-card-fondo"
+          class="entity-card entity-card-fondo relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:262px_380px] md:bg-cover bg-[position:-52px_-120px] md:bg-center bg-no-repeat"
           :class="{
             'entity-card-selected': selectedEntity === 'fondoEmprender',
           }"
@@ -108,11 +115,14 @@
       </div>
 
       <!-- Sección de Selección de Regional con Número -->
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 md:mt-4">
         <div
-          class="flex items-center justify-center w-[35px] h-[35px] bg-azul-gradian rounded-full"
+          class="flex items-center justify-center w-[20px] h-[20px] md:w-[35px] md:h-[35px] bg-azul-gradian rounded-full"
         >
-          <span class="text-white font-bold text-[24px] font-work-sans">2</span>
+          <span
+            class="text-white font-bold text-[14px] md:text-[24px] leading-none font-work-sans"
+            >2</span
+          >
         </div>
         <p class="font-work-sans text-[24px] leading-[28px] text-black">
           Seleccione la <span class="font-bold">Regional</span>
@@ -120,9 +130,13 @@
       </div>
 
       <!-- Contenedor del Select y Botón -->
-      <div class="search-row">
+      <div
+        class="search-row flex flex-col md:flex-row items-center gap-5 w-full mt-4"
+      >
         <!-- Dropdown de Departamentos -->
-        <div class="select-container">
+        <div
+          class="select-container relative w-[380px] md:w-[800px] lg:w-[1149px] flex-shrink-0 mx-auto"
+        >
           <RavSelect
             v-model="selectedCountry"
             :options="departamentos"
@@ -130,21 +144,25 @@
             :showImage="false"
             :withShadow="true"
             :bgColor="'#FFFFFF'"
-            inputClass="w-full"
-            :height="'50px'"
-						:overlayPaddingTop="'30px'"
+            inputClass="w-full h-[40px] md:h-[50px]"
+            :height="'40px'"
+            :overlayPaddingTop="'30px'"
           />
         </div>
 
         <!-- Botón de Búsqueda -->
-        <Button
-          class="search-button"
+        <button
           type="button"
-          label="Buscar"
-          icon="pi pi-search"
-          :loading="loading"
+          :disabled="loading"
           @click="validateAndSearch"
-        />
+          class="bg-verdeApe border-none hover:brightness-95 active:brightness-90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-full w-[380px] h-[40px] md:w-[370px] md:h-[40px] shadow-md transition-all duration-300 flex justify-center items-center gap-2 font-work-sans font-normal text-[18px] md:font-semibold md:text-[20px] mx-auto mt-4 md:mt-0"
+        >
+          <span
+            :class="['pi', loading ? 'pi-spinner animate-spin' : 'pi-search']"
+            class="text-[20px]"
+          ></span>
+          <span>Buscar</span>
+        </button>
       </div>
 
       <!-- Componente de PopUp -->
@@ -194,16 +212,10 @@ import ApeLaIcon from "@/components/Icons/ApeLaIcon.vue";
 import FondoEmprenderIcon from "@/components/Icons/FondoEmprenderIcon.vue";
 import CompetenciasLaboralLaIcon from "@/components/Icons/CompetenciasLaboralLaIcon.vue";
 // Imágenes de fondo para las cards
-import BgSena from "@/assets/images/LaSena.svg";
-import BgApe from "@/assets/images/LaApe.svg";
-import BgCompetencias from "@/assets/images/Lacompetencias.svg";
-import BgFondoEmprender from "@/assets/images/LaFondoEmprender.svg";
 import PopUp from "./PopUpLineasAtencion.vue";
-import Button from "primevue/button";
-import RavSelect from '@/components/Inputs/RavSelect.vue';
+import RavSelect from "@/components/Inputs/RavSelect.vue";
 
 const selectedCountry = ref(null);
-const selectedInfo = ref(null);
 const selectedImage = ref(null);
 const selectedSede = ref("");
 const isModalOpen = ref(false);
@@ -214,7 +226,6 @@ const noResultsModal = ref(false);
 const host = import.meta.env.VITE_HOST;
 
 // const selectedDepart = ref (null);
-let entity;
 
 const sedes = [
   "SERVICIO NACIONAL DE APRENDIZAJE SENA",
@@ -295,18 +306,6 @@ const validateAndSearch = async () => {
   }
 };
 
-const updateSelectedInfo = () => {
-  const selected = departamentos.value.find(
-    (dep) => dep.code === selectedCountry.value?.code
-  );
-  selectedInfo.value = selected ? selected : null;
-  console.log(selectedInfo.value);
-};
-
-const setEntity = (newEntity) => {
-  entity = newEntity;
-  console.log(entity);
-};
 
 const selectImage = (image) => {
   selectedImage.value = image;
@@ -356,12 +355,10 @@ const handleEntityClick = (options) => {
     selectedEntity.value = null;
     selectedImage.value = null;
     selectedSede.value = "";
-    entity = null;
     return;
   }
 
   // Si se hace clic en una entidad diferente, seleccionarla
-  setEntity(newEntity);
   selectImage(image);
   selectSede(sede);
   selectedEntity.value = newEntity;
@@ -369,35 +366,10 @@ const handleEntityClick = (options) => {
 </script>
 
 <style scoped>
-/* Contenedor principal con fondo gris */
-.lineas-atencion-container {
-  min-height: 90vh;
-  position: relative;
-  overflow: hidden;
-  font-family: "Work Sans", sans-serif;
-}
-
-/* Cards de entidades con imágenes de fondo */
-.entity-card {
-  position: relative;
-  width: 368px;
-  height: 183px;
-  background: #ffffff;
-  border-radius: 20px;
-  cursor: pointer;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+/* Contenedor principal migrado a Tailwind (clases en el template) */
 
 /* Imagen de fondo específica para SENA */
-.entity-card:nth-child(1) {
+.entity-card-sena {
   background-image: url("@/assets/images/LaSena.svg");
 }
 
@@ -483,108 +455,6 @@ const handleEntityClick = (options) => {
   background: linear-gradient(180deg, #ffffff 0%, rgba(0, 93, 202, 0.8) 0.01%);
 }
 
-/* Contenedor del select y botón en la misma fila */
-.search-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-}
-
-/* Contenedor del select */
-.select-container {
-  position: relative;
-  width: 1149px;
-  flex-shrink: 0;
-}
-
-/* Select personalizado */
-.custom-select {
-  width: 100%;
-  height: 50px;
-  background: #ffffff;
-  border: none;
-  border-radius: 50px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  font-family: "Work Sans", sans-serif;
-  font-size: 18px;
-  color: #000000;
-  padding: 0 50px 0 24px;
-  appearance: none;
-  cursor: pointer;
-  outline: none;
-}
-
-.custom-select:hover {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.custom-select:focus {
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-  outline: none;
-}
-
-/* Flecha del select */
-.select-arrow {
-  position: absolute;
-  right: 24px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-/* Botón de búsqueda verde */
-.search-button {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important;
-  align-items: center !important;
-  padding: 10px !important;
-  gap: 10px !important;
-  background: #00aa00 !important;
-  border: none !important;
-  border-radius: 30px !important;
-  cursor: pointer !important;
-  transition: all 0.3s ease;
-  width: 370px !important;
-  height: 50px !important;
-  flex-shrink: 0 !important;
-}
-
-.search-button:hover {
-  background: #009900 !important;
-  transform: translateY(-2px);
-  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3) !important;
-}
-
-.search-button:active {
-  transform: translateY(0);
-}
-
-:deep(.search-button .p-button-icon) {
-  color: #ffffff !important;
-  font-size: 20px !important;
-  width: 20px !important;
-  height: 20px !important;
-  flex: none;
-  order: 0;
-  flex-grow: 0;
-}
-
-:deep(.search-button .p-button-label) {
-  width: 80px !important;
-  height: 28px !important;
-  font-family: "Work Sans", sans-serif !important;
-  font-style: normal !important;
-  font-weight: 400 !important;
-  font-size: 24px !important;
-  line-height: 28px !important;
-  color: #ffffff !important;
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-}
 
 /* Tipografía Work Sans */
 .font-work-sans {

@@ -57,8 +57,7 @@ const goHome = () => {
 </script>
 
 <style scoped>
-/* No additional CSS needed as everything is styled with Tailwind CSS */
-/* Background responsive: mobile uses plantasMobile.svg, from sm uses plantas.svg */
+
 .error404-bg {
   background-image: url("@/assets/images/plantasMobile.svg");
 }
