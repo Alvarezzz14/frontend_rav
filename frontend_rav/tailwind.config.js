@@ -51,6 +51,7 @@ export default {
         // Alias heredados apuntando al nuevo tema azul
         'custom-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
         'violet-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
+        'blue-gradient': 'linear-gradient(to top, #01213B 0%, #002C4D 0%, transparent 45%)'
       },
       transitionProperty: {
         all: 'all',

@@ -140,8 +140,7 @@
           <RavSelect
             v-model="selectedCountry"
             :options="departamentos"
-            placeholder="Seleccione Regional"
-            :showImage="false"
+            placeholder="Seleccione Regional" 
             :withShadow="true"
             :bgColor="'#FFFFFF'"
             inputClass="w-full h-[40px] md:h-[50px]"
@@ -213,7 +212,9 @@ import FondoEmprenderIcon from "@/components/Icons/FondoEmprenderIcon.vue";
 import CompetenciasLaboralLaIcon from "@/components/Icons/CompetenciasLaboralLaIcon.vue";
 // Imágenes de fondo para las cards
 import PopUp from "./PopUpLineasAtencion.vue";
-import RavSelect from "@/components/Inputs/RavSelect.vue";
+import Button from "primevue/button";
+import RavSelect from '@/components/Inputs/RavSelect.vue';
+import { departamentos } from "@/data/departamentosMapa/departamentos";
 
 const selectedCountry = ref(null);
 const selectedImage = ref(null);
@@ -233,41 +234,6 @@ const sedes = [
   "CERTIFICACION COMPETENCIAS LABORALES",
   "FONDO EMPRENDER",
 ];
-
-const departamentos = ref([
-  { name: "Amazonas", code: "91" },
-  { name: "Antioquia", code: "05" },
-  { name: "Arauca", code: "81" },
-  { name: "Atlantico", code: "08" },
-  { name: "Bolivar", code: "13" },
-  { name: "Boyacá", code: "15" },
-  { name: "Caldas", code: "17" },
-  { name: "Caquetá", code: "18" },
-  { name: "Casanare", code: "85" },
-  { name: "Cauca", code: "19" },
-  { name: "Cesar", code: "20" },
-  { name: "Chocó", code: "27" },
-  { name: "Cundinamarca", code: "25" },
-  { name: "Cordoba", code: "23" },
-  { name: "Guainia", code: "94" },
-  { name: "Guaviare", code: "95" },
-  { name: "Huila", code: "41" },
-  { name: "La Guajira", code: "44" },
-  { name: "Magdalena", code: "47" },
-  { name: "Meta", code: "50" },
-  { name: "Nariño", code: "52" },
-  { name: "Norte de Santander", code: "54" },
-  { name: "Putumayo", code: "86" },
-  { name: "Quindio", code: "63" },
-  { name: "Risaralda", code: "66" },
-  { name: "San Andres, Providencia y Santa Catalina", code: "88" },
-  { name: "Santander", code: "68" },
-  { name: "Sucre", code: "70" },
-  { name: "Tolima", code: "73" },
-  { name: "Valle del Cauca", code: "76" },
-  { name: "Vaupés", code: "97" },
-  { name: "Vichada", code: "99" },
-]);
 
 const validateAndSearch = async () => {
   if (!selectedEntity.value || !selectedCountry.value) {

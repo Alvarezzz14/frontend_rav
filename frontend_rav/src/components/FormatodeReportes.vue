@@ -1,5 +1,5 @@
 <template>
-  <div class="reportes-container">
+  <div class="reportes-container xl:pt-9">
     <!-- Sección Superior -->
     <div class="header-section">
       <div class="title-container">
@@ -12,7 +12,7 @@
 
     <!-- Sección Central -->
     <div class="content-section">
-      <div class="form-card">
+      <div class="form-card order-2 xl:order-none -mt-20 md:-mt-28 xl:mt-0">
         <div class="form-header">
           <h3 class="form-title text-azul2Ape">Seleccione el tipo de reporte</h3>
         </div>
@@ -62,9 +62,9 @@
         <div v-if="selectedReport && selectedReport !== 'HistorialTickets'" class="form-group">
           <RavSelect
             v-model="selectedDepartmentOption"
-            :options="department_name"
+            :options="departamentos"
+            :showImage="true"
             placeholder="Buscar por regional"
-            :showImage="false"
             :withShadow="true"
             :bgColor="'#EEF5FF'"
             inputClass="w-[442px]"
@@ -140,7 +140,7 @@
         <!-- Botón de Búsqueda -->
         <button
           :disabled="loading"
-          class="generate-button"
+          class="generate-button  sm:w-[278.3px]"
           @click="handleSubmit"
         >
           <span v-if="!loading">Generar reporte</span>
@@ -149,8 +149,8 @@
       </div>
 
       <!-- Imagen lateral -->
-      <div class="image-section">
-        <img :src="PersonaReportes" alt="Persona sonriendo" class="persona-image" />
+      <div class="image-section order-1 xl:order-none max-w-80 xl:max-w-[600px] -mt-10 xl:-mt-24 xl:ml-8">
+        <img :src="PersonaReportes" alt="Persona sonriendo" class="persona-image w-64 h-64 md:w-80 md:h-96 xl:w-[600px] xl:h-[784px]" />
       </div>
     </div>
   </div>
@@ -164,6 +164,7 @@ import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.avif";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 import RavSelect from '@/components/Inputs/RavSelect.vue';
+import { departamentos } from "@/data/departamentosMapa/departamentos";
 
 
 // Variables reactivas
@@ -576,7 +577,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   position: relative;
   width: 100%;
   min-height: 90vh;
-  padding: 36px 0px 0px;
 }
 
 /* Sección del header */
@@ -812,7 +812,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 
 /* Botón de generar reporte */
 .generate-button {
-  width: 278.3px;
   height: 50.6px;
   background: #00AA00;
   border-radius: 37.95px;
@@ -846,19 +845,14 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  max-width: 714px;
-  margin-top: -100px;
-  margin-left: 30px;
 }
 
 .persona-image {
-  width: 714px;
-  height: 784px;
   object-fit: contain;
 }
 
 /* Responsive */
-@media (max-width: 1400px) {
+@media (max-width: 1279px) {
   .content-section {
     flex-direction: column;
     align-items: center;

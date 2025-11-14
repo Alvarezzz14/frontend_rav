@@ -109,7 +109,7 @@
 
     <!-- Mapa de Colombia -->
     <div
-      class="absolute right-[140px] top-[1%] -translate-y-1/2 w-[820px] h-[820px]"
+      class="absolute right-0 top-[1%] -translate-y-1/2 w-[600px] h-[600px]"
     >
       <svg
         class="w-full h-full"
