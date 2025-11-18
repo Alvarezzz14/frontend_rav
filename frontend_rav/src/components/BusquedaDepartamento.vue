@@ -31,7 +31,7 @@
 
     <!-- Selector del Departamento -->
     <section class="flex flex-col xl:flex-row max-w-full items-start">
-      <div class="mr-7">
+      <div class="xl:mr-8 w-full max-w-lg">
         <div class="mt-5 h-10">
           <RavSelect
             v-model="selectedCountry"
@@ -40,7 +40,7 @@
             :showImage="true"
             optionLabel="name"
             optionImage="flagUrl"
-            inputClass="xl:w-[520px]  h-10"
+            inputClass="w-full xl:w-[520px] h-10"
             :overlayPaddingTop="'30px'"
             :overlayZIndex="1"
             @open="onDropdownOpen"
@@ -52,7 +52,7 @@
         <!-- Group 574 -->
         <div
           v-if="selectedInfo"
-          class="h-[371px] z-10 mt-12"
+          class="z-10 mt-8"
           :style="{ top: infoCardTop, filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
         >
           <!-- Frame 515 - Imagen principal -->
@@ -67,12 +67,12 @@
           </div>
           <!-- Frame 514 - Encabezado con nombre y fondo color -->
           <div
-            class="h-[68px] flex flex-row justify-center items-start pt-3 px-0 pb-0 gap-[212px]"
+            class="h-[68px] flex flex-row justify-between px-8 items-start pt-3 pb-0"
             style="background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%)"
           >
             <!-- Nombre del departamento -->
             <h2
-              class="w-[202px] h-[47px] font-work-sans font-bold text-[40px] leading-[47px] text-white flex-none order-0 flex-grow-0 m-0"
+              class="md:w-[202px] md:h-[47px] font-work-sans font-bold text-2xl md:text-[40px] leading-[47px] text-white flex-none order-0 flex-grow-0 m-0"
             >
               {{ selectedInfo.name }}
             </h2>
@@ -90,10 +90,10 @@
           </div>
           <!-- Frame 516 - Descripción del departamento -->
           <div
-            class="min-h-[80px] bg-white rounded-b-[20px] flex flex-row justify-center items-center px-[10px] pb-[10px] pt-0 gap-[10px]"
+            class="min-h-[80px] bg-white rounded-b-[20px] flex flex-row justify-center items-center px-[10px] pb-[10px] pt-0 md:gap-[10px]"
           >
             <p
-              class="w-[447px] min-h-[40px] font-work-sans font-normal text-[16px] leading-[19px] text-black flex-none order-0 flex-grow-0 whitespace-pre-line break-words"
+              class="md:w-[447px] min-h-[40px] font-work-sans font-normal text-[16px] leading-[19px] text-black px-4 md:px-0 md:flex-none order-0 flex-grow-0 tracking-tight md:tracking-normal whitespace-pre-line break-words"
             >
               La cantidad de victimas en el departamento es de:
               <strong class="font-bold">{{
@@ -106,10 +106,10 @@
       </div>
       <!-- Mapa de Colombia -->
       <div
-        class="w-full max-w-[850px] -mt-14 flex-shrink flex-grow min-h-full"
+        class="w-full max-w-[800px] mt-10 xl:-mt-14 flex-shrink flex-grow min-h-full"
       >
         <svg
-          class="min-w-[550px] h-auto"
+          class="-mx-4 md:min-w-[550px] h-auto"
           viewBox="0 0 780 780"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
