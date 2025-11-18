@@ -2,125 +2,91 @@
 
   <div class="relative flex w-full h-full p-4 overflow-hidden bg-azul-gradian rounded-[20px]">
     <!-- Imagen decorativa de fondo -->
-    <div 
-      class="absolute"
-      :style="{
-        width: '342px',
-        height: '690px',
-        top: '-174px',
-        left: '174px',
-        opacity: 0.3,
-        transform: 'rotate(90deg)',
-        borderRadius: '20px',
-        backgroundImage: `url(${RectangleBg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        pointerEvents: 'none',
-      }"
-    ></div>
+    <div class="absolute" :style="{
+      width: 'auto',
+      height: '690px',
+      top: '-174px',
+      left: '174px',
+      opacity: 0.3,
+      transform: 'rotate(90deg)',
+      borderRadius: '20px',
+      backgroundImage: `url(${RectangleBg})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      pointerEvents: 'none',
+    }"></div>
 
     <!-- Botón de descarga en la esquina superior derecha -->
-    <button
-      v-if="hasData"
-      @click="downloadChart"
-      class="absolute top-4 right-4 w-[48px] h-[47px] bg-white rounded-full flex items-center justify-center shadow-[0px_2px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer hover:bg-gray-50 transition-colors"
-      title="Descargar gráfico"
-    >
+    <button v-if="hasData" @click="downloadChart"
+      class="absolute top-4 right-4 w-7 h-7 md:w-[48px] md:h-[47px] bg-white rounded-full flex items-center justify-center shadow-[0px_2px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer hover:bg-gray-50 transition-colors"
+      title="Descargar gráfico">
       <DownloadIcon :size="25" :height="20" class-name="text-customPurple" />
     </button>
-    
+
     <transition name="fade">
       <!-- Mostrar spinner mientras carga -->
-      <div
-        v-if="isLoading"
-        class="flex flex-col items-center justify-center h-full w-full"
-      >
+      <div v-if="isLoading" class="flex flex-col items-center justify-center h-full w-full">
         <p class="text-white font-['Work_Sans'] font-bold text-[16px] mb-4">Cargando datos...</p>
         <div class="spinner"></div>
       </div>
-      
+
       <!-- Mostrar gráfico después de cargar los datos -->
       <div v-else-if="hasData" class="w-full h-full flex gap-4">
         <!-- Columna izquierda: Título y Leyenda (38%) -->
-        <div class="flex flex-col justify-start w-[38%] pl-2">
+        <div class="flex flex-col justify-start w-2/5 pl-2">
           <div class="mb-[25px]">
-            <h3 class="text-white font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[8px]">
+            <h3
+              class="text-white font-['Work_Sans'] font-bold text-xs md:text-[20px] leading-[23px] text-left m-0 md:mb-[8px]">
               Tipos de poblaciones
             </h3>
             <!-- Línea amarilla debajo del título -->
-            <div class="w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
+            <div class="w-32 md:w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
           </div>
-          
+
           <!-- Leyenda personalizada -->
-          <div class="flex flex-col gap-[10px] pl-[50px]">
-            <div 
-              v-for="(item, index) in legendItems" 
-              :key="index"
-              class="flex items-start gap-[14px]"
-            >
+          <div class="flex flex-col gap-[10px] pl-6 md:pl-[50px]">
+            <div v-for="(item, index) in legendItems" :key="index" class="flex items-start gap-3 md:gap-[14px]">
               <!-- Círculo de color con sombra -->
-              <div 
-                class="w-[36px] h-[36px] rounded-full flex-shrink-0"
-                :style="{ 
-                  backgroundColor: item.color,
-                  boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
-                }"
-              ></div>
-              
+              <div class="w-5 h-5 md:w-[36px] md:h-[36px] rounded-full flex-shrink-0" :style="{
+                backgroundColor: item.color,
+                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+              }"></div>
+
               <!-- Texto con sombras -->
               <div class="flex flex-col">
-                <span 
-                  class="text-white font-['Work_Sans'] font-bold text-[20px] leading-[23px]"
-                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);"
-                >
+                <span class="text-white font-['Work_Sans'] font-bold text-xs md:text-[20px] leading-3 md:leading-[23px]"
+                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
                   {{ item.percentage }}
                 </span>
-                <span 
-                  class="text-white font-['Work_Sans'] font-normal text-[14px] leading-[16px]"
-                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);"
-                >
+                <span
+                  class="text-white font-['Work_Sans'] font-normal text-[9px] md:text-[14px] leading-3 md:leading-[16px]"
+                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
                   {{ item.label }}
                 </span>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- Columna derecha: Gráfico Donut (62%) -->
         <div class="flex-1 relative flex items-center justify-center pl-[40px] pr-[20px]">
-          <div class="w-full h-full max-w-[303px] max-h-[280px] relative flex items-center justify-center">
-            <Doughnut
-              ref="doughnutChart"
-              :data="clonedChartData"
-              :options="chartOptions"
-              class="w-full h-full"
-            />
-            
+          <div class="w-full h-full relative flex items-center justify-center min-h-[200px]">
+            <Doughnut ref="doughnutChart" :data="clonedChartData" :options="chartOptions"
+              class="max-w-full max-h-full"/>
             <!-- Logo RAV en el centro del donut -->
-            <div class="absolute pointer-events-none flex items-center justify-center" style="top: 48%; left: 49%; transform: translate(-50%, -50%);">
-              <RavLogo :size="139" />
+            <div class="absolute pointer-events-none flex items-center justify-center w-20 md:w-full"
+              style="top: 48%; left: 49%; transform: translate(-50%, -50%);">
+              <RavLogo/>
             </div>
           </div>
         </div>
       </div>
-      
+
       <!-- Mostrar mensaje si no hay datos -->
-      <div
-        v-else
-        class="flex flex-col items-center justify-center text-white h-full w-full"
-      >
-        <svg
-          class="w-16 h-16 mb-4 text-amarillo"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
+      <div v-else class="flex flex-col items-center justify-center text-white h-full w-full">
+        <svg class="w-16 h-16 mb-4 text-amarillo" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
         <p class="text-lg font-bold">No hay información para mostrar</p>
       </div>
@@ -187,13 +153,13 @@ const clonedChartData = computed(() => JSON.parse(JSON.stringify(chartData)));
 // Computed para los items de la leyenda personalizada con porcentajes
 const legendItems = computed(() => {
   if (!chartData.datasets[0].data.length) return [];
-  
+
   const total = chartData.datasets[0].data.reduce((a, b) => a + b, 0);
-  
+
   return chartData.labels.map((label, index) => {
     const value = chartData.datasets[0].data[index];
     const percentage = total > 0 ? Math.round((value / total) * 100) : 0;
-    
+
     return {
       label,
       color: pieColors[index % pieColors.length],
@@ -205,7 +171,7 @@ const legendItems = computed(() => {
 // Opciones del gráfico
 const chartOptions = reactive({
   responsive: true,
-  maintainAspectRatio: true,
+  maintainAspectRatio: false,
   cutout: "68%", // Ajustado para hacer la donut más angosta según Figma
   plugins: {
     title: {
@@ -247,15 +213,15 @@ const fetchPertEtnicaData = async () => {
     const data = dummyData;
 
     /* DESCOMENTAR CUANDO SE INTEGRE CON EL BACKEND:
-		const response = await fetch(
-			`${host}:8082/api/v1/victimas/counter/pert-etnica`
-		);
-		if (!response.ok)
-			throw new Error("Error al obtener datos de Pertenencia Étnica");
+    const response = await fetch(
+      `${host}:8082/api/v1/victimas/counter/pert-etnica`
+    );
+    if (!response.ok)
+      throw new Error("Error al obtener datos de Pertenencia Étnica");
 
-		const jsonResponse = await response.json();
-		const data = jsonResponse.data.slice(0, 5);
-		*/
+    const jsonResponse = await response.json();
+    const data = jsonResponse.data.slice(0, 5);
+    */
 
     // Mapear datos recibidos
     chartData.labels = data.map((item) =>
@@ -290,10 +256,19 @@ const downloadChart = () => {
   }
 };
 
+function forceResize() {
+
+  doughnutChart.value.chart.resize();
+
+}
+
+
 // Llamar a la API al montar el componente
 onMounted(() => {
   fetchPertEtnicaData();
+  window.addEventListener("resize", forceResize);
 });
+
 </script>
 
 <style scoped>
@@ -310,6 +285,7 @@ onMounted(() => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

@@ -1,9 +1,9 @@
 
 <template>
-  <div ref="rootEl" class="relative w-full h-[91vh] overflow-hidden">
+  <div ref="rootEl" class="relative w-full min-h-screen">
     <!-- Frame 620 - Título con icono de Mapa -->
     <div
-      class="absolute top-[35px] left-[10px] flex flex-row items-center gap-3 w-[141px] h-[41px]"
+      class="flex flex-row mt-10 items-center gap-3 w-[141px] h-[41px]"
     >
       <!-- Group 1322 - Icono de Mapa con círculo (azul de marca) -->
       <div class="relative w-[30px] h-[29.93px] flex-none">
@@ -30,114 +30,112 @@
     </div>
 
     <!-- Selector del Departamento -->
-    <div class="absolute top-[97px] left-[10px] w-[520px] h-10">
-      <RavSelect
-        v-model="selectedCountry"
-        :options="departamentos"
-        placeholder="Seleccione departamento"
-        :showImage="true"
-        optionLabel="name"
-        optionImage="flagUrl"
-        inputClass="w-[520px] h-10"
-        overlayWidth="520px"
-        :overlayPaddingTop="'30px'"
-        :overlayZIndex="1"
-        @open="onDropdownOpen"
-        @close="onDropdownClose"
-        @change="handleChange"
-      />
-    </div>
-
-    <!-- Tarjeta de Información del Departamento -->
-    <!-- Group 574 -->
-    <div
-      v-if="selectedInfo"
-      class="absolute left-[10px] w-[518px] h-[371px] z-10"
-      :style="{ top: infoCardTop, filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
-    >
-      <!-- Frame 515 - Imagen principal -->
-      <div
-        class="absolute w-[518px] h-[141px] flex flex-col items-start p-0 gap-[10px]"
-      >
-        <img
-          :src="selectedInfo.imageUrl"
-          :alt="selectedInfo.name"
-          class="w-[518px] h-[141px] object-cover rounded-t-[20px] flex-none order-0 self-stretch flex-grow-0"
-        />
-      </div>
-
-      <!-- Frame 514 - Encabezado con nombre y fondo color -->
-      <div
-        class="absolute top-[125px] w-[518px] h-[68px] flex flex-row justify-center items-start pt-3 px-0 pb-0 gap-[212px]"
-        style="background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%)"
-      >
-        <!-- Nombre del departamento -->
-        <h2
-          class="w-[202px] h-[47px] font-work-sans font-bold text-[40px] leading-[47px] text-white flex-none order-0 flex-grow-0 m-0"
+    <section class="flex flex-col xl:flex-row max-w-full items-start">
+      <div class="mr-7">
+        <div class="mt-5 h-10">
+          <RavSelect
+            v-model="selectedCountry"
+            :options="departamentos"
+            placeholder="Seleccione departamento"
+            :showImage="true"
+            optionLabel="name"
+            optionImage="flagUrl"
+            inputClass="xl:w-[520px]  h-10"
+            :overlayPaddingTop="'30px'"
+            :overlayZIndex="1"
+            @open="onDropdownOpen"
+            @close="onDropdownClose"
+            @change="handleChange"
+          />
+        </div>
+        <!-- Tarjeta de Información del Departamento -->
+        <!-- Group 574 -->
+        <div
+          v-if="selectedInfo"
+          class="h-[371px] z-10 mt-12"
+          :style="{ top: infoCardTop, filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
         >
-          {{ selectedInfo.name }}
-        </h2>
-
-        <!-- Group 363 - Imagen del mapa del departamento -->
-        <div class="w-[44px] h-[44px] flex-none order-1 flex-grow-0 relative">
-          <!-- Ellipse 7 - Fondo blanco circular y bandera centrada con flex -->
-          <div class="absolute w-[44px] h-[44px] bg-white rounded-full flex items-center justify-center">
+          <!-- Frame 515 - Imagen principal -->
+          <div
+            class="w-auto h-[141px] flex flex-col items-start p-0 gap-[10px]"
+          >
             <img
-              :src="selectedInfo.flagUrl"
-              :alt="'Bandera de ' + selectedInfo.name"
-              class="w-[26px] h-[26px] object-cover rounded-full"
+              :src="selectedInfo.imageUrl"
+              :alt="selectedInfo.name"
+              class="h-[141px] object-cover rounded-t-[20px] flex-none order-0 self-stretch flex-grow-0"
             />
+          </div>
+          <!-- Frame 514 - Encabezado con nombre y fondo color -->
+          <div
+            class="h-[68px] flex flex-row justify-center items-start pt-3 px-0 pb-0 gap-[212px]"
+            style="background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%)"
+          >
+            <!-- Nombre del departamento -->
+            <h2
+              class="w-[202px] h-[47px] font-work-sans font-bold text-[40px] leading-[47px] text-white flex-none order-0 flex-grow-0 m-0"
+            >
+              {{ selectedInfo.name }}
+            </h2>
+            <!-- Group 363 - Imagen del mapa del departamento -->
+            <div class="w-[44px] h-[44px] flex-none order-1 flex-grow-0 relative">
+              <!-- Ellipse 7 - Fondo blanco circular y bandera centrada con flex -->
+              <div class="w-[44px] h-[44px] bg-white rounded-full flex items-center justify-center">
+                <img
+                  :src="selectedInfo.flagUrl"
+                  :alt="'Bandera de ' + selectedInfo.name"
+                  class="w-[26px] h-[26px] object-cover rounded-full"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Frame 516 - Descripción del departamento -->
+          <div
+            class="min-h-[80px] bg-white rounded-b-[20px] flex flex-row justify-center items-center px-[10px] pb-[10px] pt-0 gap-[10px]"
+          >
+            <p
+              class="w-[447px] min-h-[40px] font-work-sans font-normal text-[16px] leading-[19px] text-black flex-none order-0 flex-grow-0 whitespace-pre-line break-words"
+            >
+              La cantidad de victimas en el departamento es de:
+              <strong class="font-bold">{{
+                formatNumber(department.total_victimas)
+              }}</strong>
+              personas
+            </p>
           </div>
         </div>
       </div>
-
-      <!-- Frame 516 - Descripción del departamento -->
+      <!-- Mapa de Colombia -->
       <div
-        class="absolute top-[193px] w-[518px] min-h-[80px] bg-white rounded-b-[20px] flex flex-row justify-center items-center px-[10px] pb-[10px] pt-0 gap-[10px]"
+        class="w-full max-w-[850px] -mt-14 flex-shrink flex-grow min-h-full"
       >
-        <p
-          class="w-[447px] min-h-[40px] font-work-sans font-normal text-[16px] leading-[19px] text-black flex-none order-0 flex-grow-0 whitespace-pre-line break-words"
+        <svg
+          class="min-w-[550px] h-auto"
+          viewBox="0 0 780 780"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          La cantidad de victimas en el departamento es de:
-          <strong class="font-bold">{{
-            formatNumber(department.total_victimas)
-          }}</strong>
-          personas
-        </p>
+          <circle cx="390" cy="390" r="390" fill="white" />
+          <g>
+            <!-- Aquí puedes agregar los paths de los departamentos -->
+            <path
+              v-for="dep in departamentos"
+              :key="dep.code"
+              :d="departmentPaths[dep.code]"
+              :fill="
+                  selectedCountry && selectedCountry.code === dep.code
+                    ? '#FFD600'
+                    : '#C3DAFF'
+              "
+              :stroke="
+                  selectedCountry && selectedCountry.code === dep.code
+                    ? '#FFD600'
+                    : 'none'
+              "
+            />
+          </g>
+        </svg>
       </div>
-    </div>
-
-    <!-- Mapa de Colombia -->
-    <div
-      class="absolute right-0 top-[1%] -translate-y-1/2 w-[600px] h-[600px]"
-    >
-      <svg
-        class="w-full h-full"
-        viewBox="0 0 780 780"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="390" cy="390" r="390" fill="white" />
-        <g>
-          <!-- Aquí puedes agregar los paths de los departamentos -->
-          <path
-            v-for="dep in departamentos"
-            :key="dep.code"
-            :d="departmentPaths[dep.code]"
-            :fill="
-                selectedCountry && selectedCountry.code === dep.code
-                  ? '#FFD600'
-                  : '#C3DAFF'
-            "
-            :stroke="
-                selectedCountry && selectedCountry.code === dep.code
-                  ? '#FFD600'
-                  : 'none'
-            "
-          />
-        </g>
-      </svg>
-    </div>
+    </section>
   </div>
 </template>
 
