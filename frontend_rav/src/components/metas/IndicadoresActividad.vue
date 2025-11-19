@@ -17,7 +17,7 @@
 		<!-- Contenedor Principal -->
 		<div class="">
 			<div class="bg-white w-full p-7 rounded-[20px] mb-5">
-				<p class="my-0 text-lg text-[#B5B5B5]">Espacio para etiqueta o texto descriptivo</p>
+				<input v-model="goal.name" type="text" placeholder="Espacio para etiqueta o texto descriptivo" class="my-0 text-lg  border-none focus:outline-none w-full">
 			</div>
 			<div class="bg-white flex flex-row rounded-[20px] w-full h-fit p-9">
 				<!-- Configuración de Metas -->
@@ -38,7 +38,7 @@
 						<div class="mb-4 mt-5">
 							<label
 								for="limit"
-								class="block text-sm font-bold text-[#002c4d] mb-1 text-xl [&_span]:text-2xl">
+								class="block font-bold text-[#002c4d] mb-1 text-xl [&_span]:text-2xl">
 								Meta: <span>5329</span>
 							</label>
 							<input
@@ -181,6 +181,7 @@ const goal = ref({
 	limit: null,
 	startDate: "",
 	endDate: "",
+	deadline: "",
 });
 
 const customSegmentColors = [
@@ -204,6 +205,11 @@ onMounted(() => {
 	}, 5000);
 });
 
+const formatDate = (d) => {
+    const [y, m, dd] = d.split("-");
+    return `${dd}/${m}/${y}`;
+};
+
 const saveGoal = () => {
 	if (
 		!goal.value.name ||
@@ -219,7 +225,8 @@ const saveGoal = () => {
 		toast.error("La fecha de inicio no puede ser mayor que la fecha de fin.");
 		return;
 	}
-
+	
+	goal.value.deadline = formatDate(goal.value.endDate) 
 	goalStore.addGoal({ ...goal.value });
 	toast.success("Meta guardada exitosamente.");
 
