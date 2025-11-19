@@ -42,7 +42,7 @@
       <div class="percent">{{ percentLabel }}</div>
     </div>
 
-    <div class="info">
+    <div class="info md:grid flex gap-2">
       <div class="flex flex-col">
         <span class="label">{{ goalLabel }}</span>
         <span class="value">{{ dailyGoal }}</span>
@@ -137,7 +137,6 @@ const endCap = computed(() => {
 }
 
 .info {
-  display: grid;
   row-gap: 14px;
 }
 

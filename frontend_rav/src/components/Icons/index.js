@@ -33,6 +33,7 @@ export { default as UserIcon } from './UserIcon.vue'
 export { default as ViewIcon } from './ViewIcon.vue'
 export { default as TxtIcon } from './TxtIcon.vue'
 export { default as AddUserIcon } from './AddUserIcon.vue'
+export { default as Signointe } from './Signointe.vue'
 
 // Logos
 export { default as LogoRav } from './LogoRav.vue'
