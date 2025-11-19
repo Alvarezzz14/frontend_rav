@@ -25,7 +25,7 @@
       <div
         v-for="(image, index) in imagePaths"
         :key="index"
-        class="relative rounded-[20px] image-card overflow-hidden w-h-48 h-48  lg:w-[300px] lg:h-[300px] xl:w-[330px] xl:h-[330px]"
+        class="relative rounded-[20px] image-card overflow-hidden min-h-48 md:object-top lg:min-w-[300px] lg:min-h-[300px] xl:min-h-0 xl:min-w-0 xl:w-[330px] xl:h-[330px]"
       >
         <!-- Imagen de fondo -->
         <img
@@ -60,7 +60,7 @@
     <!-- Segunda Sección: Gráficos -->
     <div class="grid xl:grid-cols-2 gap-7">
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full xl:h-[342px]"
+        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full h-64 md:h-[342px]"
       >
         <PieChart />
       </div>
