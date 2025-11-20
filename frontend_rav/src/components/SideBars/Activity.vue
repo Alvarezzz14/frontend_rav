@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-full flex flex-col transition-all duration-700 ease-in-out"
+    class="h-[833px] flex flex-col transition-all duration-700 ease-in-out"
     :class="rootClasses"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"

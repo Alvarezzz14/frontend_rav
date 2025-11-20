@@ -1,5 +1,5 @@
 <template>
-  <div class="-ml-4">
+  <div class="md:pt-14">
     <div class="flex flex-row items-center gap-3 h-[41px]">
       <!-- Group 1322 - Icono de Búsqueda con círculo (azul de marca) -->
       <div class="relative w-[30px] h-[29.93px] flex-none">
@@ -21,7 +21,7 @@
       <div class="flex flex-col xl:flex-row-reverse items-center justify-center mt-28 xl:mt-8">
         <div class="-mt-24 xl:ms-5 w-full "> 
           <!-- Titulo-->
-          <p class="text-center xl:text-left font-bold text-2xl xl:text-[32px] leading-[38px] text-azul2Ape">
+          <p class="text-center xl:text-left font-medium md:font-bold text-2xl xl:text-[32px] leading-[38px] text-azul2Ape">
             Aquí podrás visualizar información acerca de la
           </p>
           <h2 class="text-center xl:text-left -mt-5 font-bold text-customPurple text-[32px] xl:text-[80px] xl:leading-[75px]">
