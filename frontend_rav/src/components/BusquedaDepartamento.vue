@@ -52,8 +52,8 @@
         <!-- Group 574 -->
         <div
           v-if="selectedInfo"
-          class="z-10 mt-8"
-          :style="{ top: infoCardTop, filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
+          class='z-10 transition-all duration-300'
+          :style="{ top: infoCardTop, marginTop: isOpenDropdown ? '250px': '32px',filter: 'drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))' }"
         >
           <!-- Frame 515 - Imagen principal -->
           <div
@@ -157,6 +157,7 @@ const host = import.meta.env.VITE_HOST;
 const rootEl = ref(null);
 const infoCardTop = ref('176px');
 let listenersActive = false;
+let isOpenDropdown = ref(false);
 
 const computeCardTopBelowOverlay = () => {
   const overlay = document.querySelector('.p-select-overlay');
@@ -188,11 +189,13 @@ const onDropdownOpen = () => {
     computeCardTopBelowOverlay();
     addOverlayPositionListeners();
   });
+  isOpenDropdown.value = true;
 };
 
 const onDropdownClose = () => {
   infoCardTop.value = '170px';
   removeOverlayPositionListeners();
+  isOpenDropdown.value = false;
 };
 
 //Formatear numeros
