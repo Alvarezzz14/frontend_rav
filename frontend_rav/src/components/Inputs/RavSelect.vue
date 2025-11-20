@@ -2,7 +2,11 @@
   <div
     ref="root"
     class="relative"
-    :class="{ 'rav-open': dropdownOpen, 'no-shadow': !withShadow }"
+    :class="{ 
+      'rav-open': dropdownOpen, 
+      'no-shadow': !withShadow,
+      'rav-select-position-top': position === 'top'
+    }"
     :style="{ '--rav-select-overlay-w': overlayWidth, '--rav-select-bg': bgColor, '--rav-select-h': height, '--rav-select-overlay-overlap': overlayOverlap, '--rav-select-overlay-z': overlayZIndex, '--rav-select-overlay-br': overlayBorderRadius }"
   >
     <Select
@@ -101,6 +105,8 @@ const props = defineProps({
   overlayBorderRadius: { type: String, default: '25px' },
   // Permite personalizar el tamaño del placeholder
   placeholderFontSize: { type: String, default: '18px' },
+  // Posición del dropdown: 'bottom' (por defecto) o 'top'
+  position: { type: String, default: 'bottom', validator: (value) => ['bottom', 'top'].includes(value) },
 })
 // Permite personalizar el tamaño del placeholder
 const placeholderFontSize = props.placeholderFontSize;
@@ -142,18 +148,38 @@ function positionOverlay() {
 
     overlay.style.position = 'absolute'
     overlay.style.marginTop = '0px'
+    
     // Calcular paddingTop: usar prop si viene, si no => 16px + overlap
     const overlapPx = Math.max(0, overlap)
     const autoPadTop = `${16 + overlapPx}px`
     const padTop = props.overlayPaddingTop && String(props.overlayPaddingTop).trim().length > 0
       ? String(props.overlayPaddingTop)
       : autoPadTop
-    overlay.style.paddingTop = padTop
-    if (props.overlayPaddingBottom) overlay.style.paddingBottom = String(props.overlayPaddingBottom)
+    
+    // Configurar padding según la posición
+    if (props.position === 'top') {
+      overlay.style.paddingBottom = padTop
+      overlay.style.paddingTop = props.overlayPaddingBottom || '20px'
+    } else {
+      overlay.style.paddingTop = padTop
+      if (props.overlayPaddingBottom) overlay.style.paddingBottom = String(props.overlayPaddingBottom)
+    }
+    
     overlay.style.zIndex = String(props.overlayZIndex ?? 1)
-    overlay.style.top = `${window.scrollY + rect.top + rect.height - overlap}px`
-  // Forzar el borde redondeado del overlay para evitar que otros estilos lo reduzcan a 6px
-  overlay.style.borderRadius = String(props.overlayBorderRadius || '25px')
+    
+    // Posicionar según la propiedad position
+    if (props.position === 'top') {
+      // Calcular la altura estimada del overlay (aproximadamente)
+      const estimatedOverlayHeight = Math.min(props.options.length * 56 + 50, 270) // 56px por opción + padding, máximo 270px
+      overlay.style.top = `${window.scrollY + rect.top - estimatedOverlayHeight + overlap}px`
+    } else {
+      // Posición por defecto (bottom)
+      overlay.style.top = `${window.scrollY + rect.top + rect.height - overlap}px`
+    }
+    
+    // Forzar el borde redondeado del overlay para evitar que otros estilos lo reduzcan a 6px
+    overlay.style.borderRadius = String(props.overlayBorderRadius || '25px')
+    
     // Ajustar el ancho del overlay para que coincida con el ancho visual del trigger
     // 1) Por defecto igualamos el ancho al del select (rect.width)
     overlay.style.width = `${rect.width}px`
@@ -277,6 +303,15 @@ onUnmounted(() => {
   width: var(--rav-select-overlay-w, 520px) !important;
   padding: 16px 0 16px 0 !important;
   z-index: var(--rav-select-overlay-z, 10) !important;
+}
+
+/* Estilos específicos para posición top */
+.rav-select-position-top :deep(.p-select-overlay) {
+  border-top: none !important;
+  border-bottom: 1.6px solid #005DCA !important;
+  margin-top: 0 !important;
+  padding-bottom: calc(16px + var(--rav-select-overlay-overlap, 20px)) !important;
+  padding-top: 16px !important;
 }
 
 /* Opciones */

@@ -140,7 +140,7 @@
 
       <!-- Imagen del ciudadano (DERECHA) -->
       <div class="citizen-image-container">
-        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image -mt-[50px]" />
+        <img :src="Ciudadano" alt="Ciudadano" class="citizen-image" />
       </div>
     </div>
     <!-- Cuadro azul solo para mobile, debajo de la imagen -->
@@ -519,10 +519,14 @@ const uploadFile = async () => {
 /* Contenedor principal */
 .main-container {
   min-height: 91vh;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 1450px;
+  box-sizing: border-box;
 }
 
 /* Header con icono y título */
@@ -564,7 +568,7 @@ const uploadFile = async () => {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: 3rem;
+  gap: 6rem;
   max-width: 1400px;
   width: 100%;
 }
@@ -579,6 +583,7 @@ const uploadFile = async () => {
   max-width: 780px;
   position: relative;
   text-align: center;
+  margin-top: 2rem;
 }
 
 /* título */
@@ -855,7 +860,7 @@ const uploadFile = async () => {
 }
 
 .citizen-image {
-  height: 700px;
+  height: 660px;
   object-fit: contain;
   max-width: 100%;
 }
@@ -865,10 +870,106 @@ const uploadFile = async () => {
   .content-wrapper {
     flex-direction: column-reverse;
     gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .upload-card {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   .citizen-image {
     height: 400px;
+  }
+  
+  .header-section {
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+/* Tablet específico (entre 769px y 1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .main-container {
+    min-height: 100vh;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+  }
+  
+  .header-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 1rem;
+  }
+  
+  .content-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .upload-card {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  .upload-area {
+    min-height: 160px;
+    margin: 1rem 0;
+    width: 100%;
+  }
+  
+  .citizen-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .citizen-image {
+    height: 350px;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  /* Ajustar el archivo cargado para tablet */
+  .w-\[576px\] {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+  }
+  
+  /* Centrar mejor los títulos */
+  .title, .subtitle, .main-title {
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Ajustar botones para tablet */
+  .btn-search, .btn-upload {
+    margin: 0 auto;
+    display: block;
   }
 }
 

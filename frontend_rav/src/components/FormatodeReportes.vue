@@ -1,5 +1,5 @@
 <template>
-  <div class="reportes-container xl:pt-9">
+  <div class="reportes-container xl:pt-9 xl:pl-6">
     <!-- Sección Superior -->
     <div class="header-section">
       <div class="title-container">
@@ -20,38 +20,62 @@
         <!-- Selección de tipo de reporte -->
         <div class="radio-options">
           <div class="radio-item">
-            <input 
-              type="radio" 
-              id="tickets" 
-              name="reportType" 
-              value="HistorialTickets" 
-              class="custom-radio" 
-              v-model="selectedReport" 
-            />
+            <div class="radio-container">
+              <input 
+                type="radio" 
+                id="tickets" 
+                name="reportType" 
+                value="HistorialTickets" 
+                class="custom-radio" 
+                v-model="selectedReport" 
+              />
+              <CheckIcon 
+                class="radio-check-icon"
+                :size="10"
+                stroke="white"
+                :stroke-width="2"
+              />
+            </div>
             <label class="radio-label" for="tickets">Historial de ticket</label>
           </div>
 
           <div class="radio-item">
-            <input 
-              type="radio" 
-              id="estadisticas" 
-              name="reportType" 
-              value="EstadisticasVictima" 
-              class="custom-radio" 
-              v-model="selectedReport" 
-            />
+            <div class="radio-container">
+              <input 
+                type="radio" 
+                id="estadisticas" 
+                name="reportType" 
+                value="EstadisticasVictima" 
+                class="custom-radio" 
+                v-model="selectedReport" 
+              />
+              <CheckIcon 
+                class="radio-check-icon"
+                :size="10"
+                stroke="white"
+                :stroke-width="2"
+              />
+            </div>
             <label class="radio-label" for="estadisticas">Estadísticas del ciudadano</label>
           </div>
 
           <div class="radio-item">
-            <input 
-              type="radio" 
-              id="auditLogs" 
-              name="reportType" 
-              value="AuditLogs" 
-              class="custom-radio" 
-              v-model="selectedReport" 
-            />
+            <div class="radio-container">
+              <input 
+                type="radio" 
+                id="auditLogs" 
+                name="reportType" 
+                value="AuditLogs" 
+                class="custom-radio" 
+                v-model="selectedReport" 
+              />
+              <CheckIcon 
+                class="radio-check-icon"
+                :size="10"
+                stroke="white"
+                :stroke-width="2"
+              />
+            </div>
             <label class="radio-label" for="auditLogs">Historial de usuarios</label>
           </div>
         </div>
@@ -87,53 +111,67 @@
 
         <!-- Checkbox para desplegar filtros adicionales -->
         <div v-if="selectedReport === 'EstadisticasVictima'" class="checkbox-group">
-          <input 
-            type="checkbox" 
-            id="needsSearch" 
-            v-model="needsSearch" 
-            class="custom-checkbox" 
-          />
+          <div class="checkbox-container">
+            <input 
+              type="checkbox" 
+              id="needsSearch" 
+              v-model="needsSearch" 
+              class="custom-checkbox" 
+            />
+            <CheckIcon 
+              class="checkbox-check-icon"
+              :size="12"
+              stroke="white"
+              :stroke-width="2"
+            />
+          </div>
           <label for="needsSearch" class="checkbox-label">¿Necesitas una búsqueda avanzada?</label>
         </div>
 
         <!-- Filtros adicionales -->
         <div v-if="needsSearch && selectedReport === 'EstadisticasVictima'" class="filters-section">
           <div class="form-group">
-            <select v-model="form.genere" id="genere" class="form-select">
-              <option disabled value="">Seleccione el género</option>
-              <option value="HOMBRE">Hombre</option>
-              <option value="MUJER">Mujer</option>
-              <option value="LGBTI">LGBTI</option>
-              <option value="INTERSEXUAL">Intersexual</option>              
-            </select>
+            <RavSelect
+              v-model="selectedGeneroOption"
+              :options="opcionesGenero"
+              :showImage="false"
+              placeholder="Seleccione el género"
+              :withShadow="true"
+              :bgColor="'#EEF5FF'"
+              inputClass="w-full"
+              :height="'50.6px'"
+              overlayWidth="442px"
+              :placeholderFontSize="'22.77px'"
+            />
           </div>
           <div class="form-group">
-            <select v-model="form.etario_group" id="etario_group" class="form-select">
-              <option disabled value="">Seleccione el grupo etario</option>
-              <option value="Primera infancia (0-5 años)">Primera infancia (0-5 años)</option>
-              <option value="Infancia (6-11 años)">Infancia (6-11 años)</option>
-              <option value="Adolescencia temprana (12-13 años)">Adolescencia temprana (12-13 años)</option>
-              <option value="Adolescencia (14-18 años)">Adolescencia (14-18 años)</option>
-              <option value="Juventud (19-26 años)">Juventud (19-26 años)</option>
-              <option value="Adultez (27-59 años)">Adultez (27-59 años)</option>
-              <option value="Persona mayor (60 años o más)">Persona mayor (60 años o más)</option>
-            </select>
+            <RavSelect
+              v-model="selectedGrupoEtarioOption"
+              :options="opcionesGrupoEtario"
+              :showImage="false"
+              placeholder="Seleccione el grupo etario"
+              :withShadow="true"
+              :bgColor="'#EEF5FF'"
+              inputClass="w-full"
+              :height="'50.6px'"
+              overlayWidth="442px"
+              :placeholderFontSize="'22.77px'"
+            />
           </div>
           <div class="form-group">
-            <select v-model="form.pertenencia_etnica" id="pertenencia_etnica" class="form-select">
-              <option disabled value="">Seleccione la procedencia étnica</option>         
-              <option value="AFROCOLOMBIANO (ACREDITADO RA)">Afrocolombiano</option>            
-              <option value="GITANO (RROM) (ACREDITADO RA)">Gitano</option>              
-              <option value="INDIGENA (ACREDITADO RA)">Indigena</option>
-              <option value="NEGRO (ACREDITADO RA)">Negro RA</option>
-              <option value="NEGRO(A) O AFROCOLOMBIANO(A)">Negro Afro</option>
-              <option value="ROM">Rom</option>
-              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal de San Andres y Providencia</option>
-              <option value="PALENQUERO">Palenquero</option>
-              <option value="PALENQUERO (ACREDITADO RA)">Palenquero RA</option>
-              <option value="RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA">Raizal</option>     
-              <option value="NINGUNA">Ninguna</option>     
-            </select>
+            <RavSelect
+              v-model="selectedProcedenciaEtnicaOption"
+              :options="opcionesProcedenciaEtnica"
+              :showImage="false"
+              placeholder="Seleccione la procedencia étnica"
+              :withShadow="true"
+              :bgColor="'#EEF5FF'"
+              inputClass="w-full"
+              :height="'50.6px'"
+              overlayWidth="442px"
+              :placeholderFontSize="'22.77px'"
+              position="top"
+            />
           </div>
         </div>
         
@@ -164,6 +202,7 @@ import Reportes from "@/assets/images/Reportes.svg";
 import PersonaReportes from "@/assets/images/PersonaReportes.avif";
 import logoRavBlanco from '@/assets/images/logoRavBlanco.png';
 import RavSelect from '@/components/Inputs/RavSelect.vue';
+import CheckIcon from '@/components/Icons/CheckIcon.vue';
 import { departamentos } from "@/data/departamentosMapa/departamentos";
 
 
@@ -175,6 +214,11 @@ const selectedDepartmentOption = ref(null); // Opción seleccionada del componen
 const loading = ref(false);
 const needsSearch = ref(false);
 const host = import.meta.env.VITE_HOST;
+
+// Variables reactivas para los RavSelect
+const selectedGeneroOption = ref(null);
+const selectedGrupoEtarioOption = ref(null);
+const selectedProcedenciaEtnicaOption = ref(null);
 
 const form = ref({
   department_name:"",
@@ -200,6 +244,9 @@ watch(selectedReport, (newValue) => {
   needsSearch.value = false;
   // Resetear selección del componente RavSelect
   selectedDepartmentOption.value = null;
+  selectedGeneroOption.value = null;
+  selectedGrupoEtarioOption.value = null;
+  selectedProcedenciaEtnicaOption.value = null;
 });
 
 // Sincronizar la opción seleccionada del RavSelect con el nombre (string) esperado en el formulario
@@ -210,6 +257,37 @@ watch(selectedDepartmentOption, (val) => {
     form.value.department_name = val;
   } else {
     form.value.department_name = val.name ?? '';
+  }
+});
+
+// Watchers para los nuevos RavSelect
+watch(selectedGeneroOption, (val) => {
+  if (!val) {
+    form.value.genere = '';
+  } else if (typeof val === 'string') {
+    form.value.genere = val;
+  } else {
+    form.value.genere = val.value ?? '';
+  }
+});
+
+watch(selectedGrupoEtarioOption, (val) => {
+  if (!val) {
+    form.value.etario_group = '';
+  } else if (typeof val === 'string') {
+    form.value.etario_group = val;
+  } else {
+    form.value.etario_group = val.value ?? '';
+  }
+});
+
+watch(selectedProcedenciaEtnicaOption, (val) => {
+  if (!val) {
+    form.value.pertenencia_etnica = '';
+  } else if (typeof val === 'string') {
+    form.value.pertenencia_etnica = val;
+  } else {
+    form.value.pertenencia_etnica = val.value ?? '';
   }
 });
 
@@ -247,6 +325,40 @@ const department_name = ref([
   { name: "VALLE DEL CAUCA", code: "76" },
   { name: "VAUPÉS", code: "97" },
   { name: "VICHADA", code: "99" },
+]);
+
+// Opciones para RavSelect - Género
+const opcionesGenero = ref([
+  { name: "Hombre", value: "HOMBRE" },
+  { name: "Mujer", value: "MUJER" },
+  { name: "LGBTI", value: "LGBTI" },
+  { name: "Intersexual", value: "INTERSEXUAL" }
+]);
+
+// Opciones para RavSelect - Grupo Etario
+const opcionesGrupoEtario = ref([
+  { name: "Primera infancia (0-5 años)", value: "Primera infancia (0-5 años)" },
+  { name: "Infancia (6-11 años)", value: "Infancia (6-11 años)" },
+  { name: "Adolescencia temprana (12-13 años)", value: "Adolescencia temprana (12-13 años)" },
+  { name: "Adolescencia (14-18 años)", value: "Adolescencia (14-18 años)" },
+  { name: "Juventud (19-26 años)", value: "Juventud (19-26 años)" },
+  { name: "Adultez (27-59 años)", value: "Adultez (27-59 años)" },
+  { name: "Persona mayor (60 años o más)", value: "Persona mayor (60 años o más)" }
+]);
+
+// Opciones para RavSelect - Procedencia Étnica
+const opcionesProcedenciaEtnica = ref([
+  { name: "Afrocolombiano", value: "AFROCOLOMBIANO (ACREDITADO RA)" },
+  { name: "Gitano", value: "GITANO (RROM) (ACREDITADO RA)" },
+  { name: "Indígena", value: "INDIGENA (ACREDITADO RA)" },
+  { name: "Negro RA", value: "NEGRO (ACREDITADO RA)" },
+  { name: "Negro Afro", value: "NEGRO(A) O AFROCOLOMBIANO(A)" },
+  { name: "Rom", value: "ROM" },
+  { name: "Raizal de San Andrés y Providencia", value: "RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA" },
+  { name: "Palenquero", value: "PALENQUERO" },
+  { name: "Palenquero RA", value: "PALENQUERO (ACREDITADO RA)" },
+  { name: "Raizal", value: "RAIZAL DEL ARCHIPIELAGO DE SAN ANDRES Y PROVIDENCIA" },
+  { name: "Ninguna", value: "NINGUNA" }
 ]);
 
 
@@ -593,8 +705,8 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 }
 
 .icon-wrapper {
-  width: 44px;
-  height: 44px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -603,8 +715,8 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 }
 
 .icon-reportes {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 14px;
   object-fit: contain;
   filter: brightness(0) invert(1);
 }
@@ -622,7 +734,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 .content-section {
   display: flex;
   flex-direction: row;
-  gap: 100px;
+  gap: 12rem;
   align-items: flex-start;
 }
 
@@ -670,13 +782,18 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   height: 50.6px;
 }
 
+.radio-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .custom-radio {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   box-sizing: border-box;
-  width: 22.23px;
-  height: 22.23px;
+  width: 20px;
+  height: 20px;
   background: #FFFFFF;
   border: 1.265px solid #005DCA;
   border-radius: 6.325px;
@@ -697,6 +814,25 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   transform: translate(-50%, -50%);
   background: #005DCA;
   border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor para el icono del check en radio buttons */
+.radio-check-icon {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.custom-radio:checked ~ .radio-check-icon {
+  opacity: 1;
 }
 
 .radio-label {
@@ -725,7 +861,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 }
 
 /* Selects e Inputs */
-.form-select,
 .form-input {
   width: 100%;
   height: 50.6px;
@@ -743,16 +878,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   box-sizing: border-box;
 }
 
-.form-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23005DCA' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 25.3px center;
-  padding-right: 50px;
-}
-
 .form-input::placeholder {
   color: #000000;
   opacity: 0.6;
@@ -764,6 +889,11 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   align-items: center;
   gap: 10px;
   margin-bottom: 20.24px;
+}
+
+.checkbox-container {
+  position: relative;
+  flex-shrink: 0;
 }
 
 .custom-checkbox {
@@ -784,13 +914,30 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 }
 
 .custom-checkbox:checked::after {
-  content: '✓';
+  content: '';
   position: absolute;
-  color: #FFFFFF;
-  font-size: 14px;
-  left: 50%;
-  top: 50%;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #005DCA;
+  border-radius: 2px;
+}
+
+/* Icono del check para checkbox */
+.checkbox-check-icon {
+  position: absolute;
+  left: 52%;
+  top: 46%;
   transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.custom-checkbox:checked ~ .checkbox-check-icon {
+  opacity: 1;
 }
 
 .checkbox-label {
@@ -866,7 +1013,7 @@ const generateReport = async (data, worksheetName, reportDetails) => {
 
 @media (max-width: 768px) {
   .reportes-container {
-    padding: 30px 20px;
+    padding: 0px 10px;
   }
   
   .form-card {
@@ -876,13 +1023,13 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   }
   
   .icon-wrapper {
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
   }
   
   .icon-reportes {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 14px;
   }
   
   .title-reportes {
@@ -896,7 +1043,6 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   }
   
   .radio-label,
-  .form-select,
   .form-input {
     font-size: 18px;
     line-height: 22px;
@@ -905,6 +1051,8 @@ const generateReport = async (data, worksheetName, reportDetails) => {
   .generate-button {
     font-size: 20px;
     line-height: 24px;
+    width: 209px;
+    height: 38px;
   }
 }
 
