@@ -58,7 +58,7 @@
 
 			<!-- Contenido del dashboard -->
 			<div class="w-full min-w-0 p-4 overflow-auto relative flex justify-center hide-scrollbar">
-				   <div class="w-full lg:pl-[220px] lg:pr-[100px]">
+				   <div class="w-full lg:pl-[200px] lg:pr-[100px]">
 					   <router-view />
 				   </div>
 			</div>

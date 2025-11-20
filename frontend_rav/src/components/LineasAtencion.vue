@@ -37,13 +37,13 @@
         </p>
       </div>
 
-      <!-- Contenedor de Cards de Entidades (grid 2 columnas en mobile, layout desktop intacto) -->
+      <!-- Contenedor de Cards de Entidades (grid 2 columnas en mobile y tablet, layout desktop intacto) -->
       <div
-        class="grid grid-cols-2 place-items-center gap-x-4 gap-y-4 md:mb-6 md:flex md:flex-wrap md:justify-start md:gap-5"
+        class="grid grid-cols-2 place-items-center gap-x-4 gap-y-4 md:mb-6 lg:flex lg:flex-wrap lg:justify-start lg:gap-5"
       >
         <!-- SENA Card -->
         <div
-          class="entity-card entity-card-sena relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:320px_183px] md:bg-cover bg-[position:-120px_center] md:bg-center bg-no-repeat"
+          class="entity-card entity-card-sena relative w-[184px] h-[185px] lg:w-[368px] lg:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:320px_183px] lg:bg-cover bg-[position:-120px_center] lg:bg-center bg-no-repeat"
           :class="{ 'entity-card-selected': selectedEntity === 'sena' }"
           @click="
             () =>
@@ -60,7 +60,7 @@
 
         <!-- APE Card -->
         <div
-          class="entity-card entity-card-ape relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:272px_183px] md:bg-cover bg-[position:-44px_center] md:bg-center bg-no-repeat"
+          class="entity-card entity-card-ape relative w-[184px] h-[185px] lg:w-[368px] lg:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:272px_183px] lg:bg-cover bg-[position:-44px_center] lg:bg-center bg-no-repeat"
           :class="{ 'entity-card-selected': selectedEntity === 'ape' }"
           @click="
             () =>
@@ -77,7 +77,7 @@
 
         <!-- Certificaciones Card -->
         <div
-          class="entity-card entity-card-cert relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:180px_245px] md:bg-cover bg-[position:2px_-57px] md:bg-center bg-no-repeat"
+          class="entity-card entity-card-cert relative w-[184px] h-[185px] lg:w-[368px] lg:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:180px_245px] lg:bg-cover bg-[position:2px_-57px] lg:bg-center bg-no-repeat"
           :class="{
             'entity-card-selected': selectedEntity === 'certificaciones',
           }"
@@ -96,7 +96,7 @@
 
         <!-- Fondo Emprender Card -->
         <div
-          class="entity-card entity-card-fondo relative w-[184px] h-[185px] md:w-[368px] md:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:262px_380px] md:bg-cover bg-[position:-52px_-120px] md:bg-center bg-no-repeat"
+          class="entity-card entity-card-fondo relative w-[184px] h-[185px] lg:w-[368px] lg:h-[183px] bg-white rounded-[20px] cursor-pointer overflow-hidden flex items-center justify-center transition-all duration-300 shadow bg-[length:262px_380px] lg:bg-cover bg-[position:-52px_-120px] lg:bg-center bg-no-repeat"
           :class="{
             'entity-card-selected': selectedEntity === 'fondoEmprender',
           }"
@@ -135,7 +135,7 @@
       >
         <!-- Dropdown de Departamentos -->
         <div
-          class="select-container relative w-[380px] md:w-[800px] lg:w-[1149px] flex-shrink-0 mx-auto"
+          class="select-container relative w-[380px] md:w-[380px] lg:w-[800px] xl:w-[1149px] flex-shrink-0 mx-auto"
         >
           <RavSelect
             v-model="selectedCountry"
@@ -146,6 +146,7 @@
             inputClass="w-full h-[40px] md:h-[50px]"
             :height="'40px'"
             :overlayPaddingTop="'30px'"
+            position="top"
           />
         </div>
 
@@ -154,7 +155,7 @@
           type="button"
           :disabled="loading"
           @click="validateAndSearch"
-          class="bg-verdeApe border-none hover:brightness-95 active:brightness-90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-full w-[380px] h-[40px] md:w-[370px] md:h-[40px] shadow-md transition-all duration-300 flex justify-center items-center gap-2 font-work-sans font-normal text-[18px] md:font-semibold md:text-[20px] mx-auto mt-4 md:mt-0"
+          class="bg-verdeApe border-none hover:brightness-95 active:brightness-90 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-full w-[380px] h-[40px] md:w-[380px] md:h-[40px] lg:w-[370px] lg:h-[40px] shadow-md transition-all duration-300 flex justify-center items-center gap-2 font-work-sans font-normal text-[18px] md:font-semibold md:text-[20px] mx-auto mt-4 md:mt-0"
         >
           <span
             :class="['pi', loading ? 'pi-spinner animate-spin' : 'pi-search']"

@@ -1,7 +1,7 @@
 <template>
-  <div class="p-4 flex flex-col">
+  <div class="md:pt-8 md:pl-6 flex flex-col">
     <!-- Sección Superior -->
-    <div class="flex flex-col mb-6 mx-8">
+    <div class="flex flex-col md:mb-6">
       <!-- Título con icono -->
       <div class="flex items-center gap-[12px] mb-4">
         <div
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Contenedor de la Tabla -->
-    <div class="mx-8 bg-white shadow-md rounded-2xl overflow-hidden">
+    <div class="bg-white shadow-md rounded-2xl overflow-hidden">
       <!-- Tabla -->
       <table class="min-w-full table-auto">
         <!-- Cabecera de la tabla -->
@@ -214,9 +214,9 @@
             </td>
             <td class="p-1">
               <div
-                class="bg-white rounded-lg px-4 flex items-center gap-3"
+                class="bg-white justify-center rounded-lg flex items-center gap-3"
                 style="
-                  width: 135px;
+                  width:147px;
                   height: 50px;
                   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
                 "
