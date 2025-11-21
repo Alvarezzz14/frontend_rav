@@ -1,5 +1,5 @@
 <template>
-	<div class="p-6 border-none rounded-lg h-auto">
+	<div class="md:p-6 border-none rounded-lg h-auto">
 		<!-- Sección superior: Título e Icono -->
 		<div class="flex flex-col items-start justify-center mb-6">
 			<div class="flex items-center">
@@ -8,7 +8,7 @@
 					<Person />
 				</div>
 				<div class="ml-3 text-center lg:text-left">
-					<h2 class="text-azul2Ape">Perfil del ciudadano</h2>
+					<h2 class="text-azul2Ape text-xl md:text-3xl">{{  screenSize == "mobile"  ? "Ruta de atención al ciudadano" : "Perfil del ciudadano" }}</h2>
 				</div>
 			</div>
 			<!-- Botones de Acción -->
@@ -21,7 +21,7 @@
 		</div>
 
 		<!-- Información personal del ciudadano -->
-		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-card shadow-lg gap-8 mb-0">
+		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-card shadow-lg xl:gap-8 mb-0">
 			<!-- Primera columna -->
 			<div class="flex-1 text-sm">
 				<div class="flex items-center">
@@ -96,29 +96,29 @@
 		</div>
 
 		<!-- Título del historial -->
-		<div class="flex items-center gap-3">
+		<div class="flex items-center gap-3 max-xl:my-4">
 			<div class="w-8 h-8 text-center py-1 pr-0.5 rounded-full bg-azul-gradian">
 				<History />
 			</div>
-			<h3 class="text-3xl font-bold text-azul2Ape">Historial del ciudadano</h3>
+			<h3 class="xl:text-3xl font-bold text-azul2Ape">Historial del ciudadano</h3>
 		</div>
 
 		<!-- Historial del Ciudadano -->
-		<div class="text-white rounded-[20px] shadow-md -mt-2">
+		<div class="text-white rounded-[20px] shadow-md xl:-mt-2">
 			<!-- Contenedor de la tabla con scroll horizontal -->
-			<div class="overflow-x-auto bg-white p-5 rounded-[20px]">
+			<div class="overflow-x-auto bg-white p-2 xl:p-5 rounded-[20px]">
 				<table class="min-w-full text-gray-900">
 					<thead>
 						<tr
-							class="bg-gray-200 [&_th]:bg-azul-gradian [&_th]:rounded-lg [&_th]:px-4 [&_th]:py-2 [&_th]:border [&_div]:flex [&_div]:items-center [&_div]:gap-2">
+							class="bg-gray-200 [&_th]:bg-azul-gradian [&_th]:rounded-lg [&_th]:px-2 [&_th]:text-left [&_th]:md:py-2 [&_th]:border [&_th]:text-xs [&_th]:md:text-base [&_div]:flex [&_div]:items-center [&_div]:gap-2">
 							<th>
 								<div>
-									<CalendarRounded />
+									<CalendarRounded class="w-"/>
 									Ficha
 								</div>
 							</th>
 							<th>
-								<div>
+								<div class="w-48 xl:w-full">
 									<CoursesRounded />
 									Curso / Certificado
 								</div>
@@ -188,7 +188,7 @@
 					<div class="flex items-center space-x-2">
 
 						<Chevron class="mt-1" />
-						<span class="pl-2 pr-8">Anterior</span>
+						<span class="pl-0.5 pr-8">Anterior</span>
 
 						<div class="space-x-5">
 							<span>1</span>
@@ -196,7 +196,7 @@
 							<span class="bg-azul-gradian rounded-2xl py-2 px-3 !text-white">02</span>
 						</div>
 
-						<span class="pl-8 pr-2">Siguiente</span>
+						<span class="pl-8 pr-0.5">Siguiente</span>
 						<Chevron class="rotate-90 mt-1" />
 
 					</div>
@@ -226,9 +226,12 @@ import StartDateRounded from './Icons/fill/StartDateRounded.vue';
 import EndDateRounded from './Icons/fill/EndDateRounded.vue';
 import Chevron from "./Icons/Chevron.vue";
 import ButtonLink from "./ButtonLink.vue";
+import { useResponsive } from "../composables/useResponsive";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
 
 const eventStore = useEventStore();
+const fetchData = ref([]);
+const { screenSize } = useResponsive()
 const userInfo = ref({
 	tipo_documento: "CC",
 	nombre: "John",
@@ -242,7 +245,6 @@ const userInfo = ref({
 	numtelefonocelular: "3124567890",
 	provRuv: "No",
 });
-const fetchData = ref([]);
 const host = import.meta.env.VITE_HOST;
 const btnStylesPag = ref({
 	clicked: false,
@@ -368,7 +370,6 @@ thead th {
 	color: #fff;
 	font-weight: bold;
 	overflow: hidden;
-	padding: 12px;
 }
 
 tbody tr:hover td {

@@ -1,6 +1,6 @@
 <template>
     <router-link :to="{ name: link }"
-        class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2 max-xl:w-6/12">
+        class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2 max-xl:w-full">
         <component :is="icon" />
         <span class="text-white font-bold text-sm text-center items-center justify-center">{{ textContent }}</span>
     </router-link>
