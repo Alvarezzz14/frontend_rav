@@ -113,7 +113,7 @@
 							class="bg-gray-200 [&_th]:bg-azul-gradian [&_th]:rounded-lg [&_th]:px-2 [&_th]:text-left [&_th]:md:py-2 [&_th]:border [&_th]:text-xs [&_th]:md:text-base [&_div]:flex [&_div]:items-center [&_div]:gap-2">
 							<th>
 								<div>
-									<CalendarRounded class="w-"/>
+									<CalendarRounded/>
 									Ficha
 								</div>
 							</th>
