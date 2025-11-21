@@ -1,155 +1,162 @@
 <template>
-	<div class="bg-white p-6 border-none rounded-lg h-auto">
+	<div class="md:p-6 border-none rounded-lg h-auto">
 		<!-- Sección superior: Título e Icono -->
-		<div class="flex flex-col lg:flex-row items-center justify-between mb-6">
+		<div class="flex flex-col items-start justify-center mb-6">
 			<div class="flex items-center">
-				<div class="p-4 bg-customPurple rounded-full">
+				<div class="p-2 text-center bg-azul-gradian rounded-full w-8 h-8">
 					<!-- Icono SVG -->
-					<img
-						:src="Ciudadano"
-						alt="Icono de Ciudadano"
-						width="50"
-						height="50" />
+					<Person />
 				</div>
-				<div class="ml-4 text-center lg:text-left">
-					<p class="text-black mb-0 text-2xl">Perfil de la</p>
-					<h2 class="text-customPurple text-5xl mt-0 font-bold">Víctima</h2>
+				<div class="ml-3 text-center lg:text-left">
+					<h2 class="text-azul2Ape text-xl md:text-3xl">{{  screenSize == "mobile"  ? "Ruta de atención al ciudadano" : "Perfil del ciudadano" }}</h2>
 				</div>
 			</div>
 			<!-- Botones de Acción -->
 			<div class="flex flex-wrap gap-4 mt-4 justify-center">
-				<router-link
-					:to="{ name: 'RutaAtencionPage' }"
-					class="cursor-pointer no-underline bg-customPurple border-none text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img
-						:src="RutaAtencion"
-						alt="Icono de Atención"
-						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Ruta de Atención</span>
-				</router-link>
 
-				<router-link
-					:to="{ name: 'LineaTiempoNuevaPage' }"
-					class="bg-customPurple no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img :src="VerLine" alt="Icono de Ver Línea" class="w-10 h-10 mb-2" />
-					<span class="text-sm">Ver Línea de Tiempo</span>
-				</router-link>
+				<ButtonLink link="RutaAtencionPage" textContent="Ver Ruta de Atención" :icon="CarePathway" />
+				<ButtonLink link="RegistroActividadPage" textContent="Registrar Actividad" :icon="TicketRounded" />
 
-				<router-link
-					:to="{ name: 'RegistroActividadPage' }"
-					class="bg-customPurple no-underline text-white py-4 px-6 rounded-lg flex flex-col items-center justify-center">
-					<img
-						:src="Actividad"
-						alt="Icono registrar actividad"
-						class="w-10 h-10 mb-2" />
-					<span class="text-sm">Registrar Actividad</span>
-				</router-link>
 			</div>
 		</div>
 
 		<!-- Información personal del ciudadano -->
-		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-lg gap-8 mb-8">
+		<div class="flex flex-col lg:flex-row bg-white p-4 rounded-card shadow-lg xl:gap-8 mb-0">
 			<!-- Primera columna -->
 			<div class="flex-1 text-sm">
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>TIPO DE DOCUMENTO:</label
-					>
-					<p class="text-black w-2/3">
+					<label class="text-black font-bold">TIPO DE DOCUMENTO:</label>
+					<p class="text-black ml-2">
 						{{ formatData(userInfo.tipo_documento) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">NOMBRE COMPLETO:</label>
-					<p class="text-black w-2/3">
-						{{ formatData(userInfo.nombrecompleto) }}
+					<label class="text-black font-bold">NOMBRES:</label>
+					<p class="text-black ml-2">
+						{{ formatData(userInfo.nombre) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">CIUDAD:</label>
-					<p class="text-black w-2/3">{{ formatData(userInfo.ciudad) }}</p>
-				</div>
-
-				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">GENERO:</label>
-					<p class="text-black w-2/3">{{ formatData(userInfo.genero) }}</p>
-				</div>
-
-				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">ID HOGAR:</label>
-					<p class="text-black w-2/3">
-						{{ formatData(userInfo.id_hogar) }}
+					<label class="text-black font-bold">APELLIDOS:</label>
+					<p class="text-black ml-2">
+						{{ formatData(userInfo.apellido) }}
 					</p>
 				</div>
+
+				<div class="flex items-center">
+					<label class="text-black font-bold">UBICACIÓN:</label>
+					<p class="text-black ml-2">{{ formatData(userInfo.ciudad) }}</p>
+				</div>
+
+				<div class="flex items-center">
+					<label class="text-black font-bold">PROVIENE DE SOFIA:</label>
+					<p class="text-black ml-2">{{ formatData(userInfo.provSofia) }}</p>
+				</div>
+
+
 			</div>
 
 			<!-- Segunda columna -->
 			<div class="flex-1 text-sm">
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>NÚMERO DE DOCUMENTO:</label
-					>
-					<p class="text-black w-2/3">
+					<label class="text-black font-bold">NÚMERO DE DOCUMENTO:</label>
+					<p class="text-black ml-2">
 						{{ formatData(userInfo.documento) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>PROCEDENCIA ÉTNICA:</label
-					>
-					<p class="text-black w-2/3">
+					<label class="text-black font-bold">PROCEDENCIA ÉTNICA:</label>
+					<p class="text-black ml-2">
 						{{ formatData(userInfo.pertenenciaetnica) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">ESTADO VICTIMA:</label>
-					<p class="text-black w-2/3">
-						{{ formatData(userInfo.estadovictima) }}
+					<label class="text-black font-bold">ID HOGAR:</label>
+					<p class="text-black ml-2">
+						{{ formatData(userInfo.id_hogar) }}
 					</p>
 				</div>
 
 				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3">HECHO:</label>
-					<p class="text-black w-2/3">{{ formatData(userInfo.hecho) }}</p>
-				</div>
-
-				<div class="flex items-center">
-					<label class="text-black font-semibold w-1/3"
-						>NÚMERO DE CONTACTO:</label
-					>
-					<p class="text-black w-2/3">
+					<label class="text-black font-bold">NÚMERO DE CONTACTO:</label>
+					<p class="text-black ml-2">
 						{{ formatData(userInfo.numtelefonocelular) }}
 					</p>
 				</div>
+
+				<div class="flex items-center">
+					<label class="text-black font-bold">PROVIENE DE RUV:</label>
+					<p class="text-black ml-2">{{ formatData(userInfo.provRuv) }}</p>
+				</div>
 			</div>
 		</div>
-		<!-- Historial del Ciudadano -->
-		<div class="text-white rounded-lg shadow-md">
-			<!-- Título del historial -->
-			<div class="flex items-center bg-customPurple p-px">
-				<img :src="Historial" alt="Icono de Historial" class="w-8 h-8 mr-2" />
-				<h3 class="text-xl font-bold">HISTORIAL DE LA VICTIMA</h3>
+
+		<!-- Título del historial -->
+		<div class="flex items-center gap-3 max-xl:my-4">
+			<div class="w-8 h-8 text-center py-1 pr-0.5 rounded-full bg-azul-gradian">
+				<History />
 			</div>
+			<h3 class="xl:text-3xl font-bold text-azul2Ape">Historial del ciudadano</h3>
+		</div>
+
+		<!-- Historial del Ciudadano -->
+		<div class="text-white rounded-[20px] shadow-md xl:-mt-2">
 			<!-- Contenedor de la tabla con scroll horizontal -->
-			<div class="overflow-x-auto">
-				<table class="min-w-full bg-white text-gray-900">
+			<div class="overflow-x-auto bg-white p-2 xl:p-5 rounded-[20px]">
+				<table class="min-w-full text-gray-900">
 					<thead>
-						<tr class="bg-gray-200">
-							<th class="px-4 py-2 border">FICHA</th>
-							<th class="px-4 py-2 border">CURSO</th>
-							<th class="px-4 py-2 border">ESTADO</th>
-							<th class="px-4 py-2 border">TIPO</th>
-							<th class="px-4 py-2 border">MODALIDAD</th>
-							<th class="px-4 py-2 border">FECHA INICIO</th>
-							<th class="px-4 py-2 border">FECHA FIN</th>
+						<tr
+							class="bg-gray-200 [&_th]:bg-azul-gradian [&_th]:rounded-lg [&_th]:px-2 [&_th]:text-left [&_th]:md:py-2 [&_th]:border [&_th]:text-xs [&_th]:md:text-base [&_div]:flex [&_div]:items-center [&_div]:gap-2">
+							<th>
+								<div>
+									<CalendarRounded/>
+									Ficha
+								</div>
+							</th>
+							<th>
+								<div class="w-48 xl:w-full">
+									<CoursesRounded />
+									Curso / Certificado
+								</div>
+							</th>
+							<th>
+								<div>
+									<StatusRounded />
+									Estado
+								</div>
+							</th>
+							<th>
+								<div>
+									<TypeRounded />
+									Tipo
+								</div>
+							</th>
+							<th>
+								<div>
+									<ModalityRounded />
+									Modalidad
+								</div>
+							</th>
+							<th>
+								<div>
+									<StartDateRounded />
+									Fecha inicial
+								</div>
+							</th>
+							<th>
+								<div>
+									<EndDateRounded />
+									Fecha final
+								</div>
+							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(course, index) in fetchData" :key="index">
+						<tr v-for="(course, index) in fetchData" :key="index" class="[&_td]:rounded-lg">
 							<td class="px-4 py-2 border">{{ course.FIC_ID }}</td>
 							<td class="px-4 py-2 border">{{ course.PRF_DENOMINACION }}</td>
 							<td class="px-4 py-2 border">{{ course.RGA_ESTADO }}</td>
@@ -164,6 +171,40 @@
 						</tr>
 					</tbody>
 				</table>
+
+				<div class="hidden md:flex justify-between mt-4 mx-2 [&_span]:text-black">
+					<div>
+						<select
+							class="py-2 px-1 rounded-lg border-azulApe cursor-pointer focus:outline-azulApe focus:outline-2">
+							<option value="5" default>5</option>
+							<option value="10">10</option>
+							<option value="15">15</option>
+							<option value="20">20</option>
+							<option value="25">25</option>
+						</select>
+						<span class="ml-2">Noticias por página</span>
+					</div>
+
+					<div class="flex items-center space-x-2">
+
+						<Chevron class="mt-1" />
+						<span class="pl-0.5 pr-8">Anterior</span>
+
+						<div class="space-x-5">
+							<span>1</span>
+							<span>...</span>
+							<span class="bg-azul-gradian rounded-2xl py-2 px-3 !text-white">02</span>
+						</div>
+
+						<span class="pl-8 pr-0.5">Siguiente</span>
+						<Chevron class="rotate-90 mt-1" />
+
+					</div>
+
+					<div class="flex justify-evenly items-center">
+						<span><strong>1-10</strong> de <strong>40</strong> Resultados</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -172,17 +213,43 @@
 <script setup>
 // Simulación de datos desde una API
 import { ref, onMounted } from "vue";
-import RutaAtencion from "@/assets/images/ruta.svg";
-import Ciudadano from "@/assets/images/Usuario.svg";
-import VerLine from "@/assets/images/VerLine.svg";
-import Actividad from "@/assets/images/Actividad.png";
-import Historial from "@/assets/images/Historial.svg";
+import History from "./Icons/History.vue";
+import Person from "./Icons/fill/Person.vue";
+import CarePathway from "./Icons/fill/CarePathway.vue";
+import TicketRounded from "./Icons/fill/TicketRounded.vue";
+import CalendarRounded from './Icons/fill/CalendarRounded.vue';
+import CoursesRounded from './Icons/fill/CoursesRounded.vue';
+import StatusRounded from './Icons/fill/StatusRounded.vue';
+import TypeRounded from './Icons/fill/TypeRounded.vue';
+import ModalityRounded from './Icons/fill/ModalityRounded.vue';
+import StartDateRounded from './Icons/fill/StartDateRounded.vue';
+import EndDateRounded from './Icons/fill/EndDateRounded.vue';
+import Chevron from "./Icons/Chevron.vue";
+import ButtonLink from "./ButtonLink.vue";
+import { useResponsive } from "../composables/useResponsive";
 import { useEventStore } from "@/stores/storedataOff.js"; // Cambiar según tu estructura de store
 
 const eventStore = useEventStore();
-const userInfo = ref({});
 const fetchData = ref([]);
+const { screenSize } = useResponsive()
+const userInfo = ref({
+	tipo_documento: "CC",
+	nombre: "John",
+	apellido: "Doe López",
+	ciudad: "Medellín",
+	provSofia: "Sí",
+
+	documento: "1032456789",
+	pertenenciaetnica: "Afrocolombiano",
+	id_hogar: "HOG-45872",
+	numtelefonocelular: "3124567890",
+	provRuv: "No",
+});
 const host = import.meta.env.VITE_HOST;
+const btnStylesPag = ref({
+	clicked: false,
+	styles: "py-2 px-3 !text-white"
+})
 
 const fetchOptions = {
 	url: `${host}:8083/api/v1/programa`,
@@ -194,29 +261,29 @@ const fetchOptions = {
 	},
 };
 
-const getFetchData = async (fetchOptions) => {
-	const { url, options } = fetchOptions;
-	let newUrl = url + `/${userInfo.value.documento}`;
-	console.log(newUrl);
+// const getFetchData = async (fetchOptions) => {
+// 	const { url, options } = fetchOptions;
+// 	let newUrl = url + `/${userInfo.value.documento}`;
+// 	console.log(newUrl);
 
-	try {
-		const response = await fetch(newUrl, options);
-		const json = await response.json();
-		if (!response.ok)
-			throw {
-				error: true,
-				errorStatus: response.status,
-				errorMsg: response.statusText,
-			};
-		console.log(json);
-		fetchData.value = json;
-	} catch (error) {
-		if (!error.error) error.error = true;
-		console.log(error);
-	} finally {
-		newUrl = "";
-	}
-};
+// 	try {
+// 		const response = await fetch(newUrl, options);
+// 		const json = await response.json();
+// 		if (!response.ok)
+// 			throw {
+// 				error: true,
+// 				errorStatus: response.status,
+// 				errorMsg: response.statusText,
+// 			};
+// 		console.log(json);
+// 		fetchData.value = json;
+// 	} catch (error) {
+// 		if (!error.error) error.error = true;
+// 		console.log(error);
+// 	} finally {
+// 		newUrl = "";
+// 	}
+// };
 
 // Función de utilidad
 const formatData = (value) => {
@@ -233,41 +300,93 @@ const formatData = (value) => {
 };
 
 onMounted(() => {
-	userInfo.value = eventStore.getUserInfo();
-	getFetchData(fetchOptions);
+
+	//userInfo.value = eventStore.getUserInfo();
+	// getFetchData(fetchOptions);
 	console.log(fetchData.value);
+	fetchData.value.push(
+		{
+			FIC_ID: "3.000.000",
+			PRF_DENOMINACION: "Nombre del curso",
+			RGA_ESTADO: "Pendiente",
+			PRF_TIPO_PROGRAMA: "Presencial",
+			modalidad: "Tecnólogo",
+			FIC_FCH_INICIALIZACION: "01/02/2021",
+			FIC_FCH_FINALIZACION: "01/02/2021",
+		},
+		{
+			FIC_ID: "3.000.000",
+			PRF_DENOMINACION: "Nombre del curso",
+			RGA_ESTADO: "Pendiente",
+			PRF_TIPO_PROGRAMA: "Presencial",
+			modalidad: "Tecnólogo",
+			FIC_FCH_INICIALIZACION: "01/02/2021",
+			FIC_FCH_FINALIZACION: "01/02/2021",
+		},
+		{
+			FIC_ID: "3.000.000",
+			PRF_DENOMINACION: "Nombre del curso",
+			RGA_ESTADO: "Pendiente",
+			PRF_TIPO_PROGRAMA: "Presencial",
+			modalidad: "Tecnólogo",
+			FIC_FCH_INICIALIZACION: "01/02/2021",
+			FIC_FCH_FINALIZACION: "01/02/2021",
+		},
+		{
+			FIC_ID: "3.000.000",
+			PRF_DENOMINACION: "Nombre del curso",
+			RGA_ESTADO: "Pendiente",
+			PRF_TIPO_PROGRAMA: "Presencial",
+			modalidad: "Tecnólogo",
+			FIC_FCH_INICIALIZACION: "01/02/2021",
+			FIC_FCH_FINALIZACION: "01/02/2021",
+		},
+	)
+	console.log(fetchData.value);
+
 });
 </script>
 
 <style scoped>
 table {
 	border-collapse: separate;
-	border-spacing: 1px 1px; /* Espacio entre celdas */
+	border-spacing: 4px 4px;
+	/* Espacio entre celdas */
 	min-width: 100%;
-	margin-top: 1rem;
+
 }
 
 th,
 td {
-	border: 1px solid #ccc; /* Borde individual para cada celda */
-	background-color: #fff; /* Fondo blanco para celdas */
-	text-align: left; /* Alinear texto a la izquierda */
+	border: 1px solid #ecebeb;
+	/* Borde individual para cada celda */
+	background-color: #fff;
+	/* Fondo blanco para celdas */
+	text-align: left;
+	/* Alinear texto a la izquierda */
 }
 
 thead th {
-	background-color: #005DCA;
 	color: #fff;
 	font-weight: bold;
-	border-radius: 0.5rem 0.5rem 0rem 0rem;
 	overflow: hidden;
-	padding: 12px;
 }
 
 tbody tr:hover td {
-	background-color: #f9f9f9; /* Fondo más claro al pasar el cursor */
+	background-color: #f9f9f9;
+	/* Fondo más claro al pasar el cursor */
 }
 
 tbody td {
-	padding: 10px; /* Espaciado interno en las celdas */
+	padding: 10px;
+	/* Espaciado interno en las celdas */
+}
+
+.rotate-90 {
+	transform: rotate(180deg);
+	transform-origin: center;
+	/* Importante para que gire bien */
+	display: inline-block;
+	/* Necesario en la mayoría de elementos inline */
 }
 </style>
