@@ -65,7 +65,7 @@
         <PieChart />
       </div>
       <div
-        class="border-0 my-card rounded-[20px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] w-full h-[342px] bg-white"
+        class="border-0 my-card rounded-[20px] w-full h-[342px] bg-white"
       >
         <BarChart />
       </div>

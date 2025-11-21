@@ -1,13 +1,13 @@
 <template>
-  <div class="relative flex flex-col w-full h-full p-4 bg-white rounded-[20px] shadow-[0px_4px_10px_rgba(0,0,0,0.15)]">
+  <div class="relative flex flex-col w-full h-full p-4 bg-white rounded-[20px] shadow-[0px_4px_8px_rgba(0,0,0,0.15)] md:shadow-[0px_4px_10px_rgba(0,0,0,0.15)]">
     <!-- Botón de descarga en la esquina superior derecha -->
     <button
       v-if="hasData"
       @click="downloadChart"
-      class="absolute top-4 right-4 w-[50px] h-[50px] bg-azulApe rounded-full flex items-center justify-center shadow-[0px_4px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer transition-colors"
+      class="absolute top-3 right-3 md:top-4 md:right-4 w-[30px] h-[30px] md:w-[50px] md:h-[50px] bg-azulApe rounded-full flex items-center justify-center shadow-[0px_4px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer transition-colors"
       title="Descargar gráfico"
     >
-      <DownloadIcon :size="25" :height="20" class-name="text-backgroundApp" />
+      <DownloadIcon :size="15" :height="12" class-name="text-backgroundApp md:!w-[25px] md:!h-[20px]" />
     </button>
 
     <!-- Transición suave para manejar tanto el spinner como el gráfico -->
@@ -23,18 +23,18 @@
         <div class="spinner"></div>
       </div>
       <div v-else-if="hasData" class="w-full h-full flex flex-col">
-        <div class="mb-[25px] pl-2">
+        <div class="mb-4 md:mb-[25px] pl-2">
           <h3
-            class="text-azul2Ape font-['Work_Sans'] font-bold text-[20px] leading-[23px] text-left m-0 mb-[8px]"
+            class="text-azul2Ape font-['Work_Sans'] font-bold text-[14px] md:text-[20px] leading-[13px] md:leading-[23px] text-left m-0 mb-2 md:mb-[8px]"
           >
             {{ chartTitle }}
           </h3>
           <!-- Línea amarilla debajo del título -->
-          <div class="w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
+          <div class="w-[200px] md:w-[289px] h-[4px] md:h-[6px] bg-amarillo rounded-[1px]"></div>
         </div>
         <div class="flex-1 min-h-0 px-4 py-2">
           <!-- Gráfico mostrado después de cargar los datos -->
-          <Bar ref="barChart" :data="clonedChartData" :options="chartOptions" />
+          <Bar ref="barChart" :data="clonedChartData" :options="chartOptions" style="filter: none; box-shadow: none;" />
         </div>
       </div>
       <!-- Mostrar mensaje si no hay datos -->
@@ -70,11 +70,65 @@ import DownloadIcon from "@/components/Icons/DownloadIcon.vue";
 // Registrar los módulos necesarios de Chart.js
 Chart.register(...registerables);
 
+// Plugin para desactivar sombras completamente
+const noShadowPlugin = {
+  id: 'noShadow',
+  beforeDatasetsDraw: (chart) => {
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+  },
+  afterDatasetsDraw: (chart) => {
+    const ctx = chart.ctx;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowBlur = 0;
+    ctx.shadowColor = 'transparent';
+    ctx.restore();
+  }
+};
+
+Chart.register(noShadowPlugin);
+
 const isLoading = ref(true); // Estado para mostrar el spinner
 const barChart = ref(null);
 const host = import.meta.env.VITE_HOST;
 const hasData = ref(false);
 const chartTitle = ref("Caracterización"); // Título del gráfico
+
+// Detectar si es mobile
+const isMobile = ref(window.innerWidth < 768);
+
+// Actualizar isMobile en resize
+const updateMobile = () => {
+  const newIsMobile = window.innerWidth < 768;
+  if (isMobile.value !== newIsMobile) {
+    isMobile.value = newIsMobile;
+    updateChartConfig();
+  }
+};
+
+// Función para actualizar la configuración del gráfico
+const updateChartConfig = () => {
+  const radius = isMobile.value ? 3 : 10;
+  const thickness = isMobile.value ? 10 : 19;
+  const fontSize = isMobile.value ? 11 : 20;
+  
+  chartData.datasets[0].borderRadius = { topLeft: 0, topRight: 0, bottomLeft: radius, bottomRight: radius };
+  chartData.datasets[0].barThickness = thickness;
+  chartData.datasets[1].borderRadius = { topLeft: radius, topRight: radius, bottomLeft: 0, bottomRight: 0 };
+  chartData.datasets[1].barThickness = thickness;
+  
+  chartOptions.scales.x.ticks.font.size = fontSize;
+  
+  // Forzar actualización del gráfico si ya existe
+  if (barChart.value?.chart) {
+    barChart.value.chart.update();
+  }
+};
 
 // Data dummy para desarrollo (comentar cuando se integre con backend)
 const dummyData = [
@@ -131,7 +185,28 @@ let percValues = [];
 const chartOptions = reactive({
   responsive: true,
   maintainAspectRatio: false,
+  animation: {
+    onComplete: () => {
+      // Forzar que no haya sombras después de la animación
+      if (barChart.value?.chart?.ctx) {
+        barChart.value.chart.ctx.shadowOffsetX = 0;
+        barChart.value.chart.ctx.shadowOffsetY = 0;
+        barChart.value.chart.ctx.shadowBlur = 0;
+        barChart.value.chart.ctx.shadowColor = 'transparent';
+      }
+    }
+  },
+  elements: {
+    bar: {
+      // Desactivar sombras en las barras
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+      shadowBlur: 0,
+      shadowColor: 'transparent',
+    }
+  },
   plugins: {
+    noShadow: true,
     title: {
       display: false,
     },
@@ -139,11 +214,11 @@ const chartOptions = reactive({
       display: false,
     },
     tooltip: {
-  backgroundColor: "rgba(0, 93, 202, 0.95)",
+      backgroundColor: "#002C4D",
       titleColor: "#FFFFFF",
       bodyColor: "white",
-      borderColor: "#005DCA",
-      borderWidth: 2,
+      borderColor: "#FDC300",
+      borderWidth: 1,
       padding: 12,
       displayColors: false,
       titleFont: {
@@ -276,10 +351,25 @@ const downloadChart = () => {
 // Llamar a fetchCitiesData al montar el componente
 onMounted(() => {
   fetchCitiesData();
+  window.addEventListener("resize", updateMobile);
+});
+
+// Limpiar listener al desmontar
+import { onBeforeUnmount } from "vue";
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateMobile);
 });
 </script>
 
 <style scoped>
+/* Forzar que el canvas no tenga sombras */
+:deep(canvas) {
+  filter: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
 .spinner {
   border: 4px solid rgba(0, 93, 202, 0.3);
   border-top: 4px solid #005DCA;
