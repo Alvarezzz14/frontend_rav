@@ -48,14 +48,7 @@
 		</div>
 		<div class="flex flex-col xl:flex-row gap-3 mb-5">
 			<!-- Sección Derecha (Botón) -->
-			<router-link
-				:to="{ name: 'PerfilCiudadanoPage' }"
-				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2">
-				<img :src="arrowBack" alt="volver">
-				<span class="text-white text-lg text-center items-center justify-center"
-					>Regresar a perfil del ciudadano</span
-				>
-			</router-link>
+			<ButtonLink link="PerfilCiudadanoPage" textContent="Regresar a perfil del ciudadano" :icon="BackArrowRounded"/>
 			
 
 			<!-- Recuadro Blanco (Información del ciudadano) -->
@@ -156,12 +149,13 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useEventStore } from "@/stores/storedataOff";
-import arrowBack from "@/assets/images/arrowBack.svg";
+import BackArrowRounded from "./Icons/fill/BackArrowRounded.vue";
 import calendario from "@/assets/images/calendario.svg"
 import ticket from "@/assets/images/ticket.svg"
 import eyeRounded from "@/assets/images/eyeRounded.svg"
 import eyebtn from "@/assets/images/eyebtn.svg";
 import { useResponsive } from "@/composables";
+import ButtonLink from "./ButtonLink.vue";
 
 const openedGroups = ref({});
 const fetchData = ref([]);

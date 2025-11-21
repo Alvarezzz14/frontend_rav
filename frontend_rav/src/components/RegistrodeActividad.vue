@@ -9,14 +9,7 @@
 		</div>
 
 		<div class="lg:flex max-xl:flex-col hidden gap-3 mb-5">
-			<!-- Sección Derecha (Botón) -->
-			<router-link :to="{ name: 'PerfilCiudadanoPage' }"
-				class="bg-azulApe h-9 rounded-menu no-underline px-3  flex items-center gap-2 max-xl:w-6/12">
-				<img :src="arrowBack" alt="volver">
-				<span class="text-white font-bold text-sm text-center items-center justify-center">Regresar a perfil del
-					ciudadano</span>
-			</router-link>
-
+			<ButtonLink link="PerfilCiudadanoPage" textContent="Regresar a perfil del ciudadano" :icon="BackArrowRounded"/>
 
 			<!-- Recuadro Blanco (Información del ciudadano) -->
 			<div class="flex items-center gap-5 text-xl">
@@ -136,11 +129,12 @@ import { useEventStore } from "@/stores/storedataOff";
 import { useAuthStore } from "@/stores/auth";
 import { categories as staticCategories } from "@/data/palabrasClaves";
 import ticketRegistroActividad from "@/assets/images/ticketRegistroActividad.svg"
-import arrowBack from "@/assets/images/arrowBack.svg";
+import BackArrowRounded from "./Icons/fill/BackArrowRounded.vue";
 import imgIndicativa1 from "@/assets/images/img-indicativa-casilla-titulo.avif"
 import imgIndicativa2 from "@/assets/images/img-indicativa-descripcion.avif"
 import imgIndicativa3 from "@/assets/images/img-indicativa-enviar.avif"
 import RavSelect from '@/components/Inputs/RavSelect.vue';
+import ButtonLink from "./ButtonLink.vue";
 import { useResponsive } from "@/composables";
 import Modal from "./Modal.vue";
 

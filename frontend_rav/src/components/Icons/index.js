@@ -34,6 +34,21 @@ export { default as ViewIcon } from './ViewIcon.vue'
 export { default as TxtIcon } from './TxtIcon.vue'
 export { default as AddUserIcon } from './AddUserIcon.vue'
 export { default as Signointe } from './Signointe.vue'
+export { default as History } from './History.vue'
+export { default as Chevron } from './Chevron.vue'
+ 
+// Fill icons, se deben de cambiar algunos de estos iconos.
+export { default as Person } from './fill/Person.vue'
+export { default as BackArrowRounded } from './fill/BackArrowRounded.vue'
+export { default as CarePathway } from './fill/CarePathway.vue'
+export { default as TicketRounded } from './fill/TicketRounded.vue'
+export { default as CalendarRounded } from './fill/CalendarRounded.vue'
+export { default as CoursesRounded } from './fill/CoursesRounded.vue'
+export { default as StatusRounded } from './fill/StatusRounded.vue'
+export { default as TypeRounded } from './fill/TypeRounded.vue'
+export { default as ModalityRounded } from './fill/ModalityRounded.vue'
+export { default as StartDateRounded } from './fill/StartDateRounded.vue'
+export { default as EndDateRounded } from './fill/EndDateRounded.vue'
 
 // Logos
 export { default as LogoRav } from './LogoRav.vue'
