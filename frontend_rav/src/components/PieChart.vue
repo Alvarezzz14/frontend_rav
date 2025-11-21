@@ -3,14 +3,14 @@
   <div class="relative flex w-full h-full p-4 overflow-hidden bg-azul-gradian rounded-[20px]">
     <!-- Imagen decorativa de fondo -->
     <div class="absolute" :style="{
-      width: 'auto',
-      height: '690px',
-      top: '-174px',
-      left: '174px',
+      left: '-0.20%',
+      right: '-0.20%',
+      top: '-0.20%',
+      bottom: '-0.20%',
       opacity: 0.3,
-      transform: 'rotate(90deg)',
       borderRadius: '20px',
       backgroundImage: `url(${RectangleBg})`,
+      backgroundBlendMode: 'multiply',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       pointerEvents: 'none',
@@ -18,9 +18,9 @@
 
     <!-- Botón de descarga en la esquina superior derecha -->
     <button v-if="hasData" @click="downloadChart"
-      class="absolute top-4 right-4 w-7 h-7 md:w-[48px] md:h-[47px] bg-white rounded-full flex items-center justify-center shadow-[0px_2px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer hover:bg-gray-50 transition-colors"
+      class="absolute top-2 right-2 md:top-4 md:right-4 w-[26.25px] h-[26.25px] md:w-[48px] md:h-[47px] bg-white rounded-full flex items-center justify-center shadow-[0px_1.31232px_2.62464px_rgba(0,0,0,0.25)] md:shadow-[0px_2px_4px_rgba(0,0,0,0.25)] z-10 border-0 outline-none cursor-pointer hover:bg-gray-50 transition-colors"
       title="Descargar gráfico">
-      <DownloadIcon :size="25" :height="20" class-name="text-customPurple" />
+      <DownloadIcon :size="16" :height="13" class-name="text-customPurple md:!w-[25px] md:!h-[20px]" />
     </button>
 
     <transition name="fade">
@@ -31,36 +31,36 @@
       </div>
 
       <!-- Mostrar gráfico después de cargar los datos -->
-      <div v-else-if="hasData" class="w-full h-full flex gap-4">
-        <!-- Columna izquierda: Título y Leyenda (38%) -->
-        <div class="flex flex-col justify-start w-2/5 pl-2">
-          <div class="mb-[25px]">
+      <div v-else-if="hasData" class="w-full h-full flex flex-col md:flex-row gap-2 md:gap-4">
+        <!-- Columna izquierda: Título y Leyenda (38% en desktop, full width en mobile) -->
+        <div class="flex flex-col justify-start w-full md:w-2/5 pl-2 flex-shrink-0">
+          <div class="mb-2 md:mb-[25px]">
             <h3
-              class="text-white font-['Work_Sans'] font-bold text-xs md:text-[20px] leading-[23px] text-left m-0 md:mb-[8px]">
+              class="text-white font-['Work_Sans'] font-bold text-[13.12px] md:text-[20px] leading-[15px] md:leading-[23px] text-left m-0 mb-1 md:mb-[8px]">
               Tipos de poblaciones
             </h3>
             <!-- Línea amarilla debajo del título -->
-            <div class="w-32 md:w-[289px] h-[6px] bg-amarillo rounded-[1px]"></div>
+            <div class="w-[158px] md:w-[289px] h-[3.28px] md:h-[6px] bg-amarillo rounded-[1px]"></div>
           </div>
 
           <!-- Leyenda personalizada -->
-          <div class="flex flex-col gap-[10px] pl-6 md:pl-[50px]">
-            <div v-for="(item, index) in legendItems" :key="index" class="flex items-start gap-3 md:gap-[14px]">
+          <div class="flex flex-col gap-[6.56px] md:gap-[10px] pl-4 md:pl-6 lg:pl-[50px]">
+            <div v-for="(item, index) in legendItems" :key="index" class="flex items-start gap-2 md:gap-3 lg:gap-[14px]">
               <!-- Círculo de color con sombra -->
-              <div class="w-5 h-5 md:w-[36px] md:h-[36px] rounded-full flex-shrink-0" :style="{
+              <div class="w-[19.68px] h-[19.68px] md:w-[36px] md:h-[36px] rounded-full flex-shrink-0" :style="{
                 backgroundColor: item.color,
-                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+                boxShadow: '0px 2.62464px 2.62464px rgba(0, 0, 0, 0.25)'
               }"></div>
 
               <!-- Texto con sombras -->
               <div class="flex flex-col">
-                <span class="text-white font-['Work_Sans'] font-bold text-xs md:text-[20px] leading-3 md:leading-[23px]"
-                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+                <span class="text-white font-['Work_Sans'] font-bold text-[13.12px] md:text-[20px] leading-[15px] md:leading-[23px]"
+                  style="text-shadow: 0px 2.62464px 2.62464px rgba(0, 0, 0, 0.25);">
                   {{ item.percentage }}
                 </span>
                 <span
-                  class="text-white font-['Work_Sans'] font-normal text-[9px] md:text-[14px] leading-3 md:leading-[16px]"
-                  style="text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);">
+                  class="text-white font-['Work_Sans'] font-normal text-[9.18px] md:text-[14px] leading-[11px] md:leading-[16px]"
+                  style="text-shadow: 0px 2.62464px 2.62464px rgba(0, 0, 0, 0.25);">
                   {{ item.label }}
                 </span>
               </div>
@@ -68,14 +68,14 @@
           </div>
         </div>
 
-        <!-- Columna derecha: Gráfico Donut (62%) -->
-        <div class="flex-1 relative flex items-center justify-center pl-[40px] pr-[20px]">
-          <div class="w-full h-full relative flex items-center justify-center min-h-[200px]">
+        <!-- Columna derecha: Gráfico Donut -->
+        <div class="flex-1 relative flex items-center justify-center pl-4 md:pl-[40px] md:pr-[20px] min-h-[145px] md:min-h-[200px] -mt-[12rem] ml-[7rem] md:mt-0 md:ml-0">
+          <div class="w-full h-full relative flex items-center justify-center">
             <Doughnut ref="doughnutChart" :data="clonedChartData" :options="chartOptions"
-              class="max-w-full max-h-full"/>
+              class="max-w-full max-h-full" style="position: relative; z-index: 1;"/>
             <!-- Logo RAV en el centro del donut -->
-            <div class="absolute pointer-events-none flex items-center justify-center w-20 md:w-full"
-              style="top: 48%; left: 49%; transform: translate(-50%, -50%);">
+            <div class="absolute pointer-events-none flex items-center justify-center w-24 md:w-full"
+              style="top: 48%; left: 49%; transform: translate(-50%, -50%); z-index: 0;">
               <RavLogo/>
             </div>
           </div>
@@ -102,7 +102,27 @@ import { reactive, onMounted, ref, computed } from "vue";
 import DownloadIcon from "@/components/Icons/DownloadIcon.vue";
 import { RavLogo } from "@/components/Icons";
 
+const shadowPlugin = {
+  id: 'shadowPlugin',
+  beforeDatasetsDraw: (chart) => {
+    const ctx = chart.ctx;
+    ctx.save();
+    
+    // Configurar sombra
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 4;
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+  },
+  afterDatasetsDraw: (chart) => {
+    chart.ctx.restore();
+  }
+};
+
 Chart.register(...registerables);
+
+// Registrar plugin personalizado para sombras
+Chart.register(shadowPlugin);
 
 const isLoading = ref(true);
 const doughnutChart = ref(null);
@@ -116,11 +136,11 @@ const truncateText = (text, maxLength) =>
 
 // Colores según Figma (5 colores para las leyendas)
 const pieColors = [
-  "#FDC300", // Amarillo (Ellipse 70)
-  "#FF6600", // Naranja (Ellipse 71)
-  "#FF3300", // Rojo-naranja (Ellipse 72)
-  "#0066FF", // Azul (Ellipse 73)
-  "#F868FD", // Rosa (Ellipse 74)
+  "#F13001", // Rojo
+  "#FF6600", // Naranja
+  "#FDC301", // Amarillo
+  "#5EA8ED", // Azul
+  "#410A48", // Morado
 ];
 
 // Data dummy para desarrollo (comentar cuando se integre con backend)
@@ -143,6 +163,10 @@ const chartData = reactive({
       borderWidth: 0,
       data: [],
       hoverOffset: 15,
+      // Ajustes para efecto 3D
+      borderAlign: 'inner',
+      spacing: 0,
+      offset: 0,
     },
   ],
 });
@@ -174,6 +198,7 @@ const chartOptions = reactive({
   maintainAspectRatio: false,
   cutout: "68%", // Ajustado para hacer la donut más angosta según Figma
   plugins: {
+    shadowPlugin: true,
     title: {
       display: false,
     },
@@ -182,12 +207,15 @@ const chartOptions = reactive({
     },
     tooltip: {
       enabled: true,
-      backgroundColor: "rgba(0, 93, 202, 0.95)",
+      backgroundColor: "#002C4D", // azul2Ape de Tailwind
       titleColor: "#FDC300",
       bodyColor: "white",
       borderColor: "#FDC300",
       borderWidth: 1,
       padding: 12,
+      cornerRadius: 8,
+      displayColors: true,
+      z: 9,
       callbacks: {
         label: (context) => {
           const value = context.raw || 0;
@@ -201,6 +229,17 @@ const chartOptions = reactive({
   layout: {
     padding: 15,
   },
+  elements: {
+    arc: {
+      // Efecto de sombra/profundidad en cada segmento
+      borderWidth: 0,
+      borderColor: 'rgba(0, 0, 0, 0.9)',
+      shadowOffsetX: 0,
+      shadowOffsetY: 4,
+      shadowBlur: 8,
+      shadowColor: 'rgba(0, 0, 0, 0.8)',
+    }
+  }
 });
 
 // Obtener los datos desde la API
@@ -301,7 +340,6 @@ onMounted(() => {
   opacity: 0;
 }
 
-/* Asegurar que el gradiente se aplique correctamente */
 .bg-customPurple {
   background: linear-gradient(180deg, #005DCA 0%, #003B8A 100%);
 }
