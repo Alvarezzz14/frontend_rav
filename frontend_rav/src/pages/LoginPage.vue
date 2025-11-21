@@ -1,6 +1,5 @@
 <template>
   <div class="min-h-screen flex flex-col overflow-hidden">
-    <Header />
     <div
       class="flex-1 bg-customPurple flex overflow-hidden"
       :style="{
@@ -11,100 +10,102 @@
     >
       <!-- Columna izquierda con el formulario de login -->
       <div
-        class="md:w-1/2 w-full flex flex-col justify-center items-center p-6 bg-black/70 md:bg-transparent"
-      >
-        <!-- Logo -->
-        <img :src="Logo" alt="Logo RAV" class="w-40 md:w-64 h-auto mb-6" />
-
-        <!-- Título de inicio de sesión -->
-        <h2 class="text-xl md:text-3xl font-semibold text-white text-center">
-          Iniciar Sesión
-        </h2>
-
-        <!-- Formulario de login -->
-        <form
-          @submit.prevent="submit"
-          class="space-y-4 w-full max-w-sm mx-auto mt-6"
-        >
-          <div>
-            <input
-              type="email"
-              id="correo"
-              placeholder="Correo"
-              v-model="form.email"
-              class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
-              required
-            />
-          </div>
-
-          <div class="relative">
-            <input
-              :type="showPassword ? 'text' : 'password'"
-              id="password"
-              placeholder="Contraseña"
-              v-model="form.password"
-              class="block w-full bg-white text-gray-800 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-customPurple"
-              required
-            />
-            <button
-              type="button"
-              @click="togglePassword"
-              class="absolute top-1/4 bg-white right-2.5 border-none transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none"
-            >
-              <!-- Íconos de mostrar/ocultar -->
-              <svg
-                v-if="showPassword"
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18"
-                />
-              </svg>
-              <svg
-                v-else
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Botón de iniciar sesión -->
-          <button
-            type="submit"
-            class="w-full py-3 text-lg bg-amarillo border-none text-customPurple font-bold cursor-pointer rounded-lg"
-            :disabled="isLoading"
+        class="md:w-1/2 w-full flex flex-col justify-end xl:justify-center xl:items-center p-6 max-md:bg-black-gradient  md:bg-transparent">
+        <div class="max-md:rounded-2xl  max-md:backdrop-blur-lg max-md:bg-white/20  w-full flex flex-col p-4 mb-5 md:mb-0">
+          <!-- Logo -->
+          <img :src="Logo" alt="Logo RAV" class="w-32 md:w-60 h-auto md:mb-7 mx-auto" />
+  
+          <!-- Título de inicio de sesión -->
+          <h2 class="text-xl md:text-4xl font-semibold text-white text-center [text-shadow:0_2px_4px_rgba(0,0,0,0.4)]">
+            Iniciar Sesión
+          </h2>
+  
+          <!-- Formulario de login -->
+          <form
+            @submit.prevent="submit"
+            class="space-y-4 w-full xl:max-w-xl mx-auto md:mt-3 "
           >
-            <span v-if="!isLoading">Iniciar</span>
-            <span v-else>Cargando...</span>
-          </button>
-        </form>
-
-        <!-- Logos institucionales -->
-        <div class="flex justify-center space-x-8 mt-6">
-          <img :src="logoSena" alt="Logo SENA" class="w-24 md:w-36 h-auto" />
+            <div>
+              <input
+                type="email"
+                id="correo"
+                placeholder="Correo"
+                v-model="form.email"
+                class="block w-full bg-white text-gray-800 p-2 md:p-6 md:py-5 rounded-menu focus:outline-none focus:ring-2 focus:ring-customPurple placeholder:text-black placeholder:xl:text-lg"
+                required
+              />
+            </div>
+  
+            <div class="relative">
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                placeholder="Contraseña"
+                v-model="form.password"
+                class="block w-full bg-white text-gray-800 p-2 md:p-6 md:py-5 rounded-menu focus:outline-none focus:ring-2 focus:ring-customPurple placeholder:text-black placeholder:xl:text-lg"
+                required
+              />
+              <button
+                type="button"
+                @click="togglePassword"
+                class="absolute top-1/4 bg-white right-2.5 border-none transform -translate-y-1/2 text-gray-500 hover:text-gray-800 focus:outline-none cursor-pointer"
+              >
+                <!-- Íconos de mostrar/ocultar -->
+                <svg
+                  v-if="showPassword"
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-3 w-3 md:h-5 md:w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.418 0-8-3.582-8-8a10.05 10.05 0 01.875-3.825M16.625 4.575A10.05 10.05 0 0112 5c4.418 0 8 3.582 8 8a10.05 10.05 0 01-.875 3.825M15 12a3 3 0 11-6 0 3 3 0 016 0zM3 3l18 18"
+                  />
+                </svg>
+                <svg
+                  v-else
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-3 w-3 md:h-5 md:w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-.273.98-.674 1.887-1.175 2.688M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </button>
+            </div>
+  
+            <!-- Botón de iniciar sesión -->
+            <button
+              type="submit"
+              class="w-full py-1 md:py-3 text-base md:text-lg bg-amarillo border-none text-azul2Ape font-bold cursor-pointer rounded-menu xl:text-2xl"
+              :disabled="isLoading"
+            >
+              <span v-if="!isLoading">Iniciar</span>
+              <span v-else>Cargando...</span>
+            </button>
+          </form>
+  
+          <!-- Logos institucionales -->
+          <div class="flex justify-center space-x-8 mt-6">
+            <img v-if="screenSize == 'mobile'" :src="logoSena" alt="Logo SENA" class="w-36 md:w-52 h-auto" />
+            <img v-else :src="logo_sena" alt="Logo SENA" class="w-24 h-auto" />
+          </div>
         </div>
       </div>
 
@@ -125,9 +126,9 @@ import Logo from "@/assets/images/logorav.svg";
 import logoSena from "@/assets/images/logosInstitucionales.svg";
 import loginFinal from "@/assets/images/loginFinal.png";
 import smallScreenLogin from "@/assets/images/pantallaspequeñaslogin.png";
-
-import Header from "../components/Header.vue";
+import logo_sena from '@/assets/images/logo_sena.avif'
 import Footer from "../components/Footer.vue";
+import { useResponsive } from "../composables/useResponsive";
 
 const form = reactive({
   email: "",
@@ -143,6 +144,7 @@ const backgroundUrl = ref(""); // Variable para almacenar la URL de fondo
 const router = useRouter();
 const toast = useToast();
 const showPassword = ref(false); // Estado para mostrar u ocultar la contraseña
+const { screenSize } = useResponsive()
 
 const togglePassword = () => {
   showPassword.value = !showPassword.value;
@@ -195,4 +197,5 @@ input {
 input:focus {
   outline: none;
 }
+
 </style>
