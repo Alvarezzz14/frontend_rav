@@ -10,8 +10,8 @@
     >
       <!-- Columna izquierda con el formulario de login -->
       <div
-        class="md:w-1/2 w-full flex flex-col justify-end xl:justify-center xl:items-center p-6 max-md:bg-black-gradient  md:bg-transparent">
-        <div class="max-md:rounded-2xl  max-md:backdrop-blur-lg max-md:bg-white/20  w-full flex flex-col p-4 mb-5 md:mb-0">
+        class="md:w-1/2 w-full flex flex-col justify-end xl:justify-center xl:items-center p-6 max-md:bg-dark-blue-gradient  md:bg-transparent">
+        <div class="max-md:border-gradient-yellow-top max-md:rounded-2xl  max-md:backdrop-blur-lg max-md:bg-white/20 w-full flex flex-col p-4 mb-5 md:mb-0">
           <!-- Logo -->
           <img :src="Logo" alt="Logo RAV" class="w-32 md:w-60 h-auto md:mb-7 mx-auto" />
   
@@ -197,5 +197,4 @@ input {
 input:focus {
   outline: none;
 }
-
 </style>

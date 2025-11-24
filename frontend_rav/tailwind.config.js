@@ -52,7 +52,7 @@ export default {
         'custom-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
         'violet-gradient': 'linear-gradient(90deg, #005DCA 0%, #003B8A 88.46%, #003B8A 98.08%)',
         'blue-gradient': 'linear-gradient(to top, #01213B 0%, #002C4D 0%, transparent 45%)',
-        'black-gradient' : 'linear-gradient(to top, black 0%, transparent 40%);'
+        'dark-blue-gradient' : 'linear-gradient(to top, #011421 0%, transparent 70%);'
       },
       transitionProperty: {
         all: 'all',
@@ -70,5 +70,30 @@ export default {
   },
   plugins: [
     flowbitePlugin,
+    function({ addUtilities }) {
+      const newUtilities = {
+        ".border-gradient-yellow-top": {
+          position: "relative",
+          borderRadius: "1rem",
+        },
+        ".border-gradient-yellow-top::before": {
+          content: '""',
+          position: "absolute",
+          inset: "0",
+          padding: "2px",
+          borderRadius: "inherit",
+          background: "linear-gradient(to top, #fdc300, transparent)",
+
+          WebkitMask:
+            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+
+          pointerEvents: "none",
+        },
+      };
+
+      addUtilities(newUtilities, ["responsive"]);
+    }
   ],
 }
