@@ -22,12 +22,12 @@ import IconGallery from '@/pages/IconGallery.vue';
 
 
 const routes = [
-  // {
-  //   path: '/login',
-  //   name: 'LoginPage',
-  //   component: LoginPage,
-  //   // meta: { requiresAuth: false }, // Ruta pública
-  // },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage,
+    // meta: { requiresAuth: false }, // Ruta pública
+  },
   {
     path: '/registrousuario',
     name: 'RegistroUsuarioPage',
